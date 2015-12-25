@@ -1,0 +1,35 @@
+_model: blog-post
+---
+title: PyMongo 2.4.2 Is Out
+---
+pub_date: 2013-01-24
+---
+author: 
+---
+type: post
+---
+tags:
+
+pymongo
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: Changes in PyMongo, the MongoDB Python driver
+---
+body:
+
+Yesterday we released [PyMongo 2.4.2](http://pypi.python.org/pypi/pymongo/2.4.2), the latest version of 10gen's Python driver for MongoDB. You can see [the whole list of nine bugs](https://jira.mongodb.org/secure/IssueNavigator.jspa?reset=true&mode=hide&jqlQuery=fixVersion+%3D+%222.4.2%22+AND+project+%3D+PYTHON) fixed. Here are some highlights:
+
+* I made PyMongo's `MongoReplicaSetClient` smarter about reading from replica set members in failure scenarios. Since version 2.1, PyMongo has been able to detect when a secondary becomes primary or vice versa. But it wasn't very smart about members that are neither primary *nor* secondary because they're in recovery mode. Now, PyMongo reacts as soon as it notices such a member: it stops trying to use it, and it refreshes its view of all members' states immediately.
+
+* We got [an excellent pull request from Craig Hobbs](https://github.com/mongodb/mongo-python-driver/pull/152/) that lets you specify your [read preference](http://emptysquare.net/blog/reading-from-mongodb-replica-sets-with-pymongo/) in the connection string, like:
+
+        "mongodb://localhost/?readPreference=secondary"
+
+* If you want to [try MongoDB's full-text search](http://emptysquare.net/blog/mongodb-full-text-search/), PyMongo can now *create* a text index. (All versions let you to run the `text` command to use a text index once you've created 
+
+(Down here we have to speak very quietly, because the next part is top-secret: I snuck a feature into what's supposed to be a bugfix release. PyMongo 2.4.2 has the hooks [Motor](http://emptysquare.net/motor/) needs to wrap PyMongo and make it non-blocking. This lets Motor take a new direction, which I'll blog about shortly.)

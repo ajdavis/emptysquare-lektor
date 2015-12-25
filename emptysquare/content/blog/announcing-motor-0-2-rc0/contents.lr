@@ -1,0 +1,55 @@
+_model: blog-post
+---
+title: Announcing Motor 0.2 release candidate
+---
+pub_date: 2014-04-05
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Motor
+Programming
+Python
+---
+summary: Motor 0.2 rc0 is a huge change from 0.1, reflecting big improvements in PyMongo, Tornado, and MongoDB itself.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0"   />
+
+I'm excited to offer you Motor 0.2, release candidate zero. [Motor](https://motor.readthedocs.org/en/latest/) is my non-blocking driver for MongoDB and Tornado.
+
+The changes from Motor 0.1 to 0.2 are epochal. They were motivated primarily by three events:
+
+* Motor wraps PyMongo, and PyMongo has improved substantially.
+* MongoDB 2.6 is nearly done, and Motor has added features to support it.
+* Tornado's support for coroutines and for non-blocking DNS has improved, and Motor 0.2 takes advantage of this.
+
+[Please read the changelog before upgrading](http://motor.readthedocs.org/en/latest/changelog.html). There are backwards-breaking API changes; you **must** update your code. I tried to make the instructions clear and the immediate effort small. A summary of the changes is in my post, ["the road to 0.2"](http://emptysqua.re/blog/motor-progress-report-the-road-to-0-2/).
+
+Once you're done reading, upgrade:
+
+```
+pip install pymongo==2.7
+pip install https://github.com/mongodb/motor/archive/0.2rc0.zip
+```
+
+The owner's manual is on ReadTheDocs. At the time of this writing, Motor 0.2's docs are in the "latest" branch:
+
+> [http://motor.readthedocs.org/en/latest/](http://motor.readthedocs.org/en/latest/)
+
+...and Motor 0.1's docs are in "stable":
+
+> [http://motor.readthedocs.org/en/stable/](http://motor.readthedocs.org/en/stable/)
+
+Enjoy! If you find a bug or want a feature, [report it](https://jira.mongodb.org/browse/MOTOR). If I don't hear of any bugs in the next week I'll make the release official.
+
+In any case, [tweet me](https://twitter.com/jessejiryudavis) if you're building something nifty with Motor. I want to hear from you.

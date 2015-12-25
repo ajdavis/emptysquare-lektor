@@ -1,0 +1,313 @@
+_model: blog-post
+---
+title: Save the Monkey: Reliably Writing to MongoDB
+---
+pub_date: 2011-12-08
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: 
+---
+body:
+
+![](/blog/media/2011/12/3064180867_0f293b8f27.jpg "Monkey")
+
+Photo: [Kevin Jones](http://www.flickr.com/photos/kj-an/3064180867/)
+
+MongoDB replica sets claim "automatic failover" when a primary server
+goes down, and they live up to the claim, but handling failover in your
+application code takes some care. I'll walk you through writing a
+failover-resistant application in PyMongo.
+
+Setting the Scene
+=================
+
+[Mabel the Swimming Wonder
+Monkey](http://www.catb.org/jargon/html/S/scratch-monkey.html) is
+participating in your cutting-edge research on simian scuba diving. To
+keep her alive underwater, your application must measure how much oxygen
+she consumes each second and pipe the same amount of oxygen to her scuba
+gear. In this post, I'll describe how to write reliably to MongoDB.
+
+MongoDB Setup
+=============
+
+Since Mabel's life is in your hands, you want a robust Mongo deployment.
+Set up a 3-node replica set. We'll do this on your local machine using
+three TCP ports, but of course in production you'll have each node on a
+separate machine:
+
+```bash
+$ mkdir db0 db1 db2
+$ mongod --dbpath db0 --logpath db0/log --pidfilepath db0/pid --port 27017 --replSet foo --fork
+$ mongod --dbpath db1 --logpath db1/log --pidfilepath db1/pid --port 27018 --replSet foo --fork
+$ mongod --dbpath db2 --logpath db2/log --pidfilepath db2/pid --port 27019 --replSet foo --fork
+
+```
+(Make sure you don't have any mongod processes running on those ports
+first.)
+
+Now connect up the nodes in your replica set. My machine's hostname is
+'emptysquare.local'; replace it with yours when you run the example:
+
+```bash
+$ hostname
+emptysquare.local
+$ mongo
+> rs.initiate({
+  _id: 'foo',
+  members: [
+    {_id: 0, host:'emptysquare.local:27017'},
+    {_id: 1, host:'emptysquare.local:27018'},
+    {_id: 2, host:'emptysquare.local:27019'}
+  ]
+})
+
+```
+The first \_id, 'foo', must match the name you passed with --replSet on
+the command line, otherwise MongoDB will complain. If everything's
+correct, MongoDB replies with, "Config now saved locally. Should come
+online in about a minute." Run rs.status() a few times until you see
+that the replica set has come online&mdash;the first member's stateStr will be
+"PRIMARY" and the other two members' stateStrs will be "SECONDARY". On
+my laptop this takes about 15 seconds.
+
+Voil&agrave;: a bulletproof 3-node replica set! Let's start the Mabel
+experiment.
+
+Definitely Writing
+==================
+
+Install [PyMongo](http://pypi.python.org/pypi/pymongo/ "PyMongo")
+and create a Python script called mabel.py with the following:
+
+```python
+import datetime, random, time
+import pymongo
+
+mabel_db = pymongo.MongoReplicaSetClient(
+    'localhost:27017,localhost:27018,localhost:27019',
+    replicaSet='foo'
+).mabel
+
+while True:
+    time.sleep(1)
+    mabel_db.breaths.insert({
+        'time': datetime.datetime.utcnow(),
+        'oxygen': random.random()
+    })
+
+    print 'wrote'
+
+```
+mabel.py will record the amount of oxygen Mabel consumes (or, in our
+test, a random amount) and insert it into MongoDB once per second. Run it:
+
+```bash
+$ python mabel.py
+wrote
+wrote
+wrote
+
+```
+What happens when our good-for-nothing sysadmin unplugs the primary
+server? Grab the primary's process id from `db0/pid` and kill it. Now,
+all is not well with our Python script:
+
+```bash
+Traceback (most recent call last):
+  File "mabel.py", line 10, in <module>
+    'oxygen': random.random()
+  File "/Users/emptysquare/.virtualenvs/pymongo/mongo-python-driver/pymongo/collection.py", line 310, in insert
+    continue_on_error, self.__uuid_subtype), safe)
+  File "/Users/emptysquare/.virtualenvs/pymongo/mongo-python-driver/pymongo/mongo_replica_set_client.py", line 738, in _send_message
+    raise AutoReconnect(str(why))
+pymongo.errors.AutoReconnect: [Errno 61] Connection refused
+
+```
+This is terrible. WTF happened to "automatic failover"? And why does
+PyMongo raise an AutoReconnect error rather than actually automatically
+reconnecting?
+
+Well, automatic failover **does** work, in the sense that one of the
+secondaries will take over as a new primary in a few seconds. Do rs.status() in
+the mongo shell to confirm that:
+
+```bash
+$ mongo --port 27018 # connect to one of the surviving mongods
+PRIMARY> rs.status()
+// edited for readability ...
+{
+    "set" : "foo",
+    "members" : [ {
+            "_id" : 0,
+            "name" : "emptysquare.local:27017",
+            "stateStr" : "(not reachable/healthy)",
+            "errmsg" : "socket exception"
+        }, {
+            "_id" : 1,
+            "name" : "emptysquare.local:27018",
+            "stateStr" : "PRIMARY"
+        }, {
+            "_id" : 2,
+            "name" : "emptysquare.local:27019",
+            "stateStr" : "SECONDARY",
+        }
+    ]
+}
+
+```
+Depending on which mongod took over as the primary, your output could be
+a little different. Regardless, there **is** a new primary, so why did
+our write fail? The answer is that PyMongo doesn't try repeatedly to
+insert your document&mdash;it just tells you that the first attempt failed.
+It's your application's job to decide what to do about that. To explain
+why, let us indulge in a brief digression.
+
+Brief Digression: Monkeys vs. Kittens
+=====================================
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/08/monkeys-vs-kittens.png" alt="Monkeys vs Kittens" title="monkeys-vs-kittens.png" border="0"   />
+
+If what you're inserting is voluminous but no single document is very
+important, like pictures of kittens or web analytics, then in the
+extremely rare event of a failover you might prefer to discard a few
+documents, rather than blocking your application while it waits for the
+new primary. Throwing an exception if the primary dies is often the
+right thing to do: You can notify your user that he should try uploading
+his kitten picture again in a few seconds once a new primary has been
+elected.
+
+But if your updates are infrequent and tremendously valuable, like
+Mabel's oxygen data, then your application should try very hard to write
+them. Only you know what's best for your data, so PyMongo lets you
+decide. Let's return from this digression and implement that.
+
+Trying Hard to Write
+====================
+
+Let's bring up the mongod we just killed:
+
+```bash
+$ mongod --dbpath db0 --logpath db0/log --pidfilepath db0/pid --port 27017 --replSet foo --fork
+
+```
+And update mabel.py with the following armor-plated loop:
+
+```python
+while True:
+    time.sleep(1)
+    data = {
+        'time': datetime.datetime.utcnow(),
+        'oxygen': random.random()
+    }
+
+    # Try for five minutes to recover from a failed primary
+    for i in range(60):
+        try:
+            mabel_db.breaths.insert(data)
+            print 'wrote'
+            break # Exit the retry loop
+        except pymongo.errors.AutoReconnect, e:
+            print 'Warning', e
+            time.sleep(5)
+    else:
+        raise Exception("Couldn't write!")
+```
+In a Python for-loop, the "else" clause executes if we exhaust the loop without executing the "break" statement. So this loop waits a full minute for a new primary, trying every 5 seconds. If there's no primary after a minute, there may never be one. Perhaps the sysadmin unplugged a majority of the members. In this case we raise an exception.
+
+Now run python mabel.py, and again kill the primary. mabel.py's output
+will look like:
+
+```
+wrote
+Warning [Errno 61] Connection refused
+Warning emptysquare.local:27017: [Errno 61] Connection refused, emptysquare.local:27019: [Errno 61] Connection refused, emptysquare.local:27018: [Errno 61] Connection refused
+Warning emptysquare.local:27017: not primary, emptysquare.local:27019: [Errno 61] Connection refused, emptysquare.local:27018: not primary
+wrote
+wrote
+.
+.
+.
+
+```
+mabel.py goes through a few stages of grief when the primary dies, but
+in a few seconds it finds a new primary, inserts its data, and continues
+happily.
+
+What About Duplicates?
+======================
+
+Leaving monkeys and kittens aside, another reason PyMongo doesn't
+automatically retry your inserts is the risk of duplication: If the
+first attempt caused an error, PyMongo can't know if the error happened
+before Mongo wrote the data, or after. What if we end up writing Mabel's
+oxygen data twice? Well, there's a trick you can use to prevent this:
+generate the document id on the client.
+
+Whenever you insert a document, Mongo checks if it has an "\_id" field
+and if not, it generates an ObjectId for it. But you're free to choose
+the new document's id before you insert it, as long as the id is unique
+within the collection. You can use an ObjectId or any other type of
+data. In mabel.py you could use the timestamp as the document id, but
+I'll show you the more generally applicable ObjectId approach:
+
+```python
+from pymongo.objectid import ObjectId
+
+while True:
+    time.sleep(1)
+    data = {
+        '_id': ObjectId(),
+        'time': datetime.datetime.utcnow(),
+        'oxygen': random.random()
+    }
+
+    # Try for five minutes to recover from a failed primary
+    for i in range(60):
+        try:
+            mabel_db.breaths.insert(data)
+            print 'wrote'
+            break # Exit the retry loop
+        except pymongo.errors.AutoReconnect, e:
+            print 'Warning', e
+            time.sleep(5)
+        except pymongo.errors.DuplicateKeyError:
+            # It worked the first time
+            pass
+    else:
+        raise Exception("Couldn't write!")
+```
+We set the document's id to a newly-generated ObjectId in our Python
+code, before entering the retry loop. Then, if our insert succeeds just
+before the primary dies and we catch the AutoReconnect exception, then
+the next time we try to insert the document we'll catch a
+DuplicateKeyError and we'll know for sure that the insert succeeded. You
+can use this technique for safe, reliable writes in general.
+
+* * * * *
+
+Bibliography
+------------
+
+[Apocryphal story of Mabel, the Swimming Wonder
+Monkey](http://www.catb.org/jargon/html/S/scratch-monkey.html)
+
+[More likely true, very brutal story of 3 monkeys killed by a computer
+error](http://edp.org/monkey.htm)
+
+***
+
+**History**: Updated April 3, 2014 for current PyMongo syntax.

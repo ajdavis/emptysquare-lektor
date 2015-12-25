@@ -1,0 +1,119 @@
+_model: blog-post
+---
+title: How To Do An Isolated Install of Brubeck
+---
+pub_date: 2012-01-05
+---
+author: 
+---
+type: post
+---
+tags:
+
+brubeck
+isolated
+virtualenv
+---
+categories:
+
+Programming
+Python
+---
+summary: I wanted to install James Dennis's Brubeck web framework, but lately I've become fanatical about installing nothing, nothing, in the system-wide directories. A simple rm -rf brubeck/ should make it like nothing ever happened. So that I [ ... ]
+---
+body:
+
+![Brubeck](/blog/media/2012/01/brubeck.png "brubeck.png")
+
+I wanted to install James Dennis's [Brubeck](http://brubeck.io/) web
+framework, but lately I've become fanatical about installing nothing,
+**nothing**, in the system-wide directories. A simple `rm -rf brubeck/`
+should make it like nothing ever happened.
+
+So that I remember this for next time, here's how I did an isolated
+install of Brubeck and all its dependencies on Mac OS Lion.
+
+Install virtualenv and virtualenvwrapper (but of course you've already
+done this, because you're elite like me).
+
+Make a virtualenv
+-----------------
+
+    mkvirtualenv brubeck; cdvirtualenv
+
+ZeroMQ
+------
+
+    wget http://download.zeromq.org/zeromq-2.2.0.tar.gz
+	tar zxf zeromq-2.2.0.tar.gz 
+    cd zeromq-2.2.0
+    ./autogen.sh
+    ./configure --prefix=$VIRTUAL_ENV # Don't install system-wide, just in this directory
+    make && make install./c
+    cd ..
+
+Mongrel2
+--------
+
+    git clone https://github.com/zedshaw/mongrel2.git
+    cd mongrel2
+    emacs Makefile
+
+Add a line like this to the top of the Makefile, so the compiler can
+find where you've installed ZeroMQ's header and lib files:
+
+    OPTFLAGS += -I$(VIRTUAL_ENV)/include -L$(VIRTUAL_ENV)/lib
+
+and replace `PREFIX?=/usr/local` with `PREFIX?=$(VIRTUAL_ENV)`
+
+    make && make install
+    cd ..
+
+Libevent
+--------
+
+Libevent (required by Gevent) is pretty much the same dance as ZeroMQ:
+
+	wget https://github.com/downloads/libevent/libevent/libevent-2.0.19-stable.tar.gz
+	tar zxf libevent-2.0.19-stable.tar.gz
+	cd libevent-2.0.19-stable
+	./configure --prefix=$VIRTUAL_ENV
+	make
+	make install
+    cd ..
+
+Python Packages
+---------------
+
+First get Brubeck's requirements file:
+
+    git clone https://github.com/j2labs/brubeck.git
+    cd brubeck
+
+Now we need our isolated include/ and lib/ directories available on the
+path when we install Brubeck's Python package dependencies.
+Specifically, the gevent\_zeromq package has some C code that needs to
+find zmq.h and libzmq in order to compile. We'll do that by setting the
+LIBRARY\_PATH and C\_INCLUDE\_PATH environment variables:
+
+    export LIBRARY_PATH=$VIRTUAL_ENV/lib
+    export C_INCLUDE_PATH=$VIRTUAL_ENV/include
+    pip install -I -r ./envs/brubeck.reqs
+    pip install -I -r ./envs/gevent.reqs
+
+How nice is that?
+
+(If it didn't work because of a gcc error message, try symlinking gcc into the place that Python expects it:
+
+    sudo ln -s /usr/bin/gcc /usr/bin/gcc-4.2
+
+... and try `pip install` again.)
+
+Next
+----
+
+Once you're here, you have a completely isolated install of ZeroMQ,
+Mongrel2, Brubeck, and all its package dependencies. Continue with
+James's [Brubeck installation
+instructions](http://brubeck.io/installing.html) at the "A Demo"
+portion.

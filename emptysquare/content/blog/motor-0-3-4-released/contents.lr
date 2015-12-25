@@ -1,0 +1,34 @@
+_model: blog-post
+---
+title: Motor 0.3.4 Released
+---
+pub_date: 2014-11-10
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Motor
+Programming
+Python
+---
+summary: Fixes a leak in the connection pool.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
+
+Today I released version 0.3.4 of Motor, the asynchronous MongoDB driver for Python and Tornado. This release is compatible with MongoDB 2.2, 2.4, and 2.6. It requires PyMongo 2.7.1.
+
+This release fixes [a leak in the connection pool](https://jira.mongodb.org/browse/MOTOR-57). ``MotorPool.get_socket()`` proactively checks a socket for errors if it hasn't been used in more than a second. It calls ``select()`` on the socket's file descriptor to see if the socket has been shut down at the OS level. If this check fails, Motor discards the socket. But it forgot to decrement its socket counter, so the closed socket is forever counted against ``max_pool_size``. This is the equivalent of a semaphore leak in a normal multi-threaded connection pool.
+
+The bug has been present since Motor 0.2. I discovered it while testing Motor's handling of network errors with exhaust cursors, but the leak is not particular to exhaust cursors.
+
+Get the latest version with `pip install --upgrade motor`. [The documentation is on ReadTheDocs](http://motor.readthedocs.org/en/stable). [View the changelog here](http://motor.readthedocs.org/en/stable/changelog.html). If you encounter any issues, please [file them in Jira](https://jira.mongodb.org/browse/MOTOR).

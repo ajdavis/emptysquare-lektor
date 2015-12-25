@@ -1,0 +1,198 @@
+_model: blog-post
+---
+title: Python's swap is not atomic
+---
+pub_date: 2012-04-28
+---
+author: 
+---
+type: post
+---
+tags:
+
+threading
+---
+categories:
+
+Programming
+Python
+Mongo
+---
+summary: I rewrote PyMongo's connection pool over the last few months. Among the concurrency issues I had to nail down was, if a thread is resetting the connection pool as another thread is using the pool, how do I keep them from stepping on each [ ... ]
+---
+body:
+
+I [rewrote PyMongo's connection
+pool](/blog/requests-in-python-and-mongodb/) over the last few months.
+Among the concurrency issues I had to nail down was, if a thread is
+resetting the connection pool as another thread is using the pool, how
+do I keep them from stepping on each other?
+
+I thought I nailed this, but of course I didn't. There's a race
+condition in here:
+
+```python hl_lines="7"
+
+class Pool(object):
+    def __init__(self):
+        self.sockets = set()
+
+    def reset(self):
+        # Close sockets before deleting them
+        sockets, self.sockets = self.sockets, set()
+        for sock_info in sockets: sock_info.close()
+
+```
+I thought that the swap would be atomic: the first thread to enter
+`reset()` would replace self.sockets with an empty set, then close all
+the old sockets, and all subsequent threads would find that self.sockets
+was empty. That turns out not to be the case.
+
+The race condition was occasionally revealed in runs of PyMongo's huge
+test suite. One of the tests spins up 40 concurrent threads. Each thread
+queries MongoDB, calls reset(), and queries MongoDB again. Here's how
+the test fails:
+
+```{6}
+test_disconnect (test.test_pooling.TestPooling) ... Exception in thread Thread-45:
+Traceback (most recent call last):
+ < ... snip ... >
+ File "pymongo/pool.py", line 159, in reset
+   for sock_info in sockets: sock_info.close()
+RuntimeError: Set changed size during iteration
+
+```
+As I said, I'd thought the swap was atomic, but in fact it takes half a
+dozen bytecode instructions. That one swap line:
+
+```python
+       sockets, self.sockets = self.sockets, set()
+
+```
+...disassembles to:
+
+```{5}
+            0 LOAD_FAST                0 (self)
+            3 LOAD_ATTR                0 (sockets)
+            6 LOAD_GLOBAL              1 (set)
+            9 CALL_FUNCTION            0
+           12 ROT_TWO          <- this is the swap
+           13 STORE_FAST               1 (sockets)
+           16 LOAD_FAST                0 (self)
+           19 STORE_ATTR               0 (sockets)
+
+```
+Say that Thread 1 is executing this function. Thread 1 loads
+self.sockets and the empty set onto its stack and swaps them, and before
+it gets to `STORE_ATTR` (where self.sockets is actually replaced), it
+gets interrupted by Thread 2. Thread 2 runs some other part of the
+connection pool's code, e.g.:
+
+```python
+    def return_socket(self, sock_info):
+        self.sockets.add(sock_info)
+
+```
+This disassembles to:
+
+```{2}
+           24 LOAD_FAST                0 (self)
+           27 LOAD_ATTR                1 (sockets)
+           30 LOAD_ATTR                3 (add)
+           33 LOAD_FAST                1 (sock_info)
+           36 CALL_FUNCTION            1
+
+```
+Let's say Thread 2 reaches the `LOAD_ATTR 1` bytecode. Now it has
+self.sockets on its stack, and it gets interrupted by Thread 1, which is
+still in reset(). Thread 1 replaces self.sockets with the empty set. But
+alas, Thread 1's "old" list of sockets and Thread 2's "self.sockets" are
+the **same** set. Thread 1 starts iterating over the old list of
+sockets, closing them:
+
+```python
+        for sock_info in sockets: sock_info.close()
+
+```
+...but it gets interrupted again by Thread 2, which does
+`self.sockets.add(sock_info)`, increasing the set's size by one. When
+Thread 1 is next resumed, it tries to continue iterating, and raises the
+"Set changed size during iteration" exception.
+
+Let's dive deeper for a minute. You may be thinking that in practice two
+Python threads wouldn't interrupt each other this often. Indeed, the
+interpreter [executes 100 bytecodes at a time before it even thinks of
+switching
+threads](http://docs.python.org/library/sys.html#sys.setcheckinterval).
+But in our case, Thread 1 is repeatedly calling `socket.close()`, which
+is written in socketmodule.c like this:
+
+```C hl_lines="6 8"
+
+static PyObject * sock_close(PySocketSockObject *s) {
+    SOCKET_T fd;
+
+    if ((fd = s->sock_fd) != -1) {
+        s->sock_fd = -1;
+        Py_BEGIN_ALLOW_THREADS
+        (void) SOCKETCLOSE(fd);
+        Py_END_ALLOW_THREADS
+    }
+    Py_INCREF(Py_None);
+    return Py_None;
+}
+
+```
+That `Py_BEGIN_ALLOW_THREADS` macro releases the [Global Interpreter
+Lock](http://wiki.python.org/moin/GlobalInterpreterLock) and
+`Py_END_ALLOW_THREADS` waits to reacquire it. In a multithreaded Python
+program, releasing the GIL makes it very likely that another thread
+which is waiting for the GIL will immediately acquire it.
+(Notwithstanding [David Beazley's talk on the
+GIL](http://blip.tv/carlfk/mindblowing-python-gil-2243379)he
+demonstrates that CPU-bound and IO-bound threads competing for the GIL
+on a multicore system interrupt each other too **rarely**, but in this
+case I'm only dealing with IO-bound threads.)
+
+So calling socket.close() in a loop ensures that this thread will be
+constantly interrupted. The probability that some thread in
+return\_socket() gets a reference to the set, and modifies it,
+interleaved with some other thread in reset() getting a reference to the
+**same** set and iterating it, is high enough to break PyMongo's
+unittest about 1% of the time.
+
+The solution was obvious once I understood the problem:
+
+```python hl_lines="4"
+
+class Pool(object):
+    def __init__(self):
+        self.sockets = set()
+        self.lock = threading.Lock()
+
+    def reset(self):
+        self.lock.acquire()
+        try:
+            # Close sockets before deleting them
+            sockets, self.sockets = self.sockets, set()
+        finally:
+            self.lock.release()
+
+        # Now only this thread can have a reference to this set of sockets
+        for sock_info in sockets: sock_info.close()
+ 
+   def return_socket(self, sock_info):
+        self.lock.acquire()
+        try:
+            self.sockets.add(sock_info)
+        finally:
+            self.lock.release()
+
+```
+Single-bytecode instructions in Python **are** atomic, and if you can
+use this atomicity to avoid mutexes then I believe you shouldnot only
+is your code faster and simpler, but you avoid the risk of deadlocks,
+which are the worst concurrency bugs. But not everything that looks
+atomic is. When in doubt, use the
+[dis](http://docs.python.org/py3k/library/dis.html) module to examine
+your bytecode and find out for sure.

@@ -1,0 +1,24 @@
+_model: blog-post
+---
+title: How Should I Learn TCP?
+---
+pub_date: 2012-06-20
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Programming
+Python
+---
+summary: As a maintainer of a database driver, I need to understand TCP a thousand times more deeply than I do now. I want to know about windows and Nagle and keep-alive and every little detail. What's the best book or online course?
+---
+body:
+
+As a maintainer of a database driver, I need to understand TCP a thousand times more deeply than I do now. I want to know about windows and Nagle and keep-alive and every little detail. What's the best book or online course?

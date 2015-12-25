@@ -1,0 +1,78 @@
+_model: blog-post
+---
+title: PyMongo's "use_greenlets" Followup
+---
+pub_date: 2015-03-16
+---
+author: 
+---
+type: post
+---
+tags:
+
+gevent
+pymongo
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: I wrote in December that we were removing a quirky feature from PyMongo. Here's how my conversation went with a critic.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/03/fern.jpg" alt="Fern - (cc) Wingchi Poon" title="Fern - (cc) Wingchi Poon" />
+
+In December, I wrote that [we are removing the idiosyncratic `use_greenlets` option from PyMongo](http://emptysqua.re/blog/it-seemed-like-a-good-idea-at-the-time-pymongo-use-greenlets/) when we release [PyMongo 3](http://emptysqua.re/blog/pymongo-3-beta/).
+
+In PyMongo 2 you have two options for using Gevent. First, you can do:
+
+```python
+from gevent import monkey; monkey.patch_all()
+from pymongo import MongoClient
+
+client = MongoClient()
+```
+
+Or:
+
+```python
+from gevent import monkey; monkey.patch_socket()
+from pymongo import MongoClient
+
+client = MongoClient(use_greenlets=True)
+```
+
+In the latter case, I wrote, "you could use PyMongo after calling Gevent's `patch_socket` without having to call `patch_thread`. But who would do that? What conceivable use case had I enabled?" So I removed `use_greenlets` in PyMongo 3; the first example code continues to work but the second will not.
+
+In the comments, PyMongo user Peter Hansen replied,
+
+> I hope you're not saying that the only way this will work is if one uses `monkey.patch_all`, because, although this is a very common way to use Gevent, it's absolutely not the only way. (If it were, it would just be done automatically!) We have a large Gevent application here which cannot do that, because threads must be allowed to continue working as regular threads, but we monkey patch only what we need which happens to be everything else (with `monkey.patch_all(thread=False)`).
+
+So Peter, Bernie, and I met online and he told us about his *very* interesting application. It needs to interface with some C code that talks an obscure network protocol; to get the best of both worlds his Python code uses asynchronous Gevent in the main thread, and it avoids blocking the event loop by launching Python threads to talk with the C extension. Peter had, in fact, perfectly understood PyMongo 2's design and was using it as intended. It was I who hadn't understood the feature's use case before I diked it out.
+
+So what now? I would be sad to lose the great simplifications I achieved in PyMongo by removing its Gevent-specific code. Besides, occasional complaints from Eventlet and other communities motivated us to support all frameworks equally.
+
+Luckily, Gevent 1.0 provides a workaround for the loss of `use_greenlets` in PyMongo. Beginning the same as the first example above:
+
+```python
+from gevent import monkey; monkey.patch_all()
+from pymongo import MongoClient
+
+client = MongoClient()
+
+
+def my_function():
+    # Call some C code that drops the GIL and does
+    # blocking I/O from C directly.
+    pass
+
+start_new_thread = monkey.saved['thread']['start_new_thread']
+real_thread = start_new_thread(my_function, ())
+```
+
+I [checked with Gevent's author Denis Bilenko](https://groups.google.com/d/topic/gevent/pTT_89I3B08/discussion) whether `monkey.saved` was a stable API and he confirmed it is. If you use Gevent and PyMongo as Peter does, port your code to this technique when you upgrade to PyMongo 3.
+
+[<span style="color:gray">Image: Wingchi Poon, CC BY-SA 3.0</span>](http://commons.wikimedia.org/wiki/File:Unfurling_Spiral_Fiddlehead_Fern_Frond.JPG#/media/File:Unfurling_Spiral_Fiddlehead_Fern_Frond.JPG)

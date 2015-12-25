@@ -1,0 +1,38 @@
+_model: blog-post
+---
+title: Toro 0.6 Released
+---
+pub_date: 2014-07-09
+---
+author: 
+---
+type: post
+---
+tags:
+
+tornado
+---
+categories:
+
+Programming
+Python
+---
+summary: One minor bug fixed in Toro, my package of semaphores, locks, and queues for Tornado coroutines.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/11/toro.png" alt="Toro" title="toro.png" border="0"   />
+
+I've just released version 0.6 of Toro. Toro provides semaphores, queues, and so on, for advanced control flows with Tornado coroutines. Get it with "pip install --upgrade toro". Toro's [documentation, with plenty of examples, is on ReadTheDocs](https://toro.readthedocs.org/).
+
+There is one bugfix in this release. A floating point ``maxsize`` had been treated as infinite. So if you did this:
+
+```python
+q = toro.Queue(maxsize=1.3)
+```
+
+...then the queue would never be full. In the newest version of Toro, a ``maxsize`` of 1.3 now acts like a ``maxsize`` of 2.
+
+Shouldn't Toro just require that ``maxsize`` be an integer? Well, [the Python standard Queue](https://docs.python.org/2/library/queue.html) allows a floating-point number. So when Vajrasky Kok noticed that asyncio's Queue treats a floating-point ``maxsize`` as infinity, he proposed a fix that handles floats the same as the standard Queue does. (That asyncio bug was my fault, too.)
+
+Once Guido van Rossum accepted that fix, I updated Toro to comply with the other two Queues.

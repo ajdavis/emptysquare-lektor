@@ -1,0 +1,164 @@
+_model: blog-post
+---
+title: Night Of The Living Thread
+---
+pub_date: 2013-10-16
+---
+author: 
+---
+type: post
+---
+tags:
+
+threading
+---
+categories:
+
+Programming
+Python
+---
+summary: A fun series about a race condition I fixed in Python's threading implementation.
+---
+body:
+
+What should this Python code print?:
+
+```python
+t = threading.Thread()
+t.start()
+if os.fork() == 0:
+    # We're in the child process.
+    print t.isAlive()
+
+```
+In Unix, only the thread that calls `fork()` is copied to the child process; all other threads are dead. So `t.isAlive()` in the child process should always return False. But *sometimes*, it returns True! It's the....
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2013/10/night-of-the-living-thread.jpg" alt="Night of the Living Thread" title="Night of the Living Thread" />
+
+How did I discover this horrifying zombie thread? A project I work on, PyMongo, uses a background thread to monitor the state of the database server. If a user initializes PyMongo and then forks, the monitor is absent in the child. PyMongo should notice that the monitor thread's `isAlive` is False, and raise an error:
+
+```python
+# Starts monitor:
+client = pymongo.MongoReplicaSetClient()
+os.fork()
+
+# Should raise error, "monitor is dead":
+client.db.collection.find_one()
+
+```
+But intermittently, the monitor is still alive after the fork! It keeps coming back in a bloodthirsty lust for HUMAN FLESH!
+
+I put on my Sixties scientist outfit (lab coat, thick-framed glasses) and sought the cause of this unnatural reanimation. To begin with, what does `Thread.isAlive()` do?:
+
+```python
+class Thread(object):
+    def isAlive(self):
+        return self.__started.is_set() and not self.__stopped
+
+```
+After a fork, `__stopped` should be True on all threads but one. Whose job is it to set `__stopped` on all the threads that *didn't* call `fork()`? In `threading.py` I discovered the `_after_fork()` function, which I've simplified here:
+
+```python hl_lines="21"
+
+# Globals.
+_active = {}
+_limbo = {}
+
+def _after_fork():
+    # This function is called by PyEval_ReInitThreads
+    # which is called from PyOS_AfterFork.  Here we
+    # clean up threading module state that should not
+    # exist after a fork.
+    
+    # fork() only copied current thread; clear others.
+    new_active = {}
+    current = current_thread()
+    for thread in _active.itervalues():
+        if thread is current:
+            # There is only one active thread.
+            ident = _get_ident()
+            new_active[ident] = thread
+        else:
+            # All the others are already stopped.
+            thread._Thread__stop()
+
+    _limbo.clear()
+    _active.clear()
+    _active.update(new_active)
+    assert len(_active) == 1
+
+```
+This function iterates all the Thread objects in a global dict called `_active`; each is removed and marked as "stopped", except for the current thread. How could this go wrong?
+
+<img style="display:block; margin-left:auto; margin-right:auto; border:1px solid black" src="http://emptysqua.re/blog/media/2013/10/night_of_the_living_dead_3.jpg" alt="Night of the living dead" title="Night of the living dead" />
+
+Well, consider how a thread starts:
+
+```python hl_lines="7 8 9"
+
+class Thread(object):
+    def start(self):
+        _limbo[self] = self
+        _start_new_thread(self.__bootstrap)
+
+    def __bootstrap(self):
+        self.__started.set()
+        _active[self.__ident] = self
+        del _limbo[self]
+        self.run()
+
+```
+(Again, I've simplified this.) The Thread object's `start` method adds the object to the `_limbo` list, then creates a new OS-level thread. The new thread, before it gets to work, marks itself as "started" and moves itself from `_limbo` to `_active`.
+
+Do you see the bug now? Perhaps the thread was [reanimated by space rays from Venus](http://en.wikipedia.org/wiki/Night_of_the_living_dead#Plot_summary) and craves the flesh of the living!
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2013/10/night_of_the_living_dead_4.jpg" alt="Night of the living dead 4" title="Night of the living dead 4" />
+
+Or perhaps there's a race condition:
+
+1. Main thread calls worker's `start()`.
+2. Worker calls `self.__started.set()`, but is interrupted before it adds itself to `_active`.
+3. Main thread calls `fork()`.
+4. In child process, main thread calls `_after_fork`, which doesn't find the worker in `_active` and doesn't mark it "stopped".
+5. `isAlive()` now returns True because the worker is started and not stopped.
+
+<br />
+Now we know the cause of the grotesque revenant. What's the cure? Headshot?
+
+I [submitted a patch to Python](http://bugs.python.org/issue18418) that simply swapped the order of operations: first the thread adds itself to `_active`, then it marks itself started:
+
+```python hl_lines="2 3"
+
+def __bootstrap(self):
+    _active[self.__ident] = self
+    self.__started.set()
+    self.run()
+
+```
+If the thread is interrupted by a fork after adding itself to `_active`, then `_after_fork()` finds it there and marks it stopped. The thread ends up stopped but not started, rather than the reverse. In this case `isAlive()` correctly returns False.
+
+The Python core team looked at my patch, and Charles-Fran&ccedil;ois Natali suggested a cleaner fix. If the zombie thread is not yet in `_active`, it *is* in the global `_limbo` list. So `_after_fork` should iterate over both `_limbo` and `_active`, instead of just `_active`. Then it will mark the zombie thread as "stopped" along with the other threads.
+
+```python hl_lines="7"
+
+def _enumerate():
+    return _active.values() + _limbo.values()
+
+def _after_fork():
+    new_active = {}
+    current = current_thread()
+    for thread in _enumerate():
+        if thread is current:
+            # There is only one active thread.
+            ident = _get_ident()
+            new_active[ident] = thread
+        else:
+            # All the others are already stopped.
+            thread._Thread__stop()
+
+```
+This fix will be included in the next Python 2.7 and 3.3 releases. The zombie threads will stay good and dead...for now!
+
+(Now read the sequels: [Dawn of the Thread](http://emptysqua.re/blog/dawn-of-the-thread/), in which I battle zombie threads in the abandoned tunnels of Python 2.6; and [Day of the Thread](http://emptysqua.re/blog/day-of-the-thread/), a post-apocalyptic thriller in which a lone human survivor tries to get a patch accepted via bugs.python.org.)
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2013/10/bloodthirsty-lust.jpg" alt="They keep coming back in a bloodthirsty lust for human flesh!" title="They keep coming back in a bloodthirsty lust for human flesh!" />

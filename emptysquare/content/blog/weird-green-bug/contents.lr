@@ -1,0 +1,124 @@
+_model: blog-post
+---
+title: Weird Green Bug
+---
+pub_date: 2014-01-16
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: A mysterious deadlock with PyMongo and Gevent.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/01/Green_caterpillar.jpg" alt="Green caterpillar" title="Green caterpillar" />
+
+<span style="color:gray">[Source: Andrew Magill](http://commons.wikimedia.org/wiki/File:Green_caterpillar_(1).jpg)</span>
+
+Working on PyMongo exposes me to a vexing swarm of issues in the Python interpreter itself. I've dealt with [bugs in Python's threadlocals](http://emptysqua.re/blog/another-thing-about-pythons-threadlocals/), [a race condition in the Thread class](http://emptysqua.re/blog/night-of-the-living-thread/), and [the awful things that happen when you run C extensions in multiple sub interpreters](http://emptysqua.re/blog/python-c-extensions-and-mod-wsgi/).
+
+Last month I was faced with a real stumper. A user reported a deadlock in the following code:
+
+```python
+from gevent import monkey
+monkey.patch_all()
+
+from pymongo import MongoReplicaSetClient
+MongoReplicaSetClient('host1', use_greenlets=False, replicaSet='rs')
+```
+
+When he hit Control-C, the exception traceback indicated the process was stuck in `getaddrinfo`. The deadlock only occurred with `MongoReplicaSetClient`, not `MongoClient`. It happened with Gevent 1.0 but not the previous version, 0.13.8. And here's the kicker: the code itself ran fine. It was when the file was *imported* that it deadlocked.
+
+So I stepped through the `MongoReplicaSetClient` initialization code in PyCharm's debugger. To my surprise, the first call to `getaddrinfo` succeeded: the client acquired the IP address of "host1" and connected promptly to the MongoDB running there. So where was the deadlock?
+
+Once the client connected to the first host, it asked it for a list of other hosts in the replica set. MongoDB returned the list as BSON, and PyMongo represents all BSON strings as unicode. So, whereas the first `getaddrinfo` was called on the string `'host1'`, subsequent calls were on unicodes `u'host2'`, `u'host3'`, and so on. PyMongo hung on the first attempt to resolve a unicode hostname. (This discussion is about Python 2, obviously; Gevent doesn't do Python 3 yet.)
+
+I reproduced the deadlock with ever-simpler versions of the test script. I arrived at this:
+
+```python
+from gevent import monkey
+monkey.patch_all()
+ 
+import socket
+socket.getaddrinfo(
+    u'mongodb.org',
+    80,
+    socket.AF_INET,
+    socket.SOCK_STREAM)
+```
+
+Again, the script finished promptly when I ran with it `python script.py`, but it hung when I imported it with `python -c "import script"`. Changing the unicode hostname to a `str` avoided the deadlock, as did downgrading Gevent to 0.13.8.
+
+The changelog for Gevent 1.0 says that it runs `getaddrinfo` on a thread to make it asynchronous. So I tried running `getaddrinfo` on a thread, without involving Gevent at all:
+
+```python
+import socket
+import threading
+
+def resolve():
+    print socket.getaddrinfo(
+        u'mongodb.org',
+        80,
+        socket.AF_INET,
+        socket.SOCK_STREAM)
+
+t = threading.Thread(target=resolve)
+t.start()
+t.join()
+```
+
+This script, too, hung when imported. Now that PyMongo and Gevent were both out of the picture, it looked to me like a Python bug. I looked at [the implementation of Python's `getaddrinfo` wrapper](http://hg.python.org/cpython/file/84cf25da86e8/Modules/socketmodule.c#l4134). What does it do differently if the hostname is unicode?
+
+```c
+if (PyUnicode_Check(hobj)) {
+    idna = PyObject_CallMethod(
+        hobj, "encode", "s", "idna");
+    if (!idna)
+        return NULL;
+    hptr = PyString_AsString(idna);
+} else if (PyString_Check(hobj)) {
+    hptr = PyString_AsString(hobj);
+}
+```
+
+If the host object, `hobj`, is unicode, it's encoded as "idna". (That stands for [Internationalized Domain Names in Applications](http://docs.python.org/2/library/codecs.html#module-encodings.idna) if you're curious, and I know you are.) I put some printfs in the C code and sure enough, `getaddrinfo` was hanging at the encoding step. Why? Following the call tree and sprinkling printfs throughout, I found that the hang occurred in Python's encodings module, when it tried to import `encodings.idna`. I finally understood the problem.
+
+Importing `script.py` locks Python's import machinery until the import finishes. My script spawns a thread and calls `getaddrinfo` on the thread. If the hostname is unicode, `getaddrinfo` tries to encode it as "idna". If this is the first time the "idna" encoding has been used in this interpreter's life, then the thread must import `encodings.idna`, but the import machinery is locked by the main thread. The `getaddrinfo` thread waits for the import lock, while the main thread waits for the `getaddrinfo` thread to finish. Forever.
+
+Gevent 1.0 is prone to this problem because it runs `getaddrinfo` on a thread. But the deadlock can be triggered without Gevent, by importing a contrived script like this:
+
+```python
+def connect():
+    MongoReplicaSetClient('host1', replicaSet='rs')
+ 
+t = threading.Thread(target=connect)
+t.start()
+t.join()
+```
+
+It's just as [the Python docs say](http://docs.python.org/2/library/threading.html):
+
+> Other than in the main module, an import should not have the side effect of spawning a new thread and then waiting for that thread in any way. Failing to abide by this restriction can lead to a deadlock if the spawned thread directly or indirectly attempts to import a module.
+
+It's obvious once you know. Even without this admonition, it's my opinion that a module shouldn't spawn threads or do network I/O when you import it. It seems like an anti-pattern.
+
+But my job is to fix bugs, not give style tips. I've [submitted a patch to Gevent to prevent the deadlock](https://github.com/surfly/gevent/pull/350), and [I fixed a similar hang in Tornado](https://github.com/facebook/tornado/commit/6049e2db60ab0b7919622a2e52ede6442db173e8). Python 3.4's `asyncio` also runs `getaddrinfo` on a thread, but it can't deadlock on import, because the import machinery was rewritten in Python 3.3 with [per-module locking](http://docs.python.org/3/whatsnew/3.3.html#a-finer-grained-import-lock).
+
+In any case there are a number of easy workarounds to this issue. [I've detailed them in the bug report](https://jira.mongodb.org/browse/PYTHON-607), but I'll show my favorite here:
+
+```python
+u'foo'.encode('idna')
+```
+
+Do that in the main thread before any calls to `getaddrinfo`. This will cache the imported encoder and avoid importing it in a thread later on. If I were you, I'd replace "foo" with a mysterious-looking string and add a comment implying that [the string is magic](http://www.catb.org/jargon/html/magic-story.html), just to confound future generations.

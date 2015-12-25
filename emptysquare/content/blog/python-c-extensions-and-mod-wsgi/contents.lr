@@ -1,0 +1,506 @@
+_model: blog-post
+---
+title: Python C Extensions And mod_wsgi
+---
+pub_date: 2013-09-26
+---
+author: 
+---
+type: post
+---
+tags:
+
+best
+mod_wsgi
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: If you use mod_wsgi, or you're the author of a Python C extension, it's time for you to learn how they interact.
+---
+body:
+
+For the next release of PyMongo, Bernie Hackett and I have updated PyMongo's C extensions to be more compatible with `mod_wsgi`, and improved PyMongo's docs about `mod_wsgi`. In the process I had to buckle down and finally grasp the relationship between `mod_wsgi` and C extensions. The only way I could master it was to experiment. Enjoy the fruits of my research.
+
+**Summary**: Python scripts in a `mod_wsgi` daemon process are isolated from each other in separate Python sub interpreters, but the state of their C extensions is *not* isolated. If a C extension tries to import and use Python classes, it creates an unholy mix of classes from different interpreters. PyMongo fell victim to this issue when encoding and decoding BSON. We used to have a hack for this, and now we have a nice workaround. When you deploy WSGI scripts, configure `mod_wsgi` to isolate your scripts from each other completely, by running them in separate daemon processes. If you maintain a Python extension, our latest strategies can help you make your script compatible with `mod_wsgi`.
+
+[TOC]
+
+## Python Runs In A Daemon Process
+
+Graham Dumpleton, `mod_wsgi`'s author, [recommends we use daemon mode under most circumstances](http://blog.dscpl.com.au/2012/10/why-are-you-using-embedded-mode-of.html). So the first step in configuring `mod_wsgi` is to fork a daemon process with [WSGIDaemonProcess](https://code.google.com/p/modwsgi/wiki/ConfigurationDirectives#WSGIDaemonProcess):
+
+```apache
+<VirtualHost *>
+    WSGIDaemonProcess my_process
+</VirtualHost>
+```
+
+Now, I'll use [WSGIScriptAlias](https://code.google.com/p/modwsgi/wiki/ConfigurationDirectives#WSGIScriptAlias) to tell `mod_wsgi` where my script is, and use [WSGIProcessGroup](https://code.google.com/p/modwsgi/wiki/ConfigurationDirectives#WSGIProcessGroup) to assign the script to the daemon:
+
+```apache hl_lines="3 4"
+
+<VirtualHost *>
+    WSGIDaemonProcess my_process
+    WSGIScriptAlias /my_app /path/to/app.wsgi
+    WSGIProcessGroup my_process
+</VirtualHost>
+```
+
+## Python Variables Are Isolated In Sub Interpreters
+
+When the daemon runs my script, it needs a Python interpreter. By default, the daemon uses a different Python interpreter for each "resource" on my web server. A resource is the concatenation of the server name, port number, and script name, so requests to my application over port 8080 might use an interpreter named "example.com:8080|/my_app". Each distinct combination of domain name, port number, and script name is mapped to a separate interpreter, so that multiple scripts don't affect each other's state.
+
+When an HTTP request arrives, the daemon checks if it's created an interpreter for this resource. If not, it calls the Python C API function `Py_NewInterpreter`. [The Python docs say](http://docs.python.org/2/c-api/init.html#Py_NewInterpreter):
+
+> This is an (almost) totally separate environment for the execution of Python code. In particular, the new interpreter has separate, independent versions of all imported modules, including the fundamental modules `builtins`, `__main__` and `sys`. The table of loaded modules (`sys.modules`) and the module search path (`sys.path`) are also separate.
+
+Let's see this separation in action. I'll make a module with a variable:
+
+```python
+# module.py
+
+var = 0
+```
+
+My WSGI script increments the variable with each request and responds with the new value:
+
+```python hl_lines="3 6"
+
+# app.wsgi
+
+import module
+
+def application(environ, start_response):
+    module.var += 1
+    
+    output = 'var = %d\n' % module.var
+    response_headers = [('Content-Length', str(len(output)))]
+    start_response('200 OK', response_headers)
+    return [output]
+```
+
+([Incrementing an integer is not thread-safe](http://emptysqua.re/blog/python-increment-is-weird/), but I'm ignoring thread-safety here.)
+
+I'll map two URLs, "foo" and "bar", to the same script:
+
+```apache hl_lines="4 5"
+
+<VirtualHost *>
+    WSGIDaemonProcess my_process
+    WSGIProcessGroup my_process
+    WSGIScriptAlias /foo /path/to/app.wsgi
+    WSGIScriptAlias /bar /path/to/app.wsgi
+</VirtualHost>
+```
+
+`mod_wsgi` uses different sub interpreters for the two URLs, so they have different copies of `var`. When I request "foo" it increments one copy, and when I request "bar" it increments the other copy:
+
+```sh
+$ curl localhost/foo
+var = 1
+$ curl localhost/foo
+var = 2
+$ curl localhost/bar
+var = 1
+$ curl localhost/bar
+var = 2
+```
+
+I can use [WSGIApplicationGroup](https://code.google.com/p/modwsgi/wiki/ConfigurationDirectives#WSGIApplicationGroup) to change the relationship between URLs and sub interpreters. I'll put both URLs in the same "application group," meaning the same Python sub interpreter:
+
+```apache hl_lines="6"
+
+<VirtualHost *>
+    WSGIDaemonProcess my_process
+    WSGIProcessGroup my_process
+    WSGIScriptAlias /foo /path/to/app.wsgi
+    WSGIScriptAlias /bar /path/to/app.wsgi
+    WSGIApplicationGroup my_application_group
+</VirtualHost>
+```
+
+Now requests to "foo" and "bar" run in the same interpreter and increment the same copy of `var`:
+
+```sh hl_lines="6 8"
+
+$ curl localhost/foo
+var = 1
+$ curl localhost/foo
+var = 2
+$ curl localhost/bar
+var = 3
+$ curl localhost/bar
+var = 4
+```
+
+If I set the application group to `%{GLOBAL}`, "foo" and "bar" will run in the daemon's main interpreter, not any sub interpreter at all. We'll see momentarily why this is useful.
+
+## But C Extensions Are Not Isolated
+
+Remember when the Python docs said that `Py_NewInterpreter` creates "an (almost) totally separate environment"? One reason it's not completely separate is that C extensions are shared:
+
+> Extension modules are shared between (sub-)interpreters as follows: the first time a particular extension is imported, it is initialized normally, and a (shallow) copy of its module&rsquo;s dictionary is squirreled away. When the same extension is imported by another (sub-)interpreter, a new module is initialized and filled with the contents of this copy; the extension&rsquo;s init function is **not** called.
+
+### Static Variables Are Shared
+
+I wrote an example C extension called `demo` to demonstrate the issues. [The code is on GitHub.](https://github.com/ajdavis/demo-c-extension) Instead of declaring a global variable in a Python module, let's make one in C:
+
+```c
+/* A global variable. */
+static long var = 0;
+
+static PyObject* inc_and_get_var(PyObject* self, PyObject* args)
+{
+    var++;
+    return PyInt_FromLong(var);
+}
+```
+
+I call `inc_and_get_var()` in my WSGI script:
+
+```python
+output = 'var: %s\n' % demo.inc_and_get_var()
+```
+
+Now, I'll change my Apache configuration back, so it uses the default application groups:
+
+```apache
+<VirtualHost *>
+    WSGIDaemonProcess my_process
+    WSGIProcessGroup my_process
+    WSGIScriptAlias /foo /path/to/app.wsgi
+    WSGIScriptAlias /bar /path/to/app.wsgi
+</VirtualHost>
+```
+
+Once again `mod_wsgi` uses a different interpreter for each URL. So if I were using the `var` declared in Python, "foo" and "bar" would increment different copies of it. But of course a static variable declared in C is shared among all interpreters in a daemon:
+
+```sh hl_lines="2 4"
+
+$ curl localhost/foo
+var: 1
+$ curl localhost/bar
+var: 2
+```
+
+Instead of using a static variable, I could have put the variable in the module's dict. But as the Python doc said, that dict is copied into the new interpreter, so the interpreters still wouldn't be completely isolated.
+
+### Python Classes Only Work In The First Interpreter
+
+The shared-state problem becomes worse if the C extension uses a class implemented in Python. What if an extension imports a Python class and later calls `PyObject_IsInstance()` on it? Here's some C code for a function called `is_myclass()`:
+
+```c
+static PyObject* MyClass;
+
+static PyObject* is_myclass(PyObject* self, PyObject* args)
+{
+    int outcome;
+    PyObject* obj;
+    if (!PyArg_ParseTuple(args, "O", &obj)) return NULL;
+    
+    outcome = PyObject_IsInstance(obj, MyClass);
+    if (outcome) { Py_RETURN_TRUE; }
+    else { Py_RETURN_FALSE; }
+}
+
+PyMODINIT_FUNC
+initdemo(void)
+{
+    PyObject* mymodule = PyImport_ImportModule("mymodule");
+    MyClass = PyObject_GetAttrString(mymodule, "MyClass");
+    Py_DECREF(mymodule);
+    Py_InitModule("demo", Methods);
+}
+```
+
+(Error-checking is omitted. See GitHub for the real code.)
+
+`is_myclass()` works just fine in the shell:
+
+```pycon
+>>> import demo, mymodule
+>>> obj = mymodule.MyClass()
+>>> demo.is_myclass(obj)
+True
+```
+
+How about in `mod_wsgi`? I'll make my WSGI script output the result of `is_myclass()`:
+
+```python
+import demo
+import mymodule
+
+def application(environ, start_response):
+    obj = mymodule.MyClass()
+    outcome = demo.is_myclass(obj)
+
+    output = 'outcome = %s\n' % outcome
+    response_headers = [('Content-Length', str(len(output)))]
+    start_response('200 OK', response_headers)
+    return [output]
+```
+
+Then I map two URLs to this script:
+
+```apache
+<VirtualHost *>
+    WSGIDaemonProcess my_process
+    WSGIProcessGroup my_process
+    WSGIScriptAlias /foo demo.wsgi
+    WSGIScriptAlias /bar demo.wsgi
+</VirtualHost>
+```
+
+If I request the URL "foo", everything's peachy: my script thinks `obj` is an instance of `MyClass`. But when I request "bar" it thinks the opposite:
+
+```sh
+$ curl localhost/foo
+outcome = True
+$ curl localhost/bar
+outcome = False
+```
+
+From now on, "foo" returns True and "bar" returns False. But if I restart Apache and request "bar" first, followed by "foo", the outcome is reversed:
+
+```sh
+$ sudo service apache2 restart
+ * Restarting web server apache2
+$ curl localhost/bar
+outcome = True
+$ curl localhost/foo
+outcome = False
+```
+
+Do you see why? Only the first interpreter that imports my extension runs `initdemo()`, imports `MyClass`, and assigns it to a static variable. From then on, calls to `is_myclass` work in the first interpreter, because the object is compared to the Python class created in the same interpreter. Calls in the other interpreter always return false.
+
+The inverse problem happens when I instantiate a `MyClass` object in C:
+
+```c
+static PyObject* create_myclass(PyObject* self, PyObject* args)
+{
+    return PyObject_CallObject(MyClass, NULL);
+}
+```
+
+I'll update my Python script to check if `create_myclass()` returns an instance of `MyClass`:
+
+```python
+outcome = isinstance(
+    demo.create_myclass(),
+    mymodule.MyClass)
+
+output = 'isinstance: %s' % outcome
+```
+
+Again, if I request "foo" first, it returns True and "bar" returns False:
+
+    $ curl localhost/foo
+    isinstance: True
+    $ curl localhost/bar
+    isinstance: False
+
+If I restart Apache and request "bar" first, it returns True from then on, and "foo" returns False.
+
+What's going on? `initdemo()` caches `MyClass` from the interpreter that calls it, so the instances it creates act normally in that interpreter. The second Python interpreter that imports `demo` does **not** call `initdemo()`, so the module has no opportunity to discover that it's being used from a different interpreter. It continues making objects that only work in the first interpreter. [The `mod_wsgi` docs call this](https://code.google.com/p/modwsgi/wiki/ApplicationIssues#Multiple_Python_Sub_Interpreters) "an unholy mixing of code and data from multiple sub interpreters."
+
+Note that types defined in C don't suffer these ills: they're static. For example, the datetime type is defined as:
+
+```c
+static PyTypeObject PyDateTime_DateTimeType;
+```
+
+Every interpreter in the daemon process agrees on the memory address of this type, so both `PyObject_IsInstance` and `isinstance` work on datetimes across interpreters.
+
+## PyMongo and `mod_wsgi`
+
+PyMongo's BSON encoder and decoder are written in C, in an extension called `_cbson`. `_cbson` caches Python classes, so it's vexed by problems with `PyObject_IsInstance` and `isinstance` when running in multiple sub interpreters. Bear with me, I'm going into some detail about why PyMongo had trouble in each case.
+
+### Encoding
+
+In PyMongo we have a class representing MongoDB ObjectIds:
+
+```python
+class ObjectId(object):
+    # Etcetera.
+    pass
+```
+
+`_cbson` needs both to recognize ObjectIds and to create them, so it caches the ObjectId class when it initializes:
+
+```c
+static PyObject* ObjectId;
+
+PyMODINIT_FUNC
+init_cbson(void)
+    PyObject* module = PyImport_ImportModule("bson.objectid");
+    ObjectId = PyObject_GetAttrString(module, "ObjectId");
+    Py_DECREF(module);
+    
+    /** More module setup .... */
+}
+```
+
+Let's say I'm turning a dict into BSON. I execute this Python code:
+
+```python
+bson_document = BSON.encode({"_id": ObjectId()})
+```
+
+PyMongo iterates the dict, checking each value's type to decide how to encode it. Is the value an int, a string, an ObjectId, something else?
+
+```c hl_lines="4"
+
+PyObject* iter = PyObject_GetIter(dict);
+while ((key = PyIter_Next(iter)) != NULL) {
+    PyObject* value = PyDict_GetItem(dict, key);
+    if (PyObject_IsInstance(value, ObjectId)) {
+        /* Encode the ObjectId as BSON .... */
+    }
+    
+    /* Check for other possible types .... */
+    
+    Py_DECREF(key);
+}
+Py_DECREF(iter);
+```
+
+By now you know what's going to happen: the first interpreter that imports `_cbson` is the one that caches the ObjectId class, and `PyObject_IsInstance` works there. In other interpreters, `PyObject_IsInstance` can't recognize ObjectIds.
+
+### Decoding
+
+The `PyObject_IsInstance` problem manifested when turning Python objects into BSON. The inverse happens when decoding BSON: `_cbson` churns through a BSON document reading the type code for each field:
+
+```c
+switch (type) {
+case 7:
+    value = PyObject_CallFunction(state->ObjectId,
+                                  "s#", buffer, 12);
+    break;
+```
+
+The value so constructed is an ObjectId, but `isinstance(value, ObjectId)` is False in any interpreters besides the first one. Our users don't call `isinstance`, it seems, because this bug was never reported.
+
+## You Can Isolate C Extensions In Separate Daemons
+
+The `mod_wsgi` docs provide no guidance for writing C extensions, they just say:
+
+> Because of the possibility that extension module writers have not written their code to take into consideration it being used from multiple sub interpreters, the safest approach is to force all WSGI applications to run within the same application group, with that preferably being the first interpreter instance created by Python.
+
+Following Dumpleton's advice, we tell PyMongo users to always use `WSGIApplicationGroup %{GLOBAL}` to put their applications in the main interpreter. Since that risks interference if you run multiple applications in the same daemon process, you should run each application in a separate daemon, like this:
+
+```apache
+<VirtualHost *>
+    WSGIDaemonProcess my_process
+    WSGIScriptAlias /foo /path/to/app.wsgi
+    <Location /foo>
+        WSGIProcessGroup my_process
+    </Location>
+
+    WSGIDaemonProcess my_other_process
+    WSGIScriptAlias /bar /path/to/app.wsgi
+    <Location /bar>
+        WSGIProcessGroup my_other_process
+    </Location>
+
+    WSGIApplicationGroup %{GLOBAL}
+</VirtualHost>
+```
+
+I've [added an example like this](https://github.com/mongodb/mongo-python-driver/blob/master/doc/examples/mod_wsgi.rst) to PyMongo's docs.
+
+## How Should C Extensions Handle Multiple Sub Interpreters?
+
+But some users don't read the manual, and some aren't allowed to change their Apache config. How can we write a C extension that handles multiple sub interpreters gracefully?
+
+### PyMongo's Crummy Old Hack
+
+Through version 2.6, our BSON encoder used the following algorithm to deal with multiple sub interpreters:
+
+* For each value, use `PyObject_IsInstance` to check if it is any BSON-encodable Python type.
+* If all checks fail, log a RuntimeWarning saying, "couldn't encode&mdash;reloading python modules and trying again."
+* Re-import and re-cache all Python classes, such as ObjectId. This ensures `_cbson`'s references to Python classes come from the current interpreter.
+* Again check if the value is encodable.
+* If not, raise InvalidBSON because this isn't a `mod_wsgi` problem: the application is actually trying to encode something that isn't BSON-encodable.
+
+There were a few problems with this. First, it wrote a warning to the Apache error log whenever an application encoded BSON in a different interpreter from the last one in which it had encoded BSON. Second, it only fixed `PyObject_IsInstance`, not `isinstance`.
+
+### PyMongo's Pretty Good New Workaround
+
+Bernie Hackett's elegant solution avoids `PyObject_IsInstance` entirely when encoding. He added a `_type_marker` field to our Python classes:
+
+```python
+class ObjectId(object):
+    _type_marker = 7
+```
+
+`_cbson` uses the type marker to decide how to encode each value:
+
+```c
+if (PyObject_HasAttrString(value, "_type_marker")) {
+    long type;
+    PyObject* type_marker = PyObject_GetAttrString(
+        value, "_type_marker");
+    
+    type = PyInt_AsLong(type_marker);
+    Py_DECREF(type_marker);
+    switch (type) {
+    case 7:
+        /* Encode an ObjectId .... */
+```
+
+Not only is the type marker robust against sub interpreter issues, but it's faster than `PyObject_IsInstance`. If a value has no type marker, then we check for builtin types like strings and ints.
+
+The only BSON-encodable Python type we don't control is UUID. It's implemented in Python, but it's provided by the standard library so we can't add a type marker. Here, Bernie took two approaches. First, he checked whether we're in a sub interpreter or the main one:
+
+```c
+/*
+ * Are we in the main interpreter or a sub-interpreter?
+ * Useful for deciding if we can use cached pure python
+ * types in mod_wsgi.
+ */
+static int
+_in_main_interpreter(void) {
+    static PyInterpreterState* main_interpreter = NULL;
+    PyInterpreterState* interpreter;
+
+    if (main_interpreter == NULL) {
+        interpreter = PyInterpreterState_Head();
+        while (PyInterpreterState_Next(interpreter))
+            interpreter = PyInterpreterState_Next(interpreter);
+
+        main_interpreter = interpreter;
+    }
+
+    return (main_interpreter == PyThreadState_Get()->interp);
+}
+```
+
+The first time `_in_main_interpreter()` is called, it stashes a reference to the main interpreter. From then on, it can detect if we're in a sub interpreter by comparing the current interpreter's address to the main one's.
+
+If we're in the main interpreter, we can use our cached copy of the UUID class with `PyObject_IsInstance` as normal. (We're either in the global application group, or not in `mod_wsgi` at all.) If we're in a sub interpreter, we have to re-import UUID each time, before we pass it to `PyObject_IsInstance`. The performance penalty is minimal: for one thing, we only check if a value is a UUID if it's failed all other checks. Second, the speedup from `_type_marker` compensates for the cost of re-importing UUID.
+
+What about decoding? How does `_cbson` avoid returning instances of one interpreter's classes to another interpreter? Again, if `_in_main_interpreter()` is true, `_cbson` can safely use its cached classes. If not, it re-imports ObjectId each time it needs it&mdash;same for UUID and so forth. This is cheap: my benchmark only showed it costing a few microseconds per value. After all, re-importing a module is essentially a lookup in `sys.modules`. Real applications are I/O bound anyway and won't notice the hit. But if you're concerned, use `WSGIApplicationGroup %{GLOBAL}` to run your script in the main interpreter.
+
+## Recommendations
+
+After all the intricacies I learned, I've arrived at simple recommendations.
+
+### Deployment
+
+Multiple sub interpreters are only an issue if you have multiple scripts using the same C extension. If so, run the scripts in separate daemon processes using `WSGIDaemonProcess` and `WSGIProcessGroup`, and assign them to the main interpreter with `WSGIApplicationGroup %{GLOBAL}`.
+
+### Writing C Extensions
+
+Extension authors can't rely on users to deploy this way, so C extensions should be written to support multiple sub interpreters.
+
+* If your extension imports *your* Python classes, add type markers to them as PyMongo did and use the type markers instead of `PyObject_IsInstance`.
+* Alternatively, implement the classes you need in C instead of Python, so they're safe to use across interpreters, the same as datetimes are.
+* If you import third-party or standard-library Python classes, check if you're running in a sub interpreter. If so, re-import these classes on demand. It's cheaper than you think.
+
+***
+
+You might also like my article on [measuring test coverage of C extensions](http://emptysqua.re/blog/code-coverage-python-c-extensions/), or the one on [automatically detecting refcount errors in C extensions](http://emptysqua.re/blog/analyzing-python-c-extensions-with-cpychecker/).

@@ -1,0 +1,28 @@
+_model: blog-post
+---
+title: PyCon 2014 Video: What Is Async, How Does It Work, & When Should I Use It?
+---
+pub_date: 2014-04-13
+---
+author: 
+---
+type: post
+---
+tags:
+
+video
+---
+categories:
+
+Programming
+Python
+---
+summary: My talk about Python's asyncio library, and async frameworks in general.
+---
+body:
+
+Here's my talk on Python's asyncio library, and async frameworks in general, from Montr&eacute;al on April 11.
+
+<iframe width="560" height="315" src="//www.youtube.com/embed/9WV7juNmyE8" frameborder="0" allowfullscreen></iframe>
+
+[Direct link here.](https://www.youtube.com/watch?v=9WV7juNmyE8)

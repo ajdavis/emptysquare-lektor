@@ -1,0 +1,43 @@
+_model: blog-post
+---
+title: Announcing PyMongo 3.0.3
+---
+pub_date: 2015-07-01
+---
+author: 
+---
+type: post
+---
+tags:
+
+pymongo
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: A minor bugfix release.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/07/tree-python.jpg" alt="Tree python" title="Tree python" />
+
+Bernie Hackett, Luke Lovett, Anna Herlihy, and I are pleased to announce [PyMongo 3.0.3](https://pypi.python.org/pypi/pymongo/3.0.3). This release fixes bugs reported since PyMongo 3.0.2&mdash;most importantly, [a bug that broke Kerberos authentication](https://jira.mongodb.org/browse/PYTHON-932). We also fixed a [TypeError if you try to turn off SSL hostname validation using an option in the MongoDB connection string](https://jira.mongodb.org/browse/PYTHON-934), and [an infinite loop reading certain kinds of corrupt GridFS files](https://jira.mongodb.org/browse/PYTHON-951).
+
+For the full list of bugs fixed in PyMongo 3.0.3, please [see the release in Jira](https://jira.mongodb.org/browse/PYTHON/fixforversion/15528).
+
+* [Downloads](http://pypi.python.org/pypi/pymongo/3.0.3)
+* [Change Log](http://api.mongodb.org/python/3.0.3/changelog.html) 
+* [Documentation](http://api.mongodb.org/python/3.0.3/index.html)
+
+If you use PyMongo 3.0.x, upgrade.
+
+If you are on PyMongo 2.8.x, you should probably wait to upgrade: we are about to make it easier for you. PyMongo 2.9, which will be released shortly, provides a smooth bridge for you to upgrade from the old API to the new one.
+
+Let us know if you have any problems by [opening a ticket in Jira](https://jira.mongodb.org/browse/PYTHON), in the PYTHON project.
+
+***
+
+[Image: Ian C. on Flickr.](https://www.flickr.com/photos/nasmac/531138641)

@@ -1,0 +1,36 @@
+_model: blog-post
+---
+title: Toro 1.0, the Final Release
+---
+pub_date: 2015-09-01
+---
+author: 
+---
+type: post
+---
+tags:
+
+tornado
+---
+categories:
+
+Programming
+Python
+---
+summary: This version includes a new RWLock. Further development of Toro's ideas continues in Tornado itself.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/11/toro.png" alt="Toro" title="toro.png" border="0"   />
+
+I just shipped Toro with a new feature contributed by [Alexander Gridnev](https://github.com/alexander-gridnev): a [readers-writer lock, or "RWLock"](http://toro.readthedocs.org/en/stable/classes.html#rwlock). It protects a shared data structure by allowing multiple coroutines to lock it for reads. As soon as a coroutine wants to modify the structure it requests a write-lock and waits for all readers to release their locks. While a writer is waiting, all readers and writers queue. Once the writer releases the lock, readers or the next writer can acquire it.
+
+An RWLock is a common optimization for multithreaded code in other languages, but Python threads specifically have no use for one: the Global Interpreter Lock prevents multiple readers from actually doing parallel computation with the shared data, so in multithreaded Python there's no advantage to an RWLock compared to a plain Lock. Thus there's no RWLock in Python's standard threading module.
+
+For async code, however, I could see the advantage of an RWLock. Async Python allows concurrent I/O operations in a single thread. There might be some shared external data that can be retrieved or modified, say a RESTful resource that doesn't implement the desired locking semantics on its own. With Alexander's new RWLock, coroutines in a Tornado process can now safely share such a resource, ensuring that reader coroutines wait for the lock as little as possible, while writer coroutines can gain exclusive access to the resource when needed.
+
+I recognized the usefulness of this kind of lock so I took the contribution. Besides, asyncio expert [Andrew Svetlov made an RWLock for asyncio](https://github.com/aio-libs/aiorwlock) so I thought Tornado deserved one, too. Toro was a good place for such a class to make its temporary home. RWLock is Toro 1.0's sole new feature.
+
+And now it's the end of the line: Toro is both completed and deprecated. [Toro's locks and queues were merged into Tornado 4.2](http://www.tornadoweb.org/en/stable/releases/v4.2.0.html#new-modules-tornado-locks-and-tornado-queues), and further development on those ideas will continue in Tornado itself from now on. Indeed, [Ben Darnell has just updated Tornado's locks and queues for Python 3.5's new `async` and `await` statements](https://github.com/tornadoweb/tornado/pull/1476). [I've recommended to Alexander that he spin off his RWLock for Tornado into a separate package](https://github.com/ajdavis/toro/pull/12), to stand alone the same as asyncio's RWLock does.
+
+Toro is among my favorite and most complete works, [you can read my thoughts on its retirement in my May article](http://emptysqua.re/blog/tornado-locks-and-queues/).

@@ -1,0 +1,376 @@
+_model: blog-post
+---
+title: Tornado Unittesting: Eventually Correct
+---
+pub_date: 2011-12-16
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Programming
+Python
+---
+summary: Photo: Tim Green I'm a fan of Tornado, one of the major async web frameworks for Python, but unittesting async code is a total pain. I'm going to review what the problem is, look at some klutzy solutions, and propose a better way. If you don't [ ... ]
+---
+body:
+
+![Time was, time is](/blog/media/2011/12/sundial.jpg "sundial.jpg")
+
+[Photo: Tim Green](http://www.flickr.com/photos/atoach/3945656686/)
+
+I'm a fan of [Tornado](http://www.tornadoweb.org/), one of the major
+async web frameworks for Python, but unittesting async code is a total
+pain. I'm going to review what the problem is, look at some klutzy
+solutions, and propose a better way. If you don't care what I have to
+say and you just want to steal my code, [get it on
+GitHub](https://github.com/ajdavis/tornado-test).
+
+The problem
+===========
+
+Let's say you're working on some profoundly complex library that
+performs a time-consuming calculation, and you want to test its output:
+
+```python
+# test_sync.py
+import time
+import unittest
+
+def calculate():
+    # Do something profoundly complex
+    time.sleep(1)
+    return 42
+
+class SyncTest(unittest.TestCase):
+    def test_find(self):
+        result = calculate()
+        self.assertEqual(42, result)
+
+if __name__ == '__main__':
+    unittest.main()
+
+```
+See? You do an operation, then you check that you got the expected
+result. No sweat.
+
+But what about testing an asynchronous calculation? You're going to have
+some troubles. Let's write an asynchronous calculator and test it:
+
+```python
+# test_async.py
+import time
+import unittest
+from tornado import ioloop
+
+def async_calculate(callback):
+    """
+    @param callback:    A function taking params (result, error)
+    """
+    # Do something profoundly complex requiring non-blocking I/O, which
+    # will complete in one second
+    ioloop.IOLoop.instance().add_timeout(
+        time.time() + 1,
+        lambda: callback(42, None)
+    )
+
+class AsyncTest(unittest.TestCase):
+    def test_find(self):
+        def callback(result, error):
+            print 'Got result', result
+            self.assertEqual(42, result)
+
+        async_calculate(callback)
+        ioloop.IOLoop.instance().start()
+
+if __name__ == '__main__':
+    unittest.main()
+
+```
+Huh. If you run `python test_async.py`, you see the expected result is
+printed to the console:
+
+    Got result 42
+
+... and then the program hangs forever. The problem is that
+`ioloop.IOLoop.instance().start()` starts an infinite loop. You have to
+stop it explicitly before the call to `start()` will return.
+
+A Klutzy Solution
+=================
+
+Let's stop the loop in the callback:
+
+```python hl_lines="2"
+
+        def callback(result, error):
+            ioloop.IOLoop.instance().stop()
+            print 'Got result', result
+            self.assertEqual(42, result)
+
+```
+Now if you run `python test_async.py` everything's copacetic:
+
+    $ python test_async.py 
+    Got result 42
+    .
+    ----------------------------------------------------------------------
+    Ran 1 test in 1.001s
+
+    OK
+
+Let's see if our test will actually catch a bug. Change the
+`async_calculate()` function to produce the number 17 instead of 42:
+
+```python hl_lines="9"
+
+def async_calculate(callback):
+    """
+    @param callback:    A function taking params (result, error)
+    """
+    # Do something profoundly complex requiring non-blocking I/O, which
+    # will complete in one second
+    ioloop.IOLoop.instance().add_timeout(
+        time.time() + 1,
+        lambda: callback(17, None)
+    )
+
+```
+And run the test:
+
+    $ python foo.py 
+    Got result 17
+    ERROR:root:Exception in callback <tornado.stack_context._StackContextWrapper object at 0x102420158>
+    Traceback (most recent call last):
+      File "/Users/emptysquare/.virtualenvs/blog/lib/python2.7/site-packages/tornado/ioloop.py", line 396, in _run_callback
+        callback()
+      File "foo.py", line 14, in <lambda>
+        lambda: callback(17, None)
+      File "foo.py", line 22, in callback
+        self.assertEqual(42, result)
+      File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/unittest/case.py", line 494, in assertEqual
+        assertion_func(first, second, msg=msg)
+      File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/unittest/case.py", line 487, in _baseAssertEqual
+        raise self.failureException(msg)
+    AssertionError: 42 != 17
+    .
+    ----------------------------------------------------------------------
+    Ran 1 test in 1.002s
+
+    OK
+
+An `AssertionError` is raised, but the test still **passes**! Alas,
+Tornado's IOLoop suppresses all exceptions. The exceptions are printed
+to the console, but the unittest framework thinks the test has passed.
+
+A Better Way
+============
+
+We're going to perform some minor surgery on Tornado to fix this up, by
+creating and installing our own IOLoop which re-raises all exceptions in
+callbacks. Luckily, Tornado makes this easy. Add `import sys` to the top
+of test\_async.py, and paste in the following:
+
+```python
+class PuritanicalIOLoop(ioloop.IOLoop):
+    """
+    A loop that quits when it encounters an Exception.
+    """
+    def handle_callback_exception(self, callback):
+        exc_type, exc_value, tb = sys.exc_info()
+        raise exc_value
+
+```
+Now add a `setUp()` method to `AsyncTest` which will install our
+puritanical loop:
+
+```python
+    def setUp(self):
+        super(AsyncTest, self).setUp()
+        
+        # So any function that calls IOLoop.instance() gets the
+        # PuritanicalIOLoop instead of the default loop.
+        if not ioloop.IOLoop.initialized():
+            loop = PuritanicalIOLoop()
+            loop.install()
+        else:
+            loop = ioloop.IOLoop.instance()
+            self.assert_(
+                isinstance(loop, PuritanicalIOLoop),
+                "Couldn't install PuritanicalIOLoop"
+            )
+
+```
+This is a bit over-complicated for our simple casea call to
+`PuritanicalIOLoop().install()` would sufficebut this will all come in
+handy later. In our simple test suite, `setUp()` is only run once, so
+the check for `IOLoop.initialized()` is unnecessary, but you'll need it
+if you run multiple tests. The call to `super()` will be necessary if we
+inherit from a `TestCase` with a `setUp()` method, which is exactly what
+we're going to do below. For now, just run `python test_async.py` and
+observe that we get a proper failure:
+
+    $ python foo.py 
+    Got result 17
+    F
+    ======================================================================
+    FAIL: test_find (__main__.SyncTest)
+    ----------------------------------------------------------------------
+    Traceback (most recent call last):
+      File "foo.py", line 49, in test_find
+        ioloop.IOLoop.instance().start()
+      File "/Users/emptysquare/.virtualenvs/blog/lib/python2.7/site-packages/tornado/ioloop.py", line 263, in start
+        self._run_callback(timeout.callback)
+      File "/Users/emptysquare/.virtualenvs/blog/lib/python2.7/site-packages/tornado/ioloop.py", line 398, in _run_callback
+        self.handle_callback_exception(callback)
+      File "foo.py", line 25, in handle_callback_exception
+        raise exc_value
+    AssertionError: 42 != 17
+
+    ----------------------------------------------------------------------
+    Ran 1 test in 1.002s
+
+    FAILED (failures=1)
+
+Lovely. Change `async_calculate()` back to the correct version that
+produces 42.
+
+An Even Better Way
+==================
+
+So we've verified that our test catches bugs in the calculation. But
+what if we have a bug that prevents our callback from ever being called?
+Add a return statement at the top of `async_calculate()` so we don't
+execute the callback:
+
+```python hl_lines="7"
+
+def async_calculate(callback):
+    """
+    @param callback:    A function taking params (result, error)
+    """
+    # Do something profoundly complex requiring non-blocking I/O, which
+    # will complete in one second
+    return
+    ioloop.IOLoop.instance().add_timeout(
+        time.time() + 1,
+        lambda: callback(42, None)
+    )
+
+```
+Now if we run the test, it hangs forever, because `IOLoop.stop()` is
+never called. How can we write a test that asserts that the callback is
+**eventually** executed? Never fear, I've written some code:
+
+```python
+class AssertEventuallyTest(unittest.TestCase):
+    def setUp(self):
+        super(AssertEventuallyTest, self).setUp()
+
+        # Callbacks registered with assertEventuallyEqual()
+        self.assert_callbacks = set()
+
+    def assertEventuallyEqual(
+        self, expected, fn, msg=None, timeout_sec=None
+    ):
+        if timeout_sec is None:
+            timeout_sec = 5
+        timeout_sec = max(timeout_sec, int(os.environ.get('TIMEOUT_SEC', 0)))
+        start = time.time()
+        loop = ioloop.IOLoop.instance()
+
+        def callback():
+            try:
+                self.assertEqual(expected, fn(), msg)
+                # Passed
+                self.assert_callbacks.remove(callback)
+                if not self.assert_callbacks:
+                    # All asserts have passed
+                    loop.stop()
+            except AssertionError:
+                # Failed -- keep waiting?
+                if time.time() - start &lt; timeout_sec:
+                    # Try again in about 0.1 seconds
+                    loop.add_timeout(time.time() + 0.1, callback)
+                else:
+                    # Timeout expired without passing test
+                    loop.stop()
+                    raise
+
+        self.assert_callbacks.add(callback)
+
+        # Run this callback on the next I/O loop iteration
+        loop.add_callback(callback)
+
+```
+This class lets us register any number of functions which are called
+periodically until they equal their expected values, or time out. The
+last function that succeeds or times out stops the IOLoop, so your test
+definitely finishes. The timeout is configurable, either as an argument
+to `assertEventuallyEqual()` or as an environment variable
+`TIMEOUT_SEC`. Setting a very large timeout value in your environment is
+useful for debugging a misbehaving unittestset it to a million seconds
+so you don't time out while you're stepping through the code.
+
+(My code's inspired by the Scala world's
+["eventually"](http://code.google.com/p/specs/wiki/MatchersGuide#Eventually_matchers)
+test, which [Brendan W. McAdams](https://twitter.com/#!/RIT) showed me.)
+
+Paste `AssertEventuallyTest` into test\_async.py and fix up your test
+case to inherit from it:
+
+```python hl_lines="1 13 14 15 16"
+
+class AsyncTest(AssertEventuallyTest):
+    def setUp(self):
+        # ... snip ...
+
+    def test_find(self):
+        results = []
+        def callback(result, error):
+            print 'Got result', result
+            results.append(result)
+
+        async_calculate(callback)
+
+        self.assertEventuallyEqual(
+            42,
+            lambda: results and results[0]
+        )
+
+        ioloop.IOLoop.instance().start()
+
+```
+The call to `IOLoop.stop()` is gone from the callback, and we've added a
+call to `assertEventuallyEqual()` just before starting the IOLoop.
+
+There are two details to note about this code:
+
+**Detail the First:** `assertEventuallyEqual()`'s first argument is the
+expected value, and its second argument is a **function** that should
+eventually equal the expected value. Hence the lambda.
+
+**Detail the Second:** `callback()` needs a place to store its result so
+that lambda can find it, but here we run into a nasty peculiarity of
+Python. Python functions can assign to variables in their own scope, or
+the global scope (with the `global` keyword), but inner functions can't
+assign to values in outer functions' scope. Python 3 introduces a
+`nonlocal` keyword to solve this, but meanwhile we can hack around the
+problem by creating a `results` list in the outer function and
+`append`ing to it in the inner function. This is a common idiom that
+you'll use a lot when you write callbacks in asynchronous unittests.
+
+Conclusion
+==========
+
+I've packed up [`PuritanicalIOLoop` and `AssertEventuallyTest` on
+GitHub](https://github.com/ajdavis/tornado-test); go grab the code. Your
+test cases can choose to inherit from `PuritanicalTornadoTest`,
+`AssertEventuallyTest`, or both. Just make sure your `setUp` methods
+call `super(MyTestCaseClass, self).setUp()`. Go forth and test!

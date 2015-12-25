@@ -1,0 +1,35 @@
+_model: blog-post
+---
+title: I'm the new Python Evangelist at 10gen
+---
+pub_date: 2011-11-14
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Programming
+---
+summary: Photo: Russell Lee Today's my first day at 10gen, working on the Python driver for MongoDB. I have a lot of ideas about what to do next, but we shall see what the next few months bring. My first priorities are to improve testing for pymongo, [ ... ]
+---
+body:
+
+![774px
+Snakehandling](/blog/media/2011/11/774px-Snakehandling.png)
+
+Photo: [Russell
+Lee](http://en.wikipedia.org/wiki/Russell_Lee_%28photographer%29)
+
+Today's my first day at [10gen](http://10gen.com), working on the Python
+driver for [MongoDB](http://www.mongodb.org/). I have a lot of ideas
+about what to do next, but we shall see what the next few months bring.
+My first priorities are to improve testing for pymongo, update its
+feature set to match what the latest MongoDB server can do, and help
+make the interface to MongoDB more consistent across the [dozen
+languages we support](http://www.mongodb.org/display/DOCS/Drivers).

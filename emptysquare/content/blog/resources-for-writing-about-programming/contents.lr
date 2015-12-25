@@ -1,0 +1,57 @@
+_model: blog-post
+---
+title: Resources For Writing About Programming
+---
+pub_date: 2014-06-28
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Programming
+---
+summary: Notes from the Open Source Bridge unconference session on improving our writing skills.
+---
+body:
+
+Today was [Open Source Bridge's](http://opensourcebridge.org/) unconference day. I led a session about improving our writing skills. I wanted to gather more ideas to supplement my talk and my article on ["Writing an Excellent Programming Blog"](http://emptysqua.re/blog/write-an-excellent-programming-blog/). A half-dozen smart people showed up with tips and links. Here are my notes.
+
+Some examples of unusually well-written programming books:
+
+* *Programming Pearls* by Jon Bentley. The author describes it as "a collection of essays about a glamorous aspect of software: programming pearls whose origins lie beyond solid engineering, in the realm of insight and creativity."
+* *MongoDB: The Definitive Guide* by Kristina Chodorow. As I said before, Kristina has a warm and funny style that sustains you through any dry topic.
+* *The Mythical Man-Month* by Fred Brooks. Apart from its sexism, the book is full of wisdom and unusually fine prose. 
+* *Expert C Programming: Deep C Secrets* by Peter van der Linden. His funny anecdotes about ancient C programmers might outweigh the actual coding instruction.
+
+Non-programming books: I like to occasionally reread Strunk & White. The simple style it advocates and exemplifies is particularly well-suited for describing complex topics. I've also read E. B. White's *The Points Of My Compass* to renew his influence on me.
+
+More great programming blogs:
+
+* [Liz Keogh](http://lizkeogh.com/), in particular [Pixie-Driven Development](http://lizkeogh.com/2009/07/01/pixie-driven-development/) is an innovative way to explain object-oriented design.
+* [Joel On Software](http://www.joelonsoftware.com/) seems able to promulgate new ideas that catch fire regularly.
+* [Coding Horror](http://blog.codinghorror.com/) is informative and entertaining (although many say his "What Can Men Do?" article is a misstep).
+* [XKCD's What-If](https://what-if.xkcd.com/) is the most fun thing to read. What about it is replicable for people who write about programming?
+* [Julia Evans](http://jvns.ca/), whom I praised in my talk, was mentioned again as an exemplary blogger.
+* [Reginald Braithwaite](http://raganwald.com/) writes about Javascript and Coffeescript.
+
+Techniques for improving:
+
+* When you encounter effective writing, think critically about what makes it so. Can you emulate it?
+* When you read ineffective writing, ask why it doesn't work. How can it be improved?
+* Get reviews. Share a draft of your article with an expert, to ensure accuracy, and a non-expert who can tell you what is unclear. Have a process for improving drafts before they are published.
+* Consider the audience. Imagine a target reader as someone whom you guide along a path from one landmark to the next. Stop to describe each notable point along the way.
+* Help yourself to get started. Write an outline, or begin by brain-dumping, or casually describe to a friend the article you want to write.
+* Reuse content. If you've written a detailed email, or a comment block, or a talk, adapt it for an article.
+* Set yourself constraints. If you have trouble beginning to write, or finishing an article, you can set yourself a deadline. Setting a maximum length for your article can ensure you finish it, and can make the task less formidable and help you begin.
+* Read a lot. Read a variety of styles and choose which to imitate. You'll tend to write like what you're reading; read the authors you aspire to resemble.
+
+Uncategorized:
+
+* Know the policies of the site you're publishing on. Wikipedia has very detailed policies, for example. Even if you're publishing on your own site, the aggregators of which your site is a member have policies you need to be aware of.
+* Code examples. Ideally, provide both inline snippets and a link to a full, executable example. Trim and rewrite code snippets mercilessly for clarity.

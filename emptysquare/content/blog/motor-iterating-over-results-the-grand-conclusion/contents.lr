@@ -1,0 +1,106 @@
+_model: blog-post
+---
+title: Motor: Iterating Over Results, The Grand Conclusion
+---
+pub_date: 2012-11-17
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Motor
+Programming
+Python
+---
+summary: 
+---
+body:
+
+<img src="http://emptysquare.net/blog/media/2012/09/motor-musho.png" alt="Motor" title="Motor" border="0"   />
+
+This is another post about [Motor, my non-blocking driver for MongoDB and Tornado](http://emptysquare.net/motor/).
+
+Last week [I asked for your help improving Motor's iteration API](http://emptysquare.net/blog/motor-iterating-over-results/), and I got invaluable responses here and on the [Tornado mailing list](https://groups.google.com/d/topic/python-tornado/zlg9XU4_E78/discussion). Today I'm pushing to GitHub some breaking changes to the API that'll greatly improve MotorCursor's ease of use.
+
+(Note: I'm continuing to **not** make version numbers for Motor, since it's going to join PyMongo soon. Meanwhile, to protect yourself against API changes, [pip install Motor with a specific git hash](http://emptysquare.net/blog/motor-installation-instructions/) until you're ready to upgrade.)
+
+# next_object
+
+After getting some inspiration from Ben Darnell on the Tornado list, I added to MotorCursor a [`fetch_next`](http://emptysquare.net/motor/pymongo/api/motor/motor_cursor.html#motor.MotorCursor.fetch_next) attribute. You yield `fetch_next` from a Tornado coroutine, and if it sends back `True`, then `next_object` is guaranteed to have a document for you. So iterating over a MotorCursor is now quite nice:
+
+```python
+@gen.engine
+def f():
+    cursor = collection.find()
+    while (yield cursor.fetch_next):
+        document = cursor.next_object()
+        print document
+```
+
+How does this work? Whenever you yield `fetch_next`, MotorCursor checks if it has another document already batched. If so, it doesn't need to contact the server, it just sends `True` back into your coroutine. Your coroutine then calls `next_object`, which simply pops a document off the list.
+
+If there aren't any more documents in the current batch, but the cursor's still alive, `fetch_next` fetches another batch from the server and **then** sends `True` into the coroutine.
+
+And finally, if the cursor is exhausted, `fetch_next` sends `False` and your coroutine exits the while-loop.
+
+This new style of iteration handles all the edge cases the previous "`while cursor.alive`" style failed at: it's an especially big win for the case where `find()` found no documents at all. I like this new idiom a lot; let me know what you think.
+
+**Migration:** If you have any loops using `while cursor.alive`, you'll need to rewrite them in the style shown above. I had some special hacks in place to make `cursor.alive` useful for loops like this, but I've now removed those hacks, and you shouldn't rely on `cursor.alive` to tell you whether a cursor has more documents or not. Only rely on `fetch_next` for that. Furthermore, `next_object` is now synchronous. It doesn't take a callback, so you can no longer do this:
+
+```python
+# old syntax
+document = yield motor.Op(cursor.next_object)
+```
+
+# to_list
+
+Shane Spencer on the Tornado list insisted I should add a `length` argument to `MotorCursor.to_list` so you could say, "Get me a certain number of documents from the result set." I finally saw he was right, so [I've added the option](http://emptysquare.net/motor/pymongo/api/motor/motor_cursor.html#motor.MotorCursor.to_list).
+
+```python
+@gen.engine
+def f():
+    cursor = collection.find()
+    results = yield motor.Op(cursor.to_list, 10)
+    while results:
+        print results
+        results = yield motor.Op(cursor.to_list, 10)
+```
+
+(Thanks to [Andrew Downing for suggesting this loop style](http://emptysquare.net/blog/motor-iterating-over-results/#comment-710590108), apparently it's called a "Yourdon loop.")
+
+This is a nice addition for chunking up your documents and not holding too much in memory. Note that the actual number of documents fetched per batch is controlled by [`batch_size`](http://emptysquare.net/motor/pymongo/api/motor/motor_cursor.html#motor.MotorCursor.batch_size), **not** by the `length` argument. But you can prevent your program from downloading all the batches at once if you pass a `length`. (I hope that makes sense.)
+
+**Migration:** If you ever called `to_list` with an explicit callback as a positional argument, like this:
+
+```python
+cursor.to_list(my_callback)
+
+```
+... then my_callback will now be interpreted as the `length` argument and you'll get an exception:
+
+```
+TypeError: Wrong type for length, value must be an integer
+```
+
+Pass it as a keyword-argument instead:
+
+```python
+cursor.to_list(callback=my_callback)
+```
+
+Most Motor methods require you to pass the callback as a keyword argument, anyway, so you might as well use this style for all methods.
+
+# each
+
+[`MotorCursor.each`](http://emptysquare.net/motor/pymongo/api/motor/motor_cursor.html#motor.MotorCursor.each) hasn't changed. It continues to be a pretty useless method, in my opinion, but it keeps Motor close to [the MongoDB Node.js Driver's API](http://mongodb.github.com/node-mongodb-native/markdown-docs/queries.html#cursors) so I'm not going to remove it.
+
+# In Conclusion
+
+I asked for your help and I got it; everyone's critiques helped me seriously improve Motor. I'm glad I did this before I had to freeze the API. The new API is so much better.

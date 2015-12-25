@@ -1,0 +1,103 @@
+_model: blog-post
+---
+title: Speaking
+---
+pub_date: 2014-05-18
+---
+author: 
+---
+type: page
+---
+tags:
+
+
+---
+categories:
+
+
+---
+summary: Upcoming engagements.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/08/speaking.jpg" alt="Speaking" title="Speaking" />
+
+# Dharma Talks
+
+I regularly speak at the Village Zendo about Zen Buddhism. You can:
+
+* [Listen to my talks and read transcripts here](http://emptysqua.re/blog/search/?q=dharmatalk)
+* [Subscribe to my podcast in iTunes](https://itunes.apple.com/us/podcast/a.-jesse-jiryu-daviss-dharma/id982925865?mt=2)
+* Use the podcast feed URL: `http://emptysquare.libsyn.com/rss`
+
+# Upcoming Technical Talks
+
+## Emerging Technologies in the Enterprise, Philadelphia, April 2016.
+
+* "March to Triumph as a Mentor."
+
+## DeveloperWeek, San Francisco, February 2016.
+
+* "How Do Python Coroutines Work?"
+
+## SoCal Linux Expo, Los Angeles, January 2016.
+
+* "How Do Python Coroutines Work?"
+
+# Highlights from the past:
+
+## Software as Craft, Philadelphia, September 2015.
+
+* ["March to Triumph as a Mentor."](https://youtu.be/Al6om1cFjTA?t=11m4s)
+
+## PyGotham, New York, August 2015.
+
+* ["How Do Python Coroutines Work?"](https://youtu.be/idLtMISlgy8)
+
+## Open Source Bridge, Portland Oregon, June 2015.
+
+* ["Cat-herd's Crook: Enforcing Standards in 10 Programming Languages"](https://youtu.be/OBjU_xYtPmA) with [Samantha Ritter](https://twitter.com/samwhocodes)
+
+* ["How Do Python Coroutines Work?"](https://youtu.be/GSk0tIjDT10)
+
+## MongoDB World, New York City, June 2015.
+
+* ["MongoDB Drivers And High Availability"](https://www.mongodb.com/presentations/mongodb-drivers-and-high-availability-deep-dive), about [server discovery and monitoring](http://emptysqua.re/blog/server-discovery-and-monitoring-in-pymongo-perl-and-c/).
+
+## Village Zendo, March 2015
+
+* ["Yangshan Plants His Hoe"](http://emptysqua.re/blog/yangshan-plants-his-hoe/), my first Zen dharma talk.
+
+## <a name="pycon-2015"></a>PyCon, Montr&eacute;al, April 2015.
+
+* ["Eventually Correct: Testing Async Apps."](http://emptysqua.re/blog/pycon-video-eventually-correct-async-testing/)
+
+* "Python Profiling: The Guts And The Glory."
+
+## PyTennessee, Nashville, February 2015.
+
+* ["Dodge Disaster And March To Triumph As a Mentor."](http://emptysqua.re/blog/mentoring/)
+
+## OSCON, Portland Oregon, July 2014.
+
+* "What Is Async, How Does It Work, And When Should I Use It?"
+
+## Open Source Bridge, Portland Oregon, June 2014
+
+* ["Write An Excellent Programming Blog."](http://emptysqua.re/blog/write-an-excellent-programming-blog/)
+
+## MongoDB World, New York City, June 2014.
+
+* ["The Weather of the Century."](https://www.mongodb.com/presentations/weather-century-part-3-visualization) (Start watching around minute 7.)
+
+## PyCon, Montr&eacute;al, April 2014.
+
+* ["What Is Async, How Does It Work, And When Should I Use It?"](http://emptysqua.re/blog/pycon-2014-video-what-is-async/)
+
+## PyCON APAC, Taipei, May 2014.
+
+* ["Python Profiling: The Guts & The Glory."](https://www.youtube.com/watch?v=BOKcZjI5zME)
+
+## Open Source Bridge, Portland Oregon, June 2013
+
+* ["What Is Async, How Does It Work, And When Should I Use It?"](https://youtu.be/yCIicDdFYp4)

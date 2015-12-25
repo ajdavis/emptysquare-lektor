@@ -1,0 +1,89 @@
+_model: blog-post
+---
+title: Python's += Is Weird, Part II
+---
+pub_date: 2013-01-02
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Programming
+Python
+---
+summary: I wrote the other day about two things I think are weird about Python's += operator. In the comments, famed Twisted hacker Jean-Paul Calderone showed me something far, far weirder. This post is a record of me playing around and trying to [ ... ]
+---
+body:
+
+I wrote the other day about two things I think are weird about Python's `+=` operator. [In the comments](http://emptysquare.net/blog/python-increment-is-weird/#comment-752873234), famed Twisted hacker Jean-Paul Calderone showed me something far, far weirder. This post is a record of me playing around and trying to understand it.
+
+To begin let's review what we know. Tuples are immutable in Python, so you can't increment a member of a tuple:
+
+```pycon
+>>> x = (0,)
+>>> x
+(0,)
+>>> x[0] += 1
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'tuple' object does not support item assignment
+>>> x
+(0,)
+
+```
+That's fine. But here's the bizarre behavior Jean-Paul showed me: if you put a list in a tuple and use the `+=` operator to extend the list, the increment succeeds **and** you get a `TypeError`!:
+
+```pycon
+>>> x = ([],)
+>>> x
+([],)
+>>> x[0] += [1]
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'tuple' object does not support item assignment
+>>> x
+([1],)
+
+```
+The equivalent statement using `extend` succeeds without the `TypeError`:
+    
+```pycon
+>>> x = ([],)
+>>> x[0].extend([1])
+>>> x
+([1],)
+
+```
+So what's going on with `+=`? As always, looking at the bytecode is a good step toward understanding. I'll compile and disassemble the statement `x[0] += [1]`, and add some annotations:
+
+```pycon hl_lines="6 7 10 11 13 14"
+
+>>> import dis
+>>> dis.dis(compile('x[0] += [1]', '<string>', 'exec'))
+  1           0 LOAD_NAME                0 (x)
+              3 LOAD_CONST               0 (0)
+              6 DUP_TOPX                 2
+              -- put x[0] on the stack --
+              9 BINARY_SUBSCR            
+             10 LOAD_CONST               1 (1)
+             13 BUILD_LIST               1
+              -- do the "+=" --
+             16 INPLACE_ADD
+             17 ROT_THREE           
+              -- store new value in x[0] --
+             18 STORE_SUBSCR
+             19 LOAD_CONST               2 (None)
+             22 RETURN_VALUE     
+
+```
+(See Dan Crosta's [Exploring Python Code Objects](http://late.am/post/2012/03/26/exploring-python-code-objects) for more on this technique).
+
+Looks like the statement puts a reference to `x[0]` on the stack, makes the list `[1]` and uses it to successfully extend the list in `x[0]`. But then the statement executes `STORE_SUBSCR`, which calls the C function `PyObject_SetItem`, which checks if the object supports item assignment. In our case the object is a tuple, so `PyObject_SetItem` throws the `TypeError`. Mystery solved.
+
+Is this a Python bug or just very surprising?

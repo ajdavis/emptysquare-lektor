@@ -1,0 +1,44 @@
+_model: blog-post
+---
+title: Announcing libbson and libmongoc 1.1.10
+---
+pub_date: 2015-07-22
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+C
+Mongo
+Programming
+---
+summary: Three bugfixes in the MongoDB C library.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/07/coastline.jpg" alt="Coastline" title="Coastline" />
+
+I released libbson and libmongoc 1.1.10 last night. (That's version "one one ten".) There are no changes in libbson, but in libmongoc I fixed:
+
+ * [Occasional crash reconnecting to replica set.](https://jira.mongodb.org/browse/CDRIVER-745)
+ * [Queries sent to recovering replica set members.](https://jira.mongodb.org/browse/CDRIVER-750)
+ * [Memory leak when calling ismaster on replica set members.](https://jira.mongodb.org/browse/CDRIVER-755)
+
+Tarballs:
+
+ * [libbson-1.1.10.tar.gz](https://github.com/mongodb/libbson/releases/tag/1.1.10)
+ * [mongo-c-driver-1.1.10.tar.gz](https://github.com/mongodb/mongo-c-driver/releases/tag/1.1.10)
+
+Thanks to Jason Carey, Jeremy Mikola, and Daniil Zaitsev for contributing to this release.
+
+I leave for [an eight-day meditation retreat with the Village Zendo](http://villagezendo.org/2015/03/grail2015/) this morning and I'm not taking my damn laptop with me. Shortly after I return, I intend to do a beta release of the sparkly C Driver 1.2.0; stay tuned.
+
+***
+
+[Image: Halter Leo / U.S. Fish and Wildlife Service](https://commons.wikimedia.org/wiki/File:Coastline_old_vintage_photography_nature_landscape.jpg)

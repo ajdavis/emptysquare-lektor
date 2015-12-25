@@ -1,0 +1,51 @@
+_model: blog-post
+---
+title: Motor Officially Released
+---
+pub_date: 2013-03-06
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Motor
+Programming
+Python
+---
+summary: The first release of Motor: my full-featured, non-blocking driver for Python, Tornado, and MongoDB.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0"   />
+
+It's happened. [Motor 0.1 is in PyPI](https://pypi.python.org/pypi/motor). You can now install it with a simple:
+
+```
+$ pip install motor
+
+```
+This is the first official, production release of Motor.
+
+That said, there will be bugs: please [file them](https://jira.mongodb.org/browse/MOTOR) and I'll respond as quickly as I can.
+
+Links:
+
+* [Motor in PyPI](https://pypi.python.org/pypi/motor)
+* [Motor in GitHub](https://github.com/mongodb/motor/)
+* [Motor in ReadTheDocs](http://motor.readthedocs.org/)
+* [Motor in Travis](https://travis-ci.org/mongodb/motor)
+
+# Motor's Future
+
+Motor is now feature-complete and fully tested. I expect to put it on the back burner and concentrate on other projects.
+ 
+Motor will keep up easily with PyMongo development, because I designed it to. I don't intend for it to lag more than a smidge. For example, PyMongo 2.5 will bring some new security and authentication features; in the following Motor release I'll support those, too.
+
+I believe this is the coolest thing I've ever made. I hope you have fun with it. [Tweet me](https://twitter.com/jessejiryudavis) and let me know what you build with it.

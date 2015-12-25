@@ -1,0 +1,70 @@
+_model: blog-post
+---
+title: Testing Network Errors With MongoDB
+---
+pub_date: 2014-03-21
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Programming
+---
+summary: A little-known method for simulating a temporary outage with MongoDB.
+---
+body:
+
+Someone asked on Twitter today for a way to trigger a connection failure between MongoDB and the client. This would be terribly useful when you're testing your application's handling of network hiccups.
+
+You have options: you could use [mongobridge](http://www.kchodorow.com/blog/2011/04/20/simulating-network-paritions-with-mongobridge/) to proxy between the client and the server, and at just the right moment, kill mongobridge.
+
+Or you could use packet-filtering tools to accomplish the same: [iptables](https://help.ubuntu.com/community/IptablesHowTo) on Linux and [ipfw](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/ipfw.8.html) or [pfctl](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man8/pfctl.8.html) on Mac and BSD. You could use one of these tools to block MongoDB's port at the proper moment, and unblock it afterward.
+
+There's yet another option, not widely known, that you might find simpler: use a MongoDB "failpoint" to break your connection.
+
+Failpoints are our internal mechanism for triggering faults in MongoDB so we can test their consequences. [Read about them on Kristina's blog](http://www.kchodorow.com/blog/2011/04/20/simulating-network-paritions-with-mongobridge/). They're not meant for public consumption, so you didn't hear about it from me.
+
+The first step is to start MongoDB with the special command-line argument:
+
+```
+mongod --setParameter enableTestCommands=1
+```
+
+Next, log in with the `mongo` shell and tell the server to abort the next two network operations:
+
+```
+> db.adminCommand({
+...   configureFailPoint: 'throwSockExcep',
+...   mode: {times: 2}
+... })
+2014-03-20T20:31:42.162-0400 trying reconnect to 127.0.0.1:27017 (127.0.0.1) failed
+```
+
+The server obeys you instantly, before it even replies, so the command itself appears to fail. But fear not: you've simply seen the first of the two network errors you asked for. You can trigger the next error with any operation:
+
+```
+> db.collection.count()
+2014-03-20T20:31:48.485-0400 trying reconnect to 127.0.0.1:27017 (127.0.0.1) failed
+```
+
+The third operation succeeds:
+
+```
+> db.collection.count()
+2014-03-20T21:07:38.742-0400 trying reconnect to 127.0.0.1:27017 (127.0.0.1) failed
+2014-03-20T21:07:38.742-0400 reconnect 127.0.0.1:27017 (127.0.0.1) ok
+1
+```
+
+There's a final "failed" message that I don't understand, but the shell reconnects and the command returns the answer, "1".
+
+You could use this failpoint when testing a driver or an application. If you don't know exactly how many operations you need to break, you could set `times` to 50 and, at the end of your test, continue attempting to reconnect until you succeed.
+
+Ugly, perhaps, but if you want a simple way to cause a network error this could be a reasonable approach.

@@ -1,0 +1,52 @@
+_model: blog-post
+---
+title: Announcing libbson and libmongoc 1.1.7
+---
+pub_date: 2015-06-10
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+C
+Mongo
+Programming
+---
+summary: Bugfix releases for the MongoDB C libraries.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/06/TomCorser_Wild_Sea_Cot_Valley_Conwall_IMG_5558.JPG" alt="TomCorser Wild Sea Cot Valley Conwall IMG 5558" title="TomCorser Wild Sea Cot Valley Conwall IMG 5558" />
+
+I released libbson and libmongoc 1.1.7 today.
+
+In libbson, I fixed:
+
+ * Unchecked error in `bson_utf8_escape_for_json` caused unbounded memory growth and a crash.
+ * Nicer floating-point formatting in `bson_as_json`.
+ * Link error with CMake on Mac.
+
+In libmongoc:
+
+ * Thread-safe use of Cyrus SASL library.
+ * Experimental support for building with CMake and SASL.
+ * Faster reconnection to replica set with some hosts down.
+ * Crash when iterating a cursor after reconnecting to a replica set.
+ * Unchecked errors decoding invalid UTF-8 in MongoDB URIs.
+ * Fix error reporting from `mongoc_client_get_database_names`.
+
+[You can read the full release notes for libbson and libmongoc 1.1.7 here](https://jira.mongodb.org/secure/ReleaseNote.jspa?version=15523&projectId=10030).
+
+I continue to make small urgent bugfix releases in the 1.1.x series of the driver while I try to prepare 1.2.0 for a beta release. Unfortunately the two branches compete for my time: maintaining the current driver delays the much superior 1.2. But that's life when you have users.
+
+I have a chance now to get unstuck. My experienced colleague Hannes Magnusson is going to help me with the 1.2 code for the remainder of the quarter and get me out of the bind.
+
+***
+
+[Image: Tom Corser / Wikimedia](http://commons.wikimedia.org/wiki/File:TomCorser_Wild_Sea_Cot_Valley_Conwall_IMG_5558.JPG)

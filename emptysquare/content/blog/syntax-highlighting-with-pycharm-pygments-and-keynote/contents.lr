@@ -1,0 +1,71 @@
+_model: blog-post
+---
+title: Syntax Highlighting With PyCharm, Pygments, and Keynote
+---
+pub_date: 2012-06-06
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Programming
+Python
+---
+summary: I'm prepping talks for a few conferences. I think I've got my workflow down for syntax highlighting slides in Keynote on my Mac. &#8203;1. "pip install pygments", not in a virtualenv but in your default Python. &#8203;2. Make a Bash script [ ... ]
+---
+body:
+
+I'm prepping talks for a few conferences. I think I've got my workflow
+down for syntax highlighting slides in Keynote on my Mac.
+
+1. "pip install pygments", not in a virtualenv but in your default
+Python.
+
+2. Make a Bash script like:
+
+```bash
+#!/bin/bash
+/usr/local/bin/pygmentize -f rtf -O "style=friendly,fontface=Courier Bold" "$1" | pbcopy
+
+```
+Make sure it's chmod'ed executable and on your path. Now you can do
+`pyg myscript.py` and then paste the syntax-highlighted code into
+Keynote. The result is pretty nice; at some point I may make a Pygments
+style optimized for presentations:
+
+![Pygments
+output](/blog/media/2012/06/pygments-output.png "pygments-output.png")
+
+3. In Keynote, turn off all auto-correction:
+
+![Keynote
+auto-correction](/blog/media/2012/06/keynote-auto-correction.png "keynote-auto-correction.png")
+
+4. Bonus round: PyCharm integration. In PyCharm's preferences, choose
+"External Tools," hit the "+", and fill out the dialog like so:
+
+![PyCharm Edit
+Tool](/blog/media/2012/06/pycharm-edit-tool.png "pycharm-edit-tool.png")
+
+You can leave "Open Console" checked while you're getting things
+working.
+
+Finally, in the "Keymap" section of PyCharm's vast settings dialog,
+search for "pyg" in the filter box, right-click on it, and assign a
+hotkey of your choice to the tool. I chose Command-Y because it was
+bound to some weird function I don't use.
+
+![PyCharm assign
+hotkey](/blog/media/2012/06/pycharm-hotkey.png "pycharm-hotkey.png")
+
+Now whenever you're editing a file in PyCharm, you can save it and hit
+Command-Y, then switch to Keynote and paste.
+
+Readers, if anyone can tell me how to adjust the default font size in
+Pygments for RTF output specifically, that'd be great.

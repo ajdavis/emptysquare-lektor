@@ -1,0 +1,37 @@
+_model: blog-post
+---
+title: New York C++ Meetup recap
+---
+pub_date: 2011-11-30
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Programming
+---
+summary: My gig, 10gen, sponsored the The New York C++ Developers meetup tonight. Roman Shtylman presented a just-the-facts primer on writing C++ extensions for Node.js. The use cases were: if you need to spawn threads, if you need to interface [ ... ]
+---
+body:
+
+![Node.js](/blog/media/2011/11/nodejs-light.png "nodejs-light.png")
+
+My gig, 10gen, sponsored the [The New York C++ Developers meetup
+tonight](http://www.meetup.com/nyccpp/events/16232776/). [Roman
+Shtylman](http://www.shtylman.com/) presented a just-the-facts primer on
+writing C++ extensions for Node.js. The use cases were: if you need to
+spawn threads, if you need to interface with an existing C or C++
+library, or if you need to do CPU-intensive work and can prove that C++
+is better at it than Javascript, then you could extend Node with C++.
+
+From what I saw tonight it seems most of the challenge in writing an
+extension is interfacing with V8 in general, not Node specifically.
+While I have no pressing need to extend Node, [reading Shtylman's
+slides](http://shtylman.github.com/node-presentation/) from tonight gave
+me a feel for how V8's internals work, which is its own reward.

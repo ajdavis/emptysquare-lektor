@@ -1,0 +1,74 @@
+_model: blog-post
+---
+title: Announcing libbson and libmongoc 1.1.5
+---
+pub_date: 2015-05-12
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+C
+Mongo
+Programming
+---
+summary: Bugfix releases for the MongoDB C libraries.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/05/SeaSmoke.jpg" alt="Sea Smoke" title="Sea Smoke" />
+
+I've released versions 1.1.5 today of libbson and libmongoc.
+
+libbson is a C library for creating, parsing, and manipulating BSON documents. libmongoc is the C Driver for MongoDB, a library for building high-performance applications that communicate with MongoDB in the C language. It also serves as the base for drivers in some higher-level languages.
+
+Release tarballs are available for download:
+
+* [libbson-1.1.5.tar.gz](https://github.com/mongodb/libbson/releases/download/1.1.5/libbson-1.1.5.tar.gz)
+* [mongo-c-driver-1.1.5.tar.gz](https://github.com/mongodb/mongo-c-driver/releases/download/1.1.5/mongo-c-driver-1.1.5.tar.gz)
+
+This is a patch release with small bug fixes. In libbson:
+
+* Fix link error "missing __sync_add_and_fetch_4" in GCC on i386 - the functions `bson_atomic_int_add` and `bson_atomic_int64_add` are now compiled and exported if needed in i386 mode
+* Fix version check for GCC 5 and future versions of Clang
+* Fix warnings and errors building on various platforms
+
+In libmongoc:
+
+* The `fsync` and `j` write concern flags now imply acknowledged writes
+* Prevent using `fsync` or `j` with conflicting `w=0` write concern
+* Obey socket timeout consistently in TLS/SSL mode
+* Return an error promptly after a network hangup in TLS mode
+* Prevent crash using SSL in FIPS mode
+* Always return NULL from `mongoc_database_get_collection_names` on error
+* Fix version check for GCC 5 and future versions of Clang
+* Fix warnings and errors building on various platforms
+* Add configure flag to enable/disable shared memory performance counters
+* Minor docs improvements and fix links from libmongoc to libbson docs
+
+For further information:
+
+* [libbson documentation](https://api.mongodb.org/libbson/current/)
+* [libmongoc documentation](http://api.mongodb.org/c/current/)
+* [Full release notes for libbson 1.1.5 and libmongoc 1.1.5 in Jira](https://jira.mongodb.org/secure/ReleaseNote.jspa?projectId=10030&version=15316)
+
+With this release, I abandon the convention that odd-numbered patch versions indicate unstable releases. I am switching to simple semantic versioning: 1.1.5 is a stable release with bug fixes since 1.1.4. During subsequent development the libmongoc and libbson versions will be "1.1.6-dev".
+
+This is my first release of libbson and libmongoc; I needed a lot of help and I received it. Thanks to those who contributed:
+
+* Christian Hergert
+* Hannes Magnusson
+* Jason Carey
+* Jeremy Mikola
+* Jeroen Ooms
+* Paul Melnikow
+
+***
+
+[Image: Kristopher Wilson/ US Navy](http://commons.wikimedia.org/wiki/File:SeaSmoke.jpg)

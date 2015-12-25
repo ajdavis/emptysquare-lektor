@@ -1,0 +1,92 @@
+_model: blog-post
+---
+title: Update on Motor and asyncio
+---
+pub_date: 2015-08-05
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Motor
+Programming
+Python
+---
+summary: The roadmap for asyncio support, plus "async" and "await" in Python 3.5.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
+
+I want to update you about [Motor](http://motor.readthedocs.org/en/stable/), my asynchronous Python driver for
+MongoDB and Tornado. Motor development has been on hiatus since January while I concentrated on my tasks for [PyMongo 3](http://emptysqua.re/blog/announcing-pymongo-3/). After PyMongo 3, I took over as the lead for [libmongoc](http://api.mongodb.org/c/current/), the MongoDB C Driver, and most of my Python work ceased.
+
+# Spring Break
+
+Spring was a good time for me to take a break from Motor. It is actually
+possible for Motor to be finished, at least for periods. It does one
+thing well: it integrates MongoDB with Tornado, probably the most popular
+Python async framework. Motor's limited scope lets it rest peacefully for
+months, feature-complete and free of major bugs. While Motor
+quiesced like this, I devoted myself to [writing the Server Discovery
+And Monitoring Spec](http://emptysqua.re/blog/server-discovery-and-monitoring-in-pymongo-perl-and-c/), then to implementing that spec in PyMongo 3, and
+then to relearning C fast enough to keep up with libmongoc's demands.
+
+At the time I set Motor aside, I had begun integrating it
+with Python 3.4's new asyncio module, so you could choose between
+asyncio and Tornado. I adapted a portion of the Motor-on-Tornado test
+suite into a Motor-on-asyncio suite and got it passing, with good
+confidence that the rest of the suite would pass once ported. The
+remaining tasks to make the asyncio integration production-ready were
+certainly tractable. Meanwhile, I had developed substantial features
+and bugfixes on the Motor 0.4 release branch, so the next step was to
+merge the two branches. But with asyncio not yet widely used, and more
+urgent work looming, I put down the asyncio integration. That was
+where I expected it to sit until autumn, if not longer.
+
+# Presents
+
+But I recently received two surprise gifts. First, in April, R&eacute;mi Jolin stepped
+in and did the hard work of [merging 97 commits from the Motor 0.4
+release branch into the asyncio branch](https://github.com/mongodb/motor/pull/18), and fixing up the result: now
+Motor's master branch has both the asyncio integration *and* the fixes and features needed to become Motor
+0.5.
+
+My second gift arrived in June when Andrew Svetlov, one of
+asyncio's main authors, wrote to say he wants to finish the
+integration so he can use asyncio with MongoDB in production. Andrew
+and his colleague Nikolay Novik at DataRobot in Ukraine are porting the remainder of Motor's tests to asyncio, and
+they'll refactor how Motor uses asyncio's streams to benefit from the
+framework's latest features.
+
+# "async" and "await"
+
+So Motor speeds forward, with my hand only lightly on the wheel. I
+hope for an asyncio-compatible Motor 0.5 this fall.
+
+While I'm at it, it should be an easy win, and a huge one, to add support for Python 3.5's new "async" and "await" keywords defined in [PEP 492](https://www.python.org/dev/peps/pep-0492/). So I plan to add support for them in Motor 0.5 as well&mdash;the enhancements will make Motor cursors faster and more convenient with asyncio *and* Tornado!
+
+# Prospects
+
+The new Motor will
+still wrap the outdated PyMongo 2.8, however. So my next priority, after Motor 0.5 is released, is to
+port Motor to PyMongo 3 to take advantage of [PyMongo's new features](http://emptysqua.re/blog/announcing-pymongo-3/):
+its implementation of the [Server Discovery and Monitoring Spec](http://emptysqua.re/blog/server-discovery-and-monitoring-in-pymongo-perl-and-c/), the
+[Server Selection Spec](https://www.mongodb.com/blog/post/server-selection-next-generation-mongodb-drivers), and the [new CRUD API](https://www.mongodb.com/blog/post/consistent-crud-api-next-generation-mongodb-drivers). This will make Motor much
+more scalable when connected to large replica sets, and makes its API
+consistent with our other drivers. That may merit the name Motor 1.0.
+
+And after that? In the next year, Motor will need new features to
+fully support MongoDB 3.2.
+
+Farther out, my work on asyncio integration has convinced me that it's
+feasible for Motor to someday work with Twisted, too. PyMongo already supports Gevent, so if Motor does Twisted then all major async frameworks
+will be supported by official drivers. There will be no more excuse
+for async Python applications not to use MongoDB.

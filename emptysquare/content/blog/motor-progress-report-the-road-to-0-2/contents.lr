@@ -1,0 +1,82 @@
+_model: blog-post
+---
+title: Motor Progress Report: The Road to 0.2
+---
+pub_date: 2013-12-23
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Motor
+Programming
+Python
+---
+summary: Big changes are coming in the next release of my async MongoDB driver.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0"   />
+
+**Update**: Motor 0.2rc0 is out, [its manual and changelog are on ReadTheDocs](http://motor.readthedocs.org/en/latest/changelog.html).
+
+***
+
+[Motor](https://motor.readthedocs.org/en/latest/), my non-blocking driver for MongoDB and Tornado, is approaching the next big release, version 0.2. The improvements fall into three buckets: ease of use, features, and server compatibility.
+
+## Ease Of Use
+
+In Motor's current version, 0.1.2, you have to use an awkward style to do async operations in a coroutine:
+
+```python
+@gen.coroutine
+def f():
+    document = yield motor.Op(collection.find_one, {'_id': 1})
+
+```
+In the next release, `motor.Op` will be deprecated and you'll call Motor functions directly, the same as in PyMongo. The `yield` keyword is the only difference that remains:
+
+```python
+@gen.coroutine
+def f():
+    document = yield collection.find_one({'_id': 1})
+
+```
+The new syntax matches the latest style of other Tornado libraries, and it's the style used in Python's new asyncio library.
+
+The other awkward thing in Motor is `open_sync()`. Since there's no way to do async I/O before starting Tornado's event loop, you have to do this:
+
+```python hl_lines="2"
+
+client = MotorClient()
+client.open_sync()
+
+# ...additional application setup....
+
+IOLoop.current().start()
+
+```
+In the next release, `open_sync` will be unnecessary. In fact I'm removing it entirely. I've added features to PyMongo itself (in **its** next release, version 2.7) that Motor can use to connect to the server on demand, when you first attempt an async operation.
+
+## Features
+
+Motor 0.1.2 wraps PyMongo 2.5.0, which was released in March, so it lacks a number of features introduced in more recent PyMongos: exhaust cursors, streaming inserts, a more robust BSON decoder, several options for finer control of the connection pool, and more authentication mechanisms for enterprise environments. [You can see all the features introduced since 2.5.0 in PyMongo's changelog.](http://api.mongodb.org/python/current/changelog.html) By wrapping PyMongo 2.7 instead of 2.5, the next Motor will get all these features, too.
+
+Motor has implemented SSL encryption since the first release, but didn't supported client or server certificate validation, much less X509 authentication. The next release will do it all; Motor will have the same comprehensive SSL support as PyMongo.
+
+## Server Compatibility
+
+There's a lot of new features in the next release of the MongoDB server itself. MongoDB 2.6 will come out with [aggregation cursors](http://docs.mongodb.org/master/release-notes/2.6/#aggregation-operations-now-return-cursors), [bulk write operations](http://docs.mongodb.org/master/release-notes/2.6/#new-write-commands), [a new role-management system](http://docs.mongodb.org/master/release-notes/2.6/#user-defined-roles), [operation time limits](http://docs.mongodb.org/master/reference/method/cursor.maxTimeMS/#cursor.maxTimeMS), and more. All of these features require changes to PyMongo. Since Motor 0.2 will wrap the latest PyMongo, Motor will also support the latest MongoDB features.
+
+## Current Status
+
+By the time I go on vacation next week, [Motor's code on master](https://github.com/mongodb/motor/) will be ready for the 0.2 release. But there will be a brief lull: we have to wait for the MongoDB 2.6 release candidate, and then we have to release PyMongo 2.7. Then Motor can correctly list PyMongo 2.7 in its requirements, and I'll put it on PyPI.
+
+Meanwhile, please don't install Motor from GitHub. Use Motor 0.1.2 from PyPI, with PyMongo 2.5.0. The documentation for that version of Motor is [the "stable" version on ReadTheDocs](http://motor.readthedocs.org/en/stable/) until the next Motor release. There's been some confusion among new Motor users about installing the correct versions of Motor and PyMongo. Stick to these recommendations for now, and I'll find ways to ease the installation troubles in the next release.

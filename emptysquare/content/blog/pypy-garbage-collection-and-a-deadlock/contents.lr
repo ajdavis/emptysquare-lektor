@@ -1,0 +1,204 @@
+_model: blog-post
+---
+title: PyPy, Garbage Collection, And A Deadlock
+---
+pub_date: 2015-04-06
+---
+author: 
+---
+type: post
+---
+tags:
+
+best
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: Yet another danger of __del__.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/04/ouroboros.jpg" alt="Ouroboros" title="Ouroboros" />
+
+I fixed a deadlock in PyMongo 3 and PyPy which, rarely, could happen in PyMongo 2 as well. Diagnosing the deadlock was educational and teaches us a rule about writing ``__del__`` methods&mdash;yet another tip about what to expect when you're expiring.
+
+[TOC]
+
+# A Toy Example
+
+This deadlocks in CPython:
+```python
+import threading
+
+lock = threading.Lock()
+
+class C(object):
+    def __del__(self):
+        print('getting lock')
+        with lock:
+            print('releasing lock')
+            pass
+
+c = C()
+with lock:
+    del c
+```
+The statement ``del c`` removes the variable ``c`` from the namespace. The object that ``c`` had referred to has no more references, so CPython immediately calls its ``__del__`` method, which tries to get the lock. The lock is held, so the process deadlocks. It prints "getting lock" and hangs forever.
+
+What if we swap the final two statements?:
+```python
+del c
+with lock:
+    pass
+```
+This is fine. The ``__del__`` method completes and releases the lock before the next statement acquires it.
+
+But consider PyPy. It doesn't use reference counts: unreferenced objects live until the garbage collector frees them. The moment when objects are freed is unpredictable. If the GC happens to kick in while the lock is held, it will deadlock. We can force this situation:
+```python
+del c
+with lock:
+    gc.collect()
+```
+Just like the first example, this prints "getting lock" and deadlocks.
+
+# The PyMongo Bug
+
+A few weeks ago, I found a deadlock like this in my code for [the upcoming PyMongo 3.0 release](http://emptysqua.re/blog/pymongo-3-beta/). From there, I discovered a far rarer deadlock in the current release as well.
+
+I'll give you a little context so you can see how the bug arose. With PyMongo you stream results from the MongoDB server like:
+```python
+for document in collection.find():
+    print(document)
+```
+The ``find`` method actually returns an instance of the ``Cursor`` class, so you could write this:
+```python
+cursor = collection.find()
+for document in cursor:
+    print(document)
+```
+As you iterate the cursor, it returns documents from its client-side buffer until the buffer is empty, then it fetches another big batch of documents from the server. After it returns the final document of the final batch, it raises ``StopIteration``.
+
+But what if your code throws an exception before then?
+```python
+for document in cursor:
+    1 / 0  # Oops.
+```
+The client-side cursor goes out of scope, but the server keeps a small amount of cursor state in memory [for 10 minutes](http://docs.mongodb.org/manual/core/cursors/#closure-of-inactive-cursors). PyMongo wants to clean this up promptly, by telling the server to close the cursor as soon as the client doesn't need it. The Cursor class's destructor is in charge of telling the server:
+```python
+class Cursor(object):
+    def __del__(self):
+        if self.alive:
+            self._mongo_client.close_cursor(self.cursor_id)
+```
+In order to send the message to the server, PyMongo 3.0 has to do some work: it gets a lock on the internal Topology class so it can retrieve the connection pool, then it locks the pool so it can check out a socket. In PyPy, we do this work at a wholly unpredictable moment: it's whenever garbage collection is triggered. If any thread is holding either lock at this moment, the process deadlocks.
+
+(Some details: By default, objects with a ``__del__`` method are only [freed by PyPy's garbage collector during a full GC](https://pypy.readthedocs.org/en/release-2.4.x/garbage_collection.html#minimark-gc), which is triggered [when memory has grown 82% since the last full GC](https://pypy.readthedocs.org/en/release-2.4.x/gc_info.html#minimark-environment-variables). So if you let an open cursor go out of scope, it won't be freed for some time.)
+
+# Diagnosis
+
+I first found this deadlock in the unreleased code for PyMongo 3.0. Our test suite was occasionally hanging under PyPy in Jenkins. When I signaled the hanging test with Control-C it printed:
+```
+Exception KeyboardInterrupt in method __del__
+of <pymongo.cursor.Cursor object> ignored
+```
+The exception is "ignored" and printed to stderr, [as all exceptions in ``__del__`` are](https://docs.python.org/2/reference/datamodel.html#object.__del__). Once it printed the error, the test suite resumed and completed. So I added two bits of debugging info. First, whenever a cursor was created it stored a stack trace so it could remember where it came from. And second, if it caught an exception in ``__del__``, it printed the stored traceback and the current traceback:
+```python
+class Cursor(object):
+    def __init__(self):
+        self.tb = ''.join(traceback.format_stack())
+
+    def __del__(self):
+        try:
+            self._mongo_client.close_cursor(self.cursor_id)
+        except:
+            print('''
+I came from:%s.
+I caught:%s.
+''' % (self.tb, ''.join(traceback.format_stack()))
+```
+The next time the test hung, I hit Control-C and it printed something like:
+```pytb
+I came from:
+Traceback (most recent call last):
+  File "test/test_cursor.py", line 431, in test_limit_and_batch_size
+    curs = db.test.find().limit(0).batch_size(10)
+  File "pymongo/collection.py", line 828, in find
+    return Cursor(self, *args, **kwargs)
+  File "pymongo/cursor.py", line 93, in __init__
+    self.tb = ''.join(traceback.format_stack())
+
+I caught:
+Traceback (most recent call last):
+  File "pymongo/cursor.py", line 211, in __del__
+    self._mongo_client.close_cursor(self.cursor_id)
+  File "pymongo/mongo_client.py", line 908, in close_cursor
+    self._topology.open()
+  File "pymongo/topology.py", line 58, in open
+    with self._lock:
+```
+Great, so a test had left a cursor open, and about 30 tests *later* that cursor's destructor hung waiting for a lock. It only hung in PyPy, so I guessed it had something to do with the differences between CPython's and PyPy's garbage collection systems.
+
+I was doing the dishes that night when my mind's background processing completed a diagnosis. As soon as I thought of it I knew I had the answer, and I wrote a test that proved it the next morning.
+
+# The Fix
+
+PyMongo 2's concurrency design is unsophisticated and the fix was easy. I followed the code path that leads from the cursor's destructor and saw two places it could take a lock. First, if it finds that the MongoClient was recently disconnected from the server, it briefly locks it to initiate a reconnect. [I updated that code path](https://github.com/mongodb/mongo-python-driver/commit/8ebd553) to give up immediately if the client is disconnected&mdash;better to leave the cursor open on the server for 10 minutes than to risk a deadlock.
+
+Second, if the client is *not* disconnected, the cursor destructor locks the connection pool to check out a socket. Here, there's no easy way to avoid the lock, so I came at the problem from the other side: how do I prevent a GC while the pool is locked? If the pool is never locked at the beginning of a GC, then the cursor destructor can safely lock it. The fix is here, in ``Pool.reset``:
+
+```python
+class Pool:
+    def reset(self):
+        sockets = None
+        with self.lock:
+            sockets = self.sockets
+            self.sockets = set()
+
+        for s in sockets:
+            s.close()
+```
+
+This is the one place we allocate data while the pool is locked. Allocating the new set while holding the lock could trigger a garbage collection, which could destroy a cursor, which could attempt to lock the pool *again*, and deadlock. So I moved the allocation outside the lock:
+
+```python hl_lines="3 6"
+    def reset(self):
+        sockets = None
+        new_sockets = set()
+        with self.lock:
+            sockets = self.sockets
+            self.sockets = new_sockets
+
+        for s in sockets:
+            s.close()
+```
+
+Now, the two lines of ``reset`` that run while holding the lock can't trigger a garbage collection, so the cursor destructor knows it isn't called by a GC that interrupted this section of code.
+
+And what about PyMongo 3? The new PyMongo's concurrency design is much superior, but it spends much *more* time holding a lock than PyMongo 2 does. It locks its internal Topology class whenever it reads or updates information about your MongoDB servers. This makes the deadlock trickier to fix.
+
+I borrowed a technique from the MongoDB Java Driver: I deferred the job of closing cursors to a background thread. Now, when an open cursor is garbage collected, it doesn't immediately tell the server. Instead, it safely adds its ID to a list. Each MongoClient has [a thread that runs once a second](https://github.com/mongodb/mongo-python-driver/blob/master/pymongo/periodic_executor.py) checking the list for new cursor IDs. If there are any, the thread safely takes the locks it needs to send the message to the server&mdash;unlike the garbage collector, the cursor-cleanup thread cooperates normally with your application's threads when it needs a lock.
+
+# What To Expect When You're Expiring
+
+I already knew that a ``__del__`` method:
+
+* Must not reference globals or builtins, [see my "normal accidents" article](http://emptysqua.re/blog/a-normal-accident-in-python-and-mod-wsgi/).
+* Must not access threadlocals, to avoid a refleak in Python 2.6 and older (see [the bug that cost me a month](https://jira.mongodb.org/browse/PYTHON-353)).
+
+Now, add a third rule:
+
+* It must not take a lock.
+
+[Weakref callbacks](https://docs.python.org/2/library/weakref.html) must follow these three rules, too.
+
+# The Moral Of The Story Is....
+
+Don't use ``__del__`` if you can possibly avoid it. Don't design APIs that rely on it. If you maintain a library like PyMongo that has already committed to such an API, you must follow the rules above impeccably.
+
+***
+
+<span style="color:gray">*Image: [Ouroboros, Michael Maier (1568&#8211;1622)](http://commons.wikimedia.org/wiki/File:Michael_Maier_Atalanta_Fugiens_Emblem_14.jpeg).*</span>

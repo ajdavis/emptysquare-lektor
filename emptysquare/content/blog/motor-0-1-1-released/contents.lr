@@ -1,0 +1,49 @@
+_model: blog-post
+---
+title: Motor 0.1.1 released
+---
+pub_date: 2013-06-24
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Motor
+Programming
+Python
+---
+summary: Fixes an incompatibility between Motor and the latest version of PyMongo, by pinning Motor's dependency to PyMongo 2.5.0 exactly.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/09/motor-musho.png" alt="Motor" title="Motor" border="0"   />
+
+Motor is my async driver for [Tornado](http://www.tornadoweb.org/) and [MongoDB](http://www.mongodb.org/). Version 0.1 has been out since early March and is having a successful career with no serious bugs reported so far. Unfortunately PyMongo, the blocking driver that Motor wraps, has changed a bit since then and Motor is no longer compatible with the latest PyMongo. If you did `pip install motor` you'd pull in Motor 0.1 and PyMongo 2.5.2, and see a failure when opening a `MotorReplicaSetClient`, like:
+
+```pytb
+Traceback (most recent call last):
+  File "example.py", line 3, in <module>
+    client = MotorReplicaSetClient(replicaSet='foo').open_sync()
+  File "motor/__init__.py", line 967, in open_sync
+    super(MotorReplicaSetClient, self).open_sync()
+  File "motor/__init__.py", line 804, in open_sync
+    for pool in self._get_pools():
+  File "motor/__init__.py", line 1004, in _get_pools
+    self.delegate._MongoReplicaSetClient__members.values()]
+  File "pymongo/collection.py", line 1418, in __call__
+    self.__name)
+TypeError: 'Collection' object is not callable. If you meant to call the 'values' method on a 'Database' object it is failing because no such method exists.
+
+```
+This morning I've released a bugfix version of Motor, version 0.1.1, to correct the problem. This version simply updates the installer to pull in PyMongo 2.5.0, the last version that works with Motor, rather than PyMongo 2.5.2, the latest.
+
+In the medium term, we'll release a PyMongo 3.0 with well-specified hooks for Motor, and for other libraries that want to do deep customization. Motor can switch to using those hooks, and be much less tightly coupled with particular PyMongo versions.
+
+When that happens I can release a Motor 1.0. Meanwhile, I think Motor's low version numbers properly reflect that it's too tightly coupled to PyMongo's internal properties.

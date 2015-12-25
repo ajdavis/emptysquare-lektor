@@ -1,0 +1,94 @@
+_model: blog-post
+---
+title: Let Us Now Praise ResourceWarnings
+---
+pub_date: 2014-07-14
+---
+author: 
+---
+type: post
+---
+tags:
+
+python3
+---
+categories:
+
+Mongo
+Motor
+Programming
+Python
+---
+summary: I used to hate Python 3's ResourceWarnings, until one saved my tuchus.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/07/Poisonous_snake_warning_sign.JPG" alt="Poisonous snake warning sign" title="Poisonous snake warning sign" />
+
+[<span style="color:gray">[Source]</span>](http://commons.wikimedia.org/wiki/File:Poisonous_snake_warning_sign.JPG)
+
+Luckily, Pythons aren't poisonous.
+
+A couple years ago when I began using Python 3, [its new ResourceWarnings infuriated me and I ranted against them](http://emptysqua.re/blog/against-resourcewarnings-in-python-3/). Python core developer Nick Coghlan patiently corrected me, and I wrote a followup, ["Mollified About ResourceWarnings"](http://emptysqua.re/blog/mollified-about-resourcewarnings/).
+
+And now, a ResourceWarning has saved my tuchus.
+
+A few months ago I was fixing a bug in Motor, my asynchronous driver for MongoDB. Motor has a ``copy_database`` method which I'll summarize thus:
+
+```python hl_lines="6"
+@gen.coroutine
+def copy_database(self, source, target):
+    pool, socket = None, None
+    try:
+        pool = self.get_pool()
+        socket = pool.get_socket()
+        # ... several operations with the socket ...
+    finally:
+        if pool and socket:
+            pool.return_socket(socket)
+```
+The bug occurred when the source database was password-protected. The ``get_socket`` call didn't ensure it was authenticated before it attempted to copy the database. I fixed the bug like so:
+
+```python hl_lines="6"
+@gen.coroutine
+def copy_database(self, source, target):
+    pool, socket = None, None
+    try:
+        member = self.get_cluster_member()
+        socket = self.get_authenticated_socket_from_member(member)
+        # ... several operations with the socket ...
+    finally:
+        if pool and socket:
+            pool.return_socket(socket)
+```
+
+Whoops. I fixed the authentication bug, but introduced a socket leak. Since ``pool`` is now always ``None``, the code in the ``finally`` clause never runs. In this example the bug is obvious, but the real method is 60 lines long&mdash;just long enough for me not to see the mismatch between its first and final lines.
+
+I blithely released the bug in Motor 0.2.
+
+Apparently my users don't call ``copy_database`` much, since no one reported the socket leak. I'm not surprised: Motor is optimized for high-concurrency web applications, not for administrative scripts that copy databases around. If you want to copy a database you'd use the regular driver, PyMongo, instead. And so the bug lurked for three months.
+
+This weekend I teased Motor apart, into two modules: a "core" module that talks to MongoDB, and a "framework" module that uses [Tornado](http://www.tornadoweb.org/) for asynchronous I/O. Once I had separated the two aspects of Motor, I made a second "framework" module that uses [Python 3.4's new asyncio framework](https://docs.python.org/3/library/asyncio.html) instead of Tornado. ``copy_database`` was among the first methods I tested in the new Motor-on-asyncio. It's relatively complex so I used it to give my new code a workout.
+
+``copy_database`` worked with asyncio! But I wasn't ready to celebrate yet:
+```
+ResourceWarning: unclosed <socket.socket fd=9, laddr=('127.0.0.1', 54065), raddr=('127.0.0.1', 27017)>
+```
+That damn ResourceWarning. I did a bit of binary-searching through my test code until I found it: I wasn't returning the socket in ``copy_database``. The fix is obvious:
+```python hl_lines="3 10"
+@gen.coroutine
+def copy_database(self, source, target):
+    member, socket = None, None
+    try:
+        member = self.get_cluster_member()
+        socket = self.get_authenticated_socket_from_member(member)
+        # ... several operations with the socket ...
+    finally:
+        if socket:
+            member.pool.return_socket(socket)
+```
+[I've released this fix today in Motor 0.3.2](http://emptysqua.re/blog/motor-0-3-2-released/).
+
+One lesson learned is: I was foolish when I made my code "robust" against unexpected conditions. The earlier code had returned the socket ``if pool and socket``. But if ``socket`` isn't null, ``pool`` shouldn't be, either. So ``if socket`` alone should be sufficient. This simpler code, that only handles the case I expect to arise, would have failed immediately when I introduced the bug. The misguided robustness of my earlier code masked my bug for months.
+
+Another lesson is: I finally understand the value of ResourceWarnings. They force me to decide when costly objects are deallocated, and they warn me if I mess it up. I'm reviewing my test procedures to ensure that ResourceWarnings are displayed. Ideally, a ResourceWarning should be converted to an exception that causes my unittests to fail. Do you know how to make that happen?

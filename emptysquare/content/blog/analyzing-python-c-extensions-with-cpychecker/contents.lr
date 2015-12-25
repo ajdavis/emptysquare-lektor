@@ -1,0 +1,183 @@
+_model: blog-post
+---
+title: Analyzing Python C Extensions With CPyChecker
+---
+pub_date: 2013-08-08
+---
+author: 
+---
+type: post
+---
+tags:
+
+c
+---
+categories:
+
+Programming
+Python
+---
+summary: Saves you from refcount bugs and segfaults.
+---
+body:
+
+Writing C extension modules for Python is tricky: the programmer must manually manage reference counts and the exception state, in addition to the usual dangers of coding in C. CPyChecker is a new static checker being developed by David Malcom to rescue us from our mistakes. I was introduced to it at PyCon when Malcolm gave his [Death By A Thousand Leaks](http://pyvideo.org/video/1698/death-by-a-thousand-leaks-what-statically-analys) talk. The tool is work in progress, buggy and hard to install, but tremendously useful in detecting coding mistakes. I'll show you how to install it and what it's good for.
+***
+
+# Installation
+
+CPyChecker is buried inside a general suite of extensions to GCC called the GCC Python Plugin. Its [code and bug tracker are on fedorahosted.org](https://fedorahosted.org/gcc-python-plugin/) and [the docs are on ReadTheDocs](https://gcc-python-plugin.readthedocs.org/en/latest/index.html). David Malcolm calls CPyChecker itself a "usage example" of the GCC Python Plugin, and is forthright about its status:
+
+> *This code is under heavy development, and still contains bugs. It is not unusual to see Python tracebacks when running the checker. You should verify what the checker reports before acting on it: it could be wrong.*
+
+I couldn't build the latest GCC Python Plugin on Ubuntu, so our first step is to set up a Fedora 18 box with [Vagrant](http://www.vagrantup.com/):
+
+```sh
+$ vagrant box add fedora-18 http://puppet-vagrant-boxes.puppetlabs.com/fedora-18-x64-vbox4210-nocm.box
+$ vagrant init fedora-18
+
+```
+I added the following line to my Vagrantfile to share my Python virtualenv directories between the host and guest OSes:
+
+```ruby
+config.vm.share_folder "v-data", "/virtualenvs", "/Users/emptysquare/.virtualenvs"
+
+```
+Now `vagrant up` and `vagrant ssh`. Once we're in Fedora, [install the build-time dependencies according to the GCC Python Plugin instructions](https://gcc-python-plugin.readthedocs.org/en/latest/basics.html#building-the-plugin-from-source), then get the GCC Python Plugin source and build it with `make`. (At least some of the self-tests it runs after a build always fail.)
+
+I wanted to switch freely between Python 2.7 and 3.3, so I cloned the source code twice and built the plugin for both Python versions in their own checkouts.
+
+# Checks
+
+## Refcounting Bugs
+
+I made [a little Python module in C](https://github.com/ajdavis/modtest/blob/master/modtest.c) that increfs a string that shouldn't be incref'ed: 
+
+```c
+static PyObject* leaky(PyObject* self, PyObject* args) {
+    PyObject *leaked = PyString_FromString("leak!");
+    Py_XINCREF(leaked);
+    return leaked;
+}
+
+```
+Now I build my module, invoking CPyChecker instead of the regular compiler:
+
+```sh
+$ CC=~/gcc-python-plugin/gcc-with-cpychecker python setup.py build
+
+```
+CPyChecker spits its output into the terminal, but it's barely intelligible. The good stuff is in the HTML file it places in `build/temp.linux-x86_64-2.7`:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2013/08/cpychecker-leaky.png" alt="CPyChecker: leaky()" title="CPyChecker: leaky()" />
+
+CPyChecker points out that "ob_refcnt of return value is 1 too high" when `PyString_FromString` succeeds.
+
+## Null Pointers
+
+It can also flag null pointer dereferences. If I replaced `Py_XINCREF` with the unsafe `Py_INCREF`, CPyChecker warns, "dereferencing NULL (p->ob_refcnt) when PyString_FromString() fails." That is, if `PyString_FromString` returned `NULL`, my program would crash.
+
+## Argument Parsing
+
+The tool notices mismatches between the format string for `PyArg_ParseTuple` and its parameters. If I have two units in the format string but pass three parameters, like this:
+
+```c
+int i;
+const char* s;
+float f;
+PyArg_ParseTuple(args, "is", &i, &s, &f);
+
+```
+... CPyChecker warns in the console:
+
+    warning: Too many arguments in call to PyArg_ParseTuple with format string "is"
+      expected 2 extra arguments:
+        "int *" (pointing to 32 bits)
+        "const char * *"
+      but got 3:
+        "int *" (pointing to 32 bits)
+        "const char * *"
+        "float *" (pointing to 32 bits)
+
+For some reason this warning doesn't appear in the HTML output, only in stdout, so alas you have to monitor both places to see all the warnings.
+
+## Exception State
+
+CPyChecker can flag a function that returns `NULL` without setting an exception. If I hand it this code:
+
+```c
+static PyObject* randerr(PyObject* self, PyObject* args) {
+    PyObject *p = NULL;
+    if ((float)rand()/(float)RAND_MAX > 0.5)
+        p = PyString_FromString("foo");
+
+    return p;
+}
+
+```
+It warns about the consequences of taking the false path:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2013/08/cpychecker-randerr.png" alt="CPyChecker: randerr()" title="CPyChecker: randerr()" />
+
+Indeed, this code throws a `SystemError` when it returns `NULL`:
+
+```pycon
+>>> import modtest
+>>> modtest.randerr()
+'foo'
+>>> modtest.randerr()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+SystemError: error return without exception set
+
+```
+Unfortunately this check is a big source of false positives. Let's say a function `maybe_error` sets the exception and returns 1 if it has an error, and returns 0 otherwise:
+
+```c
+static int maybe_error() {
+    if ((float)rand()/(float)RAND_MAX > 0.5) {
+        PyErr_SetString(PyExc_Exception, "error");
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+```
+Its caller knows this, so if `maybe_error` returns 1, the caller need not set the exception itself:
+
+```c
+static PyObject* caller(PyObject* self, PyObject* args) {
+    if (maybe_error()) {
+        /* I know the error has been set. */
+        return NULL;
+    } else {
+        return PyString_FromString("foo");
+    }
+}
+
+```
+This works correctly in practice:
+
+```pycon
+>>> modtest.caller()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+Exception: error
+>>> modtest.caller()
+'foo'
+
+```
+But CPyChecker only analyzes code paths through a single function at a time, so it wrongly criticizes `caller` for omitting the exception:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2013/08/cpychecker-caller.png" alt="CPyChecker: caller()" title="CPyChecker: caller()" />
+
+The C extensions I help maintain&mdash;those for PyMongo&mdash;use this pattern in a few places, so we have persistent false positives. If CPyChecker grows up into an adult tool like Coverity that's used in CI systems, it will either need to do inter-function analysis, or have [a way of marking particular warnings as false positives](https://fedorahosted.org/gcc-python-plugin/ticket/17).
+
+# Conclusion
+
+These are early days for CPyChecker, but it's promising. With more complex functions CPyChecker starts to really shine. It clearly diagrams how different paths through the code can overcount or undercount references, dereference null pointers, and the like. It understands both the Python C API and the C stdlib quite well. I hope David Malcolm and others can polish it up into a real product soon.
+
+***
+
+You might also like my article on [measuring test coverage of C extensions](http://emptysqua.re/blog/code-coverage-python-c-extensions/), or the one on [making C extensions compatible with mod_wsgi](http://emptysqua.re/blog/python-c-extensions-and-mod-wsgi/).

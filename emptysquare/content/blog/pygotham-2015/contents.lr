@@ -1,0 +1,31 @@
+_model: blog-post
+---
+title: PyGotham 2015
+---
+pub_date: 2015-08-14
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Programming
+Python
+---
+summary: Anna Herlihy presents a Python-to-machine-code compiler, and I'll live-code an async framework with coroutines!
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/08/pygotham-logo.jpg" alt="PyGotham 2015 logo" title="PyGotham 2015 logo" />
+
+Are you coming to PyGotham in NYC this year? My colleague Anna Herlihy presents her mad science project [PyLLVM](https://github.com/aherlihy/PythonLLVM), a high-performance Python-to-machine-code compiler, at the start of the conference. In the last slot of the second day, I'll live-code a Python 3 async framework, first with callbacks and then with coroutines, in just thirty minutes!
+
+* [PyLLVM: A compiler from Python to LLVM-IR](https://pygotham.org/2015/talks/218/pyllvm-a-compiler-from-py/)
+* [How Do Python Coroutines Work?](https://pygotham.org/2015/talks/162/how-do-python-coroutines/)
+
+Come one, come all, step right up, you are guaranteed to be wowed and entertained!

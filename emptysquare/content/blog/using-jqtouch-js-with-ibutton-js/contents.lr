@@ -1,0 +1,102 @@
+_model: blog-post
+---
+title: Using jQTouch.js with iButton.js
+---
+pub_date: 2011-10-26
+---
+author: 
+---
+type: post
+---
+tags:
+
+javascript
+---
+categories:
+
+Programming
+---
+summary: Fixing an incompatibility between two Javascript libraries for making iOS-like web apps.
+---
+body:
+
+[jQTouch](http://www.jqtouch.com/) is a jQuery-based Javascript library
+that simulates an iPhone-like interface using only Javascript and HTML5.
+It's designed for WebKit browsers (Safari Desktop, Safari Mobile,
+Android, Chrome) but is adaptable to Firefox with little work. (Don't
+ask about IE.) By default, it renders HTML like this:
+
+```
+<span class="toggle"><input type="checkbox"></span>
+```
+
+... as toggle switches, like this:
+
+![](/blog/media/2011/10/Screen-shot-2011-10-25-at-11.48.18-PM.png "jQTouch toggle control")
+
+&nbsp;Another library,
+[iButton.js](www.givainc.com/labs/ibutton_jquery_plugin.htm), provides
+similar functionality but has some advantages: it works on all browsers,
+you can easily togglify your checkboxes at runtime, dragging laterally
+across the control with your mouse or fingertip works as expected, and
+frankly it makes prettier toggles:
+
+![](/blog/media/2011/10/Screen-shot-2011-10-25-at-11.51.51-PM.png "iButton toggle switch")
+
+So you might be motivated to combine jQTouch with iButton.js. It should
+be simple&nbsp;&mdash; just remove all the \<span class="toggle"\> tags and run
+iButton's initialization method&nbsp;&mdash; but you'll run into some troubles. (If
+you don't believe me when I say "troubles", [skim this
+discussion](http://groups.google.com/group/jqtouch/browse_thread/thread/38d5535369ed3511).)
+
+So, here's the precise problem with combining these two libraries.
+
+When jQTouch initializes, it styles every top-level div with
+display=none, except for the currently showing div. Here's the CSS rules
+it uses:
+
+    #jqt > * {
+      display: none;
+    }
+    
+    #jqt > .current {
+      display: block !important;
+      z-index: 10;
+    }
+
+This way jQTouch can treat top-level divs like screens (for you iOS
+devs, that's a UIViewController) in an iOS app, hiding and showing them
+according to where the user is in the navigation stack.
+
+When iButton.js initializes, it wraps every checkbox with its fancy
+toggle-control HTML, and then it measures the width of the HTML it
+created so it knows how far to slide the toggle control when a user
+clicks on it.
+
+![](/blog/media/2011/10/how_wide.png "How wide?")
+
+Alas, it's impossible to measure the width of a hidden element. First
+jQTouch hides all but the current div, then iButton tries to initialize
+all the toggles, and it thinks they're all zero pixels wide.
+
+My solution is to wait for jQTouch to display a page before I run
+iButton on the checkboxes in that page, like so:
+
+    var pagesWithCheckboxes = _.uniq($('input[type="checkbox"]').closest('div.page'));
+    _.each(pagesWithCheckboxes, function(page) {
+        var $page = $(page);
+        $page.bind('pageAnimationEnd', function(e, info) {
+            if(info.direction === 'in') {
+                $page.find('input[type="checkbox"]').iButton();
+            }
+        });
+    });
+
+\_.uniq() and \_.each() are from underscore.js. I use \_uniq() to ensure
+I don't bind the event handler multiple times to pages with multiple
+checkboxes.
+
+A final note: if you create checkboxes dynamically after the page has
+loaded, you must call \$(my\_new\_checkbox\_element).iButton() on them,
+once they're visible, to ensure they get the proper toggle-switch
+behavior.

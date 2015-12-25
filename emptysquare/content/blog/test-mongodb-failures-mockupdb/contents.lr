@@ -1,0 +1,147 @@
+_model: blog-post
+---
+title: Test MongoDB Failure Scenarios With MockupDB
+---
+pub_date: 2015-11-04
+---
+author: 
+---
+type: post
+---
+tags:
+
+black-pipe
+testing
+---
+categories:
+
+C
+Mongo
+Programming
+Python
+---
+summary: Fourth in my "black pipe testing" series. How do you test your MongoDB application's reaction to database failures, hangs, and disconnects?
+---
+body:
+
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/09/york-street-pipes.jpg" alt="York Street pipes" title="York Street pipes" />](https://www.flickr.com/photos/emptysquare/1528243252)
+
+This is the fifth article in [my series on "black pipe" testing](http://emptysqua.re/blog/black-pipe-testing-series/). Traditional black box tests work well if your application takes inputs and returns output through one interface: the API. But connected applications have two interfaces: both the API and the messages they send and receive on the network. I call the validation of both ends a black pipe test.
+
+In my previous article [I described black pipe testing in pure C](http://emptysqua.re/blog/libmongoc-black-pipe-testing-mock-server/); now we return to Python.
+
+I implemented a Python tool for black pipe testing called
+[MockupDB](http://mockupdb.readthedocs.org/). It is a [MongoDB wire protocol](http://docs.mongodb.org/meta-driver/latest/legacy/mongodb-wire-protocol/) server, built to subject PyMongo to black pipe tests. But it's not only for testing PyMongo&mdash;if you develop a MongoDB application, you can use MockupDB too. It easily simulates network errors and server failures, or it can refuse to respond at all. Such antics are nearly impossible to test reliably using a real MongoDB server, but it's easy with MockupDB.
+
+# Testing Your Own Applications With MockupDB
+
+Let us say you have a Flask application that uses MongoDB. To make testing convenient, I've wrapped it in a `make_app` function:
+
+```python
+from flask import Flask, make_response
+from pymongo import MongoClient
+
+def make_app(mongodb_uri):
+    app = Flask("my app")
+    db = MongoClient(mongodb_uri)
+
+    @app.route("/pages/<page_name>")
+    def page(page_name):
+        doc = db.content.pages.find_one({'name': page_name})
+        return make_response(doc['contents'])
+
+    return app
+```
+
+The app has one route, which returns a page by name.
+
+It is simple enough to test its fairweather conduct using a real MongoDB server, provisioned with data from a test fixture. But how can we test what happens if, for example, MongoDB shuts down in the middle of the query?
+
+I have cooked up for you a test class that uses MockupDB:
+
+```python
+import unittest
+
+from mockupdb import go, OpQuery, MockupDB
+
+
+class MockupDBFlaskTest(unittest.TestCase):
+    def setUp(self):
+        self.server = MockupDB(auto_ismaster=True)
+        self.server.run()
+        self.app = make_app(self.server.uri).test_client()
+
+    def tearDown(self):
+        self.server.stop()
+```
+
+(Please, Flask experts, critique me in the comments.)
+
+Let me ensure this contraption works for a normal round trip:
+
+```python hl_lines="3 6"
+# Method of MockupDBFlaskTest.
+def test(self):
+    future = go(self.app.get, "/pages/my_page_name")
+    request = self.server.receives(OpQuery, name='my_page_name')
+    request.reply({"contents": "foo"})
+    http_response = future()
+    self.assertEqual("foo",
+                     http_response.get_data(as_text=True))
+```
+
+We use MockupDB's function `go` to run Flask on a background thread, just like [we ran PyMongo operations on a background thread in an earlier article](http://emptysqua.re/blog/black-pipe-testing-pymongo/). The `go` function returns a Future, which will be resolved once the background thread completes.
+
+On the foreground thread, we impersonate the database server and have a conversation with the application, speaking the MongoDB wire protocol. MockupDB receives the application's query, responds with a document, and that allows Flask to finish its job and create an HTTP response. We assert the response has the expected content.
+
+Now comes the payoff! We close MockupDB's connection at just the wrong instant, using its `hangup` method:
+
+```python hl_lines="4"
+def test_hangup(self):
+    future = go(self.app.get, "/pages/my_page_name")
+    request = self.server.receives(OpQuery, name='my_page_name')
+    request.hangup()  # Close connection.
+    http_response = future()
+    self.assertEqual("foo",
+                     http_response.get_data(as_text=True))
+```
+
+The test fails, as you guessed it would:
+
+```
+FAIL: test_hangup (__main__.MockupDBFlaskTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "test.py", line 43, in test_hangup
+    self.assertEqual("foo", http_response.get_data(as_text=True))
+AssertionError: 'foo' != '<html><title>500 Internal Server Error...'
+```
+
+What would we rather the application do? Let's have it respond "Closed for renovations" when it can't reach the database:
+
+```python hl_lines="7 8"
+from pymongo.errors import ConnectionFailure
+
+@app.route("/pages/<page_name>")
+def page(page_name):
+    try:
+        doc = db.content.pages.find_one({'name': page_name})
+    except ConnectionFailure:
+        return make_response('Closed for renovations')
+    return make_response(doc['contents'])
+```
+
+Test the new error handling by asserting that "renovations" is in the response:
+
+```python
+self.assertIn("renovations",
+              http_response.get_data(as_text=True))
+```
+
+([See the complete code here](https://gist.github.com/ajdavis/96e4c64be32fce042f10).)
+
+And how about your connection applications? Do you continuously test them with network errors? Can you imagine how difficult this would be to test without MockupDB?
+
+***
+
+Next is the thrilling conclusion: [generalizing black pipe testing to other applications](https://emptysqua.re/blog/black-pipe-testing-in-summary/), or [read the complete "black pipe" series here](http://emptysqua.re/blog/black-pipe-testing-series/).

@@ -1,0 +1,44 @@
+_model: blog-post
+---
+title: Nginx spellcasting
+---
+pub_date: 2011-11-21
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Programming
+---
+summary: Gandalf in Ralph Bakshi's animated version of The Lord of the Rings. I write the following lines for the sake of future generations, seeking lore about Nginx. Should this omen appear: nginx: [warn] 1024 worker_connections are more than [ ... ]
+---
+body:
+
+![Gandalf in Ralph Bakshi's animated version of The Lord of the
+Rings.](/blog/media/2011/11/BakshiGandalf.jpg "BakshiGandalf.JPG")
+
+Gandalf in Ralph Bakshi's animated version of The Lord of the Rings.
+
+I write the following lines for the sake of future generations, seeking
+lore about Nginx. Should this omen appear:
+
+    nginx: [warn] 1024 worker_connections are more than open file resource limit: 256
+
+Recite the following incantation in a deep, resonant voice:
+
+    sudo bash; ulimit -n 65536
+
+Then start Nginx again in the shell in which you called `ulimit`.
+
+Another spell needful to the young wizard is this, which rids you of all
+daemonic Nginxes:
+
+    ps aux|grep nginx\:\ master\ process|grep -v grep|awk '{ print $2; }'|sudo xargs kill
+
+Use it wisely.

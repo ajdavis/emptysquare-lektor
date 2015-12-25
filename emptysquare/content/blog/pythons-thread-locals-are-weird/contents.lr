@@ -1,0 +1,214 @@
+_model: blog-post
+---
+title: Python's Thread Locals Are Weird
+---
+pub_date: 2012-05-27
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Programming
+Python
+---
+summary: 
+---
+body:
+
+The Weirdness
+=============
+
+What do you think this script prints?:
+
+```python
+import thread, threading, sys
+
+class Weeper(object):
+    def __del__(self):
+        sys.stdout.write('oh cruel world %s\n' % thread.get_ident())
+
+local = threading.local()
+
+def target():
+    local.weeper = Weeper()
+
+t = threading.Thread(target=target)
+t.start()
+t.join()
+sys.stdout.write('done %s\n' % thread.get_ident())
+getattr(local, 'whatever', None)
+
+```
+If you guessed something like this:
+
+    oh cruel world 4475731968
+    done 140735297751392
+
+...then you'd be right, *in Python after 2.7.1*. In Python 2.7.0 and
+older (including the whole 2.6 series), the order of messages is reversed:
+
+    done 140735297751392
+    oh cruel world 140735297751392
+
+In New Python, the Weeper is deleted as soon as its thread dies, and
+\_\_del\_\_ runs on the dying thread. In Old Python, the Weeper isn't
+deleted until the thread is dead **and** a different thread accesses the
+local's \_\_dict\_\_. Thus the Weeper is deleted at the line
+`getattr(local, 'whatever', None)`, after the thread dies, and
+Weeper.\_\_del\_\_ runs on the main thread.
+
+What if we remove the `getattr` call? In Old Python, this happens:
+
+    done 140735297751392
+    Exception AttributeError: "'NoneType' object has no attribute 'get_ident'"
+        in <bound method Weeper.__del__ of <__main__.Weeper object at 0x104f95590>>
+        ignored
+
+Without `getattr`, the Weeper isn't deleted until interpreter shutdown.
+The shutdown sequence is complex and hard to predictin this case the
+`thread` module has been set to `None` before the Weeper is deleted, so
+Weeper.\_\_del\_\_ can't do `thread.get_ident()`.
+
+Thread Locals in Old Python
+===========================
+
+To understand why locals act this way in Old Python, let's
+look at the implementation in C. The core interpreter's `PyThreadState`
+struct has a `dict` attribute, and each `threading.local` object has a
+`key` attribute formatted like
+`"thread.local.<memory address of self>"`. Each local has a `__dict__`
+of attributes per thread, stored in `PyThreadState`'s `dict` with the
+local's key.
+
+threadmodule.c includes a function `_ldict(localobject *self)` which
+takes a local and finds its `__dict__` for the current thread.
+`_ldict() ` finds and returns the local's `__dict__` for this thread,
+**and** stores it in `self->dict`.
+
+![Old Python's thread-local
+architecture](/blog/media/2012/05/old-python-thread-local-architecture.png "old-python-thread-local-architecture.png")
+
+This architecture has, in my opinion, a bug. Here's the implementation
+of `_ldict()`:
+
+```c hl_lines="8 12 13 20"
+
+static PyObject * _ldict(localobject *self)
+{
+    PyObject *tdict = PyThreadState_GetDict(); // get PyThreadState->dict for this thread
+    PyObject *ldict = PyDict_GetItem(tdict, self->key);
+    if (ldict == NULL) {
+        ldict = PyDict_New(); /* we own ldict */
+        PyDict_SetItem(tdict, self->key, ldict);
+        Py_CLEAR(self->dict);
+        Py_INCREF(ldict);
+        self->dict = ldict; /* still borrowed */
+
+        if (Py_TYPE(self)->tp_init != PyBaseObject_Type.tp_init) {
+            Py_TYPE(self)->tp_init((PyObject*)self, self->args, self->kw);
+        }
+    }
+
+    /* The call to tp_init above may have caused another thread to run.
+       Install our ldict again. */
+    if (self->dict != ldict) {
+        Py_CLEAR(self->dict);
+        Py_INCREF(ldict);
+        self->dict = ldict;
+    }
+
+    return ldict;
+}
+
+```
+I've edited for brevity. There's a few interesting things hereone is
+the check for a custom `__init__` method. If this object is a subclass
+of local which overrides `__init__`, then `__init__` is called whenever
+a new thread accesses this local's attributes for the first time.
+
+But the main thing I'm showing you is the two calls to
+`Py_CLEAR(self->dict)`, which decrements `self->dict`'s refcount. It's
+called when a thread accesses this local's attributes for the first
+time, **or** if this thread is accessing the local's attributes after a
+different thread has accessed themthat is, if `self->dict != ldict`.
+
+So now we clearly understand why a thread's locals aren't deleted
+immediately after it dies:
+
+1.  The worker thread stores a Weeper in `local.weeper`. `_ldict()`
+    creates a new `__dict__` for this thread and stores it as a value in
+    `PyThreadState->dict`, **and** stores it in `local->dict`. So there
+    are two references to this thread's `__dict__`: one from
+    `PyThreadState`, one from local.
+2.  The worker thread dies, and the interpreter deletes its
+    `PyThreadState`. Now there's one reference to the dead thread's
+    `__dict__`: `local->dict`.
+3.  Finally, we do `getattr(local, 'whatever', None)` from the main
+    thread. In `_ldict()`, `self->dict != ldict`, so `self->dict` is
+    dereferenced and replaced with the main thread's `__dict__`. Now the
+    dead thread's `__dict__` has finally been completely dereferenced,
+    and the Weeper is deleted.
+
+The bug is that `_ldict()` both returns the local's `__dict__` for the
+current thread, **and** stores a reference to it. This is why the
+`__dict__` isn't deleted as soon as its thread dies: there's a useless
+but persistent reference to the `__dict__` until another thread comes
+along and clears it.
+
+Thread Locals in New Python
+===========================
+
+In New Python, the architecture's a little more complex. Each
+`PyThreadState`'s dict contains a dummy for each local, and each local
+holds a dict mapping weak references of dummies to a per-thread
+`__dict__`.
+
+![New Python's thread-local
+architecture](/blog/media/2012/05/new-python-thread-local-architecture.png "new-python-thread-local-architecture.png")
+
+When a thread is dying and its `PyThreadState` is deleted, weakref
+callbacks fire immediately on that thread, removing the thread's
+`__dict__` for each local. Conversely, when a local is deleted, it
+removes its dummy from `PyThreadState->dict`.
+
+`_ldict()` in New Python acts more sanely than in Old Python. It finds
+the current thread's dummy in the `PyThreadState`, and gets the
+`__dict__` for this thread from the dummy. But unlike in Old Python, it
+doesn't store a extra reference to `__dict__` anywhere. It simply
+returns it:
+
+```c
+static PyObject * _ldict(localobject *self)
+{
+    PyObject *tdict, *ldict, *dummy;
+    tdict = PyThreadState_GetDict();
+    dummy = PyDict_GetItem(tdict, self->key);
+    if (dummy == NULL) {
+        ldict = _local_create_dummy(self);
+        if (Py_TYPE(self)->tp_init != PyBaseObject_Type.tp_init) {
+            Py_TYPE(self)->tp_init((PyObject*)self, self->args, self->kw);
+        }
+    } else {
+        ldict = ((localdummyobject *) dummy)->localdict;
+    }
+
+    return ldict;
+}
+
+```
+This whole weakrefs-to-dummies technique is, apparently, intended to
+deal with some cyclic garbage collection problem I don't understand very
+well. I believe the real reason why New Python acts as expected when
+executing my script, and why Old Python acts weird, is that Old Python stores
+the extra useless reference to the `__dict__` and New Python does not.
+
+**Update:** I finally found the bug reports that describe Old Python's weirdness and 2.7.1's solution. See:
+
+* [Issue 1868: threading.local doesn't free attrs when assigning thread exits](http://bugs.python.org/issue1868)
+* [Issue 3757: threading.local doesn't support cyclic garbage collecting](http://bugs.python.org/issue3757)

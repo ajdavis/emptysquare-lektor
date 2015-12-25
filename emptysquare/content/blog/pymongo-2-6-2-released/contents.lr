@@ -1,0 +1,43 @@
+_model: blog-post
+---
+title: PyMongo 2.6.2 Released
+---
+pub_date: 2013-09-07
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: Yesterday we released PyMongo 2.6.2, which fixes a bug when max_pool_size is None.
+---
+body:
+
+Bernie Hackett and I released [PyMongo 2.6.2](https://pypi.python.org/pypi/pymongo/2.6.2) yesterday. We fixed [a bug](https://jira.mongodb.org/browse/PYTHON-566) when `max_pool_size` is `None`.
+
+`max_pool_size` is normally an integer, but it's set to `None` if you're still using one of the deprecated classes, `Connection` or `ReplicaSetConnection`, instead of the new classes `MongoClient` and `MongoReplicaSetClient`. It so happens that in Python 2, `None` is less than all integers, so this comparison in our connection pool is wrong, but doesn't raise:
+
+```python
+def return_socket(self, sock):
+    if len(self.sockets) < self.max_size:
+        self.sockets.add(sock)
+
+```
+In Python 3 this raises:
+
+```
+TypeError: unorderable types: int() < NoneType()
+
+```
+Some third-party libraries like Kombu are compatible with Python 3, but [still use the old PyMongo connection classes](https://github.com/celery/kombu/issues/250), revealing this bug.
+
+If you use the old classes directly or via a third-party library, or if you set `max_pool_size` to `None` in your own code, please upgrade immediately to get proper connection pooling.

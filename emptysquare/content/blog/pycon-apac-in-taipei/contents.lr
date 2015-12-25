@@ -1,0 +1,32 @@
+_model: blog-post
+---
+title: PyCon in Taipei!
+---
+pub_date: 2014-05-13
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Programming
+Python
+---
+summary: I'm speaking on "What Is Async?" and a new talk, "Python Profiling: The Guts and the Glory."
+---
+body:
+
+
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/05/Taipei_Rushhour_birdseye.JPG" alt="Taipei Rushhour birdseye" title="Taipei Rushhour birdseye" />
+](http://commons.wikimedia.org/wiki/File:Taipei_Rushhour_birdseye.JPG)
+
+I got back from [Street Retreat](http://emptysqua.re/blog/begging-2014/) on Sunday, and tomorrow I fly to Taipei. Why in the world do I overschedule myself like this?
+
+Nevertheless I'm excited to visit Taiwan for the first time and to [speak at PyCon APAC](https://tw.pycon.org/2014apac/en/program/). I'll give a shorter version of the talk I gave at PyCon in Montreal: "[What Is Async, How Does It Work, And When Should I Use It?](http://emptysqua.re/blog/pycon-2014-video-what-is-async/)"
+
+I'll also give a new talk on "Python Profiling: The Guts and The Glory." This isn't your regular old Python profiling talk. The regular old talk shows you cProfile, admits that its output is unreadable, and wishes you the best of luck. **My** talk will tell a story of drama and intrigue, introduce you to a powerful Python profiler called Yappi, show you how to visualize its output with KCacheGrind, and even delve into how CPython profilers actually work.

@@ -1,0 +1,48 @@
+_model: blog-post
+---
+title: Motor Is Growing Up
+---
+pub_date: 2013-01-25
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Motor
+Programming
+Python
+---
+summary: Motor, my async driver for MongoDB and Python Tornado, will be its own package.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0"   />
+
+For a long time I've thought that [Motor](http://emptysquare.net/motor/), my non-blocking Python driver for MongoDB and Tornado, ought to be included as a module within the standard [PyMongo](http://pypi.python.org/pypi/pymongo/) package. Everyone both inside and outside 10gen has told me they'd prefer Motor be a separate distribution. Last week, I was suddenly enlightened. I agree!
+
+(My argument for keeping Motor and PyMongo together was that changes in PyMongo might require changes in Motor, so they should be versioned and released together. But as Motor nears completion and I see the exact extent of its coupling with PyMongo, the risk of incompatibilities arising seems lower to me than it had.)
+
+We completed the first step of the separation yesterday: [We released PyMongo 2.4.2](http://emptysquare.net/blog/pymongo-2-4-2-is-out/), the first version of PyMongo that includes the hooks Motor needs to wrap it and make it non-blocking.
+
+The next step is to make a standalone distribution of Motor, and that's almost done, too. Motor has left its parent's house. It has:
+
+* [Its own GitHub repo](https://github.com/mongodb/motor/)
+* A [ReadTheDocs page](http://motor.readthedocs.org/)
+* A [Travis page](https://travis-ci.org/mongodb/motor)
+
+And now, installing Motor is finally normal:
+
+```
+$ git clone git://github.com/mongodb/motor.git
+$ cd motor
+$ python setup.py install
+
+```
+Motor's not done yet, but it's heading to a 0.1 release in PyPI, as a standalone package, real soon now.

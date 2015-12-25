@@ -1,0 +1,56 @@
+_model: blog-post
+---
+title: Response to "Asynchronous Python and Databases"
+---
+pub_date: 2015-04-01
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Motor
+Programming
+Python
+---
+summary: Some thoughts on Mike Bayer's excellent article about asyncio, database drivers, and performance.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/03/tulips.png" alt="Tulips" title="Tulips" />
+
+In his excellent article a few weeks ago, ["Asynchronous Python and Databases"](http://techspot.zzzeek.org/2015/02/15/asynchronous-python-and-databases/), SQLAlchemy's author Mike Bayer writes:
+
+> Asynchronous programming is just one potential approach to have on the shelf, and is by no means the one we should be using all the time or even most of the time, unless we are writing HTTP or chat servers or other applications that specifically need to concurrently maintain large numbers of arbitrarily slow or idle TCP connections (where by "arbitrarily" we mean, we don't care if individual connections are slow, fast, or idle, throughput can be maintained regardless).
+
+This is nicely put. If you are serving very slow or sleepy connections, which must be held open indefinitely awaiting events, async usually scales better than starting a thread per socket. In contrast, if your server application's typical workload is quick requests and responses, async may *not* be right for it. On the third hand, if it listens on the public Internet a [slow loris attack](http://en.wikipedia.org/wiki/Slowloris_%28software%29) will force it to handle the kind of workload that async is best at, anyway. So you at least need a non-blocking frontend like Nginx to handle slow requests from such an attacker.
+
+And async isn't just for servers. Clients that open a very large number of connections, and await events indefinitely, will scale up better if they are async. This is less commonly required on the client side. But for hugely I/O-bound programs like web crawlers you may start to see an advantage with async.
+
+The general principle is: if you do not control both sides of the socket, one side may be arbitrarily slow. Perhaps maliciously slow. Your side had better be able to handle slow connections efficiently.
+
+But what about your application's connection to your database? Here, you control both sides, and you are responsible for ensuring all database requests are quick. As Mike's tests showed, your application may not spend much time at all waiting for database responses. He tested with Postgres, but a well-configured MongoDB instance is similarly responsive. With a low-latency database your program's raw speed, not its scalability, is your priority. In this case async is not the right answer, at least not in Python: a small thread pool serving low-latency connections is typically faster than an async framework.
+
+I agree with Mike's article, based on my own tests and my discussions with Tornado's author Ben Darnell. As I [said at PyCon last year](http://emptysqua.re/blog/pycon-2014-video-what-is-async/), async minimizes resources per idle connection, while you are waiting for some event to occur in the indefinite future. Its big win is not that it is faster. In many cases it is not.
+
+The strategy Mike seems to advocate is to separate the async API for a database driver from an async *implementation* for it. In asyncio, for example, it is important that you can read from a database with code like:
+
+```text
+@asyncio.coroutine
+def my_query_method():
+    # "yield from" unblocks the event loop while
+    # waiting for the database.
+    result = yield from my_db.query("query")
+```
+
+But it is *not* necessary to reimplement the driver itself using non-blocking sockets and asyncio's event loop. If `db.query` defers your operation to a thread pool, and injects the result into the event loop on the main thread when it is ready, it might be faster and scales perfectly well for the small number of database connections you need.
+
+So what about [Motor](http://motor.readthedocs.org/), my asynchronous driver for MongoDB and Tornado? With some effort, I wrote Motor to provide an async API to MongoDB for [Tornado](http://www.tornadoweb.org/) applications, and to use non-blocking connections to MongoDB with Tornado's event loop. (Motor uses [greenlets](http://greenlet.readthedocs.org/) internally to ease the latter task, but greenlets are beside the point for this discussion.) If Mike Bayer's article is right, and I believe it is, was Motor a waste?
+
+With Motor, I achieved two goals. One was necessary, but I am reconsidering the other. The necessary goal was to provide an async API for Tornado applications that want to use MongoDB; Motor succeeds at this. But I wonder if Motor would not have marginally better throughput if it used a thread pool and blocking sockets, instead of Tornado's event loop, to talk to MongoDB. If I began again, particularly now that the [concurrent.futures](http://pythonhosted.org/futures/) threadpool is more mainstream, I might use threads instead. It may be possible to gain ten or twenty percent on some benchmarks, and streamline future development too. Later this year I hope to make the time to experiment with the performance and maintainability of that approach for some future version of Motor.

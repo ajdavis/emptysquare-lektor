@@ -1,0 +1,61 @@
+_model: blog-post
+---
+title: Announcing libbson and libmongoc 1.2.1
+---
+pub_date: 2015-10-30
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+C
+Mongo
+Programming
+---
+summary: An SSL bugfix for pooled clients, domain socket fix, El Capitan build guide.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/10/miami-haze.jpg" alt="Miami Haze, by Dan DeChiaro" title="Miami Haze, by Dan DeChiaro" />
+
+It is my pleasure to announce the 1.2.1 release of libbson and libmongoc, the C libraries that compose the MongoDB C Driver.
+
+This release includes critical bugfixes for SSL connections with
+[`mongoc_client_pool_t`](http://api.mongodb.org/c/current/mongoc_client_pool_t.html), and for Unix domain socket connections.
+
+The documentation is updated for a change introduced in version 1.2.0:
+[`mongoc_client_set_ssl_opts`](http://api.mongodb.org/c/current/mongoc_client_set_ssl_opts.html) and [`mongoc_client_pool_set_ssl_opts`](http://api.mongodb.org/c/current/mongoc_client_pool_set_ssl_opts.html) now configure
+the driver to require an SSL connection to the server, even if "ssl=true" is
+omitted from the MongoDB URI. Before, SSL options were ignored unless
+"ssl=true" was included in the URI.
+
+The build instructions are improved, including [the steps to build with OpenSSL
+on OS X El Capitan](http://api.mongodb.org/c/current/installing.html#installing-osx). Build errors and warnings are fixed for clang in gnu99
+mode and for MinGW.
+
+Links:
+
+* [libbson-1.2.1.tar.gz](https://github.com/mongodb/libbson/releases/download/1.2.1/libbson-1.2.1.tar.gz)
+* [mongo-c-driver-1.2.1.tar.gz](https://github.com/mongodb/mongo-c-driver/releases/download/1.2.1/mongo-c-driver-1.2.1.tar.gz)
+* [Issues resolved in 1.2.1](https://jira.mongodb.org/issues/?jql=fixVersion%20%3D%201.2.1%20AND%20project%20%3D%20CDRIVER)
+* [MongoDB C Driver Documentation](http://docs.mongodb.org/ecosystem/drivers/c/)
+
+Thanks to everyone who contributed to this version of libmongoc.
+
+ * A. Jesse Jiryu Davis
+ * Hannes Magnusson
+ * Tamas Nagy
+
+Peace,
+
+  A. Jesse Jiryu Davis
+
+***
+
+<span style="color:gray">[Image: Dan DeChiaro.](https://www.flickr.com/photos/dandechiaro/4197904546)</span>

@@ -1,0 +1,41 @@
+_model: blog-post
+---
+title: A. Jesse Jiryu Davis
+---
+pub_date: 2014-06-15
+---
+author: 
+---
+type: page
+---
+tags:
+
+
+---
+categories:
+
+
+---
+summary: A. Jesse Jiryu Davis's blog on Python, Tornado, MongoDB, Zen, and photography.
+---
+body:
+
+I'm a staff engineer at [MongoDB](http://mongodb.com) in New York City. I wrote [Motor, the async MongoDB Python driver](http://motor.readthedocs.org/), and I'm the lead developer of the [MongoDB C Driver](http://api.mongodb.org/c/current/) and a member of the [PyMongo](http://api.mongodb.org/python/current/) team. I contribute to [asyncio](https://docs.python.org/3/library/asyncio.html) and [Tornado](http://www.tornadoweb.org/). I study at the [International Center for Photography](http://icp.edu/school) and practice at the [Village Zendo](http://villagezendo.org/). You can [read more about me](http://emptysqua.re/blog/about/).
+
+# Latest Posts
+
+!!recent-posts 5!!
+
+# Selected Articles
+
+!!recent-posts 10 best!!
+
+# Projects
+
+* [libbson](https://github.com/mongodb/libbson) and [libmongoc](https://github.com/mongodb/mongo-c-driver), the MongoDB C Driver libraries.
+* [Motor](http://emptysquare.net/motor/): A full-featured non-blocking MongoDB driver for Tornado.
+* [PyMongo](http://pypi.python.org/pypi/pymongo/): I help maintain the standard MongoDB driver for Python.
+* [GreenletProfiler](http://emptysqua.re/blog/greenletprofiler/): A performance profiler that groks greenlets and Gevent.
+* [A queue implementation](https://codereview.appspot.com/7751044/) for `asyncio` in the Python 3.4 standard library.
+* I do portraits of [Lower East Siders](http://emptysquare.net/photography/lower-east-side/), [residents of transitional housing](http://emptysqua.re/photography/homeless-shelters/), and [American
+Buddhists](http://emptysquare.net/photography/new-york-city-zen/).

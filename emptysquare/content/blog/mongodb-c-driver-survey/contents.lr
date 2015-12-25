@@ -1,0 +1,35 @@
+_model: blog-post
+---
+title: Survey: What MongoDB C Driver Features Do You Care About?
+---
+pub_date: 2015-10-19
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+C
+Mongo
+Programming
+---
+summary: If you use MongoDB from a C application, what features do you care about? ARM support? More example code? FreeBSD? Take our survey and let us know.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/10/8607366285_ef0860f689_o.jpg" alt="Sea" title="Sea" />
+
+If you use libbson and libmongoc, I could use your help: tell me what features you care about most. Do you use the driver on ARM or PowerPC? Wish the manual had more examples? Are you on FreeBSD, Mac OS X, Windows? Do you want the driver to be easier to use from Swift or R?
+
+Please take our survey so I know how to focus our efforts, you would be doing me a great favor:
+
+[http://bit.ly/c-driver-survey](http://bit.ly/c-driver-survey)
+
+***
+
+[<span style="color:gray">Image: Nathan Siemers</span>](https://www.flickr.com/photos/nosha/8607366285)

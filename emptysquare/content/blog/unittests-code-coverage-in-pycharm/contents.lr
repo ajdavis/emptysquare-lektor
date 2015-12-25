@@ -1,0 +1,76 @@
+_model: blog-post
+---
+title: Unittests' code coverage in PyCharm
+---
+pub_date: 2011-11-15
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Programming
+---
+summary: PyCharm's my favorite IDE in years. Granted, learning how to use it can be like the first few minutes of Flight of the Navigator, but whenever I begin a new kind of task, PyCharm surprises me with the depth of its feature set. Today was my first [ ... ]
+---
+body:
+
+[PyCharm](http://www.jetbrains.com/pycharm/)'s my favorite IDE in years.
+Granted, learning how to use it can be like the [first few minutes of
+Flight of the Navigator](http://www.youtube.com/watch?v=wyXAVTf1Rsc),
+but whenever I begin a new kind of task, PyCharm surprises me with the
+depth of its feature set.
+
+Today was my first day at 10gen. One of my first tasks is to assess the
+Mongo Python driver's unittesting coverage. (Summary: coverage is pretty
+good, but not great.) Nosetests and
+[coverage.py](http://nedbatchelder.com/code/coverage/) can give me an
+overview, but how awesome would it be if I could see which lines of code
+are exercised by the unittests **in my IDE**?
+
+PyCharm, as of the [October 4 Early Access
+Preview](http://blog.jetbrains.com/pycharm/2011/10/new-pycharm-2-0-eap-build-cython-coffeescript-code-coverage/),
+can run unittests with code coverage analysis within the IDE. Here's
+how.
+
+[pymongo](https://github.com/mongodb/mongo-python-driver/)'s unittests
+are all in the tests/ directory, as they ought to be, so in PyCharm you
+can simply open the Project pane and right-click the tests/ directory
+and choose "Run with Coverage":
+
+![Run tests](/blog/media/2011/11/run-tests.png "run-tests.png")
+
+PyCharm will show you your tests' outcomes in a nice tree diagram:
+
+![Test Results](/blog/media/2011/11/test-results.png "test-results.png")
+
+It also displays which lines were exercised by your unittests, and which
+were not, in two places. First, in your source files themselves, by
+adding a green (exercised) or red (omitted) bar to the left of the
+source lines:
+
+![Source
+coverage](/blog/media/2011/11/source-coverage.png "source-coverage.png")
+
+You can see here that I started my local Mongo server without IPv6
+support, so the IPv6 unittest was skipped.
+
+You can also see test coverage in your Project pane, neatly rolling up
+coverage statistics by file and by directory:
+
+![Code coverage
+rollup](/blog/media/2011/11/coverage-rollup.png "coverage-rollup.png")
+
+If you close the project and re-open it, you'll lose your code-coverage
+display, but you can redisplay it with Tools-\>Show Code Coverage Data.
+PyCharm will show you coverage data from recent runs and let you
+re-display it.
+
+As always with PyCharm, it takes a little fiddling and Googling to get
+all this to work, but the result is simply brilliant. I hope this post
+helps you find your way through a valuable feature.

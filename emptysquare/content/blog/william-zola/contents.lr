@@ -1,0 +1,41 @@
+_model: blog-post
+---
+title: William Zola
+---
+pub_date: 2015-01-20
+---
+author: 
+---
+type: post
+---
+tags:
+
+10gen
+---
+categories:
+
+Mongo
+Photography
+Programming
+---
+summary: William Zola, a brilliant MongoDB Support Engineer, in 2013. William died August 5, 2014.
+---
+body:
+
+I was organizing old negatives and came across these of William Zola, a brilliant MongoDB Support Engineer, in Palo Alto in 2013. William died this August. He taught me, and everyone else who worked for 10gen back then, how to think critically about customer support issues, how to generate hypotheses and cull them efficiently. And not just that, but how to debug a computer problem over the phone, and how to ease a panicking customer's heart.
+
+I think of him every time I hit a bug that I think might be too hard for me. He calms me down and shows me the next step.
+
+We established [The William Zola Outstanding Contributor Award](http://blog.mongodb.org/post/99566492653/announcing-the-william-zola-outstanding) to recognize our community members who support MongoDB users in the same spirit.
+
+***
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/01/william-zola-1.jpg" alt="William Zola" title="William Zola" />
+
+***
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/01/william-zola-2.jpg" alt="William Zola and Bernie Hackett" title="William Zola and Bernie Hackett" />
+
+***
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/01/william-zola-3.jpg" alt="William Zola" title="William Zola" />

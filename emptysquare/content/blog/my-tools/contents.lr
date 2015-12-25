@@ -1,0 +1,64 @@
+_model: blog-post
+---
+title: My Tools
+---
+pub_date: 2011-10-28
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Programming
+---
+summary: I've used a lot of software development tools since I first taught myself to program in high school (using Turbo C++ and Windows 3.1 &#8212; those were the days). Now I use emacs for quick tasks, but I spend most of my time in: PyCharm PyCharm [ ... ]
+---
+body:
+
+I've used a lot of software development tools since I first taught
+myself to program in high school (using Turbo C++ and Windows 3.1 
+those were the days). Now I use emacs for quick tasks, but I spend most
+of my time in:
+
+PyCharm
+-------
+
+![](/blog/media/2011/10/Screen-shot-2011-10-28-at-12.12.23-AM.png "PyCharm")
+
+PyCharm takes a solid minute to start up, but saves me hours when I'm
+writing Python. Its interactive debugger is fast and solid (far better
+than Komodo's) and its editor has tons of nice features, like
+highlighting uninitialized variables and unused imports. If I start
+using a module without importing it, one keystroke will insert the
+import at the top of my file (and keep my imports alphabetized!) without
+leaving my current position in the code. Like any rich IDE, there's no
+end to the features and keyboard shortcuts I have to learn, but every
+day I get a little faster with it. It has a nice integrated test-runner,
+with code-coverage charts, and I hear it has a lot of Django integration
+features I've yet to try.
+
+[PyCharm 30-day free trial](http://www.jetbrains.com/pycharm/ "PyCharm")
+ you won't look back.
+
+Git Tower
+---------
+
+![](/blog/media/2011/10/Screen-shot-2011-10-28-at-12.12.02-AM.png "Git Tower")
+
+[Dan Crosta says to never use git
+GUIs](http://late.am/post/2011/09/27/never-use-source-control-guis "Never Use Source Control GUIs"),
+but Tower proves him wrong. It's a fast, pretty GUI, but the killer
+feature is its "stage chunk" feature. When using git from the
+commandline, I'm rarely willing to endure the suffering of committing
+some chunks of changes and leaving others uncommitted. With Git Tower, I
+do this constantly. I embark on a multi-hour hackathon, dealing with
+multiple features and bugs, and when everything's working OK, I commit
+my changes in nicely organized sets of chunks.
+
+[Git Tower 30-day trial](http://www.git-tower.com/)  you'll forget all
+you knew about the git command line, and that won't bother you a bit.

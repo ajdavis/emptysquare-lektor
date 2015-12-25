@@ -1,0 +1,81 @@
+_model: blog-post
+---
+title: Announcing libbson and libmongoc 1.3.0-rc0
+---
+pub_date: 2015-12-02
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+C
+Mongo
+Programming
+---
+summary: A couple fixes and features since the 1.3.0 beta.
+---
+body:
+
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/12/1951336700_4295b5ebb7_o.jpg" title="Sea, from Staten Island Ferry" />
+](https://www.flickr.com/photos/emptysquare/1951336700/)
+
+[The MongoDB C Driver beta I announced two weeks ago](http://emptysqua.re/blog/announcing-libbson-and-libmongoc-1-3-0-beta0/) has ripened into a release candidate. Here is what's changed between 1.3.0-beta0 and today's release, 1.3.0-rc0.
+
+# libbson
+
+ * Parse DBRefs correctly from JSON.
+ * CMake option to disable building tests: you can turn off ENABLE_TESTS.
+ * Fix build warnings on some platforms.
+ * The build system is refactored to declare the current version and latest
+   release in one place.
+
+# libmongoc
+
+Features:
+
+ * If the driver is compiled without SSL support but a URI with "ssl=true"
+   is passed to `mongoc_client_new`, `mongoc_client_new_from_uri`, or
+   `mongoc_client_pool_new`, the function logs an error and returns NULL. Before,
+   the driver would attempt a non-SSL connection.
+ * New functions to copy database and collection handles:
+   * [`mongoc_collection_copy`](http://api.mongodb.org/c/1.3.0/mongoc_collection_copy.html)
+   * [`mongoc_database_copy`](http://api.mongodb.org/c/1.3.0/mongoc_database_copy.html)
+ * If a GridFS chunk is missing, `mongoc_gridfs_file_readv` set the file's error to
+   domain MONGOC_ERROR_GRIDFS and a new code MONGOC_ERROR_GRIDFS_CHUNK_MISSING.
+ * Use electionId to detect a stale replica set primary during a network split.
+ * Disconnect from replica set members whose "me" field does not match the
+   connection address.
+ * The client side matching feature, `mongoc_matcher_t` and related functions,
+   are deprecated and scheduled for removal in version 2.0.
+ * New CMake options: ENABLE_SSL, ENABLE_SASL, ENABLE_TESTS, and ENABLE_EXAMPLES.
+
+Other fixes:
+
+ * Memory leaks in `mongoc_database_has_collection` and `mongoc_cursor_next`.
+ * Report writeConcern failures from findAndModify and from legacy writes.
+
+# Links
+
+ * [libbson-1.3.0-rc0.tar.gz](https://github.com/mongodb/libbson/releases/download/1.3.0-rc0/libbson-1.3.0-rc0.tar.gz)
+ * [libmongoc-1.3.0-rc0.tar.gz](https://github.com/mongodb/mongo-c-driver/releases/download/1.3.0-rc0/mongo-c-driver-1.3.0-rc0.tar.gz)
+ * [All bugs fixed in 1.3.0-rc0](https://jira.mongodb.org/issues/?jql=fixVersion%20%3D%201.3.0-rc0%20AND%20project%20%3D%20CDRIVER)
+ * [Beta documentation for libmongoc](http://api.mongodb.org/c/1.3.0/)
+
+Thanks to everyone who contributed to this release candidate.
+
+ * Hannes Magnusson
+ * Matt Cotter
+ * Jose Sebastian Battig
+ * Claudio Canella
+ * Victor Leschuk
+ * Flavio Medeiros
+ * Christopher Wang
+
+Peace,  
+&mdash;A. Jesse Jiryu Davis

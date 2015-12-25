@@ -1,0 +1,48 @@
+_model: blog-post
+---
+title: Motor Progress Report
+---
+pub_date: 2012-08-30
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Motor
+Programming
+Python
+---
+summary: 
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0"   />
+
+<a href="http://emptysquare.net/motor/">Motor</a>, my async driver for <span style='text-decoration:underline;'>Mo</span>ngoDB and <span style='text-decoration:underline;'>Tor</span>nado, is now compatible with all the same Python versions as Tornado: CPython 2.5, 2.6, 2.7, and 3.2, and PyPy 1.9.
+
+To get Motor working with Python 3 I had to make a **backwards breaking change**: `MotorCursor.next` is now `next_object`. So this:
+
+```python
+cursor = db.collection.find()
+cursor.next(my_callback)
+```
+
+... must now be:
+
+```python
+cursor = db.collection.find()
+cursor.next_object(my_callback)
+```
+
+I had to do this to neatly support Python 3, because `2to3` was unhelpfully transforming `MotorCursor.next` into `__next__`. But the change was worthy even without that problem: `next_object` is closer to <a href="http://mongodb.github.com/node-mongodb-native/markdown-docs/queries.html#cursors">`nextObject` in the Node.js MongoDB driver</a>, whose API I'm trying to emulate. Besides, I wasn't using `next` the way Python intends, so I went ahead and renamed it. I'm sorry if this breaks your code. This is what the alpha phase is for.
+
+The only remaining feature to implement is <a href="http://www.mongodb.org/display/DOCS/GridFS">GridFS</a>, which I'll do within the month. There's some more testing and documentation to do, and then we'll move from alpha to beta.
+
+I know a few people are trying out Motor. I've received no bug reports so far, but some users have reported omissions in the <a href="http://emptysquare.net/motor/pymongo/api/motor/index.html">docs</a> which I've filled in. If you're using Motor, get in touch and let me know: <a href="mailto:jesse@10gen.com">jesse@10gen.com</a>.
+

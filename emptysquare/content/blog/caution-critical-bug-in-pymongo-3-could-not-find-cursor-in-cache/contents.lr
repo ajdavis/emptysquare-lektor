@@ -1,0 +1,57 @@
+_model: blog-post
+---
+title: Caution: Critical Bug In PyMongo 3, "could not find cursor in cache"
+---
+pub_date: 2015-04-15
+---
+author: 
+---
+type: post
+---
+tags:
+
+pymongo
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: If you use multiple mongos servers in a sharded cluster, be cautious upgrading to PyMongo 3, we've just discovered a critical bug.
+---
+body:
+
+If you use multiple mongos servers in a sharded cluster, be cautious upgrading to PyMongo 3. We've just discovered [a critical bug](https://jira.mongodb.org/browse/PYTHON-898) related to our new mongos load-balancing feature.
+
+**Update:** [PyMongo 3.0.1 was released April 21, 2015](http://emptysqua.re/blog/announcing-pymongo-3-0-1/) with fixes for this and other bugs.
+
+If you create a MongoClient instance with PyMongo 3 and pass the addresses of several mongos servers, like so:
+
+```python
+client = MongoClient('mongodb://mongos1,mongos2')
+```
+
+...then the client load-balances among the lowest-latency of them. [Read the load-balancing documentation for details](http://api.mongodb.org/python/current/examples/high_availability.html#mongos-load-balancing). This works correctly except when retrieving more than 101 documents, or more than 4MB of data, from a cursor:
+
+```python
+collection = client.db.collection
+for document in collection.find():
+    # ... do something with each document ...
+    pass
+```
+
+PyMongo wrongly tries to get subsequent batches of documents from random mongos servers, instead of streaming results from the same server it chose for the initial query. The symptom is an OperationFailure with a server error message, "could not find cursor in cache":
+
+```pytb
+Traceback (most recent call last):
+  File "/usr/local/lib/python2.7/dist-packages/pymongo/cursor.py", line 968, in __next__
+        if len(self.__data) or self._refresh():
+  File "/usr/local/lib/python2.7/dist-packages/pymongo/cursor.py", line 922, in _refresh
+        self.__id))
+  File "/usr/local/lib/python2.7/dist-packages/pymongo/cursor.py", line 838, in __send_message
+        codec_options=self.__codec_options)
+  File "/usr/local/lib/python2.7/dist-packages/pymongo/helpers.py", line 110, in _unpack_response
+        cursor_id)
+pymongo.errors.CursorNotFound: cursor id '1025112076089406867' not valid at server
+```

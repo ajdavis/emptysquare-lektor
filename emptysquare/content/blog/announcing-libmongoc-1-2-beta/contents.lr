@@ -1,0 +1,105 @@
+_model: blog-post
+---
+title: Announcing libmongoc 1.2 Beta
+---
+pub_date: 2015-08-11
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+C
+Motor
+Programming
+---
+summary: A rewritten mongoc_client_t with parallel server discovery, plus many features and fixes.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/08/sea-splash.jpg" alt="Sea splash" title="Sea splash" />
+
+This is the highlight of my summer: I just released 1.2.0-beta of libmongoc, the C driver for MongoDB. You can download the tarball here:
+
+[https://github.com/mongodb/mongo-c-driver/releases/tag/1.2.0-beta](https://github.com/mongodb/mongo-c-driver/releases/tag/1.2.0-beta)
+
+*** 
+
+The main feature is Jason Carey and Samantha Ritter's rewrite of the [`mongoc_client_t`](http://api.mongodb.org/c/current/mongoc_client_t.html) internals. They overhauled it to match [the Server Discovery And Monitoring Spec](http://emptysqua.re/blog/server-discovery-and-monitoring-in-pymongo-perl-and-c/) and [the
+Server Selection Spec](https://www.mongodb.com/blog/post/server-selection-next-generation-mongodb-drivers). The payoff is huge:
+
+* All replica set members or mongos servers are discovered and periodically
+  checked in parallel. The driver's performance is dramatically better and
+  more predictable with multi-server deployments, or with a flaky network,
+  or when some servers are slow or down.
+* Clients from the same [`mongoc_client_pool_t`](http://api.mongodb.org/c/current/mongoc_client_pool_t.html) share a background thread that
+  discovers and monitors all servers in parallel.
+* Unnecessary round trips for server checks and pings are eliminated.
+* Behavior is documented in the specs, and consistent with other drivers, even
+  in complex or unusual scenarios.
+* The URI's "replicaSet" option is enforced: the driver now refuses to connect
+  to a server unless it is a member of a replica set with the right setName.
+* Many race conditions related to changing deployment conditions are fixed.
+
+The worst code in the old driver, the cause of most of the bugfix releases in the 1.1.x series, has been completely replaced with a well-designed architecture.
+
+To conform to the new specs, the client accepts these options in the MongoDB
+URI; see the [`mongoc_uri_t`](http://api.mongodb.org/c/current/mongoc_uri_t.html) documentation for details:
+
+* `heartbeatFrequencyMS`
+* `serverSelectionTimeoutMS`
+* `serverSelectionTryOnce`
+* `socketCheckIntervalMS`
+
+Other features:
+
+* All timeouts that can be configured in the URI now interpret 0 to mean "use
+  the default value for this timeout".
+* The client's read preference can be configured in the URI with the new
+  options "readPreference" and "readPreferenceTags", see the [`mongoc_uri_t`](http://api.mongodb.org/c/current/mongoc_uri_t.html)
+  documentation.
+* The new [`mongoc_uri_get_read_prefs_t`](http://api.mongodb.org/c/current/mongoc_uri_get_read_prefs_t.html) function retrieves both the read mode
+  and tags from a mongoc_uri_t.
+* New accessors:
+    * [`mongoc_gridfs_file_get_id`](http://api.mongodb.org/c/current/mongoc_gridfs_file_get_id.html)
+    * [`mongoc_client_get_default_database`](http://api.mongodb.org/c/current/mongoc_client_get_database.html)
+    * [`mongoc_bulk_operation_get_write_concern`](http://api.mongodb.org/c/current/mongoc_bulk_operation_get_write_concern.html)
+* Debug tracing can be controlled at runtime with `mongoc_log_trace_enable` and
+  `mongoc_log_trace_disable`.
+
+Notable bugs fixed:
+
+* ["wtimeoutms" was ignored for write concerns besides "majority".](https://jira.mongodb.org/browse/CDRIVER-775)
+* [Bulk write operations might fail in mixed-version sharded clusters with
+  some pre-2.6 mongos servers.](https://jira.mongodb.org/browse/CDRIVER-586)
+* [Normal operations were logged during startup and could not be silenced.](https://jira.mongodb.org/browse/CDRIVER-731)
+* [A variety of bugs and incorrect results](https://jira.mongodb.org/issues/?filter=18141&jql=project%20%3D%20CDRIVER%20AND%20fixVersion%20in%20(1.2-beta%2C%201.2.0%2C%201.2-desired)%20and%20resolution%20is%20not%20empty%20and%20component%20%3D%20bulk%20ORDER%20BY%20key%20DESC) in [`mongoc_bulk_operation_execute`](http://api.mongodb.org/c/current/mongoc_bulk_operation_execute.html).
+* Numerous compiler warnings and build failures on various platforms.
+* Copious refinements to the documentation.
+
+Thanks to everyone who contributed to this version of libmongoc.
+
+* A. Jesse Jiryu Davis
+* Sujan Dutta
+* Jason Carey
+* Hannes Magnusson
+* Jeremy Mikola
+* Derick Rethans
+* Samantha Ritter
+* Yuchen Xie
+* Lloyd Zhou
+
+I hope you'll try this beta and let me know how it goes. [Open a ticket in our bug tracker](https://jira.mongodb.org/browse/CDRIVER) if you find an issue. If you try it and it goes well, email me! I'm jesse@mongodb.com. I'd love to hear from you, and I need to know how the beta period is going for libmongoc users.
+
+Peace,
+
+&mdash; A. Jesse Jiryu Davis
+
+***
+
+[<span style="color:gray">Image: Robert Witcher</span>](https://www.flickr.com/photos/robertwitcher/14306767483)

@@ -1,0 +1,38 @@
+_model: blog-post
+---
+title: Motor Progress Report: GridFS, Logo
+---
+pub_date: 2012-09-28
+---
+author: 
+---
+type: post
+---
+tags:
+
+gridfs
+---
+categories:
+
+Mongo
+Motor
+Programming
+Python
+---
+summary: Two big updates to Motor, my non-blocking driver for MongoDB and Tornado. First, my friend Musho Rodney Alan Greenblat made a logo. Motor may or may not be ready for prime time, but it looks ready. Second, I implemented GridFS. GridFS is a [ ... ]
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0"   />
+
+Two big updates to [Motor](http://emptysquare.net/motor/), my non-blocking driver for MongoDB and Tornado.
+
+First, my friend [Musho Rodney Alan Greenblat](http://www.whimsyload.com/) made a logo. Motor may or may not be ready for prime time, but it **looks** ready.
+
+Second, I implemented GridFS. GridFS is a spec for storing blobs of data in MongoDB of arbitrary size and contents; it was Motor's last missing feature. You can see the [API documentation](http://emptysquare.net/motor/pymongo/api/motor/gridfs.html) and [example code](http://emptysquare.net/motor/pymongo/api/motor/examples/gridfs.html) for using GridFS with Motor.
+
+I've been inspired by Christian Kvalheim's [thorough, example-driven documentation for his MongoDB Node.js driver](http://mongodb.github.com/node-mongodb-native/api-articles/nodekoarticle1.html). I want Motor to be equally easy to pick up, with an obvious example for each basic task. I started with examples for GridFS, but I'll go back and apply the same principle to the rest of Motor's docs soon.
+
+Besides the big updates there's also a small one: the time has finally come to factor out some irritatingly repetitive code in the mechanisms Motor uses to wrap PyMongo, so I rewrote them and trimmed off a hundred lines. The tests all pass, but there may be dragons lurking in the changes. Update with your eyes open.
+
+As always, let me know how Motor's working for you: [jesse@10gen.com](mailto:jesse@10gen.com).

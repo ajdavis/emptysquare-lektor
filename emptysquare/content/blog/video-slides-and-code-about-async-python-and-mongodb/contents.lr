@@ -1,0 +1,48 @@
+_model: blog-post
+---
+title: Video, Slides, and Code About Async Python and MongoDB
+---
+pub_date: 2012-03-27
+---
+author: 
+---
+type: post
+---
+tags:
+
+tornado
+---
+categories:
+
+Programming
+Python
+Mongo
+---
+summary: Video is now online from my webinar last week about Tornado and MongoDB. Alas, I didn't make the text on my screen big enough to be easily readable in the low-res video we recorded, so it'll be a little fuzzy for you. (Live and learn.) No [ ... ]
+---
+body:
+
+[Video is now
+online](http://www.10gen.com/presentations/webinar/Asynchronous-MongoDB-with-Python-and-Tornado)
+from my webinar last week about Tornado and MongoDB. Alas, I didn't make
+the text on my screen big enough to be easily readable in the low-res
+video we recorded, so it'll be a little fuzzy for you. (Live and learn.)
+No worries, [the slides are here in full-res
+glory](http://speakerdeck.com/u/mongodb/p/asynchronous-mongodb-with-python-and-tornado-a-jesse-jiryu-davis-python-evangelist)
+and [the example code is on GitHub](https://github.com/ajdavis/chirp).
+It's a trivial Twitter clone called "chirp" which demonstrates using a
+MongoDB capped collection as a sort of queue. The demo uses Tornado, a
+MongoDB tailable cursor, and [socket.io](http://socket.io/) to stream
+new "chirps" from the capped collection to clients. I've implemented the
+same demo app three times:
+
+-   Once with AsyncMongo, [using features I've added in my AsyncMongo
+    fork](https://github.com/bitly/asyncmongo/pull/39) to support
+    tailable cursors.
+-   Once with AsyncMongo and [Tornado's generator
+    interface](http://www.tornadoweb.org/documentation/gen.html).
+-   And finally, using the [official
+    PyMongo](https://github.com/mongodb/mongo-python-driver/), which
+    reveals the tragic consequences of long-running MongoDB queries
+    blocking Tornado's IOLoop.
+

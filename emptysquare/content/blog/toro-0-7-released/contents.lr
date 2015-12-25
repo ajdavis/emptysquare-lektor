@@ -1,0 +1,45 @@
+_model: blog-post
+---
+title: Toro 0.7 Released
+---
+pub_date: 2014-10-29
+---
+author: 
+---
+type: post
+---
+tags:
+
+tornado
+---
+categories:
+
+Programming
+Python
+---
+summary: A major bug fixed in Toro, my package of semaphores, locks, and queues for Tornado coroutines.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/11/toro.png" alt="Toro" title="toro.png" border="0"   />
+
+I've just released version 0.7 of Toro. Toro provides semaphores, locks, events, conditions, and queues for Tornado coroutines. It enables advanced coordination among coroutines, similar to what you do in a multithreaded application. Get the latest version with "pip install --upgrade toro". Toro's [documentation, with plenty of examples, is on ReadTheDocs](https://toro.readthedocs.org/).
+
+There is one bugfix in this release. [Semaphore.wait()](https://toro.readthedocs.org/en/stable/classes.html#toro.Semaphore.wait) is supposed to wait until the semaphore can be acquired again:
+
+```python
+@gen.coroutine
+def coro():
+    sem = toro.Semaphore(1)
+    assert not sem.locked()
+    
+    # A semaphore with initial value of 1 can be acquired once,
+    # then it's locked.
+    sem.acquire()
+    assert sem.locked()
+    
+    # Wait for another coroutine to release the semaphore.
+    yield sem.wait()
+```
+
+... however, there was a bug and the semaphore didn't mark itself "locked" when it was acquired, so "wait" always returned immediately. I'm grateful to ["abing"](https://github.com/DanielBlack) on GitHub for noticing the bug and contributing a fix.

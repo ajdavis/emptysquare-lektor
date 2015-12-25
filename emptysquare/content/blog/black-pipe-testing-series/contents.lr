@@ -1,0 +1,32 @@
+_model: blog-post
+---
+title: Black Pipe Testing
+---
+pub_date: 2015-10-11
+---
+author: 
+---
+type: page
+---
+tags:
+
+testing
+---
+categories:
+
+
+---
+summary: A series of articles on black-box testing networked applications.
+---
+body:
+
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/09/lower-east-side-pipes.jpg" alt="Pipes" title="Pipes" />](https://www.flickr.com/photos/emptysquare/477797865)
+
+In this series of articles I argue that "black box" testing is insufficient to validate a networked application. Such a program has two ends that take inputs and provide outputs: one is its public API, but the other is its communication over the network. Only by treating it as a black pipe can we test both surfaces.
+
+* [Black Pipe Testing: Preface](http://emptysqua.re/blog/black-pipe-testing/)
+* [Testing PyMongo As A Black Pipe](http://emptysqua.re/blog/black-pipe-testing-pymongo/)
+* [MockupDB: Testing The MongoDB C Driver With Python](http://emptysqua.re/blog/mockupdb-test-libmongoc-mongodb-c-driver-python/)
+* [Black-Pipe Testing A Connected Application In C](http://emptysqua.re/blog/libmongoc-black-pipe-testing-mock-server/)
+* [Testing MongoDB Failure Scenarios With MockupDB](http://emptysqua.re/blog/test-mongodb-failures-mockupdb/)
+* [Generalizing the black pipe idea to other connected programs](https://emptysqua.re/blog/black-pipe-testing-in-summary/)

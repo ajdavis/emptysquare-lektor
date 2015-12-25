@@ -1,0 +1,37 @@
+_model: blog-post
+---
+title: Book: MongoDB In Action
+---
+pub_date: 2011-12-05
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Programming
+Mongo
+---
+summary: My colleague at 10gen Kyle Banker has published his book MongoDB in Action: MongoDB in Action is a comprehensive guide to MongoDB for application developers. The book begins by explaining what makes MongoDB unique and describing its [ ... ]
+---
+body:
+
+![MongoDB in
+Action](/blog/media/2011/12/mongodb-in-action.png "mongodb-in-action.png")
+
+My colleague at 10gen Kyle Banker has published his book [MongoDB in
+Action](http://kylebanker.com/blog/2011/12/03/mongodb-in-action-book-now-available/):
+
+> MongoDB in Action is a comprehensive guide to MongoDB for application
+> developers. The book begins by explaining what makes MongoDB unique
+> and describing its ideal use cases. A series of tutorials designed for
+> MongoDB mastery then leads into detailed examples for leveraging
+> MongoDB in e-commerce, social networking, analytics, and other common
+> applications.
+
+[Get it from Manning Publications.](http://www.manning.com/banker/)

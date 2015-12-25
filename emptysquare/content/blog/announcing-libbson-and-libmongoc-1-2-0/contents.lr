@@ -1,0 +1,154 @@
+_model: blog-post
+---
+title: Announcing libbson and libmongoc 1.2.0
+---
+pub_date: 2015-10-13
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+C
+Programming
+---
+summary: A rewritten mongoc_client_t with parallel server discovery, plus many features and fixes.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/10/I/sea.jpg" alt="Sea" title="Sea" />
+
+It is my pleasure to announce the 1.2.0 release of libbson and libmongoc, the C libraries that compose the MongoDB C Driver. This is the most significant C Driver release of the year. It includes rewritten client code with parallel server discovery, plus many features and fixes.
+
+These notes summarize changes since the previous stable release, 1.1.11, including changes in the 1.2.0 betas and release candidate.
+
+# libbson
+
+libbson 1.2.0 can be downloaded here:
+
+* [libbson-1.2.0.tar.gz](https://github.com/mongodb/libbson/releases/download/1.2.0/libbson-1.2.0.tar.gz)
+
+libbson is a C library for creating, parsing, and manipulating BSON documents. It also serves as a portability base for libmongoc.
+
+Changes since 1.1.11:
+
+* Add [`bson_mem_restore_vtable()`](https://api.mongodb.org/libbson/current/bson_mem_restore_vtable.html), inverse of [`bson_mem_set_vtable()`](https://api.mongodb.org/libbson/current/bson_mem_set_vtable.html)
+* Enable runtime asserts in release build.
+* Fixed compiler warnings and build failures on various platforms.
+* Improvements to the formatting and contents of the documentation.
+
+The libbson documentation is here:
+
+* [libbson reference manual](https://api.mongodb.org/libbson)
+
+# libmongoc
+
+libmongoc 1.2.0 can be downloaded here:
+
+* [mongo-c-driver-1.2.0.tar.gz](https://github.com/mongodb/mongo-c-driver/releases/download/1.2.0/mongo-c-driver-1.2.0.tar.gz)
+
+libmongoc is the C Driver for MongoDB, a library for building high-performance applications that communicate with MongoDB in the C language. It can also serve as the base for drivers in higher-level languages.
+
+## Internal rewrite
+
+The main feature is Jason Carey and Samantha Ritter's rewrite of the [`mongoc_client_t`](http://api.mongodb.org/c/current/mongoc_client_t.html) internals. They overhauled it to match [the Server Discovery And Monitoring Spec](http://emptysqua.re/blog/server-discovery-and-monitoring-in-pymongo-perl-and-c/) and [the
+Server Selection Spec](https://www.mongodb.com/blog/post/server-selection-next-generation-mongodb-drivers). The payoff is huge:
+
+* All replica set members or mongos servers are discovered and periodically
+  checked in parallel. The driver's performance is dramatically better and
+  more predictable with multi-server deployments, or with a flaky network,
+  or when some servers are slow or down.
+* Clients from the same [`mongoc_client_pool_t`](http://api.mongodb.org/c/current/mongoc_client_pool_t.html) share a background thread that
+  discovers and monitors all servers in parallel.
+* Unnecessary round trips for server checks and pings are eliminated.
+* Behavior is documented in the specs, and consistent with other drivers, even
+  in complex or unusual scenarios.
+* The URI's "replicaSet" option is enforced: the driver now refuses to connect
+  to a server unless it is a member of a replica set with the right setName.
+* Many race conditions related to changing deployment conditions are fixed.
+
+The worst code in the old driver, the cause of most of the bugfix releases in the 1.1.x series, has been completely replaced with a well-designed architecture.
+
+To conform to the new specs, the client accepts these options in the MongoDB
+URI; see the [`mongoc_uri_t`](http://api.mongodb.org/c/current/mongoc_uri_t.html) documentation for details:
+
+* `heartbeatFrequencyMS`
+* `serverSelectionTimeoutMS`
+* `serverSelectionTryOnce`
+* `socketCheckIntervalMS`
+
+## Other features:
+
+* All timeouts that [can be configured in the URI](http://api.mongodb.org/c/current/mongoc_uri_t.html) now interpret 0 to mean "use
+  the default value for this timeout".
+* The client's read preference can be configured in the URI with the new
+  options "readPreference" and "readPreferenceTags", see the [`mongoc_uri_t`](http://api.mongodb.org/c/current/mongoc_uri_t.html)
+  documentation.
+* The new [`mongoc_uri_get_read_prefs_t`](http://api.mongodb.org/c/current/mongoc_uri_get_read_prefs_t.html) function retrieves both the read mode
+  and tags from a mongoc_uri_t.
+* New accessors:
+    * [`mongoc_gridfs_file_get_id`](http://api.mongodb.org/c/current/mongoc_gridfs_file_get_id.html)
+    * [`mongoc_client_get_default_database`](http://api.mongodb.org/c/current/mongoc_client_get_database.html)
+    * [`mongoc_bulk_operation_get_write_concern`](http://api.mongodb.org/c/current/mongoc_bulk_operation_get_write_concern.html)
+* [Debug tracing can be controlled at runtime](https://api.mongodb.org/c/current/logging.html) with `mongoc_log_trace_enable` and
+  `mongoc_log_trace_disable`.
+* Set [`mongoc_client_pool_t`](https://api.mongodb.org/c/current/mongoc_client_pool_t.html) size with [`mongoc_client_pool_min_size()`](https://api.mongodb.org/c/current/mongoc_client_pool_min_size.html) and [`mongoc_client_pool_max_size()`](https://api.mongodb.org/c/current/mongoc_client_pool_max_size.html).
+
+## Other changes:
+
+* Enable runtime asserts in release build.
+* The libbson submodule's URL now uses the recommended `https://`, not `git://`
+* `mongoc_client_kill_cursor()` is now deprecated and will be removed in 2.0.
+* The write concern "w=-1" is documented as obsolete.
+
+## Bugfixes
+
+These notable bugs have been fixed since 1.1.11:
+
+* The driver now uses the server's maxWireVersion to avoid an error and extra round-trip when executing aggregations on MongoDB 2.4 and older.
+* Much improved reporting of network errors, unavailable servers, and authentication failure
+* Off-by-one error in [mongoc_gridfs_file_seek](https://api.mongodb.org/c/current/mongoc_gridfs_file_seek.html) with mode SEEK_END
+* The writeConcernErrors field of bulk results is properly formatted.
+* A cursor with a server "hint" sets slaveOkay and / or $readPreference.
+* Destroying an exhaust cursor must close its socket
+* "wtimeoutms" was ignored for write concerns besides "majority".
+* Bulk write operations might fail in mixed-version sharded clusters with some pre-2.6 mongos servers.
+* A variety of bugs and incorrect results in [mongoc_bulk_operation_execute](https://api.mongodb.org/c/current/mongoc_bulk_operation_execute.html).
+* Numerous compiler warnings and build failures on various platforms.
+* Copious refinements to the documentation.
+
+The documentation is here:
+
+* [MongoDB C Driver Documentation](http://docs.mongodb.org/ecosystem/drivers/c/)
+
+Thanks to everyone who contributed to this version of libbson and libmongoc.
+
+* Jason Carey
+* Samantha Ritter
+* A. Jesse Jiryu Davis
+* Hannes Magnusson
+* Kyle Suarez
+* Jeremy Mikola
+* Remi Collet
+* Jose Sebastian Battig
+* Derick Rethans
+* David Hatch
+* Yuchen Xie
+* Manuel Schoenlaub
+* Sujan Dutta
+* Lloyd Zhou
+* rubicks
+* Pawel Szczurko
+* Yuval Hager
+
+Peace,  
+&nbsp;&nbsp;&nbsp;&mdash;A. Jesse Jiryu Davis
+
+***
+
+<span style="color:gray">[Image: Lisa Murray.](https://www.flickr.com/photos/mizzmurray/2276790171)</span>

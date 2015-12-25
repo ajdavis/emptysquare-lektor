@@ -1,0 +1,40 @@
+_model: blog-post
+---
+title: Announcing libbson and libmongoc 1.1.9
+---
+pub_date: 2015-06-29
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+C
+Mongo
+Programming
+---
+summary: Urgent bugfix release of the MongoDB C library.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/06/sea-black-and-white-flight-sky.jpg" alt="Sea black and white flight sky" title="Sea black and white flight sky" />
+
+I'm releasing libmongoc with an urgent bugfix for a common crash in 1.1.8, which itself was introduced while I was fixing a rare crash in 1.1.7. For further details:
+
+* [CDRIVER-721](https://jira.mongodb.org/browse/CDRIVER-721)
+* [CDRIVER-695](https://jira.mongodb.org/browse/CDRIVER-695)
+
+In the process of validating my latest fix I expanded test coverage, and noticed that `./configure --enable-coverage` didn't work. That is now fixed in libbson and libmongoc.
+
+libbson 1.1.9 can be downloaded here:
+
+* [https://github.com/mongodb/libbson/releases/download/1.1.9/libbson-1.1.9.tar.gz](https://github.com/mongodb/libbson/releases/download/1.1.9/libbson-1.1.9.tar.gz)
+
+libmongoc 1.1.9 can be downloaded here:
+
+* [https://github.com/mongodb/mongo-c-driver/releases/download/1.1.9/mongo-c-driver-1.1.9.tar.gz](https://github.com/mongodb/mongo-c-driver/releases/download/1.1.9/mongo-c-driver-1.1.9.tar.gz)

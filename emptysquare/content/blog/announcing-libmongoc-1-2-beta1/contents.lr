@@ -1,0 +1,66 @@
+_model: blog-post
+---
+title: Announcing libmongoc 1.2 Beta 1
+---
+pub_date: 2015-09-03
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+C
+Programming
+---
+summary: Further improvements to the MongoDB C Driver since the first 1.2.0 beta.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/09/sea-clive-varley.jpg" alt="Sea, by Clive Varley" title="Sea, by Clive Varley" />
+
+It is my pleasure to announce the second beta release of the MongoDB C driver
+1.2.0. It includes features and bugfixes developed since 1.2.0-beta. Get it here:
+
+[https://github.com/mongodb/mongo-c-driver/releases/tag/1.2.0-beta1](https://github.com/mongodb/mongo-c-driver/releases/tag/1.2.0-beta1)
+
+New features:
+
+ * Set [mongoc_client_pool_t](http://api.mongodb.org/c/1.2.0/mongoc_client_pool_t.html)'s size with [mongoc_client_pool_min_size()](http://api.mongodb.org/c/1.2.0/mongoc_client_pool_min_size.html) and [mongoc_client_pool_max_size()](http://api.mongodb.org/c/1.2.0/mongoc_client_pool_max_size.html).
+ * The write concern "w=-1" is now [documented as obsolete](http://api.mongodb.org/c/1.2.0/mongoc_write_concern_t.html).
+ * Abundant fixes and additions to the documentation, beyond those in the
+   previous beta.
+
+Notable bugs fixed:
+
+ * Crashes and races in several replica set scenarios.
+ * The driver now uses the server's maxWireVersion to avoid an error and
+   extra round-trip when executing aggregations on MongoDB 2.4 and older.
+ * Fixed network error handling in multiple code paths.
+ * connectTimeoutMS limits the time the driver can spend reconnecting to
+   servers in single-threaded (non-pooled) mode with serverSelectionTryOnce.
+
+Version 1.2.0 final will be a stable release with additive ABI changes and
+bugfixes. It is compatible with MongoDB version 2.4 and later.
+
+Thanks to everyone who contributed to this version of libmongoc.
+
+ * A. Jesse Jiryu Davis
+ * Hannes Magnusson
+ * Manuel Schoenlaub
+ * Kyle Suarez
+ * Remi Collet
+
+I hope you'll try this beta and let me know how it goes. [Open a ticket in our bug tracker in the "CDRIVER" project](https://jira.mongodb.org/browse/CDRIVER/) if you find an issue. If you try it and it goes well, email me! I'm jesse@mongodb.com. I'd love to hear from you, and I need to know how the beta period is going for libmongoc users.
+
+Peace,
+
+  A. Jesse Jiryu Davis
+
+***
+
+<span style="color:gray">[Image: Clive Varley](https://www.flickr.com/photos/100732098@N06/18166358058)</span>

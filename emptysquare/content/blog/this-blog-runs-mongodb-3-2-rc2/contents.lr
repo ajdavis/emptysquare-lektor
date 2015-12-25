@@ -1,0 +1,33 @@
+_model: blog-post
+---
+title: This Blog Runs MongoDB 3.2 rc2
+---
+pub_date: 2015-11-09
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: I'm dogfooding the latest release candidate.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="https://emptysqua.re/blog/media/2015/11/amx.jpg" alt="1968 AMC AMX GT Concept Car" title="1968 AMC AMX GT Concept Car" />
+
+***
+
+This blog is my equivalent of the hotrod an auto-mechanic has sitting in the garage: very custom, chopped down, and jagged at the edges. [I've built it in Python](https://github.com/ajdavis/motor-blog), of course, with Tornado and [Motor](http://motor.readthedocs.org/), my async driver for MongoDB. The original intent of the blog was to [eat my own hamster food](https://emptysqua.re/blog/eating-your-own-hamster-food/) by building substantial software on top of Motor. Nowadays it's just the roadster I tinker with on the weekend.
+
+This weekend, in particular, I switched the server to a more recent Rackspace Ubuntu instance (I was still on Ubuntu 9, somehow; now it's 14.04) and upgraded all the Python packages, including Motor itself.
+
+Most exciting of all, this blog is now running on [MongoDB 3.2 rc2](https://www.mongodb.com/blog/post/announcing-mongodb-3-2) with WiredTiger. I upgraded all the way from 2.5.1 to 3.2 in one shot, by mongodumping the old blog content and loading it into the new database with mongorestore. I'm so impressed with our server team's commitment to backwards compatibility over the last few years. The sole change I had to make was switching from the short-lived, experimental "text" command to the ["$text" query syntax](https://docs.mongodb.org/manual/reference/operator/query/text/) introduced back in MongoDB 2.6.

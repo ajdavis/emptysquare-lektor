@@ -1,0 +1,117 @@
+_model: blog-post
+---
+title: Motor Installation Instructions
+---
+pub_date: 2012-10-31
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Motor
+Programming
+Python
+---
+summary: 
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0"   />
+
+**Update:** [Motor is in PyPI now, this is all moot](http://emptysquare.net/blog/motor-officially-released/)
+
+I've done a bad job with installation instructions for [Motor](http://emptysquare.net/motor/), my non-blocking driver for MongoDB and Tornado. I've gotten a bunch of emails from people complaining about this:
+
+```pytb
+Traceback (most recent call last):    
+  File "myfile.py", line 2, in <module>
+    connection = motor.MotorConnection().open_sync()
+  File ".../motor/__init__.py", line 690, in open_sync
+    raise outcome['error']
+pymongo.errors.ConfigurationError: Unknown option _pool_class
+
+```
+You'll get this ConfigurationError if you installed Motor without *uninstalling* PyMongo first. But you couldn't know that, because I forgot to tell you.
+
+Here's installation instructions, followed by an explanation of why installation is wonky right now and how it will improve, and what Motor's status is now.
+
+Installation
+------------
+
+I assume you have [pip](http://www.pip-installer.org/en/latest/installing.html), and I recommend you use [virtualenv](http://www.virtualenv.org/en/latest/)&mdash;these are just best practices for all Python application development. You need regular CPython, 2.5 or better. 
+
+```bash
+# if you have pymongo installed previously, you MUST uninstall it
+pip uninstall pymongo
+
+# install prerequisites
+pip install tornado greenlet
+
+# get motor
+pip install git+https://github.com/ajdavis/mongo-python-driver.git@motor
+
+```
+Now you should have my versions of pymongo, bson, gridfs, and motor installed:
+
+```python
+>>> import motor
+>>>
+
+```
+**Update:** If you're testing against a particular version of Motor, you can freeze that requirement and install that version by git hash, like:
+
+```bash
+pip install git+https://github.com/ajdavis/mongo-python-driver.git@694436f
+
+```
+pip will say, "Could not find a tag or branch '694436f', assuming commit," which is what you want. You can put Motor and its dependencies in your requirements.txt:
+
+    greenlet==0.4.0
+    tornado==2.4
+    git+https://github.com/ajdavis/mongo-python-driver.git@694436f
+
+And install:
+
+    pip install -r requirements.txt
+
+Confusingly, the command to uninstall Motor is:
+
+    pip uninstall pymongo
+    
+Why Is Installation Wonky?
+--------------------------
+
+Why do you have to uninstall 10gen's official PyMongo before installing Motor? Why isn't Motor in PyPI? Why doesn't Motor automatically install the Tornado and Greenlet packages as dependencies? All will be revealed.
+
+Implementing Motor requires a few extra hooks in the core PyMongo module. For example, I added a `_pool_class` option to PyMongo's Connection class. Thus Motor and PyMongo are coupled, and I want them to be versioned together. Motor is a **feature** of PyMongo that you can choose to use. In the future when Motor is an official 10gen product, Motor and PyMongo will be in the same git repository, and in the same package in PyPI, and when you `pip install pymongo`, you'll get the `motor` module installed in your site-packages, just like the `pymongo`, `bson`, `gridfs` modules now. There will never be a separate "Motor" package in PyPI.
+
+Even once Motor is official, the whole PyMongo package shouldn't require Tornado and Greenlet as dependencies. So you'll still need to manually install them to make Motor work. PyMongo will still work without Tornado and Greenlet, of course&mdash;they won't be necessary until you `import motor`.
+
+Since that's the goal&mdash;the Motor module as a feature of PyMongo, in the same repository and the same PyPI package&mdash;this beta period is awkward. I'm building Motor [in my fork of the PyMongo repo, on a `motor` branch](https://github.com/ajdavis/mongo-python-driver/tree/motor/), and regularly merging the upstream repo's changes. Sometimes, upstream changes to PyMongo break Motor and need small fixes.
+
+I don't want to make a PyPI package for Motor, since that package will be obsolete once Motor's merged upstream. And since the eventual version of the PyMongo package that includes Motor won't require Tornado or Greenlet as dependencies, neither does the version in my git repo.
+
+Status
+------
+
+Motor is feature-complete, and it's compatible with [all the Python versions that Tornado is](http://pypi.python.org/pypi/tornado). MotorConnection has been load-tested by the QA team at a large corporation, with good results. At least one small startup has put MotorReplicaSetConnection in production, with one bug reported and [fixed](https://github.com/ajdavis/mongo-python-driver/commit/d9fa6fd92726be8f8f165a6e5cd74867024ead96)&mdash;Motor threw the wrong kinds of exceptions during a replica-set failover. I'm now hunting a similar MotorReplicaSetConnection bug [reported on the Tornado mailing list](https://groups.google.com/d/topic/python-tornado/vvS9xzP8mm4/discussion).
+
+Besides that bug, Motor has 37 TODOs. All are reminders to myself to refactor Motor's interaction with PyMongo, and to ensure every corner of Motor is reviewed, tested, and documented. I need to:
+
+* Complete those refactoring, testing, and documentation TODOs
+* Ensure 100% code coverage by unittests
+* Complete my own load-testing to make sure Motor matches AsyncMongo's performance
+* Pass code reviews from PyMongo's maintainer Bernie Hackett
+
+At that point, Bernie and I will decide if Motor is ready to go official, and I'll announce on this blog, and throw a party.
+
+<a href="http://nedroid.com/2009/05/party-cat-full-series/">
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/10/party-cat.png" alt="Party Cat" title="party-cat.png" border="0"   />
+</a>

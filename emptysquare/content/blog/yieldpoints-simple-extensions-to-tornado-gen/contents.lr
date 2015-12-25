@@ -1,0 +1,58 @@
+_model: blog-post
+---
+title: YieldPoints: simple extensions to tornado.gen
+---
+pub_date: 2012-12-07
+---
+author: 
+---
+type: post
+---
+tags:
+
+tornado
+---
+categories:
+
+Programming
+Python
+---
+summary: I affectionately introduce YieldPoints, my littlest project yet. It's just some simple extensions to Tornado's gen module. The cutest example of what you can do with YieldPoints is the WaitAny class, which lets you begin multiple [ ... ]
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/12/yield.png" alt="YieldPoints" title="yield.png" border="0"   />
+
+I affectionately introduce YieldPoints, my littlest project yet. It's just some simple extensions to [Tornado's gen module](http://www.tornadoweb.org/documentation/gen.html).
+
+The cutest example of what you can do with YieldPoints is the WaitAny class, which lets you begin multiple asynchronous tasks and handle their results in the order they complete:
+
+```python
+@gen.engine
+def f():
+    callback0 = yield gen.Callback(0)
+    callback1 = yield gen.Callback(1)
+
+    # Fire callback1 soon, callback0 later
+    IOLoop.instance().add_timeout(
+        timedelta(seconds=0.1), partial(callback1, 'foo'))
+
+    IOLoop.instance().add_timeout(
+        timedelta(seconds=0.2), partial(callback0, 'bar'))
+
+    keys = set([0, 1])
+    while keys:
+        key, result = yield yieldpoints.WaitAny(keys)
+        print 'key:', key, ', result:', result
+        keys.remove(key)
+
+```
+More [examples are in the docs](http://yieldpoints.readthedocs.org/): you can use WithTimeout to wrap any callback in a timeout, and use Cancel or CancelAll to decline to wait for a callback you registered earlier. There's an adorable [extended example](https://yieldpoints.readthedocs.org/en/latest/examples/index.html) that uses my library to start downloading multiple URLs at once, and process the results in the order received.
+
+Further reading:
+
+[YieldPoints on Read the Docs](http://yieldpoints.readthedocs.org/)
+
+[YieldPoints on Github](https://github.com/ajdavis/yieldpoints)
+
+[YieldPoints on PyPI](http://pypi.python.org/pypi/yieldpoints/)

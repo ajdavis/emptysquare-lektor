@@ -1,0 +1,52 @@
+_model: blog-post
+---
+title: Rules of Thumb for Methods and Functions
+---
+pub_date: 2014-06-19
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Programming
+Python
+---
+summary: How I stay sane when designing an object-oriented architecture.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/06/le-pouce.jpg" alt="Le Pouce, sculpture in Paris" title="Le Pouce, sculpture in Paris" />[<span style="color:gray">[Source]</span>](https://www.flickr.com/photos/paveita/3195664073/)
+
+The Python team at MongoDB is partially rewriting [PyMongo](https://pypi.python.org/pypi/pymongo/). The next version, 3.0,
+aims to be faster, more flexible, and more maintainable than the current 2.x series.
+There is nothing like the satisfaction of pulling out the weeds and making a fresh patch of ground for new code.
+
+A design flaw in the current PyMongo is that a large number of instance methods have return values and side effects.
+For example, MongoClient has a private `_check_response_to_last_error` method.
+It takes a binary message from the server and returns a parsed version of it.
+But depending on what errors it finds in the server message,
+the method sometimes clears the client's connection pool,
+or changes all threads' socket affinities,
+or wipes its cached information about who the primary server is.
+Just looking at the method's signature doesn't tell me all the things it could do:
+since it's an instance method of MongoClient, it could change any part of the MongoClient's state.
+
+This gets gnarly, quickly.
+
+In most cases these mixed methods did one thing at first: they only returned a value, or only changed state. And then we had to fix something and the
+easiest way was to add a side-effect or add a return value. And so the road
+to hell was paved.
+
+I want to minimize the temptation for these mixed methods in PyMongo 3. My
+main strategy is to minimize methods, period. My rules of thumb are these:
+
+* If it accesses private instance variables, it's an instance method. Everything else can and should be a function.
+* When a method is necessary, it should set a private variable, or it should have a return value. Not both.
+
+No rule should followed without exception, of course. And there will be a handful of exceptions to these rules. But on the whole I think this limits the risk and complexity of methods in PyMongo. What do you think?

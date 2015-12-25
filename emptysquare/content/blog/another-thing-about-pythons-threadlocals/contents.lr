@@ -1,0 +1,186 @@
+_model: blog-post
+---
+title: Another Thing About Python's Threadlocals
+---
+pub_date: 2013-04-26
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: Another concurrency bug in old Python threadlocals. In Python 2.6, no one can hear you scream.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/04/dammit.jpg" alt="Dammit" title="dammit.jpg" border="0"   />
+
+As the maintainer of the connection pool for PyMongo, the official MongoDB driver for Python, I've gotten far more intimate knowledge of Python threads than I'd ever wanted.
+
+One of the challenges I face is: if the connection pool assigns a socket to a thread and the thread dies, how do we reclaim the socket for the general pool? I thought I nailed it last year, using a weakref callback to a threadlocal, but there's a bug in that method. [Justin Patrin](http://www.reversefold.com/) of Idle Games discovered it while testing a PyMongo contribution he's making. I'm going to describe the bug, its impact, the cause, and the fix. I'll conclude by kvetching about supporting archaic versions of Python.
+
+# The Bug
+
+Here's some code to start 1000 threads and register to be notified when they're kaput. At the end I assert no thread has died unmourned:
+
+```python
+import threading
+import weakref
+ 
+nthreads = 1000
+ncallbacks = 0
+ncallbacks_lock = threading.Lock()
+local = threading.local()
+refs = set()
+ 
+class Vigil(object):
+    pass
+ 
+def run():
+    def on_thread_died(ref):
+        global ncallbacks
+        ncallbacks_lock.acquire()
+        ncallbacks += 1
+        ncallbacks_lock.release()
+ 
+    vigil = Vigil()
+    local.vigil = vigil
+    refs.add(weakref.ref(vigil, on_thread_died))
+ 
+threads = [threading.Thread(target=run)
+           for _ in range(nthreads)]
+for t in threads: t.start()
+for t in threads: t.join()
+getattr(local, 'c', None)  # Trigger cleanup in <= 2.7.0
+assert ncallbacks == nthreads, \
+    'only %d callbacks run' % ncallbacks
+
+```
+This is the method I presented in ["Knowing When A Python Thread Has Died"](http://emptysquare.net/blog/knowing-when-a-python-thread-has-died/). Each thread creates a "vigil" object and sticks it in a threadlocal. Since only the threadlocal refers to the vigil, the vigil should be destroyed when the thread dies. I make a weakref to the vigil and register a [weakref callback](http://docs.python.org/2/library/weakref.html#weakref.ref). If all goes well, the callback is run as the thread dies. A quirk of Python 2.7.0 or lesser is that the callback is run when the **next** thread accesses the threadlocal. This oddity is a consequence of [Python Issue 1868](http://bugs.python.org/issue1868), fixed by Antoine Pitrou in late 2010 and released in Python 2.7.1.
+
+Note also that I synchronize `ncallbacks += 1` with a mutex, since `+=` [is not atomic in Python](http://emptysquare.net/blog/python-increment-is-weird/). This innocent-looking mutex harbors a dark intent, as we shall soon discover.
+
+In Python 2.7.1 and newer, the code above works as expected: `ncallbacks` is equal to 1000 immediately after all the threads are joined. In Python 2.7.0, `ncallbacks` should be 999 after the threads are joined, and then 1000 after the main thread does the final `getattr` to trigger cleanup.
+
+The bug is: In Python 2.7.0 and older, `ncallbacks` is sometimes a few callbacks shy of a thousand. A few threads have been buried in unmarked graves....
+
+# Its Impact
+
+I found that an application running Python 2.7.0 or older, if it creates and destroys very large numbers of threads continuously for a long time, and if each thread calls [`end_request`](http://api.mongodb.org/python/current/examples/requests.html) at least once and `start_request` more times than `end_request`, will occasionally leave a socket tied to a dead thread. These sockets will eventually exceed the process's ulimit or MongoDB's.
+
+This application pattern would be as weird and unusual as it sounds, which is why no one's complained of the bug.
+
+# The Fix
+
+Once I'd written the test code above, I spent a few hours futzing with it&mdash;Dammit, I thought this worked! I tried various techniques to force Python 2.7.0 to run the callback a thousand times reliably. Late in the day a divine voice intoned, "synchronize assignment to the threadlocal." So I added a lock:
+
+```
+local_lock = threading.Lock()
+# ...
+    vigil = Vigil()
+    local_lock.acquire()
+    local.vigil = vigil
+    local_lock.release()
+    refs.add(weakref.ref(vigil, on_thread_died))
+
+```
+It worked! Now I was angrier. How can *assigning* to a threadlocal not be thread-safe?
+
+# The Cause
+
+Let's again consider the example code above. The bytecode for assigning `vigil` to `local.vigil` is:
+
+```
+28 LOAD_FAST        1 (vigil)
+31 LOAD_GLOBAL      3 (local)
+34 STORE_ATTR       4 (vigil)
+
+```
+`STORE_ATTR` calls `PyObject_SetAttr`, which calls `local_setattro`, defined in Modules/threadmodule.c:
+
+```python hl_lines="6"
+
+static int
+local_setattro(localobject *self, PyObject *name, PyObject *v)
+{
+    PyObject *ldict;
+
+    ldict = _ldict(self);
+    if (ldict == NULL)
+        return -1;
+
+    return PyObject_GenericSetAttr((PyObject *)self, name, v);
+}
+
+```
+At the highlighted line it calls `_ldict`. The `_ldict` function is, as I've known for some time, a pathetic piece of poo in Python 2.7.0 and older. Here's the turd, edited down a bit:
+
+```python hl_lines="16"
+
+static PyObject *
+_ldict(localobject *self)
+{
+    PyObject *tdict, *ldict;
+
+    tdict = PyThreadState_GetDict();
+    ldict = PyDict_GetItem(tdict, self->key);
+    if (ldict == NULL) {
+        ldict = PyDict_New(); /* we own ldict */
+
+        PyDict_SetItem(tdict, self->key, ldict);
+        Py_DECREF(ldict); /* now ldict is borrowed */
+        if (i < 0)
+            return NULL;
+
+        Py_CLEAR(self->dict);
+        Py_INCREF(ldict);
+        self->dict = ldict; /* still borrowed */
+    }
+
+    /* The call to tp_init above may have caused
+       another thread to run.
+       Install our ldict again. */
+    if (self->dict != ldict) {
+        Py_CLEAR(self->dict);
+        Py_INCREF(ldict);
+        self->dict = ldict;
+    }
+
+    return ldict;
+}
+
+```
+We haven't seen any use of the `Py_BEGIN_ALLOW_THREADS` macro, so one thread's had the GIL the whole time. Locking around the assignment shouldn't have any effect, right?
+
+Well, take a look at the highlighted `Py_CLEAR(self->dict)` statement&mdash;there's the perpetrator. That statement gets the `ldict` of the last thread that accessed this threadlocal, swaps it with NULL and decrefs it. If this is the last reference to `ldict` (because the last thread has died) then decref'ing destroys it, and the weakref callback to `vigil` runs. The callback does `ncallbacks_lock.acquire`, which releases the GIL before trying to get the mutex.
+
+So here's the kind of scenario I prevented by locking around assignment to the threadlocal:
+
+1. Thread A starts, assigns to the threadlocal, dies.
+2. Thread A's `ldict` is now the threadlocal's `self->dict` and has a refcount of 1.
+3. Thread B starts, begins assigning to the threadlocal, enters the `_ldict` function.
+4. `_ldict` sets `self->dict` to NULL and decrefs Thread A's `ldict`, which runs `on_thread_died`, which calls `ncallbacks_lock.acquire` and releases the GIL.
+5. Now Thread C starts, begins assigning to the threadlocal, enters `_ldict`.
+6. Thread C finds `self->dict` is NULL, increfs its own local `ldict` and assigns it to `self->dict`. It exits `_ldict`.
+7. Thread B resumes at `Py_CLEAR(self->dict)`, increfs its own `ldict` and assigns it to `self->dict`.
+
+Thread B has now replaced a pointer to Thread C's `ldict` with a pointer to its own, but it didn't decref Thread C's `ldict` first. (`_ldict` wasn't written to survive interruption during `Py_CLEAR`.) Thread C's `ldict` will never be destroyed, and a weakref callback to its `vigil` attribute will never be called.
+
+Locking around assignment to the threadlocal prevents `_ldict` from running concurrently for any one threadlocal object, and prevents the refleak. In Python 2.7.1 and newer, the whole misguided `self->dict` system is removed from threadlocals and the lock's not needed.
+
+This scenario applies to PyMongo's connection pool because the pool **does** need to acquire a lock in its weakref callback. Even if it didn't, there's a possibility of interruption whenever a thread is running Python code.
+
+# A Kvetch<a id="scream"></a>
+
+This testing, the bug it revealed, the investigation, the fix: all this effort was spent to support entirely obsolete versions of Python. The Python core developers stopped maintaining them years ago, but PyMongo supports all Pythons going back to 2.4, mainly because there are "long-term support" Linux distros like Ubuntu and RHEL that once shipped with them. I have very savvy friends writing **new** applications on Python 2.6. Our children will have flying cars before we're done debugging these steam-powered versions of Python.
+
+It's particularly frustrating because there's no point even filing bugs against Pythons before 2.7. "We fixed it," the developers will reply. "Upgrade." In Python 2.6, no one can hear you scream.

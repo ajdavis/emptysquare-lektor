@@ -1,0 +1,48 @@
+_model: blog-post
+---
+title: Mollified About ResourceWarnings
+---
+pub_date: 2012-06-01
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Programming
+Python
+---
+summary: Last month I griped about ResourceWarnings in Python 3, arguing they're a useless irritation in a language that can clean up resources automatically. Python core developer Nick Coghlan responded in the comments and I understand the [ ... ]
+---
+body:
+
+Last month [I griped about ResourceWarnings in Python
+3](/blog/against-resourcewarnings-in-python-3/), arguing they're a
+useless irritation in a language that can clean up resources
+automatically. Python core developer [Nick
+Coghlan](http://www.boredomandlaziness.org/) responded in the comments
+and I understand the choice now.
+
+Nick explains that ResourceWarnings reveal problems that would make the
+Python standard library inefficient running in PyPy. A resource like a
+socket can clean itself up promptly in CPython, but now that it issues a
+ResourceWarning when it isn't explicitly closed, the socket helps
+library authors prepare for PyPy, in which resources are **not**
+promptly cleaned up. If I decide that lazy cleanup is ok, I can avoid
+ResourceWarnings by using a [weakref
+callback](http://docs.python.org/library/weakref.html#weakref.ref) to
+close the resource before it's deleted, whenever that happens.
+
+Nick also pointed out that ResourceWarnings are off by default in normal
+Python programsI just saw them all the time because I usually run my
+code in `nosetest`.
+
+[Read our full discussion in the
+comments](/blog/against-resourcewarnings-in-python-3/#comment-514722438).
+
+Props to Nick for taking the time to explain.

@@ -1,0 +1,45 @@
+_model: blog-post
+---
+title: NYC Python Meetup recap
+---
+pub_date: 2011-11-16
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Programming
+Python
+---
+summary: I went to the NYC Python Meetup tonight at an East Village Bar. We drank, we ate pizza, we fended off recruiters (they knew they couldn't recruit at the meetup proper, but one ambushed me as I left!), and heard two quirky presentations: [ ... ]
+---
+body:
+
+I went to the [NYC Python Meetup](http://www.meetup.com/nycpython)
+tonight at an East Village Bar. We drank, we ate pizza, we fended off
+recruiters (they knew they couldn't recruit at the meetup proper, but
+one ambushed me as I left!), and heard two quirky presentations:
+
+ Roy Smith of songza.com talked about Songza's complex tech stack, and
+discussed some nice techniques for dealing with the complexity. In
+particular, they've hacked up their HAProxy front-end load balancer to
+add an X-Unique-Id header to every incoming HTTP request. All the
+software at all the tiers of their application logs the unique id along
+with whatever else it's logging, so in retrospect it's easy to track the
+steps it took to handle a request  or fail to handle it  as the work
+bubbled from tier to tier. They've even integrated with [Get
+Satisfaction](http://getsatisfaction.com/) so they know the request id a
+customer is complaining about.
+
+ Aaron Watters showed us Gadfly, a Python library that implements the
+SQL language for querying in-memory data or flat files. He's updated
+Gadfly to talk with Cassandra (a NoSQL contender from Facebook) using
+SQL. It seems to be at the clever-hack stage right now, but could lead
+the way to integrating NoSQL databases with legacy systems that expect
+SQL databases?

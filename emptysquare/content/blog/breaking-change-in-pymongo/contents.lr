@@ -1,0 +1,38 @@
+_model: blog-post
+---
+title: Breaking Change In PyMongo
+---
+pub_date: 2012-12-02
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: In my excitement about the big changes in PyMongo 2.4, I forgot to mention a smaller one you should watch out for: from now on, if the initial connection to MongoDB fails, PyMongo raises ConnectionFailure instead of AutoReconnect. This is [ ... ]
+---
+body:
+
+In my excitement about [the big changes in PyMongo 2.4](http://emptysquare.net/blog/pymongos-new-default-safe-writes/), I forgot to mention a smaller one you should watch out for: from now on, if the initial connection to MongoDB fails, PyMongo raises `ConnectionFailure` instead of `AutoReconnect`. This is a more intuitive exception to throw, but it does mean you need to change your exception handlers. If you've been doing this:
+
+```python
+try:
+    connection = Connection('mongo_host')
+except AutoReconnect:
+    print "Can't connect to MongoDB!"
+
+```
+...then you need to start catching `ConnectionFailure` from now on. This change only applies to the initial creation of `Connection` or `ReplicaSetConnection`, not to the `AutoReconnect` exceptions PyMongo raises if there's a network error on an established connection. The change **does** apply to PyMongo 2.4's new `MongoClient` and `MongoReplicaSetClient` classes.
+
+Since `AutoReconnect` inherits from `ConnectionFailure`, you might already be catching `ConnectionFailure`. In that case, carry on.
+
+[Here's the full bug report that motivated the change.](https://jira.mongodb.org/browse/PYTHON-396) This is subtle enough that I missed it a few times in PyMongo's own unittests, so check your code and make sure you're catching the right exception.

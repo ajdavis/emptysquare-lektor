@@ -1,0 +1,47 @@
+_model: blog-post
+---
+title: Announcing PyMongo 3.2
+---
+pub_date: 2015-12-08
+---
+author: 
+---
+type: post
+---
+tags:
+
+pymongo
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: Supports all the new MongoDB 3.2 features.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/12/tree-boa.jpg" alt="Emerald Tree Boa" title="Emerald Tree Boa" />
+
+Our Python team released PyMongo 3.2 today. This time I wasn't involved at all; Bernie Hackett, Anna Herlihy, and Luke Lovett developed this version, with a contribution from Felix Yan.
+
+Version 3.2 implements the new server features introduced in MongoDB 3.2. (It's a coincidence that the version numbers are the same.)
+
+* Support for ReadConcern.
+* WriteConcern is now applied to `find_one_and_replace()`, `find_one_and_update()`, and `find_one_and_delete()`.
+* Support for the new bypassDocumentValidation option in write helpers.
+* Reading and write raw BSON with `RawBSONDocument`&mdash;this feature is very exciting, show us what you can do with it!
+* We now prefer the package "Monotime" to the outdated "monotonic" to provide a safe clock.
+
+Some MongoClient properties, like `client.is_mongos`, will now block until a connection is established or raise ServerSelectionTimeoutError if no server is available.
+
+Links:
+
+* [PyPI](https://pypi.python.org/pypi/pymongo/).
+* [PyMongo documentation](http://api.mongodb.org/python/current/).
+* [All features and bugfixes in PyMongo 3.2](https://jira.mongodb.org/issues/?jql=project%20%3D%20PYTHON%20AND%20fixVersion%20%3D%203.2%20ORDER%20BY%20updated%20DESC%2C%20priority%20DESC%2C%20created%20ASC).
+
+***
+
+[<span style="color:gray">Image: Wikipedia</span>](https://en.wikipedia.org/wiki/National_Aquarium_(Baltimore)#/media/File:National_Aquarium_in_Baltimore_Snake.jpg)

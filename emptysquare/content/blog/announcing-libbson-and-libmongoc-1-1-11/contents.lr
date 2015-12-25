@@ -1,0 +1,47 @@
+_model: blog-post
+---
+title: Announcing libbson and libmongoc 1.1.11
+---
+pub_date: 2015-09-23
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+C
+Mongo
+Programming
+---
+summary: Documentation improvements and many network-layer bugfixes.
+---
+body:
+
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/09/crow-sea.jpg" alt="Crow, sea - by Mark Abercrombie" title="Crow, sea - by Mark Abercrombie" />
+
+Today I released version 1.1.11 of libbson and libmongoc, the two libraries that constitute the MongoDB C Driver.
+
+In libbson, my new team member Kyle Suarez improved the documentation with [an example of streaming BSON over a socket](https://github.com/mongodb/libbson/blob/master/examples/bson-streaming-reader.c), and added pages for the callback function types [`bson_reader_destroy_func_t`](https://api.mongodb.org/libbson/1.1.11/bson_reader_destroy_func_t.html) and [`bson_reader_read_func_t`](https://api.mongodb.org/libbson/1.1.11/bson_reader_read_func_t.html).
+
+In libmongoc, Jason Carey and Hannes Magnusson fixed an assortment of undetected network errors when sending messages to the server, and Jason plugged a memory leak when the driver parses a URI that contains an invalid option. Jose Sebastian Battig contributed a patch for an off-by-one error in mongoc_gridfs_file_seek with mode SEEK_END. GitHub user "rubicks" updated the libbson submodule's URL to use the recommended "https://" instead of "git://".
+
+The documentation is here:
+
+* [http://docs.mongodb.org/ecosystem/drivers/c/](http://docs.mongodb.org/ecosystem/drivers/c/)
+
+Tarballs:
+
+* [libbson-1.1.11.tar.gz](https://github.com/mongodb/libbson/releases/download/1.1.11/libbson-1.1.11.tar.gz)
+* [mongo-c-driver-1.1.11.tar.gz](https://github.com/mongodb/mongo-c-driver/releases/download/1.1.11/mongo-c-driver-1.1.11.tar.gz)
+
+Thanks to everyone who contributed to the development of this release!
+
+***
+
+[Image: Mark Abercrombie](https://www.flickr.com/photos/streetseens/16689162036/)

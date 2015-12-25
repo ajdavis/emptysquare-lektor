@@ -1,0 +1,25 @@
+_model: blog-post
+---
+title: DZone Interviews Me
+---
+pub_date: 2013-04-17
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: I'm DZone.com's "Dev of the Week" feature.
+---
+body:
+
+The developer site DZone interviewed me for their "Dev of the Week" feature. I talked about Python, photography, and being teased by my girlfriend. [Read the whole thing on DZone.com](http://architects.dzone.com/articles/dev-week-jesse-jiryu-davis).

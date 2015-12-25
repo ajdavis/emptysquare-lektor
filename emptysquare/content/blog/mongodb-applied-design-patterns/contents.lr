@@ -1,0 +1,46 @@
+_model: blog-post
+---
+title: Review of "MongoDB Applied Design Patterns" by Rick Copeland
+---
+pub_date: 2013-03-26
+---
+author: 
+---
+type: post
+---
+tags:
+
+best
+---
+categories:
+
+Mongo
+Programming
+Python
+Review
+---
+summary: An excellent new O'Reilly book on MongoDB gives detailed, well-thought-out designs for a range of applications.
+---
+body:
+
+There's a lot of bad advice out there regarding MongoDB. [As I wrote in my last review](http://emptysquare.net/blog/building-node-applications-mongodb-backbone/), even smart sources can encourage risky methods. Soon, I hope, there will be as much good MongoDB instruction from experts outside 10gen as there is good third-party SQL instruction. For now, know that you can trust Rick Copeland.
+
+Copeland's new O'Reilly book on MongoDB complements O'Reilly's other five: the majestic *Definitive Guide* (due for a second edition in June), *Scaling MongoDB*, *50 Tips and Tricks*, and the MongoDB books for Python and PHP.
+
+After you've read the *Definitive Guide*, a good candidate for your second MongoDB book is *Applied Design Patterns*. (Disclosure: I was paid to critique an early draft.) Copeland's intended audience has basic MongoDB competence and wants application examples that optimize either for scalability or maintainability, plus the principles to guide new designs. Copeland also assumes basic SQL knowledge, and presents most examples in contrast to conventional SQL solutions, a method I find distracting and irrelevant. He identifies some common application types (product catalog, CMS, analytics, etc.) and provides for each a schema and application logic. He goes far beyond prior works when he discusses performance, consistency guarantees, and sharding considerations for every application.
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/03/MongoDB-Applied-Design-Patterns.jpg" alt="MongoDB Applied Design Patterns" title="MongoDB-Applied-Design-Patterns.jpg" border="0"   />
+
+In Part 1, Copeland discusses the basic questions about MongoDB schemas. Right away, he identifies what makes nonrelational design different:
+
+> There is no longer a "garden path" of normalized database design to go down, and the go-to answer when faced with general schema design problems in MongoDB is "it depends".
+
+MongoDB requires optimization up front, more often than SQL schema design does. ([Armin Ronacher noticed this too](http://lucumr.pocoo.org/2012/12/29/sql-is-agile/) a few months ago.) Most often the question is whether to embed or to link, and what data should be normalized or denormalized. Copeland uses an extensive description of disk seek times to explain the motivations for embedding and denormalization, better than prior MongoDB schema-design materials have. 
+
+Many presentations, my own included, have claimed that you can migrate your schema lazily with MongoDB: your application can start writing data in a new format, and read data in both new and old formats, while a batch job slowly migrates old data. *MongoDB Applied Design Patterns* finally presents a complete example of lazy migration, including example code (in Python) for reading data in both formats while the migration is in progress.
+
+Without general-purpose transactions, MongoDB requires new techniques to guarantee that a series of changes is atomic: that is, to guarantee that in the long run your data either reflects all the changes or none of them. The simple approach is to put all related data in one document and use [update operators](http://docs.mongodb.org/manual/applications/update/#crud-update-update) to modify all the data in one shot. If there's no way to restrict your atomic operation to one document, your next best bet is optimistic concurrency control: try to complete the operation, check if another process overwrote your changes, and if so retry them. There are a number of examples of this in the wild ([the MongoDB Manual](http://docs.mongodb.org/manual/tutorial/isolate-sequence-of-operations/), [Dan Crosta](http://late.am/post/2011/11/18/ensuring-write-your-own-reads-consistency-in-mongodb), [Scott Hernandez](http://code.google.com/p/morphia/wiki/MongoNewsletterArticleDec2010)); Copeland's contribution is unusually complete, with example code for handling every case that can arise.
+
+Part 2 of the book is much longer, and covers six kinds of application in depth, both conventional (a social network) and unusual (a role-playing game). Here Copeland excels. Where he covers well-tread ground his designs are more detailed and better thought out than prior authors', and where he innovates he chooses interesting problems to solve. In the Operational Intelligence chapter he explains compound indexes clearly and correctly. He presents a complete design for an analytics application using the [MongoDB aggregation framework](http://docs.mongodb.org/manual/applications/aggregation/), and covers the interactions between aggregation, indexes, and sharding.
+
+The final example of the book is an online Zork-style game. This is less widely applicable than E-Commerce or content management, but way more fun. Copeland chooses to radically denormalize his schema: when a player enters a room, the room's entire data structure is copied into the player's document so the game can display the player's state without querying for the room again. As with the other examples, this application is considered in depth: each query is carefully indexed, and when a player picks up an item, Copeland's code prevents another player from picking it up concurrently. Most of the game's intelligence is expressed in Python code rather than in MongoDB queries. Developers using Oracle or Microsoft SQL Server tend to push all the logic and complexity into their schema, their queries, and stored procedures. With MongoDB's simpler feature-set, coders have to move more logic out of the database and into their application. If a SQL refugee hasn't yet learned this lesson, the gaming chapter will drive it home.

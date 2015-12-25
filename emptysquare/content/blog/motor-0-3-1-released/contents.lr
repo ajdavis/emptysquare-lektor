@@ -1,0 +1,38 @@
+_model: blog-post
+---
+title: Motor 0.3.1 Released
+---
+pub_date: 2014-07-08
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Motor
+Programming
+Python
+---
+summary: Fixes a bug when GridFSHandler is combined with a timezone-aware MotorClient.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
+
+Today I released version 0.3.1 of Motor, the asynchronous MongoDB driver for Python and Tornado. This release is compatible with MongoDB 2.2, 2.4, and 2.6. It requires PyMongo 2.7.1.
+
+There are no new features. Changes:
+
+* Fix [an error with GridFSHandler and timezone-aware MotorClients](https://jira.mongodb.org/browse/MOTOR-43).
+* Fix [GridFS examples](http://motor.readthedocs.org/en/stable/examples/gridfs.html) that hadn't been updated for Motor 0.2's new syntax.
+* Fix [a unittest that hadn't been running](https://github.com/mongodb/motor/commit/395ccac2823cbd193fdc5a9345f79f084656c5e3).
+
+Get the latest version with `pip install --upgrade motor`. [The documentation is on ReadTheDocs](http://motor.readthedocs.org/en/stable). If you encounter any issues, please [file them in Jira](https://jira.mongodb.org/browse/MOTOR).
+
+Meanwhile, I'm prototyping `asyncio` support alongside Tornado for Motor's next major release.

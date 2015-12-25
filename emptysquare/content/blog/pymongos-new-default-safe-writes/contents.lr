@@ -1,0 +1,165 @@
+_model: blog-post
+---
+title: PyMongo's New Default: Safe Writes!
+---
+pub_date: 2012-11-27
+---
+author: 
+---
+type: post
+---
+tags:
+
+pymongo
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: I joyfully announce that we are changing all of 10gen's MongoDB drivers to do "safe writes" by default. In the process we're renaming all the connection classes to MongoClient, so all the drivers now use the same term for the central class. [ ... ]
+---
+body:
+
+I joyfully announce that we are [changing all of 10gen's MongoDB drivers](http://blog.mongodb.org/post/36666163412/introducing-mongoclient) to do "safe writes" by default. In the process we're renaming all the connection classes to MongoClient, so all the drivers now use the same term for the central class.
+
+[PyMongo](http://pypi.python.org/pypi/pymongo/) 2.4, released today, has new classes called `MongoClient` and `MongoReplicaSetClient` that have the new default setting, and a new API for configuring write-acknowledgement called "write concerns". PyMongo's old `Connection` and `ReplicaSetConnection` classes remain untouched for backward compatibility, but they are now considered deprecated and will disappear in some future release. The changes were implemented by PyMongo's maintainer (and my favorite colleague) Bernie Hackett.
+
+* * *
+
+Contents:
+
+* [Background](#background)
+* [The New Defaults](#new-defaults)
+* [Write Concerns](#write-concerns)
+* [auto\_start\_request](#auto_start_request)
+* [What About Motor?](#motor)
+* [The Uplifting Conclusion](#conclusion)
+
+# <a id="background"></a>Background
+
+MongoDB's writes happen in two phases. First the driver sends the server an `insert`, `update`, or `remove` message. The MongoDB server executes the operation and notes the outcome: it records whether there was an error, how many documents were updated or removed, and whether an [upsert](http://www.mongodb.org/display/DOCS/Updating#Updating-%7B%7Bupserts%7D%7D) resulted in an update or an insert.
+
+In the next phase, the driver runs the [`getLastError`](http://docs.mongodb.org/manual/applications/replication/#replica-set-write-concern) command on the server and awaits the response:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/11/get-last-error.png" alt="getLastError" title="get_last_error.png" border="0"   />
+
+This `getLastError` call can be omitted for speed, in which case the driver just sends all its write messages without awaiting acknowledgment. "Fire-and-forget" mode is obviously very high-performance, because it can take advantage of network *throughput* without being affected by network *latency*. But this mode doesn't report errors to your application, and it doesn't guarantee that a write has completed before you do a query. It's not the right mode to use by default, so we're changing it now.
+
+In the past we haven't been particularly consistent in our terms for these modes, sometimes talking about "safe" and "unsafe" writes, at other times "blocking" and "non-blocking", etc. From now on we're trying to stick to "acknowledged" and "unacknowledged," since that goes to the heart of the difference. I'll stick to these terms here.
+
+(In 10gen's ancient history, before my time, the plan was to make a full platform-as-a-service stack with MongoDB as the data layer. It made sense then for `getLastError` to be a separate operation that was run explicitly, and to *not* call `getLastError` automatically by default. But MongoDB is a standalone product and it's clear that the default needs to change.)
+
+# <a id="new-defaults"></a>The New Defaults
+
+In earlier versions of PyMongo you would create a connection like this:
+
+```python
+from pymongo import Connection
+connection = Connection('localhost', 27017)
+
+```
+By default, `Connection` did unacknowledged writes&mdash;it didn't call `getLastError` at all. You could change that with the `safe` option like:
+
+```python
+connection = Connection('localhost', 27017, safe=True)
+
+```
+You could also configure arguments that were passed to every `getLastError` call that made it wait for specific events, e.g. to [wait for the primary and two secondaries to replicate the write](http://docs.mongodb.org/manual/applications/replication/#replica-set-write-concern), you could pass `w=3`, and to wait for the primary to [commit the write to its journal](http://www.mongodb.org/display/DOCS/Journaling#Journaling-CommitAcknowledgement), you could pass `j=True`:
+
+```python
+connection = Connection('localhost', 27017, w=3, j=True)
+
+```
+(The "w" terminology comes from the Dynamo whitepaper that's foundational to the NoSQL movement.)
+
+`Connection` hasn't changed in PyMongo 2.4, but we've added a `MongoClient` which does acknowledged writes by default:
+
+```python
+from pymongo import MongoClient
+client = MongoClient('localhost', 27017)
+
+```
+`MongoClient` lets you pass arguments to `getLastError` just like `Connection` did:
+
+```python
+from pymongo import MongoClient
+client = MongoClient('localhost', 27017, w=3, j=True)
+
+```
+Instead of an odd overlap between the `safe` and `w` options, we've now standardized on using `w` only. So you can get the old behavior of unacknowledged writes with the new classes using `w=0`:
+
+```python
+client = MongoClient('localhost', 27017, w=0)
+
+```
+`w=0` is the new way to say `safe=False`.
+
+`w=1` is the new `safe=True` and it's now the default. Other options like `j=True` or `w=3` work the same as before. You can still set options per-operation:
+
+```python
+client.db.collection.insert({'foo': 'bar'}, w=1)
+
+```
+`ReplicaSetConnection` is also obsolete, of course, and succeeded by `MongoReplicaSetClient`.
+
+# <a id="write-concerns"></a>Write Concerns
+
+The old `Connection` class let you set the `safe` attribute to `True` or `False`, or call `set_lasterror_options()` for more complex configuration. These are deprecated, and you should now use the `MongoClient.write_concern` attribute. `write_concern` is a dict whose keys may include `w`, `wtimeout`, `j`, and `fsync`:
+
+```python
+>>> client = MongoClient()
+>>> # default empty dict means "w=1"
+>>> client.write_concern
+{}
+>>> client.write_concern = {'w': 2, 'wtimeout': 1000}
+>>> client.write_concern
+{'wtimeout': 1000, 'w': 2}
+>>> client.write_concern['j'] = True
+>>> client.write_concern
+{'wtimeout': 1000, 'j': True, 'w': 2}
+>>> client.write_concern['w'] = 0 # disable write acknowledgement
+
+```
+You can see that the default `write_concern` is an empty dictionary. It's equivalent to `w=1`, meaning "do regular acknowledged writes".
+
+# <a id="auto_start_request"></a>auto\_start\_request
+
+This is very nerdy, but my personal favorite. The default value for `auto_start_request` is changing from `True` to `False`.
+
+The short explanation is this: with the old `Connection`, you could write some data to the server without acknowledgment, and then read that data back immediately afterward, provided there wasn't an error *and* that you used the same socket for the write and the read. If you used a different socket for the two operations then there was no guarantee of "read your writes consistency," because the write could still be enqueued on one socket while you completed the read on the other.
+
+You could pin the current thread to a single socket with `Connection.start_request()`, and in fact the default was for `Connection` to start a request for you with every operation. That's `auto_start_request`. It offers some consistency guarantees but requires the driver to open extra sockets.
+
+Now that `MongoClient` waits for acknowledgment of every write, `auto_start_request` is no longer needed. If you do this:
+
+```python
+>>> collection = MongoClient().db.collection
+>>> collection.insert({'foo': 'bar'})
+>>> print collection.find_one({'foo': 'bar'})
+
+```
+... then the `find_one` won't run until the `insert` is acknowledged, which means your document has definitely been inserted and you can query for it confidently on any socket. We turned off `auto_start_request` for improved performance and fewer sockets. If you're doing unacknowledged writes with `w=0` followed by reads, you should consider whether to call `MongoClient.start_request()`. See the details (with charts!) in [my blog post on requests](http://emptysquare.net/blog/requests-in-python-and-mongodb/) from April.
+
+# <a id="migration"></a>Migration
+
+`Connection` and `ReplicaSetConnection` will remain for a while (not forever), so your existing code will work the same and you have time to migrate. We are working to update all documentation and example code to use the new classes. In time we'll add deprecation warnings to the old classes and methods before removing them completely.
+
+If you maintain a library built on PyMongo, you can check for the new classes with code like:
+
+```python
+try:
+    from pymongo import MongoClient
+    has_mongo_client = True
+except ImportError:
+    has_mongo_client = False
+
+```
+# <a id="motor"></a>What About Motor?
+
+Motor's in beta, so I'll break backwards compatibility ruthlessly for the sake of cleanliness. In the next week or two I'll merge the official PyMongo changes into [my fork](https://github.com/ajdavis/mongo-python-driver/tree/motor/), and I'll nuke `MotorConnection` and `MotorReplicaSetConnection`, to be replaced with `MotorClient` and `MotorReplicaSetClient`.
+
+# <a id="conclusion"></a>The Uplifting Conclusion
+
+We've known for a while that unacknowledged writes were the wrong default. Now it's finally time to fix it. The new `MongoClient` class lets you migrate from the old default to the new one at your leisure, and brings a bonus: all the drivers agree on the name of the main entry-point. For programmers new to MongoDB, turning on write-acknowledgment by default is a huge win, and makes it much more intuitive to write applications on MongoDB.

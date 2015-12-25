@@ -1,0 +1,71 @@
+_model: blog-post
+---
+title: Toro: synchronization primitives for Tornado coroutines
+---
+pub_date: 2012-11-18
+---
+author: 
+---
+type: post
+---
+tags:
+
+tornado
+---
+categories:
+
+Programming
+Python
+---
+summary: I took a break from Motor to make a new package "Toro": queues, semaphores, locks, and so on for Tornado coroutines. (The name "Toro" is from "Tornado" and "Coro".) Why would you need something like this, especially since Tornado apps are [ ... ]
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/11/toro.png" alt="Toro" title="toro.png" border="0"   />
+
+I took a break from [Motor](http://emptysquare.net/motor/) to make a new package "Toro": queues, semaphores, locks, and so on for Tornado coroutines. (The name "Toro" is from "Tornado" and "Coro".)
+
+Why would you need something like this, especially since Tornado apps are usually single-threaded? Well, with Tornado's [gen](http://www.tornadoweb.org/documentation/gen.html) module you can turn Python generators into full-featured coroutines, but coordination among these coroutines is difficult. If one coroutine wants exclusive access to a resource, how can it notify other coroutines to proceed once it's finished? How do you allow N coroutines, but no more than N, access a resource at once? How do you start a set of coroutines and end your program when the last completes?
+
+Each of these problems can be solved individually, but Toro's classes generalize the solutions. Toro provides to Tornado coroutines a set of locking primitives and queues analogous to those that Gevent provides to Greenlets, or that the standard library provides to threads.
+
+Here's a producer-consumer example with a `toro.Queue`:
+
+```python
+from tornado import ioloop, gen
+import toro
+
+q = toro.JoinableQueue(maxsize=3)
+
+@gen.engine
+def consumer():
+    while True:
+        item = yield gen.Task(q.get)
+        try:
+            print 'Doing work on', item
+        finally:
+            q.task_done()
+
+@gen.engine
+def producer():
+    for item in range(10):
+        yield gen.Task(q.put, item)
+
+if __name__ == '__main__':
+    producer()
+    consumer()
+    loop = ioloop.IOLoop.instance()
+    q.join(callback=loop.stop) # block until all tasks are done
+    loop.start()
+
+
+```
+More [examples are in the docs](http://toro.readthedocs.org/en/latest/examples/index.html): graceful shutdown using Toro's `Lock`, a caching proxy server with `Event`, and a web spider with `Queue`. Further reading:
+
+[Toro on Read the Docs](http://toro.readthedocs.org/)
+
+[Toro on Github](https://github.com/ajdavis/toro)
+
+[Toro on PyPI](http://pypi.python.org/pypi/toro/)
+
+*Toro logo by [Musho Rodney Alan Greenblat](http://whimsyload.com/)*

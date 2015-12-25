@@ -1,0 +1,38 @@
+_model: blog-post
+---
+title: Motor 0.2.1 Released
+---
+pub_date: 2014-05-27
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Motor
+Programming
+Python
+---
+summary: A patch release that fixes two bugs.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
+
+Version 0.2.1 of Motor, the asynchronous MongoDB driver for Python and Tornado, has been released. It fixes two bugs:
+
+* [MOTOR-32](https://jira.mongodb.org/browse/MOTOR-32):
+  The documentation claimed that `MotorCursor.close` immediately
+  halted execution of `MotorCursor.each`, but it didn't.
+  `MotorCursor.each()` is now halted correctly.
+* [MOTOR-33](https://jira.mongodb.org/browse/MOTOR-33):
+  An incompletely iterated cursor's `__del__` method sometimes got stuck
+  and cost 100% CPU forever, even though the application was still responsive.
+
+[The manual is on ReadTheDocs](http://motor.readthedocs.org/en/stable/). If you find a bug or want a feature, I exhort you to [report it](https://jira.mongodb.org/browse/MOTOR).

@@ -1,0 +1,52 @@
+_model: blog-post
+---
+title: An Event synchronization primitive for Ruby
+---
+pub_date: 2013-02-09
+---
+author: 
+---
+type: post
+---
+tags:
+
+threading
+---
+categories:
+
+Programming
+---
+summary: A port of Python's threading.Event synchronization primitive for Ruby
+---
+body:
+
+I helped some Ruby friends implement a rendezvous (aka a [barrier](http://en.wikipedia.org/wiki/Barrier_%28computer_science%29)). I'm accustomed to using an [Event](http://docs.python.org/2/library/threading.html#threading.Event) to implement a rendezvous in Python but Ruby doesn't have Events, only Mutexes and ConditionVariables. That's fine, Python's Event is implemented in terms of a mutex and a condition, so it's easy to make an Event in Ruby:
+
+```ruby
+class Event
+    def initialize
+        @lock = Mutex.new
+        @cond = ConditionVariable.new
+        @flag = false
+    end
+
+    def set
+        @lock.synchronize do
+            @flag = true
+            @cond.broadcast
+       end
+    end
+
+    def wait
+        @lock.synchronize do
+            if not @flag
+                @cond.wait(@lock)
+            end
+        end
+    end
+end
+
+```
+Ruby's `cond.wait(lock)` pattern is interesting&mdash;you enter a lock so you can call `wait`, then `wait` releases the lock so another thread can `broadcast` the condition, and finally `wait` reacquires the lock before continuing.
+
+I didn't implement `is_set` since it's unreliable (another thread can change it between the time you check the value and the time you act upon the information) and I didn't do `clear` since you can just replace the Event with a fresh one.

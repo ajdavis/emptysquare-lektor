@@ -1,0 +1,126 @@
+_model: blog-post
+---
+title: Announcing PyMongo 2.8 Release Candidate
+---
+pub_date: 2014-11-12
+---
+author: 
+---
+type: post
+---
+tags:
+
+pymongo
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: Compatible with new MongoDB 2.8 features, and deprecates some features that will be removed in PyMongo 3.0.
+---
+body:
+
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/11/Morelia_spilota_variegata_MNHN.jpg" alt="Morelia spilota variegata" title="Morelia spilota variegata" />
+](https://commons.wikimedia.org/wiki/File%3AMorelia_spilota_variegata_MNHN.jpg)
+
+[<span style="color:gray">By Jebulon, via Wikimedia Commons</span>](https://commons.wikimedia.org/wiki/File%3AMorelia_spilota_variegata_MNHN.jpg)
+
+We've just tagged a release candidate of PyMongo, the standard MongoDB driver for Python. You can install it like:
+```
+pip install git+git://github.com/mongodb/mongo-python-driver.git@2.8rc0
+```
+Most of the changes between PyMongo 2.8 and the previous release, 2.7.2, are for compatibility with the upcoming MongoDB 2.8 release. (By coincidence,  PyMongo and MongoDB are at the same version number right now.)
+
+[TOC]
+
+***
+
+# Compatibility
+
+## SCRAM-SHA-1 authentication
+
+MongoDB 2.8 adds support for SCRAM-SHA-1 authentication and makes it the new default, replacing our inferior old protocol MONGODB-CR ("MongoDB Challenge-Response"). PyMongo's maintainer Bernie Hackett added support for the new protocol. PyMongo and MongoDB work together to make this change seamless: you can upgrade PyMongo first, then your MongoDB servers, and authentication will keep working with your existing passwords. When you choose to, you can upgrade how your passwords are hashed within the database itself&mdash;we'll document how to do that when we release MongoDB 2.8.
+
+SCRAM-SHA-1 is more secure than MONGODB-CR, but it's also slower: the new protocol requires the client to do 10,000 iterations of SHA-1 by default, instead of one iteration of MD5. This has two implications for you.
+
+First, you must create one MongoClient or MongoReplicaSetClient instance when your application starts up, and keep using it for your application's lifetime. For example, consider this little Flask app:
+```python
+from pymongo import MongoClient
+from flask import Flask
+
+# This is the right thing to do:
+db = MongoClient('mongodb://user:password@host').test
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    doc = db.collection.find_one()
+    return repr(doc)
+
+app.run()
+```
+That's the right way to build your app, because it lets PyMongo reuse connections to MongoDB and maintain a connection pool.
+
+But time and again and I see people write request handlers like this:
+```python hl_lines="4"
+@app.route('/')
+def home():
+    # Wrong!!
+    db = MongoClient('mongodb://user:password@host').test
+    doc = db.collection.find_one()
+    return repr(doc)
+```
+When you create a new MongoClient for each request like this, it requires PyMongo to set up a new TCP connection to MongoDB for every request to your application, and then shut it down after each request. This already hurts your performance.
+
+But if you're using authentication and you upgrade to PyMongo 2.8 and MongoDB 2.8, you'll also pay for SHA-1 hashing with every request. So if you aren't yet following my recommendation and reusing one client throughout your application, fix your code now.
+
+Second, you should install [backports.pbkdf2](https://pypi.python.org/pypi/backports.pbkdf2/0.1)&mdash;it speeds up the hash computation, especially on Python older than 2.7.8, or on Python 3 before Python 3.4.
+
+I've updated PyMongo's ``copy_database`` so you can [use SCRAM-SHA-1 authentication to copy between servers](http://api.mongodb.org/python/current/examples/copydb.html). More information about SCRAM-SHA-1 is in [PyMongo's latest auth documentation](http://api.mongodb.org/python/current/examples/authentication.html).
+
+## count with hint
+
+Starting in MongoDB 2.6 the "count" command can [take a hint that tells it which index to use, by name](https://jira.mongodb.org/browse/SERVER-2677). In PyMongo 2.8 Bernie [added support for count with hint](https://jira.mongodb.org/browse/PYTHON-744):
+```python
+from pymongo import ASCENDING
+
+collection.create_index([('field', ASCENDING)], name='my_index')
+
+collection.find({
+    'field': {'$gt': 10}
+}).hint('my_index').count()
+```
+This will work with MongoDB 2.6, and in MongoDB 2.8 [count support hints by index specs](https://jira.mongodb.org/browse/SERVER-14799), not just index names:
+```python hl_lines="3"
+collection.find({
+    'field': {'$gt': 10}
+}).hint([('field', ASCENDING)]).count()
+```
+
+# PyMongo improvements
+
+## SON performance
+
+Don Mitchell from EdX generously offered us [a patch](https://jira.mongodb.org/browse/PYTHON-703) that improves the performance of [SON](http://api.mongodb.org/python/current/api/bson/son.html), PyMongo's implementation of an ordered dict. His patch avoids unnecessary copies of field names in many of SON's methods.
+
+## socketKeepAlive
+
+In some network setups, users need to [set the SO_KEEPALIVE flag](http://www.tldp.org/HOWTO/html_single/TCP-Keepalive-HOWTO/) on PyMongo's TCP connections to MongoDB, so Bernie [added a socketKeepAlive option to MongoClient and MongoReplicaSetClient](https://jira.mongodb.org/browse/PYTHON-679).
+
+# Deprecation warnings
+
+Soon we'll release a PyMongo 3.0 that removes many obsolete features from PyMongo and gives you a cleaner, safer, faster new API. But we want to make the upgrade as smooth as possible for you. To begin with, I [documented our compatibility policy](http://api.mongodb.org/python/current/compatibility-policy.html). I explained how to test your code to make sure you use no deprecated features of PyMongo.
+
+Second, I deprecated some features that will be removed in PyMongo 3.0:
+
+``start_request`` is deprecated and will be removed in PyMongo 3.0, because it's [not the right way to ensure consistency](http://emptysqua.re/blog/read-your-writes-consistency-pymongo/), and [it doesn't work with sharding in MongoDB 2.8](https://jira.mongodb.org/browse/SERVER-12273). Further justifications [can be found here](https://jira.mongodb.org/browse/PYTHON-785).
+
+``MasterSlaveConnection`` is deprecated and will be removed, since master-slave setups are themselves obsolete. Replica sets are superior to master-slave, especially now that [replica sets can have more than 12 members](https://jira.mongodb.org/browse/SERVER-15060). Anyway, even if you still have a master-slave setup, PyMongo's ``MasterSlaveConnection`` wasn't very useful.
+
+And finally, ``copy_database`` is deprecated. We asked customers if they used it and the answer was no, people [use the mongo shell for copying databases](http://docs.mongodb.org/manual/reference/method/db.copyDatabase/), not PyMongo. For the sake of backwards compatibility I upgraded PyMongo's ``copy_database`` to support SCRAM-SHA-1, anyway, but in PyMongo 3.0 we plan to remove it. Let me know in the comments if you think this is the wrong decision.
+
+# Bugs
+
+The only notable bugfix in PyMongo 2.8 is [the delightfully silly mod_wsgi error I wrote about last month](http://emptysqua.re/blog/a-normal-accident-in-python-and-mod-wsgi/). But if you find any *new* bugs, please let us know by [opening an issue in Jira](https://jira.mongodb.org/browse/PYTHON), I promise we'll handle it promptly.

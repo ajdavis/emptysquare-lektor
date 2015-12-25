@@ -1,0 +1,298 @@
+_model: blog-post
+---
+title: Black Pipe Testing A Connected Application In C
+---
+pub_date: 2015-10-27
+---
+author: 
+---
+type: post
+---
+tags:
+
+black-pipe
+testing
+---
+categories:
+
+C
+Mongo
+Programming
+Python
+---
+summary: The fourth "black pipe testing" article: testing the MongoDB C Driver with mock_server_t.
+---
+body:
+
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/09/f-train.jpg" alt="The F Train" title="The F Train" />](https://www.flickr.com/photos/emptysquare/404160108)
+
+This is the fourth article in [my series on "black pipe" testing](http://emptysqua.re/blog/black-pipe-testing-series/). Here I describe testing libmongoc (the MongoDB C Driver) as a black pipe.
+
+Like any network client library, libmongoc cannot be fully tested as a black box. Traditional black box tests enter some input and check the output&mdash;this only validates one side of the system at a time. But libmongoc has two sides, working in concert. One side is its public API, its structs and functions and so on. The other is its communication over the network with the MongoDB server. Only by treating it as a black pipe can we fully test its two sides.
+
+[TOC]
+
+***
+
+# Origin
+
+I began thinking about black pipe testing early this year. I was reading the libmongoc test suite in preparation for taking over the project from Christian Hergert and Jason Carey, and I came across Christian's `mock_server_t` struct. Test code in C does not ordinarily make lively reading, but I woke up when I saw this. Had he really written a MongoDB wire protocol server in order to test the client library?
+
+If you know Christian Hergert's work, you know the answer. Of course he had. His mock server listened on a random TCP port, parsed the client's network messages, and sent MongoDB responses. At the time, `mock_server_t` used callbacks: you created a mock server with a pointer to a function that handled requests and chose how to reply. And if you think callbacks are ungainly in Javascript or Python, try them in C.
+
+Despite its awkward API, the mock server was indispensable for certain tests. For example, Christian had a mock server that reported it only spoke wire protocol versions 10 and 11. Since the latest MongoDB protocol version is only 3, the driver does not know how to talk to such a futuristic server and should refuse to, but the only way to test that behavior is by simulating the server.
+
+Besides the protocol-version test, Christian also used the mock server to validate the client's handling of "read preferences". That is, how the client expresses whether it wants to read from a primary server, a secondary, or some subtler criterion. A mock server is required here because a correct client and a buggy one appear the same at the API level: it is only when we test its behavior at the network layer that bugs are caught.
+
+In these two tests I saw the two use cases for "black pipe" testing. First, black pipe tests simulate unusual server behavior and network events. Second, in cases where the client's API behavior can appear correct even when there are bugs at the network layer, black pipe tests validate the network-level logic too.
+
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/10/f-train-2.jpg" alt="F Train" title="F Train" />](https://www.flickr.com/photos/emptysquare/352837037/)
+
+# Evolution: from C to Python
+
+I had not yet taken leadership of libmongoc&mdash;I was finishing up some Python work. So, inspired by Christian's idea, I wrote a mock server in Python, called [MockupDB](http://mockupdb.readthedocs.org/). MockupDB is the subject of my earlier article in this series: ["Testing PyMongo As A Black Pipe."](http://emptysqua.re/blog/black-pipe-testing-pymongo/)
+
+Since I was working in my native tongue Python, I could afford to be finicky about MockupDB's interface. I didn't want callbacks, dammit, I wanted to make something nice! As I wrote in the MockupDB article, I came up with a future-based programming interface that let me neatly interleave client and server operations in a single test function:
+
+```python
+from mockupdb import MockupDB, Command, go
+from pymongo import MongoClient
+
+def test():
+   server = MockupDB(auto_ismaster={"maxWireVersion": 3})
+   server.run()
+   
+   client = MongoClient(server.uri)
+   collection = client.db.collection
+   
+   future = go(collection.insert_one, {"_id": 1})
+   request = server.receives(Command({"insert": "collection"}))
+   request.reply({'ok': 1})
+   assert(future().inserted_id == 1)
+```
+
+Let's break this down. I use MockupDB's [`go`](http://mockupdb.readthedocs.org/reference.html#mockupdb.go) function to start a PyMongo operation on a background thread, obtaining a handle to its future result:
+
+```python
+future = go(collection.insert_one, {"_id": 1})
+```
+
+The driver sends an "insert" command to the mock server and blocks waiting for the server response. I retrieve that command from the server and validate that it has the expected format:
+
+```python
+request = server.receives(Command({"insert": "collection"}))
+```
+
+MockupDB asserts that the command arrives promptly and has the right format before it returns the command to me. I reply to the client, which unblocks it and lets me retrieve the future value:
+
+```python
+request.reply({'ok': 1})
+assert(future().inserted_id == 1)
+```
+
+# More evolution: from Python back to C
+
+Once Bernie Hackett and I [released PyMongo 3.0](http://emptysqua.re/blog/announcing-pymongo-3/), I devoted myself to libmongoc full-time. I set to work updating its `mock_server_t` with the ideas I had developed in Python. I wrote an example with the API I wanted:
+
+```C
+mock_server_t *server;
+mongoc_client_t *client;
+mongoc_collection_t *collection;
+bson_t *document;
+bson_error_t error;
+future_t *future;
+request_t *request;
+
+/* protocol version 3 includes the new "insert" command */
+server = mock_server_with_autoismaster (3);
+mock_server_run (server);
+
+client = mongoc_client_new_from_uri (mock_server_get_uri (server));
+collection = mongoc_client_get_collection (client, "test", "collection");
+document = BCON_NEW ("_id", BCON_INT64 (1));
+future = future_collection_insert (collection,
+                                   MONGOC_INSERT_NONE,/* flags */
+                                   document,
+                                   NULL,              /* writeConcern */
+                                   &error);
+
+request = mock_server_receives_command (server, "test", MONGOC_QUERY_NONE,
+                                        "{'insert': 'collection'}");
+
+mock_server_replies_simple (request, "{'ok': 1}");
+assert (future_get_bool (future));
+
+future_destroy (future);
+request_destroy (request);
+bson_destroy (document);
+mongoc_collection_destroy(collection);
+mongoc_client_destroy(client);
+mock_server_destroy (server);
+```
+
+Alas, C is prolix; this was as lean as I could make it. I doubt that you read that block of code. Let's focus on some key lines.
+
+First, the mock server starts up and binds an unused port. Just like in Python, I connect a real client object to the mock server's URI:
+
+```c
+client = mongoc_client_new_from_uri (mock_server_get_uri (server));
+```
+
+Now I insert a document. The client sends an "insert" command to the mock server, and blocks waiting for the response:
+
+```c
+future = future_collection_insert (collection,
+                                   MONGOC_INSERT_NONE,/* flags */
+                                   document,
+                                   NULL,              /* writeConcern */
+                                   &error);
+```
+
+The `future_collection_insert` function starts a background thread and runs the libmongoc function [`mongoc_collection_insert`](http://api.mongodb.org/c/current/mongoc_collection_insert.html). It returns a future value, which will be resolved once the background thread completes.
+
+Meanwhile, the mock server receives the client's "insert" command:
+
+```c
+request = mock_server_receives_command (server,
+                                        "test",            /* DB name */
+                                        MONGOC_QUERY_NONE, /* no flags */
+                                        "{'insert': 'collection'}");
+```
+
+This statement accomplishes several goals. First, it waits (using a condition variable) for the background thread to send the "insert" command. Second, it validates that the command has the proper format: its database name is "test", its flags are unset, the command itself is named "insert", and the target collection is named "collection".
+
+The test completes when I reply to the client:
+
+```c
+mock_server_replies_simple (request, "{'ok': 1}");
+assert (future_get_bool (future));
+```
+
+This unblocks the background thread. The future is resolved with the return value of `mongoc_collection_insert`. I assert that its return value was `true`, meaning it succeeded. My test framework detects if `future_get_bool` stays blocked: this means `mongoc_collection_insert` is not finishing for some reason, and this too will cause my test to fail.
+
+<!--
+
+# Behind the scenes: generating C with Python
+
+When I wrote this example for myself, I knew I had my work cut out for me. Writing this test framework in C would require a few big features. For one thing, `future_collection_insert` must spawn a background thread and call [`mongoc_collection_insert`](http://api.mongodb.org/c/current/mongoc_collection_insert.html), somehow passing all its arguments from the main thread. I needed something like Python's [`functools.partial`](https://docs.python.org/3/library/functools.html#functools.partial): a way to turn a function and its arguments into an object that could be stored at the call site and executed later. How could I do that in a static language like C?
+
+I spent a few days trying to reimplement `functools.partial` with deranged macros, and I finally decided to just write a Python script to generate the C code for me. My script takes the signature of a C function like `mongoc_collection_insert` and generates the future function:
+
+```c hl_lines="9 17 18 26"
+future_t *
+future_collection_insert (
+   mongoc_collection_ptr collection,
+   mongoc_insert_flags_t flags,
+   const_bson_ptr document,
+   const_mongoc_write_concern_ptr write_concern,
+   bson_error_ptr error)
+{
+   future_t *future = future_new (future_value_bool_type, 5);
+   
+   future_value_set_mongoc_collection_ptr (
+      future_get_param (future, 0), collection);
+   
+   future_value_set_mongoc_insert_flags_t (
+      future_get_param (future, 1), flags);
+   
+   future_value_set_const_bson_ptr (
+      future_get_param (future, 2), document);
+   
+   future_value_set_const_mongoc_write_concern_ptr (
+      future_get_param (future, 3), write_concern);
+   
+   future_value_set_bson_error_ptr (
+      future_get_param (future, 4), error);
+   
+   future_start (future, background_mongoc_collection_insert);
+   return future;
+}
+```
+
+The `future_t` is shouldering several burdens here. First, it holds all the arguments for the function I am going to call: I initialize it with "5", the number of arguments, and then set each argument to the proper value. The Python script that generates this function knows the types so it can call the type-appropriate setter for each argument, like `future_value_set_const_bson_ptr` to pass a `const bson_t *document` as the argument in position 2.
+
+When I call `future_start`, a background thread begins executing the operation, and the `future_t` is returned immediately to the caller.
+
+So what happens on the background thread? The thread runs another function that my Python script has generated. This background function unpacks all the arguments from the `future_t` and calls the actual libmongoc function:
+
+```c hl_lines="8 10 25"
+/* a pthread target function */
+static void *
+background_mongoc_collection_insert (void *data)
+{
+   future_t *future = (future_t *) data;
+   future_value_t return_value;
+
+   return_value.type = future_value_bool_type;
+
+   future_value_set_bool (
+      &return_value,
+      mongoc_collection_insert (
+         future_value_get_mongoc_collection_ptr (
+            future_get_param (future, 0)),
+         future_value_get_mongoc_insert_flags_t (
+            future_get_param (future, 1)),
+         future_value_get_const_bson_ptr (
+            future_get_param (future, 2)),
+         future_value_get_const_mongoc_write_concern_ptr (
+            future_get_param (future, 3)),
+         future_value_get_bson_error_ptr (
+            future_get_param (future, 4))
+      ));
+
+   future_resolve (future, return_value);
+
+   return NULL;
+}
+```
+
+As you can see, I have a `future_value_t` struct that can encapsulate any type libmongoc uses: a boolean, a document, a write concern, and so on.
+
+This thread function is not pretty, but luckily I do not need to write it or even read it&mdash;my Python script generates it from the signature of `mongoc_collection_insert`.
+
+When this function calls `mongoc_collection_insert` the client sends an "insert" command to the server, then blocks until the server acknowledges it. In my test, the server is a `mock_server_t`:
+
+```c
+request = mock_server_receives_command (
+   server, "test", MONGOC_QUERY_NONE,
+   "{'insert': 'collection'}");
+
+mock_server_replies_simple (request, "{'ok': 1}");
+```
+
+Then server's reply unblocks the thread, which resolves the future. Here is how `future_resolve` is implemented:
+
+```c
+void
+future_resolve (future_t *future, future_value_t return_value)
+{
+   mongoc_mutex_lock (&future->mutex);
+   future->return_value = return_value;
+   future->resolved = true;
+   mongoc_cond_signal (&future->cond);
+   mongoc_mutex_unlock (&future->mutex);
+}
+```
+
+Once the future resolves, the test function on the main thread is unblocked in `future_get_bool`:
+
+```c
+assert (future_get_bool (future));
+```
+
+-->
+
+# Conclusion
+
+When I first saw Christian Hergert's `mock_server_t` its brilliance inspired me: To test a MongoDB client, impersonate a MongoDB server!
+
+I wrote the MockupDB package in Python, and then I overhauled Christian's mock server in C. As I developed and used this idea over the last year, I generalized it beyond the problem of testing MongoDB drivers. What I call a "black pipe test" applies to any networked application whose API behavior and network protocol must be validated simultaneously.
+
+***
+
+Next:
+
+* [Testing MongoDB Failure Scenarios With MockupDB.](http://emptysqua.re/blog/test-mongodb-failures-mockupdb/)
+* [Read the whole series on black pipe testing.](http://emptysqua.re/blog/black-pipe-testing-series/)
+
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/10/coney-island.jpg" alt="Coney Island / Stillwell Avenue" title="Coney Island / Stillwell Avenue" />](https://www.flickr.com/photos/emptysquare/855064419)

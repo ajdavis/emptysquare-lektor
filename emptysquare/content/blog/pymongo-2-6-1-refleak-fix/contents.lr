@@ -1,0 +1,37 @@
+_model: blog-post
+---
+title: PyMongo 2.6.1 Released With Refleak Fix
+---
+pub_date: 2013-09-04
+---
+author: 
+---
+type: post
+---
+tags:
+
+pymongo
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: Yesterday we released PyMongo 2.6.1, which fixes a memory leak in insert().
+---
+body:
+
+<a href="http://www.flickr.com/photos/usnavy/7684409578/"><img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2013/09/leak.jpg" alt="Leak" title="Leak" /></a>
+
+Bernie Hackett and I released [PyMongo 2.6.1](https://pypi.python.org/pypi/pymongo/2.6.1) yesterday. This version fixes a bug in PyMongo 2.6, [a reference-count leak](https://jira.mongodb.org/browse/PYTHON-564) in `insert()` that caused memory to grow slowly without bound. Please upgrade immediately.
+
+Sorry about the bug. We introduced it into PyMongo's C code while implementing [auto-splitting for very large batch inserts](https://jira.mongodb.org/browse/PYTHON-414), but it affects all calls to `insert` regardless of size. If you use PyMongo without building its C extensions, for example if you're on PyPy or Jython, the bug does not affect you.
+
+The new auto-splitting code serializes a sequence of documents as BSON until its buffer reaches 48MB, at which point it calls, from C, the Python method `_send_message` to fire off the batch to the server. Unfortunately, the C code didn't dereference the server response from `_send_message`. The response is small, something like this:
+
+```python
+{'ok': 1.0, 'err': None, 'n': 0, 'connectionId': 123}
+
+```
+Each response was leaked, and the memory added up fast if you called `insert` in a tight loop. The fix is [simply to decref the response](https://github.com/mongodb/mongo-python-driver/commit/d8faa7af0005538522372df8ebefdb255cd96c23).

@@ -1,0 +1,91 @@
+_model: blog-post
+---
+title: Adding an "include" tag to Underscore.js templates
+---
+pub_date: 2011-11-18
+---
+author: 
+---
+type: post
+---
+tags:
+
+javascript
+---
+categories:
+
+Programming
+---
+summary: 
+---
+body:
+
+I use [Backbone.js](http://documentcloud.github.com/backbone/) a lot
+lately, and since Backbone requires
+[Underscore.js](http://documentcloud.github.com/underscore/), I usually
+end up using Underscore's templates rather than introducing another
+Javascript library dependency like [Mustache
+templates](http://mustache.github.com/). But Underscore's
+micro-templating language has an omission that bothered me today:
+templates can't include each other.
+
+So here's a quick and dirty `<% include %>` tag for Underscore
+templates:
+
+```javascript
+// Extend underscore's template() to allow inclusions
+function template(str, data) {
+    // match "<% include template-id %>"
+    return _.template(
+        str.replace(
+            /<%\s*include\s*(.*?)\s*%>/g,
+            function(match, templateId) {
+                var el = document.getElementById(templateId);
+                return el ? el.innerHTML : '';
+            }
+        ),
+        data
+    );
+}
+
+```
+As you can see, the code simply replaces tags like
+
+    <% include foo %>
+
+with the contents of the element with id "foo". Use it by throwing code
+like this into the body of your HTML page:
+
+```html
+<script type="text/template" id="base-template">
+    Here is a number: <%= n %>
+</script>
+
+<script type="text/template" id="imaginary-template">
+    <% include base-template %> + <%= imaginary %>i
+</script>
+
+```
+And in your Javascript code, do this:
+
+```javascript
+// Outputs "Here's a number: 17"
+function showSimpleNumber() {
+    var t = template($('#base-template').html());
+    $('body').html(t({ n: 17 }));
+}
+
+// Outputs "Here's a number: 17 + 42i"
+function showComplexNumber() {
+    var t = template($('#imaginary-template').html());
+    $('body').html(t({ n: 17, i: 42 }));
+}
+
+```
+Enjoy! I leave as an exercise for the reader:
+
+<ol>
+<li>Cache included templates so the template() function needn't keep doing document.getElementById().innerHTML for an often-included template</li>
+<li>Create replaceable blocks in templates</li>
+<li>Pass variables from one template to another</li>
+</ol>

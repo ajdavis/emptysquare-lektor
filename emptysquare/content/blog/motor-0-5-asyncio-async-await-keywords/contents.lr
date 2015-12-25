@@ -1,0 +1,40 @@
+_model: blog-post
+---
+title: Announcing Motor 0.5 with asyncio, Python 3.5, and "async" / "await"
+---
+pub_date: 2015-11-30
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Motor
+Programming
+Python
+---
+summary: This version is compatible with Python 2.6 through 3.5, and it can use either Tornado or asyncio as its async framework.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="https://emptysqua.re/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
+
+Welcome back, I hope you enjoyed Thanksgiving. I certainly did; among everything for which I give thanks this year, I am grateful for the contributions R&eacute;mi Jolin, Andrew Svetlov, and Nikolay Novik made to Motor's asyncio integration. Their help is the greatest gift any project of mine has received.
+
+And now, it's official! Motor 0.5 is released. Install it with:
+
+```
+python -m pip install motor
+```
+
+This version of Motor is compatible with Python 2.6 through 3.5, and it can use either Tornado or asyncio. This means pip no longer automatically installs Tornado.
+
+For a detailed description of the changes, [read the beta announcement](http://emptysqua.re/blog/motor-0-5-beta-asyncio-async-await/).
+
+Enjoy!

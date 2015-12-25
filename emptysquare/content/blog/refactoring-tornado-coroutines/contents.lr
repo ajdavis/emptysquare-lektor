@@ -1,0 +1,268 @@
+_model: blog-post
+---
+title: Refactoring Tornado Coroutines
+---
+pub_date: 2014-06-17
+---
+author: 
+---
+type: post
+---
+tags:
+
+tornado
+---
+categories:
+
+Mongo
+Motor
+Programming
+Python
+---
+summary: Asynchronous Python is more flexible than blocking code, but you need to follow a few rules.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/06/tornado-noaa.jpg" alt="Tornado" title="Tornado" />
+[<span style="color:gray">[Source]</span>](http://es.wikipedia.org/wiki/Flujo_ciclostr%C3%B3fico#mediaviewer/Archivo:Tornado0_-_NOAA.jpg)
+
+Sometimes writing callback-style asynchronous code with <a href="http://www.tornadoweb.org/">Tornado</a> is a pain. But the real hurt comes when you want to refactor your async code into reusable subroutines. Tornado's <a href="http://www.tornadoweb.org/en/stable/gen.html#tornado.gen.coroutine">coroutines</a> make refactoring easy. I'll explain the rules.
+
+(This article updates my old "Refactoring Tornado Code With gen.engine". The updated code here demonstrates the current syntax for Tornado 3 and [Motor 0.3](http://motor.readthedocs.org/).)
+
+# For Example
+
+I'll use this blog to illustrate. I built it with <a href="https://github.com/ajdavis/motor-blog">Motor-Blog</a>, a trivial blog platform on top of <a href="http://motor.readthedocs.org/">Motor</a>, my asynchronous MongoDB driver for Tornado.
+
+When you came here, Motor-Blog did three or four MongoDB queries to render this page.
+
+<strong>1</strong>: Find the blog post at this URL and show you this content.
+
+<strong>2 and 3</strong>: Find the next and previous posts to render the navigation links at the bottom.
+
+<strong>Maybe 4</strong>: If the list of categories on the left has changed since it was last cached, fetch the list.
+
+Let's go through each query and see how Tornado coroutines make life easier.
+
+# Fetching One Post
+
+In Tornado, fetching one post takes a little more work than with blocking-style code:
+
+```python
+db = motor.MotorClient().my_blog_db
+
+class PostHandler(tornado.web.RequestHandler):
+    @tornado.asynchronous
+    def get(self, slug):
+        db.posts.find_one({'slug': slug}, callback=self._found_post)
+
+    def _found_post(self, post, error):
+        if error:
+            raise tornado.web.HTTPError(500, str(error))
+        elif not post:
+            raise tornado.web.HTTPError(404)
+        else:
+            self.render('post.html', post=post)
+```
+
+Not so bad. But is it better with a coroutine?
+
+```python
+class PostHandler(tornado.web.RequestHandler):
+    @gen.coroutine
+    def get(self, slug):
+        post = yield db.posts.find_one({'slug': slug})
+        if not post:
+            raise tornado.web.HTTPError(404)
+
+        self.render('post.html', post=post)
+```
+
+Much better. If you don't pass a callback to `find_one`, then it returns a Future instance. A Future is nothing special, it's just a little
+object that represents an unresolved value. Some time hence, Motor will resolve the Future with a value or an exception. To wait for the Future
+to be resolved, yield it.
+
+The `yield` statement makes this function a <a href="http://www.python.org/dev/peps/pep-0342/">generator</a>.
+`gen.coroutine` is a brilliant invention that runs the generator until it's complete.
+Each time the generator yields a Future, `gen.coroutine` schedules the generator
+to be resumed when the Future is resolved. Read the
+<a href="https://github.com/tornadoweb/tornado/blob/v3.2.2/tornado/gen.py#L467">source
+code of the `Runner` class</a> for details, it's exhilarating. Or just
+enjoy the glow of putting all your logic in a single function again, without
+defining any callbacks.
+
+Even better, you get normal exception handling: if `find_one` gets a network error or some other failure, it raises an exception. Tornado knows how to turn an exception into an HTTP 500, so we no longer need special code for errors.
+
+This coroutine is much more readable than a callback, but it doesn't look any nicer than multithreaded code.
+It will start to shine when you need to parallelize some tasks.
+
+# Fetching Next And Previous
+
+Once Motor-Blog finds the current post, it gets the next and previous posts so it can display their titles. Since the two
+queries are independent we can save a few milliseconds by doing them in parallel.
+How does this look with callbacks?
+
+```python
+@tornado.asynchronous
+def get(self, slug):
+    db.posts.find_one({'slug': slug}, callback=self._found_post)
+
+def _found_post(self, post, error):
+    if error:
+        raise tornado.web.HTTPError(500, str(error))
+    elif not post:
+        raise tornado.web.HTTPError(404)
+    else:
+        _id = post['_id']
+        self.post = post
+
+        # Two queries in parallel.
+        # Find the previously published post.
+        db.posts.find_one(
+            {'pub_date': {'$lt': post['pub_date']}}
+            sort=[('pub_date', -1)],
+            callback=self._found_prev)
+
+        # Find subsequently published post.
+        db.posts.find_one(
+            {'pub_date': {'$gt': post['pub_date']}}
+            sort=[('pub_date', 1)],
+            callback=self._found_next)
+
+def _found_prev(self, prev_post, error):
+    if error:
+        raise tornado.web.HTTPError(500, str(error))
+    else:
+        self.prev_post = prev_post
+        if self.next_post:
+            # Done
+            self._render()
+
+def _found_next(self, next_post, error):
+    if error:
+        raise tornado.web.HTTPError(500, str(error))
+    else:
+        self.next_post = next_post
+        if self.prev_post:
+            # Done
+            self._render()
+
+def _render(self)
+    self.render(
+        'post.html',
+        post=self.post,
+        prev_post=self.prev_post,
+        next_post=self.next_post)
+```
+
+This is completely disgusting and it makes me want to give up on async.
+We need special logic in each callback to determine if the other callback has already run or not.
+All that boilerplate can't be factored out. Will a coroutine help?
+
+```python hl_lines="8,9,10"
+@gen.coroutine
+def get(self, slug):
+    post = yield db.posts.find_one({'slug': slug})
+    if not post:
+        raise tornado.web.HTTPError(404)
+    else:
+        future_0 = db.posts.find_one(
+            {'pub_date': {'$lt': post['pub_date']}}
+            sort=[('pub_date', -1)])
+
+        future_1 = db.posts.find_one(
+            {'pub_date': {'$gt': post['pub_date']}}
+            sort=[('pub_date', 1)])
+
+        prev_post, next_post = yield [future_0, future_1]
+        self.render(
+            'post.html',
+            post=post,
+            prev_post=prev_post,
+            next_post=next_post)
+```
+
+Yielding a list of Futures tells the coroutine to wait until they are all resolved.
+
+Now our single `get` function is just as nice as it would be with blocking code.
+In fact, the parallel fetch is far easier than if you were multithreading instead of using Tornado.
+But what about factoring out a common subroutine that request handlers can share?
+
+# Fetching Categories
+
+Every page on my blog needs to show the category list on the left side. Each request handler could just include
+this in its `get` method:
+
+```python
+categories = yield db.categories.find().sort('name').to_list(10)
+```
+
+But that's terrible engineering. Here's how to factor it into a coroutine:
+
+```python
+@gen.coroutine
+def get_categories(db):
+    categories = yield db.categories.find().sort('name').to_list(10)
+    raise gen.Return(categories)
+```
+
+This coroutine does **not** have to be part of a request handler&mdash;it stands on its own at the module scope.
+
+The `raise gen.Return()` statement is the weirdest syntax in this example. It's an artifact of Python 2, in which generators aren't allowed to return values. To hack around this limitation, Tornado coroutines raise a special kind of exception called a `Return`. The coroutine catches this exception and treats it like a returned value. In Python 3, a simple `return categories` accomplishes the same result.
+
+To call my new coroutine from a request handler, I do:
+
+```python
+class PostHandler(tornado.web.RequestHandler):
+    @gen.coroutine
+    def get(self, slug):
+        categories = yield get_categories(db)
+        # ... get the current, previous, and
+        # next posts as usual, then ...
+        self.render(
+            'post.html',
+            post=post,
+            prev_post=prev_post,
+            next_post=next_post,
+            categories=categories)
+```
+
+Since `get_categories` is a coroutine now, calling it returns a Future.
+To wait for `get_categories` to complete, the caller can yield the Future.
+Once `get_categories` completes, the Future it returned is resolved,
+so the caller resumes.
+It's almost like a regular function call!
+
+Now that I've factored out `get_categories`, it's easy to add more logic to it. This is nice because I want to cache the categories between page
+views. `get_categories` can be updated very simply to use a cache:
+
+```python
+categories = None
+
+@gen.coroutine
+def get_categories(db):
+    global categories
+    if not categories:
+        categories = yield db.categories.find().sort('name').to_list(10)
+
+    raise gen.Return(categories)
+```
+
+(Note for nerds: I invalidate the cache whenever a post with a new
+category is added. The "new category" event is saved to a
+<a href="http://www.mongodb.org/display/DOCS/Capped+Collections">capped collection</a>
+in MongoDB, which all the Tornado servers are always tailing.
+This is a simple way to use MongoDB as an event queue, which the multiple Tornado processes use to communicate with each other.)
+
+# Conclusion
+
+Tornado's <a href="http://www.tornadoweb.org/en/stable/gen.html">excellent documentation</a>
+shows briefly how a method that makes a few async calls can be
+simplified using `gen.coroutine`, but the power really comes when you need to
+factor out a common subroutine. There are only three steps:
+
+1. Decorate the subroutine with `@gen.coroutine`.
+2. In Python 2, the subroutine returns its result with `raise gen.Return(result)`.
+3. Call the subroutine from another coroutine like `result = yield subroutine()`.
+
+That's all there is to it. Tornado's coroutines make asynchronous code efficient, clean&mdash;even beautiful.

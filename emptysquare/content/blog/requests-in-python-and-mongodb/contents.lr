@@ -1,0 +1,283 @@
+_model: blog-post
+---
+title: Requests in Python and MongoDB
+---
+pub_date: 2012-04-26
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: PyMongo 2.2's connection pooling.
+---
+body:
+
+If you use [PyMongo](https://github.com/mongodb/mongo-python-driver),
+10gen's official MongoDB driver for Python, I want to ensure you
+understand how it manages sockets and threads, and I want to brag about
+performance improvements in PyMongo 2.2, which we plan to release next
+week.
+
+The Problem: Threads and Sockets
+================================
+
+Each PyMongo `Connection` object includes a connection pool (a pool of
+sockets) to minimize the cost of reconnecting. If you do two operations
+(e.g., two `find()`s) on a Connection, it creates a socket for the first
+`find()`, then reuses that socket for the second. (Update: [Starting
+with PyMongo 2.4 you should use `MongoClient` instead of `Connection`](http://emptysqua.re/blog/pymongos-new-default-safe-writes/).)
+
+When sockets are returned to the pool, the pool checks if it has more
+than `max_pool_size` spare sockets, and if so, it closes the extra
+sockets. By default max\_pool\_size is 10. (Update: in PyMongo 2.6, [max\_pool\_size is now 100](http://emptysqua.re/blog/pymongo-2-6-released/),
+and its meaning has changed since I wrote this article.)
+
+What if multiple Python threads share a Connection? A possible
+implementation would be for each thread to get a random socket from the
+pool when needed, and return it when done. But consider the following
+code. It updates a count of visitors to a web page, then displays the
+number of visitors on that web page **including** this visit:
+
+```python
+connection = pymongo.Connection()
+counts = connection.my_database.counts
+counts.update(
+    {'_id': this_page_url()},
+    {'$inc': {'n': 1}},
+    upsert=True)
+
+n = counts.find_one({'_id': this_page_url()})['n']
+
+print 'You are visitor number %s' % n
+
+```
+Since PyMongo defaults to **unsafe** writes&mdash;that is, it does not ask the
+server to acknowledge its inserts and updates&mdash;it will send the `update`
+message to the server and then instantly send the `find_one`, then await
+the result. (Update: if you use `MongoClient`, [safe writes are the default](http://emptysqua.re/blog/pymongos-new-default-safe-writes/).) If PyMongo gave out sockets to threads at random, then the
+following sequence **could** occur:
+
+1.  This thread gets a socket, which I'll call socket 1, from the pool.
+2.  The thread sends the update message to MongoDB on socket 1. The
+    thread does not ask for nor await a response.
+3.  The thread returns socket 1 to the pool.
+4.  The thread asks for a socket again, and gets a different one: socket
+    2.
+5.  The thread sends the find\_one message to MongoDB on socket 2.
+6.  MongoDB happens to read from socket 2 first, and executes the
+    find\_one.
+7.  Finally, MongoDB reads the update message from socket 1 and executes
+    it.
+
+In this case, the count displayed to the visitor wouldn't include this
+visit.
+
+I know what you're thinking: just do the find\_one first, add one to it,
+and display it to the user. **Then** send the update to MongoDB to
+increment the counter. Or use
+[findAndModify](http://www.mongodb.org/display/DOCS/findAndModify+Command)
+to update the counter and get its new value in one round trip. Those are
+great solutions, but then I would have no excuse to explain requests to
+you.
+
+Maybe you're thinking of a different fix: use `update(safe=True)`. That
+would work, as well, with the added advantage that you'd know if the
+update failed, for example because MongoDB's disk is full, or you
+violated a unique index. But a safe update comes with a latency cost:
+you must send the update, **wait for the acknowledgement**, then send
+the find\_one and wait for the response. In a tight loop the extra
+latency is significant.
+
+The Fix: One Socket Per Thread
+==============================
+
+PyMongo solves this problem by automatically assigning a socket to each
+thread, when the thread first requests one. (Update: since `MongoClient` defaults to
+using safe writes, [it no longer assigns a socket to each thread](http://emptysqua.re/blog/pymongos-new-default-safe-writes/#auto_start_request). Instead all sockets are kept in a connection pool.)
+The socket is stored in a
+thread-local variable within the connection pool. Since MongoDB
+processes messages on any single socket in order, using a single socket
+per thread guarantees that in our example code, update is processed
+**before** find\_one, so find\_one's result includes the current visit.
+
+More Awesome Connection Pooling
+===============================
+
+While PyMongo's socket-per-thread behavior nicely resolves the
+inconsistency problem, there are some nasty performance costs that are
+fixed in the forthcoming PyMongo 2.2. (I did most of this work, at the
+direction of PyMongo's maintainer Bernie Hackett and with
+co-brainstorming by my colleague Dan Crosta.)
+
+Connection Churn
+----------------
+
+PyMongo 2.1 stores each thread's socket in a thread-local variable.
+Alas, when the thread dies, its thread locals are garbage-collected and
+the socket is closed. This means that if you regularly create and
+destroy threads that access MongoDB, then you are regularly creating and
+destroying connections rather than reusing them.
+
+You could call `Connection.end_request()` before the thread dies.
+end\_request() returns the socket to the pool so it can be used by a
+future thread when it first needs a socket. But, just as most people
+don't recycle their plastic bottles, most developers don't use
+end\_request(), so good sockets are wasted.
+
+In PyMongo 2.2, I wrote a "socket reclamation" feature that notices when
+a thread has died without calling end\_request, and reclaims its socket
+for the pool. Under the hood, I wrap each socket in a `SocketInfo`
+object, whose `__del__` method returns the socket to the pool. For your
+application, this means that once you've created as many sockets as you
+need, those sockets can be reused as threads are created and destroyed
+over the lifetime of the application, saving you the latency cost of
+creating a new connection for each thread.
+
+Total Number of Connections
+---------------------------
+
+Consider a web crawler that launches hundreds of threads. Each thread
+downloads pages from the Internet, analyzes them, and stores the results
+of that analysis in MongoDB. Only a couple threads access MongoDB at
+once, since they spend most of their time downloading pages, but PyMongo
+2.1 must use a separate socket for each. In a big deployment, this could
+result in thousands of connections and a lot of overhead for the MongoDB
+server.
+
+In PyMongo 2.2 we've added an `auto_start_request` option to the
+Connection constructor. It defaults to True, in which case PyMongo 2.2's
+Connection acts the same as 2.1's, except it reclaims sockets from dead
+threads. If you set auto\_start\_request to False, however, threads can
+freely and safely share sockets. The Connection will only create as many
+sockets as are actually used **simultaneously**. In our web crawler
+example, if you have a hundred threads but only a few of them are
+simultaneously accessing MongoDB, then only a few sockets are ever
+created.
+
+### start\_request and end\_request
+
+If you create a Connection with auto\_start\_request=False you might
+still want to do **some** series of operations on a single socket for
+read-your-own-writes consistency. For that case I've provided an API
+that can be used three ways, in ascending order of convenience.
+
+You can call start/end\_request on the Connection object directly:
+
+```python hl_lines="3 12"
+
+connection = pymongo.Connection(auto_start_request=False)
+counts = connection.my_database.counts
+connection.start_request()
+try:
+    counts.update(
+        {'_id': this_page_url()},
+        {'$inc': {'n': 1}},
+        upsert=True)
+
+    n = counts.find_one({'_id': this_page_url()})['n']
+finally:
+    connection.end_request()
+
+```
+### The Request object
+
+start\_request() returns a `Request` object, so why not use it?
+
+```python hl_lines="3 12"
+
+connection = pymongo.Connection(auto_start_request=False)
+counts = connection.my_database.counts
+request = connection.start_request()
+try:
+    counts.update(
+        {'_id': this_page_url()},
+        {'$inc': {'n': 1}},
+        upsert=True)
+
+    n = counts.find_one({'_id': this_page_url()})['n']
+finally:
+    request.end()
+
+```
+### Using the Request object as a context manager
+
+Request objects can be used as [context
+managers](http://docs.python.org/reference/datamodel.html#context-managers)
+in Python 2.5 and later, so the previous example can be terser:
+
+```python hl_lines="3"
+
+connection = pymongo.Connection(auto_start_request=False)
+counts = connection.my_database.counts
+with connection.start_request() as request:
+    counts.update(
+        {'_id': this_page_url()},
+        {'$inc': {'n': 1}},
+        upsert=True)
+
+    n = counts.find_one({'_id': this_page_url()})['n']
+
+```
+Proof
+=====
+
+I wrote a [very messy test script](https://gist.github.com/2212215) to
+verify the effect of my changes on the number of open sockets, and the
+total number of sockets created.
+
+The script queries Mongo for 60 seconds. It starts a thread each second
+for 40 seconds, each thread lasting for 20 seconds and doing 10 queries
+per second. So there's a 20-second rampup until there are 20 threads,
+then 20 seconds of steady-state with 20 concurrent threads (one dying
+and one created per second), then a 20 second cooldown until the last
+thread completes. My script then parses the MongoDB log to see when
+sockets were opened and closed.
+
+I tested the script with the current PyMongo 2.1, and also with PyMongo
+2.2 with auto\_start\_request=True and with auto\_start\_request=False.
+
+PyMongo 2.1 has one socket per thread throughout the test. Each new
+thread starts a new socket because old threads' sockets are lost. It
+opens 41 total sockets (one for each worker thread plus one for the
+main) and tops out at 21 concurrent sockets, because there are 21
+concurrent threads (counting the main thread):
+
+![Pymongo 2.1](/blog/media/2012/04/pymongo-2-1.png "pymongo-2-1.png")
+
+PyMongo 2.2 with auto\_start\_request=True acts rather differently (and
+much better). It ramps up to 21 sockets and keeps them open throughout
+the test, reusing them for new threads when old threads die:
+
+![Pymongo 2.2,
+auto\_start\_request=True](/blog/media/2012/04/pymongo-2-2-auto-start-request.png "pymongo-2-2-auto-start-request.png")
+
+And finally, with auto\_start\_request=False, PyMongo 2.2 only needs as many
+sockets as there are threads **concurrently** waiting for responses from
+MongoDB. In my test, this tops out at 7 sockets, which stay open until
+the whole pool is deleted, because max\_pool\_size is 10:
+
+![Pymongo 2.2,
+auto\_start\_request=False](/blog/media/2012/04/pymongo-2-2-no-auto-start-request.png "pymongo-2-2-no-auto-start-request.png")
+
+Conclusion
+==========
+
+Applications that create and destroy a lot of threads without calling
+end\_request() should run significantly faster with PyMongo 2.2 because
+threads' sockets are automatically reused after the threads die.
+
+Although we had to default the new auto\_start\_request option to True
+for backwards compatibility, virtually all applications should set it to
+False. Heavily multithreaded apps will need far fewer sockets this way,
+meaning they'll spend less time establishing connections to MongoDB, and
+put less load on the server.

@@ -1,0 +1,148 @@
+_model: blog-post
+---
+title: MongoDB Full Text Search
+---
+pub_date: 2013-01-12
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: How to power your Python web application's search with MongoDB
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/01/320px-dictionary-indents-headon.jpg" alt="Dictionary indents headon" title="320px-Dictionary_indents_headon.jpg" border="0"   />
+
+<a href="http://commons.wikimedia.org/wiki/File:Dictionary_indents_headon.jpg" style="color: gray; text-decoration: none; font-style: italic">Wikimedia commons</a>
+
+Yesterday [we released the latest unstable version of MongoDB](https://groups.google.com/d/topic/mongodb-announce/3SkNJdemy84/discussion); the headline feature is basic full-text search. You can read all about [MongoDB's full text search in the release notes](http://docs.mongodb.org/manual/release-notes/2.4/#text-indexes).
+
+This blog had been using a really terrible method for search, involving regular expressions, a full collection scan for every search, and no ranking of results by relevance. I wanted to replace all that cruft with MongoDB's full-text search ASAP. Here's what I did.
+
+# Plain Text
+
+My blog is written in Markdown and displayed as HTML. What I want to actually search is the posts' plain text, so we need a new field called `plain` on each `post` document in MongoDB. That `plain` field is what we're going to index.
+
+First, I customized Python's standard `HTMLParser` to strip tags from the HTML:
+
+```python
+import re
+from HTMLParser import HTMLParser
+
+whitespace = re.compile('\s+')
+
+class HTMLStripTags(HTMLParser):
+    """Strip tags
+    """
+    def __init__(self, *args, **kwargs):
+        HTMLParser.__init__(self, *args, **kwargs)
+        self.out = ""
+
+    def handle_data(self, data):
+        self.out += data
+
+    def handle_entityref(self, name):
+        self.out += '&%s;' % name
+
+    def handle_charref(self, name):
+        return self.handle_entityref('#' + name)
+
+    def value(self):
+        # Collapse whitespace
+        return whitespace.sub(' ', self.out).strip()
+    
+def plain(html):
+    parser = HTMLStripTags()
+    parser.feed(html)
+    return parser.value()
+
+```
+**Updated Jan 14, 2013: Better code, fixed whitespace-handling bugs.**
+
+I wrote [a script that runs through all my existing posts](https://github.com/ajdavis/motor-blog/blob/master/motor_blog/tools/add_plain_text_field.py), extracts the plain text from the HTML, and stores it in a new field on each document called `plain`. I also updated my blog's code so it now [updates the `plain` field on each post](https://github.com/ajdavis/motor-blog/blob/master/motor_blog/models.py#L139) whenever I save a post.
+
+# Creating the Index
+
+I installed MongoDB 2.3.2 and started it with this command line option:
+
+    --setParameter textSearchEnabled=true
+
+Without that option, creating a text index causes a server error, "text search not enabled".
+
+Next I created a text index on posts' titles, category names, tags, and the plain text that I generated above. I can set different relevance weights for each field. The title contributes most to a post's relevance score, followed by categories and tags, and finally the text. In Python, the index declaration looks like:
+
+```python
+db.posts.create_index(
+    [
+        ('title', 'text'),
+        ('categories.name', 'text'),
+        ('tags', 'text'), ('plain', 'text')
+    ],
+    weights={
+        'title': 10,
+        'categories.name': 5,
+        'tags': 5,
+        'plain': 1
+    }
+)
+
+```
+Note that you'll need to install PyMongo from [the current master in GitHub](https://github.com/mongodb/mongo-python-driver/) or wait for PyMongo 2.4.2 in order to create a text index. PyMongo 2.4.1 and earlier throw an exception:
+
+    TypeError: second item in each key pair must be
+    ASCENDING, DESCENDING, GEO2D, or GEOHAYSTACK
+
+If you don't want to upgrade PyMongo, just use the mongo shell to create the index:
+
+```javascript
+db.posts.createIndex(
+    {
+        title: 'text',
+        'categories.name': 'text',
+        tags: 'text',
+        plain: 'text'
+    },
+    {
+        weights: {
+            title: 10,
+            'categories.name': 5,
+            tags: 5,
+            plain: 1
+        }
+    }
+)
+
+```
+# Searching the Index
+
+To use the text index I can't do a normal `find`, I have to run the `text` command. In my async driver Motor, this looks like:
+
+```python hl_lines="2"
+
+response = yield motor.Op(self.db.command, 'text', 'posts',
+    search=q,
+    filter={'status': 'publish', 'type': 'post'},
+    projection={
+        'display': False,
+        'original': False,
+        'plain': False
+    },
+    limit=50)
+
+```
+The `q` variable is whatever you typed into the search box on the left, like "mongo" or "hamster" or "python's thread locals are weird". The `filter` option ensures only published posts are returned, and the `projection` avoids returning large unneeded fields. Results are sorted with the most relevant first, and the limit is applied after the sort.
+
+# In Conclusion
+
+Simple, right? The new text index provides a simple, fully consistent way to do basic search without deploying any extra services. Go read up about it in [the release notes](http://docs.mongodb.org/manual/release-notes/2.4/#text-indexes).

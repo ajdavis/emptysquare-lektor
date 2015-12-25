@@ -1,0 +1,80 @@
+_model: blog-post
+---
+title: Synchronously Build Indexes On a Whole MongoDB Replica Set
+---
+pub_date: 2013-07-05
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: How do you know when an index has finished building on all the members of a replica set?
+---
+body:
+
+I help maintain PyMongo, 10gen's Python driver for MongoDB. Mainly this means I write a lot of tests, and writing tests sometimes requires me to solve problems no normal person would encounter. I'll describe one such problem and the fix: I'm going to explain how to wait for an index build to finish on all secondary members of a replica set.
+
+Normally, this is how I'd build an index on a replica set:
+
+```python
+client = MongoReplicaSetClient(
+    'server0,server1,server2',
+    replicaSet='replica_set_name')
+
+collection = client.test.collection
+collection.create_index([('key', ASCENDING)])
+print("All done!")
+
+```
+Once "All done!" is printed, I know the index has finished building on the primary. (I could pass ``background=True`` if I didn't want to wait for the build to finish.) Once the index is built on the primary, the primary inserts a description of the index into the ``system.indexes`` collection, and appends the ``insert`` operation to its oplog:
+
+```javascript
+{
+	"ts" : { "t" : 1373049049, "i" : 1 },
+	"op" : "i",
+	"ns" : "test.system.indexes",
+	"o" : {
+		"ns" : "test.collection",
+		"key" : { "key" : 1 },
+		"name" : "key_1"
+	}
+}
+
+```
+The ``ts`` is the timestamp for the operation. ``"op": "i"`` means this is an insert, and the ``"o"`` subdocument is the index description itself. The secondaries see the entry and start their own index builds.
+
+But now my call to PyMongo's ``create_index`` returns and Python prints "All done!" In one of the tests I wrote, I couldn't start testing until the index was ready on the secondaries, too. How do I wait until then?
+
+The trick is to insert the index description into ``system.indexes`` manually. This way I can insert with a [write concern](http://docs.mongodb.org/manual/core/write-concern/) so I wait for the insert to be replicated:
+
+```python
+client = MongoReplicaSetClient(
+    'server0,server1,server2',
+    replicaSet='replica_set_name')
+
+# Count the number of replica set members.
+w = 1 + len(client.secondaries)
+    
+# Manually form the index description.
+from pymongo.collection import _gen_index_name
+index = {
+    'ns': 'test.collection',
+    'name': _gen_index_name([('key', 1)]),
+    'key': {'key': ASCENDING}}
+
+client.test.system.indexes.insert(index, w=w)
+
+print("All done!")
+
+```
+Setting the ``w`` parameter to the number of replica set members (one primary plus N secondaries) makes ``insert`` wait for the operation to complete on all members. First the primary builds its index, then it adds it to its oplog, then the secondaries all start building the index. Only once all secondaries have finished building the index is the ``insert`` operation considered complete. Once Python prints "All done!" we know the index is finished everywhere.

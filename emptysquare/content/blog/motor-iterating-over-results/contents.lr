@@ -1,0 +1,110 @@
+_model: blog-post
+---
+title: Motor: Iterating Over Results
+---
+pub_date: 2012-11-11
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Motor
+Programming
+Python
+---
+summary: 
+---
+body:
+
+<img src="http://emptysquare.net/blog/media/2012/09/motor-musho.png" alt="Motor" title="Motor" border="0"   />
+
+Motor (yes, that's my non-blocking MongoDB driver for [Tornado](http://www.tornadoweb.org/)) has three methods for iterating a cursor: [`to_list`](http://emptysquare.net/motor/pymongo/api/motor/motor_cursor.html#motor.MotorCursor.to_list), [`each`](http://emptysquare.net/motor/pymongo/api/motor/motor_cursor.html#motor.MotorCursor.each), and [`next_object`](http://emptysquare.net/motor/pymongo/api/motor/motor_cursor.html#motor.MotorCursor.next_object). I chose these three methods to match the [Node.js driver's methods](http://mongodb.github.com/node-mongodb-native/api-generated/cursor.html), but in Python they all have problems.
+
+I'm writing to announce an improvement I made to `next_object` and to ask you for suggestions for further improvement.
+
+**Update:** [Here's the improvements I made to the API](http://emptysquare.net/blog/motor-iterating-over-results-the-grand-conclusion/) in response to your critique.
+
+# to_list
+
+`MotorCursor.to_list` is clearly the most convenient: it buffers up all the results in memory and passes them to the callback:
+
+```python
+@gen.engine
+def f():
+    results = yield motor.Op(collection.find().to_list)
+    print results
+```
+
+But it's dangerous, because you don't know for certain how big the results will be unless you set an explicit limit. In the docs [I exhort you to set a limit ](http://emptysquare.net/motor/pymongo/api/motor/motor_cursor.html#motor.MotorCursor.to_list)before calling `to_list`. Should I raise an exception if you don't, or just let the user beware?
+
+# each
+
+MotorCursor's `each` takes a callback which is executed once for every document. This actually [looks fairly elegant in Node.js](http://mongodb.github.com/node-mongodb-native/api-generated/cursor.html#each), but because Python doesn't do anonymous functions it looks like ass in Python, with control jumping forward and backward in the code:
+
+```python
+def each(document, error):
+    if error:
+        raise error
+    elif document:
+        print document
+    else:
+        # Iteration complete
+        print 'done'
+    
+collection.find().each(callback=each)
+```
+
+Python's generators allow us to do [inline callbacks with `tornado.gen`](http://www.tornadoweb.org/documentation/gen.html), which makes up for the lack of anonymous functions. `each` doesn't work with the generator style, though, so I don't think many people will use `each`.
+
+# next_object
+
+Since `tornado.gen` is the most straightforward way to write Tornado apps, I designed `next_object` for you to use with `tornado.gen`, like this:
+
+```python
+@gen.engine
+def f():
+    cursor = collection.find()
+    while cursor.alive:
+        document = yield motor.Op(cursor.next_object)
+        print document
+    
+    print 'done'
+```
+
+This loop looks pretty nice, right? The improvement I [just committed](https://github.com/ajdavis/mongo-python-driver/commit/b56d476409325cb58bb619b395c35461bfb3ac32) is that `next_object` prefetches the next batch whenever needed to ensure that `alive` is correct&mdash;that is, `alive` is `True` if the cursor has more documents, `False` otherwise.
+
+Problem is, just because `cursor.alive` is `True` doesn't truly guarantee that `next_object` will actually return a document. The first call returns `None` *if `find` matched no documents at all*, so a proper loop is more like:
+
+```python
+@gen.engine
+def f():
+    cursor = collection.find()
+    while cursor.alive:
+        document = yield motor.Op(cursor.next_object)
+        if document:
+            print document
+        else:
+            # No results at all
+            break
+```
+
+This is looking less nice. A blocking driver could have reasonable solutions like making `cursor.alive` actually fetch the first batch of results and return `False` if there are none. But a non-blocking driver needs to take a callback for every method that does I/O. I'm considering introducing a `MotorCursor.has_next` method that takes a callback:
+
+```python
+cursor = collection.find()
+while (yield motor.Op(cursor.has_next)):
+    # Now we know for sure that document isn't None
+    document = yield motor.Op(cursor.next_object)
+    print document
+```
+
+This will be a core idiom for Motor applications; it should be as easy as possible to use.
+
+What do you think?

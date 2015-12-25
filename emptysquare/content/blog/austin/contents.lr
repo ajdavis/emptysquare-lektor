@@ -1,0 +1,33 @@
+_model: blog-post
+---
+title: Austin
+---
+pub_date: 2013-11-10
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: I'm speaking at the Python Meetup and the MongoDB User Group in Austin, TX this week.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2013/11/S_Congress_Ave_Austin_TX.jpg" alt="S Congress Ave Austin TX" title="S Congress Ave Austin TX" />
+
+I'm visiting my old hometown Austin this week.
+
+Tuesday night I'll be at the [Austin MongoDB User Group talking about how to become a Python contributor](http://www.meetup.com/Austin-MongoDB-User-Group/events/149271562/).
+
+Wednesday night I'm speaking at the [Austin Python Meetup](http://www.meetup.com/austinpython/events/140075912/). I'll give a shorter version of the same talk about contributing to Python, and I'll present on async frameworks, specifically Tornado: What is it, how does it work, and what is it good for?
+
+So come say hi if you're in Austin, and tell me in the comments: what's new in Austin in the last 10 years that I should check out during my visit?

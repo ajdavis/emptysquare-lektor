@@ -1,0 +1,32 @@
+_model: blog-post
+---
+title: Open Source Bridge
+---
+pub_date: 2013-06-18
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: I'm at Open Source Bridge Wednesday through Friday. Wednesday I'm speaking on async, and doing a MongoDB Birds of Feather session.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2013/06/portland.jpg" alt="Portland" title="Portland" border="0"   />
+<span style="color:gray; font-style: italic">[[Source]](http://www.flickr.com/photos/fusionpanda/284254012/)</span>
+
+I'm flying to Portland, Oregon today and attending the [Open Source Bridge](http://opensourcebridge.org/) conference tomorrow through Friday. I'll speak at 2:30 on Wednesday, on ["What Is Async, How Does It Work, And When Should I Use It?"](http://opensourcebridge.org/sessions/1008) I'm going to talk about network I/O, websockets, and CPU- versus memory-bound web applications to justify the popularity of async, I'll dissuade you from using it if you don't need it, and then I'll show how my favorite framework, Tornado, is implemented.
+
+Wednesday night at 7pm, I'm doing a [MongoDB Birds of a Feather session](http://opensourcebridge.org/proposals/1174) with my 10gen colleague Emily Stolfo. We won't lecture, we're just going to hang out so you can come ask questions. It's free: you don't need to buy an Open Source Bridge conference ticket to come, just get a free "Community Pass" at [osbridge.eventbrite.com](http://osbridge.eventbrite.com).
+
+Finally, Emily is speaking Thursday at 4:45 on ["Hacking the academic experience"](http://opensourcebridge.org/sessions/1083). She'll describe the Ruby on Rails class she teaches at Columbia University, and how she developed a hacker-centric curriculum teaching not only the algorithms, but the keys to being a successful developer. Come discuss how we can fix the mismatch between academic computer science and real-world open source programming.

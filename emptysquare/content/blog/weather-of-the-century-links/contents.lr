@@ -1,0 +1,39 @@
+_model: blog-post
+---
+title: Links For "Weather of the Century"
+---
+pub_date: 2015-02-04
+---
+author: 
+---
+type: page
+---
+tags:
+
+monary
+---
+categories:
+
+
+---
+summary: Links to further reading about my "Weather of the Century" talk. Visualizing weather data using Python, MongoDB, and other open source tools.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/06/weather-matplotlib.jpg" alt="Contour map of global temperature using Matplotlib" title="Contour map of global temperature using Matplotlib" />
+
+Links to further reading related to my "Weather of the Century" talk, about visualizing weather data using Python, MongoDB, and other open source tools. Here's some links if you saw my talk and want more information.
+
+**NumPy:** The fundamental data format for scientific computing in Python: [http://www.numpy.org/](http://www.numpy.org/).
+
+**SciPy:** A huge collection of fast algorithms for analyzing NumPy data: [http://www.scipy.org/](http://www.scipy.org/).
+
+**MatPlotLib:** A charting library of vast capabilities, works great with NumPy arrays: [http://matplotlib.org/](http://matplotlib.org/)
+
+**Monary:** This is a high-performance driver that queries MongoDB and stores the data directly in NumPy arrays: [https://bitbucket.org/djcbeach/monary/](https://bitbucket.org/djcbeach/monary/)
+
+**Our Example App:** All the code for loading and analyzing NOAA's weather data: [https://github.com/drmirror/century](https://github.com/drmirror/century)
+
+**Video:** [My presentation of this talk at MongoDB World 2014](https://www.mongodb.com/presentations/weather-century-part-3-visualization).
+
+**Price Performance Analysis:** My colleague Andr&eacute; Spiegel gave [a surpassingly good talk](http://www.mongodb.com/presentations/weather-century-part-2-high-performance) about loading and querying 4 terabytes of weather data on EC2.

@@ -1,0 +1,32 @@
+_model: blog-post
+---
+title: More Info About "Cat-Herd's Crook"
+---
+pub_date: 2015-06-23
+---
+author: 
+---
+type: page
+---
+tags:
+
+
+---
+categories:
+
+
+---
+summary: Links related to my talk with Samantha Ritter at Open Source Bridge 2015.
+---
+body:
+
+Links related to [my talk with Samantha Ritter at Open Source Bridge 2015](http://opensourcebridge.org/sessions/1580).
+
+* See our colleague [Emily Stolfo's talk about testing drivers with YAML and live MongoDB deployments at MongoDB World 2015](https://www.mongodb.com/world2015)&mdash;search for "Emily Stolfo" in the page.
+* The [Server Discovery And Monitoring Spec and its YAML tests](https://github.com/mongodb/specifications/tree/master/source/server-discovery-and-monitoring/tests).
+* [The YAML spec (not that easy to understand, alas)](http://www.yaml.org/spec/1.2/spec.html).
+* [Slides from our talk](http://www.slideshare.net/emptysquare/cat-herdscrook).
+
+**Like working on tricky cross-platform problem solving? [Work for MongoDB!](http://mongodb.com/careers/positions?department=Engineering)**
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/06/cat1-2.jpg" alt="Cat" title="Cat" />

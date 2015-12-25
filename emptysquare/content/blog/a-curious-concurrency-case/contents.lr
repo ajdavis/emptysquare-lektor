@@ -1,0 +1,137 @@
+_model: blog-post
+---
+title: A Curious Concurrency Case
+---
+pub_date: 2013-03-03
+---
+author: 
+---
+type: post
+---
+tags:
+
+ruby
+---
+categories:
+
+Mongo
+Programming
+---
+summary: A subtle performance bug in the MongoDB Ruby driver's connection pool.
+---
+body:
+
+Last month, the team in charge of 10gen's Ruby driver for MongoDB ran into a few concurrency bugs, reported by a customer running the driver in JRuby with a large number of threads and connections. I've barely written a line of Ruby in my life, but [I jumped in to help for a week](http://emptysquare.net/blog/what-its-like-to-work-for-10gen/) anyway.
+
+I helped spot a very interesting performance bug in the driver's connection pool. The fix was easy, but thoroughly characterizing the bug turned out to be complex. Here's a record of my investigation.
+
+***
+
+The Ruby driver's pool assigns a socket to a thread when the thread first calls ``checkout``, and that thread stays pinned to its socket for life. Until the pool reaches its configured ``max_size``, each new thread has a bespoke socket created for it. Additional threads are assigned random existing sockets. When a thread next calls ``checkout``, if its socket's in use (by another thread) the requesting thread waits in a queue.
+
+Here's a simplified version of the pool:
+
+```ruby
+class Pool
+  def initialize(max_size)
+    @max_size       = max_size
+    @sockets        = []
+    @checked_out    = []
+    @thread_to_sock = {}
+    @lock           = Mutex.new
+    @queue          = ConditionVariable.new
+  end
+
+  # Check out an existing socket or create a
+  # new socket if max_size not exceeded.
+  # Otherwise, wait for the next socket.
+  def checkout
+    tid = Thread.current.object_id
+    loop do
+      @lock.synchronize do
+        if sock = @thread_to_sock[tid]
+
+          # Thread wants its prior socket
+          if !@checked_out.include?(sock)
+            # Acquire the socket
+            @checked_out << sock
+            return sock
+          end
+
+        else
+
+          if @sockets.size < @max_size
+
+            # Assign new socket to thread
+            sock = create_connection
+            @thread_to_sock[tid] = sock
+            return sock
+
+          elsif @checked_out.size < @sockets.size
+
+            # Assign random socket to thread
+            sock = available[rand(available.length)]
+            @thread_to_sock[tid] = sock
+            return sock
+
+          end
+
+        end
+
+        # Release lock, wait to try again
+        @queue.wait(@lock)
+      end
+    end
+  end
+  
+  # Return a socket to the pool.
+  def checkin(socket)
+    @lock.synchronize do
+      @checked_out.delete(socket)
+      @queue.signal
+    end
+  end
+end
+
+```
+When a thread returns a socket, it signals the queue and wakes the next thread in line. That thread goes to the top of the loop and tries again to acquire its socket. The bug is in ``checkin``: if the next thread in the queue is waiting for a **different** socket than the one just checked in, it may fail to acquire its socket, and it will sleep again.
+
+When I first saw this I thought there must be the possibility of a deadlock. After all, if threads sometimes call ``checkin`` without really waking other threads, mustn't there come a time when everyone's waiting and no one has a socket?
+
+I wrote a Python script to simulate the Ruby pool and ran it for a few thousand ticks, with various numbers of threads and sockets. It never deadlocked.
+
+So I had to stop coding and start thinking.
+
+***
+
+Let's say there are N threads and S sockets. N can be greater than, less than, or equal to S. Doesn't matter. Assume the pool has already created all S sockets, and all N threads have sockets assigned. Each thread either:
+
+1. Has checked out its socket, and is going to return it and signal the queue, or
+2. Is waiting for its socket, or will ask for it in the future, or
+3. Has returned its socket and will never ask for it again.
+
+To deadlock, all threads must be in state 2.
+
+To reach that point, we need N - 1 threads in state 2 and have the Nth thread transition from 1 to 2. (By definition it doesn't go from state 3 to 2.) But when the Nth thread returns its socket and signals the queue, all sockets are now returned, so the next awakened thread won't wait again&mdash;its socket is available, so it goes to state 1. Thus, no deadlock.
+
+The old code definitely wasn't efficient. It's easy to imagine cases where all a socket's threads were waiting, even though one of them could have been running. Let's say there are 2 sockets and 4 threads:
+
+1. Thread 1 has Socket A checked out, Thread 2 has Socket B, Thread 3 is waiting for A, Thread 4 is waiting for B, and they're enqueued like [3, 4].
+2. Thread 2 returns B, signals the queue.
+3. Thread 3 wakes, can't get A, waits again.
+
+At this point, Thread 4 should be running, since its Socket B is available, but it's waiting erroneously for Thread 1 to return A before it wakes.
+
+[So we changed the code](https://jira.mongodb.org/browse/RUBY-556) to do ``queue.broadcast`` instead of ``signal``, so ``checkin`` wakes all the threads, and we [released the fixed driver](https://rubygems.org/gems/mongo/versions/1.8.3.rc0). In the future, even better code may prevent multiple threads from contending for the same socket at all.
+
+The bugfix was obvious. It's much harder to determine exactly how bad the bug was&mdash;how common is it for a socket to be unused?
+
+***
+
+In [my simulated pool](https://gist.github.com/ajdavis/4991105) there are 10 sockets. Each thread uses its socket for 1&#8209;20 seconds, sleeps one second, and asks for its socket again. I counted how many sockets were in use each second, and subtracted that from S&nbsp;*&nbsp;total_time to get an inefficiency factor:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/03/percentage-unused-sockets.png" alt="Percentage unused sockets" title="percentage-unused-sockets.png" border="0"   />
+
+If N=S=10, threads never wait but there's some fake "inefficiency" due to the 1-second sleep. For larger numbers of threads the sleep time becomes irrelevant (because there's always another thread ready to use the socket), but ``signal`` adds an inefficiency that declines very slowly from 8% as the number of threads increases. A pool that uses ``broadcast``, in contrast, can saturate its sockets if it has more than 30 threads.
+
+I spent hours (mostly on planes) trying to determine why the inefficiency factor acts this way&mdash;why 8%? Shouldn't it be worse? And why does it fall, slowly, as N rises? But I'm calling it quits now. Leave a comment if you have any insights, but I'm satisfied that the old pool was wasteful and that the new one is a substantial improvement.

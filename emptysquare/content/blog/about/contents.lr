@@ -1,0 +1,69 @@
+_model: blog-post
+---
+title: About
+---
+pub_date: 2011-10-25
+---
+author: 
+---
+type: page
+---
+tags:
+
+
+---
+categories:
+
+
+---
+summary: I'm A. Jesse Jiryu Davis, a senior Python engineer for MongoDB specializing in Tornado.
+---
+body:
+
+I'm A. Jesse Jiryu Davis, a staff engineer at [MongoDB](http://mongodb.com) in New York City.
+
+Here's my [speaking schedule](http://emptysqua.re/blog/speaking-schedule/).
+
+## Projects:
+
+* [libbson](https://github.com/mongodb/libbson) and [libmongoc](https://github.com/mongodb/mongo-c-driver), the MongoDB C Driver libraries.
+* [Motor](http://emptysquare.net/motor/): A full-featured non-blocking MongoDB driver for Tornado.
+* [PyMongo](http://pypi.python.org/pypi/pymongo/): I help maintain the standard MongoDB driver for Python.
+* [GreenletProfiler](http://emptysqua.re/blog/greenletprofiler/): A performance profiler that groks greenlets and Gevent.
+
+## Contributions:
+
+* [A queue implementation](https://code.google.com/p/tulip/source/detail?r=f83dba559f89) included in `asyncio`, also known as Tulip, Guido van Rossum's asynchronous I/O framework for the Python 3.4 standard library.
+* [Locks and queues](http://www.tornadoweb.org/en/stable/releases/v4.2.0.html#new-modules-tornado-locks-and-tornado-queues) for the Python Tornado async framework.
+* [A bugfix to threading](http://bugs.python.org/issue18418) in the Python standard library.
+
+## Writing:
+
+* Co-author with Guido van Rossum of the "Web Crawler With asyncio Coroutines" chapter in *500 Lines or Less*, the fourth book in the Architecture of Open Source Applications series.
+* Contributor to The Definitive Guide to MongoDB.
+
+## Photography:
+
+I do portraits of [Lower East Siders](http://emptysquare.net/photography/lower-east-side/), [residents of transitional housing](http://emptysqua.re/photography/homeless-shelters/), and [American
+Buddhists](http://emptysquare.net/photography/new-york-city-zen/).
+
+## Religion:
+
+I'm a Zen student at the [Village Zendo](http://villagezendo.org).
+
+## Training:
+
+I got a BA in Computer Science from [Oberlin College](http://oberlin.edu), I take photo classes at [The International Center for Photography](http://icp.org),
+and lived for a year at [Zen Mountain Center](http://zmc.org).
+
+## Contact Me:
+
+Unless you're a recruiter.
+
+Email <a href="mailto:jesse@emptysquare.net">jesse@emptysquare.net</a> or <a href="mailto:jesse@mongodb.com">jesse@mongodb.com</a>.
+
+<a target="_blank" href="http://twitter.com/jessejiryudavis">@jessejiryudavis on Twitter</a>, <a target="_blank" href="http://github.com/ajdavis">ajdavis on GitHub</a>, <a target="_blank" href="http://flickr.com/photos/emptysquare">emptysquare on Flickr</a>.
+
+I look like this:
+
+![Profile](/blog/media/2011/11/profile.jpg "profile.jpg")

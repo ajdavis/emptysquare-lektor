@@ -1,0 +1,48 @@
+_model: blog-post
+---
+title: Motor 0.3.3 Released
+---
+pub_date: 2014-10-05
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Motor
+Programming
+Python
+---
+summary: Fixes an infinite loop and memory leak.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
+
+Today I released version 0.3.3 of Motor, the asynchronous MongoDB driver for Python and Tornado. This release is compatible with MongoDB 2.2, 2.4, and 2.6. It requires PyMongo 2.7.1.
+
+This release fixes [an occasional infinite loop and memory leak](https://jira.mongodb.org/browse/MOTOR-45). The bug was triggered when you passed a callback to [MotorCursor.each](http://motor.readthedocs.org/en/stable/api/motor_cursor.html#motor.MotorCursor.each), and Motor had to open a new socket in the process of executing your callback, and your callback raised an exception:
+
+```python
+from tornado.ioloop import IOLoop
+import motor
+
+loop = IOLoop.instance()
+
+def each(result, error):
+    raise Exception()
+
+collection = motor.MotorClient().test.test
+cursor = collection.find().each(callback=each)
+loop.start()
+```
+
+The bug has been present since Motor 0.2. I am indebted to Eugene Protozanov for an excellent bug report.
+
+Get the latest version with `pip install --upgrade motor`. [The documentation is on ReadTheDocs](http://motor.readthedocs.org/en/stable). [View the changelog here](http://motor.readthedocs.org/en/stable/changelog.html). If you encounter any issues, please [file them in Jira](https://jira.mongodb.org/browse/MOTOR).

@@ -1,0 +1,34 @@
+_model: blog-post
+---
+title: Come Work With Me At MongoDB
+---
+pub_date: 2013-08-27
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Programming
+---
+summary: We renamed ourselves from 10gen to MongoDB Inc. today. Same great company. You should work with me here.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2013/08/MongoDB_Logo.png" alt="MongoDB Logo" title="MongoDB Logo" />
+
+My company makes MongoDB. It's by far the most widely used NoSQL database and it's a very sexy chunk of open source software. But we've been hampered by our opaque company name: 10gen. Today 10gen is gone; we've renamed ourselves MongoDB, Inc.
+
+It seems like a good day to invite you to come work with me. [We have open positions](http://jobvite.com/m?3bkZ1gwg) for programmers, marketers, salespeople, and a few other specialties here in New York City, in Palo Alto, and around the globe.
+
+Almost everything we make is open source. We give away the database itself, and the drivers in more than a dozen programming languages, and a bunch of tools and example applications. We make money from customer support contracts and our continuous-backup service. Being a programmer at an open-source company means I have few secrets and I come to work to share my ideas and my effort with the world. My daily motivation is generosity rather than competition. It's a beautiful feeling.
+
+Another benefit of working here is personal freedom. Most days I'm hacking on PyMongo or MongoDB, but some days there's a blog post I want to write, sometimes I speak at conferences or meetups, some days [I work with Guido van Rossum on a contribution to Python](https://codereview.appspot.com/7751044/) or [with Ben Darnell on a Tornado feature](https://github.com/facebook/tornado/pull/789). I participate in the free software world like I never have before.
+
+If a gig like this sounds good to you, please [look at our positions and apply through this link](http://jobvite.com/m?3bkZ1gwg)&mdash;I'll get a kickback and you'll get a fulfilling job. Maybe even a liberating one.

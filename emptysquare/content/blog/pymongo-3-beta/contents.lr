@@ -1,0 +1,43 @@
+_model: blog-post
+---
+title: Announcing PyMongo 3.0 Beta
+---
+pub_date: 2015-03-10
+---
+author: 
+---
+type: post
+---
+tags:
+
+pymongo
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: PyMongo 3.0 is conformant, responsive, robust, and modern. Try it!: pip install https://github.com/mongodb/mongo-python-driver/archive/3.0b0.tar.gz
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/03/adder.png" alt="Adder" title="Adder" />
+
+You have no idea how it thrills me to tell you this. We have just shipped PyMongo 3.0 Beta. You need to [read the changelog](http://api.mongodb.org/python/3.0b0/changelog.html) and install it in your dev environment now:
+
+<pre style="text-align: left"><code>pip install https://github.com/mongodb/mongo-python-driver/archive/3.0b0.tar.gz</code></pre>
+
+It's not common among Python folk, in my experience, to test each others' betas. But this month I really need your help: **Please give PyMongo 3 a spin.** 
+
+Tell me if the new interfaces work for you. Tell me if our API changes make sense, if they require more updates to your code than they're worth, if we documented them all properly in the changelog. And naturally, tell me if you found any bugs.
+
+Vastly more information will come in the next few weeks. I'll write to you about how much more conformant, responsive, robust, and modern the new PyMongo is. Besides that, my colleagues and I at MongoDB are drafting articles on the specifications PyMongo 3 implements:
+
+* The new [CRUD API spec](https://github.com/mongodb/specifications/blob/master/source/crud/crud.rst) that gives you a clean new interface for basic operations on your data.
+* My [Server Discovery And Monitoring Spec](http://emptysqua.re/blog/server-discovery-and-monitoring-spec/) defines how drivers connect to the servers in your replica set or sharded cluster and stay abreast of changes.
+* The [Server Selection Spec](https://github.com/mongodb/specifications/blob/master/source/server-selection/server-selection.rst) is a straightforward new expression of how to choose replica set members for reads, or how to load balance among mongoses.
+
+Stay tuned.
+
+[<span style="color:gray">Image: Pearson Scott Foresman.</span>](https://commons.wikimedia.org/wiki/File:Adder_(PSF).png)

@@ -1,0 +1,272 @@
+_model: blog-post
+---
+title: Refactoring Tornado Code With gen.engine
+---
+pub_date: 2012-07-11
+---
+author: 
+---
+type: post
+---
+tags:
+
+tornado
+---
+categories:
+
+Mongo
+Motor
+Programming
+Python
+---
+summary: 
+---
+body:
+
+Sometimes writing callback-style asynchronous code with <a href="http://www.tornadoweb.org/">Tornado</a> is a pain. But the real hurt comes when you want to refactor your async code into reusable subroutines. Tornado's <a href="http://www.tornadoweb.org/documentation/gen.html">gen</a> module makes refactoring easy, but you need to learn a few tricks first.
+
+# For Example
+
+I'll use this blog to illustrate. I built it with <a href="https://github.com/ajdavis/motor-blog">Motor-Blog</a>, a trivial blog platform on top of <a href="http://emptysquare.net/motor/">Motor</a>, my new driver for Tornado and <a href="http://www.mongodb.org/">MongoDB</a>.
+
+When you came here, Motor-Blog did three or four MongoDB queries to render this page.
+
+<strong>1</strong>: Find the blog post at this URL and show you this content.
+
+<strong>2 and 3</strong>: Find the next and previous posts to render the navigation links at the bottom.
+
+<strong>Maybe 4</strong>: If the list of categories on the left has changed since it was last cached, fetch the list.
+
+Let's go through each query and see how the `tornado.gen` module makes life easier.
+
+# Fetching One Post
+
+In Tornado, fetching one post takes a little more work than with blocking-style code:
+
+```python
+db = motor.MotorConnection().open_sync().my_blog_db
+
+class PostHandler(tornado.web.RequestHandler):
+    @tornado.asynchronous
+    def get(self, slug):
+        db.posts.find_one({'slug': slug}, callback=self._found_post)
+
+    def _found_post(self, post, error):
+        if error:
+            raise tornado.web.HTTPError(500, str(error))
+        elif not post:
+            raise tornado.web.HTTPError(404)
+        else:
+            self.render('post.html', post=post)
+```
+
+Not so bad. But is it better with `gen`?
+
+```python hl_lines="3,5,6"
+class PostHandler(tornado.web.RequestHandler):
+    @tornado.asynchronous
+    @gen.engine
+    def get(self, slug):
+        post, error = yield gen.Task(
+            db.posts.find_one, {'slug': slug})
+
+        if error:
+            raise tornado.web.HTTPError(500, str(error))
+        elif not post:
+            raise tornado.web.HTTPError(404)
+        else:
+            self.render('post.html', post=post)
+```
+
+A little better. The `yield` statement makes this function a <a href="http://www.python.org/dev/peps/pep-0342/">generator</a>.
+`gen.engine` is a brilliant hack which runs the generator until it's complete.
+Each time the generator yields a `Task`, `gen.engine` schedules the generator
+to be resumed when the task is complete. Read the
+<a href="https://github.com/facebook/tornado/blob/master/tornado/gen.py#L304">source
+code of the `Runner` class</a> for details, it's exhilarating. Or just
+enjoy the glow of putting all your logic in a single function again, without
+defining any callbacks.
+
+Motor includes a subclass of `gen.Task` called `motor.Op`. It handles checking and raising the exception for you, so the above can be simplified further:
+
+```python hl_lines="4,5"
+@tornado.asynchronous
+@gen.engine
+def get(self, slug):
+    post = yield motor.Op(
+        db.posts.find_one, {'slug': slug})	
+    if not post:
+        raise tornado.web.HTTPError(404)
+    else:
+        self.render('post.html', post=post)
+```
+
+Still, no huge gains. `gen` starts to shine when you need to parallelize some tasks.
+
+# Fetching Next And Previous
+
+Once Motor-Blog finds the current post, it gets the next and previous posts. Since the two
+queries are independent we can save a few milliseconds by doing them in parallel.
+How does this look with callbacks?
+
+```python
+@tornado.asynchronous
+def get(self, slug):
+    db.posts.find_one({'slug': slug}, callback=self._found_post)
+
+def _found_post(self, post, error):
+    if error:
+        raise tornado.web.HTTPError(500, str(error))
+    elif not post:
+        raise tornado.web.HTTPError(404)
+    else:
+        _id = post['_id']
+        self.post = post
+
+        # Two queries in parallel
+        db.posts.find_one({'_id': {'$lt': _id}},
+            callback=self._found_prev)
+        db.posts.find_one({'_id': {'$gt': _id}},
+            callback=self._found_next)
+
+def _found_prev(self, prev, error):
+    if error:
+        raise tornado.web.HTTPError(500, str(error))
+    else:
+        self.prev = prev
+        if self.next:
+            # Done
+            self._render()
+
+def _found_next(self, next, error):
+    if error:
+        raise tornado.web.HTTPError(500, str(error))
+    else:
+        self.next = next
+        if self.prev:
+            # Done
+            self._render()
+
+def _render(self)
+    self.render('post.html',
+        post=self.post, prev=self.prev, next=self.next)
+```
+
+This is completely disgusting and it makes me want to give up on Tornado.
+All that boilerplate can't be factored out. Will `gen` help?
+
+```python hl_lines="9,10,11"
+@tornado.asynchronous
+@gen.engine
+def get(self, slug):
+    post, error = yield motor.Op(
+        db.posts.find_one, {'slug': slug})
+    if not post:
+        raise tornado.web.HTTPError(404)
+    else:
+        prev, next = yield [
+            motor.Op(db.posts.find_one, {'_id': {'$lt': _id}}),
+            motor.Op(db.posts.find_one, {'_id': {'$gt': _id}})]
+
+        self.render('post.html', post=post, prev=prev, next=next)
+```
+
+Now our single `get` function is just as nice as it would be with blocking code.
+In fact, the parallel fetch is far easier than if you were multithreading instead of using Tornado.
+But what about factoring out a common subroutine that request handlers can share?
+
+# Fetching Categories
+
+Every page on my blog needs to show the category list on the left side. Each request handler could just include
+this in its `get` method:
+
+```python
+categories = yield motor.Op(
+    db.categories.find().sort('name').to_list)
+```
+
+But that's terrible engineering. Here's how to factor it into a subroutine with `gen`:
+
+```python
+@gen.engine
+def get_categories(db, callback):
+    try:
+        categories = yield motor.Op(
+            db.categories.find().sort('name').to_list)
+    except Exception, e:
+        callback(None, e)
+        return
+
+    callback(categories, None)
+```
+
+This function does **not** have to be part of a request handler&mdash;it stands on its own at the module scope.
+To call it from a request handler, do:
+
+```python hl_lines="5"
+class PostHandler(tornado.web.RequestHandler):
+    @tornado.asynchronous
+    @gen.engine
+    def get(self, slug):
+        categories = yield motor.Op(get_categories)
+        # ... get the current, previous, and next posts as usual, then ...
+        self.render('post.html',
+            post=post, prev=prev, next=next, categories=categories)
+```
+
+`gen.engine` runs `get` until it yields `get_categories`, then a
+separate engine runs `get_categories` until it calls the callback, which
+resumes `get`. It's almost like a regular function call!
+
+This is particularly nice because I want to cache the categories between page
+views. `get_categories` can be updated very simply to use a cache:
+
+```python hl_lines="1,4,5"
+egories = None
+@gen.engine
+def get_categories(db, callback):
+    global categories
+    if not categories:
+        try:
+            categories = yield motor.Op(
+                db.categories.find().sort('name').to_list)
+        except Exception, e:
+            callback(None, e)
+            return
+
+    callback(categories, None)
+```
+
+(Note for nerds: I invalidate the cache whenever a post with a never-before-seen
+category is added. The "new category" signal is saved to a
+<a href="http://www.mongodb.org/display/DOCS/Capped+Collections">capped collection</a>
+in MongoDB, which all the Tornado servers are always tailing. That'll be the
+subject of a future post.)
+
+# Conclusion
+
+The `gen` module's <a href="http://www.tornadoweb.org/documentation/gen.html">excellent documentation</a>
+shows briefly how a method that makes a few async calls can be
+simplified using `gen.engine`, but the power really comes when you need to
+factor out a common subroutine. It's not obvious how to do that at first, but
+there are only three steps:
+
+<strong>1.</strong> Decorate the subroutine with `@gen.engine`.
+
+<strong>2.</strong> Make the subroutine take a callback argument (it **must** be called `callback`),
+to which the subroutine will pass its results when finished.
+
+<strong>3.</strong> Call the subroutine within an engine-decorated function like:
+
+```python
+result = yield gen.Task(subroutine)
+```
+
+`result` contains the value or values that `subroutine` passed to the callback.
+
+If you follow Motor's convention where every callback takes arguments
+`(result, error)`, then you can use `motor.Op` to deal with the exception:
+
+```python
+result = yield motor.Op(subroutine)
+```

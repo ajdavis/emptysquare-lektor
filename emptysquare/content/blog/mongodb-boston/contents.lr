@@ -1,0 +1,51 @@
+_model: blog-post
+---
+title: MongoDB Boston
+---
+pub_date: 2014-10-01
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: Links to more info about my presentation at MongoDB Boston, about MongoDB, Python, and visualization.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/10/acorn-street.jpg" alt="Acorn Street" title="Acorn Street" />
+
+<span style="color: gray; font-style: italic">[[Source]](http://commons.wikimedia.org/wiki/File:08_506.jpg)</span>
+
+I'm speaking at MongoDB Boston. My talk is about visualizing weather data using Python, MongoDB, and other open source tools. Here's some links if you saw my talk and want more information.
+
+**NumPy:** The fundamental data format for scientific computing in Python: [http://www.numpy.org/](http://www.numpy.org/).
+
+**SciPy:** A huge collection of fast algorithms for analyzing NumPy data: [http://www.scipy.org/](http://www.scipy.org/).
+
+**MatPlotLib:** A charting library of vast capabilities, works great with NumPy arrays: [http://matplotlib.org/](http://matplotlib.org/)
+
+**Monary:** This is a high-performance driver that queries MongoDB and stores the data directly in NumPy arrays: [https://bitbucket.org/djcbeach/monary/](https://bitbucket.org/djcbeach/monary/)
+
+**Our Example App:** All the code for loading and analyzing NOAA's weather data: [https://github.com/drmirror/century](https://github.com/drmirror/century)
+
+***
+
+Postscript: near my hotel, Boston's Trinity Church is absurdly juxtaposed with The Hancock:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/10/trinity-hancock.jpg" alt="Trinity Church and The Hancock" title="Trinity Church and The Hancock" />
+
+It reminds me of Christ Church Cathedral in Montr&eacute;al, which I photographed six years ago. It's similarly dominated by a glass box:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/10/christ-church-montreal.jpg" alt="Christ Church Montreal" title="Christ Church Montreal" />
+
+I guess this is inevitable in cities with a history. Skyscrapers move in and all the old buildings are torn down but the churches, dwarves living among young giants.

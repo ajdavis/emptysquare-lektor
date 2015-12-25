@@ -1,0 +1,33 @@
+_model: blog-post
+---
+title: Dorothy and Mae
+---
+pub_date: 2015-11-19
+---
+author: 
+---
+type: post
+---
+tags:
+
+hamster
+---
+categories:
+
+Photography
+---
+summary: Our new Chinese dwarf hamsters.
+---
+body:
+
+November, 2015. Our new Chinese dwarf hamsters, named for Dorothy Parker and Mae West.
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/11/dorothy.jpg" alt="Dorothy" title="Dorothy" />
+
+Dorothy.
+
+***
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/11/mae.jpg" alt="Mae" title="Mae" />
+
+Mae.

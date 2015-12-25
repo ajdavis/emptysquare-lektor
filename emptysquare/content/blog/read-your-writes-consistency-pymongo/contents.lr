@@ -1,0 +1,92 @@
+_model: blog-post
+---
+title: Read-Your-Writes Consistency With PyMongo
+---
+pub_date: 2013-11-18
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: What's the best way to get read-your-writes consistency in PyMongo?
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2013/11/quill.jpg" alt="Quill" title="Quill" />
+<span style="color:gray">Photo: [Thomas van de Vosse](http://www.flickr.com/photos/appeltaart_/8645069389/)</span>
+
+A PyMongo user asked me a good question today: if you want read-your-writes consistency, is it better to do acknowledged writes with a connection pool (the default), or to do unacknowledged writes over a single socket?
+
+# A Little Background
+
+Let's say you update a MongoDB document with PyMongo, and you want to immediately read the updated version:
+
+```python
+client = pymongo.MongoClient()
+collection = client.my_database.my_collection
+collection.update(
+    {'_id': 1},
+    {'$inc': {'n': 1}})
+
+print collection.find_one({'_id': 1})
+
+```
+In a multithreaded application, PyMongo's connection pool may have multiple sockets in it, so we don't promise that you'll use the same socket for the `update` and for the `find_one`. Yet you're still guaranteed read-your-writes consistency: the change you wrote to the document is reflected in the version of the document you subsequently read with `find_one`. PyMongo accomplishes this consistency by waiting for MongoDB to acknowledge the update operation before it sends the `find_one` query. (I [explained last year how acknowledgment works in PyMongo](http://emptysqua.re/blog/pymongos-new-default-safe-writes/).)
+
+There's another way to get read-your-writes consistency: you can send both the `update` and the `find_one` over the same socket, to ensure MongoDB processes them in order. In this case, you can tell PyMongo not to request acknowledgment for the update with the `w=0` option:
+
+```python hl_lines="2 6"
+
+# Reserve one socket for this thread.
+with client.start_request():
+    collection.update(
+        {'_id': 1},
+        {'$inc': {'n': 1}},
+        w=0)
+
+    print collection.find_one({'_id': 1})
+
+```
+If you set PyMongo's `auto_start_request` option it will call `start_request` for you. In that case you'd better let the connection pool grow to match the number of threads by removing its `max_pool_size`:
+
+```python
+client = pymongo.MongoClient(
+    auto_start_request=True,
+    max_pool_size=None)
+
+```
+(See [my article on requests](http://emptysqua.re/blog/requests-in-python-and-mongodb/) for details.)
+
+So, to answer the user's question: If there are two ways to get read-your-writes consistency, which should you use?
+
+# The Answer
+
+You should accept PyMongo's default settings: use acknowledged writes. Here's why:
+
+**Number of sockets**: A multithreaded Python program that uses `w=0` and `auto_start_request` needs more connections to the server than does a program that uses acknowledged writes instead. With `auto_start_request` we have to reserve a socket for every application thread, whereas without it, threads can share a pool of connections smaller than the total number of threads.
+
+**Back pressure**: If the server becomes very heavily loaded, a program that uses `w=0` won't know the server is loaded because it doesn't wait for acknowledgments. In contrast, the server can exert back pressure on a program using acknowledged writes: the program can't continue to write to the server until the server has completed and acknowledged the writes currently in progress.
+
+**Error reporting**: If you use `w=0`, your application won't know whether the writes failed due to some error on the server. For example, an insert might cause a duplicate-key violation. Or you might try to [increment](http://docs.mongodb.org/manual/reference/operator/update/inc/) a field in a document, but the server rejects the operation because the field isn't a number. By default PyMongo raises an exception under these circumstances so your program doesn't continue blithely on, but if you use `w=0` such errors pass silently.
+
+**Consistency**: Acknowledged writes guarantee read-your-writes consistency, whether you're connected to a mongod or to a mongos in a sharded cluster.
+
+Using `w=0` with `auto_start_request` also guarantees read-your-writes consistency, but only if you're connected to a mongod. If you're connected to a mongos, using `w=0` with `auto_start_request` does not guarantee any consistency, because some writes may be queued in the [writeback listener](http://docs.mongodb.org/manual/faq/sharding/#what-does-writebacklisten-in-the-log-mean) and complete asynchronously. Waiting for acknowledgment ensures that all writes have really been completed in the cluster before your program proceeds.
+
+**Forwards compatibility with MongoDB**: The next version of the MongoDB server will offer a [new implementation for insert, update, and delete](https://jira.mongodb.org/browse/SERVER-9038), which will diminish the performance boost of `w=0`.
+
+**Forwards compatibility with PyMongo**: You can tell by now that we're not big fans of `auto_start_request`. We're likely to remove it from PyMongo in version 3.0, so you're better off not relying on it.
+
+# Conclusion
+
+In short, you should just accept PyMongo's default settings: acknowledged writes with `auto_start_request=False`. There are many disadvantages and almost no advantages to `w=0` with `auto_start_request`, and in the near future these options will be diminished or removed anyway.

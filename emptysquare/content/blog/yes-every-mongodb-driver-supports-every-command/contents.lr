@@ -1,0 +1,169 @@
+_model: blog-post
+---
+title: Yes, Every MongoDB Driver Supports Every Command
+---
+pub_date: 2012-12-17
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Motor
+Programming
+Python
+---
+summary: 
+---
+body:
+
+This post is in response to a persistent form of question I receive about MongoDB drivers: "Does driver X support feature Y?" The answer is nearly always "yes," but you can't know that unless you understand MongoDB commands.
+
+There are only four kinds of operations a MongoDB driver can perform on the server: insert, update, remove, query, and commands.
+
+Almost two years ago my colleague Kristina wrote about "[Why Command Helpers Suck](http://www.kchodorow.com/blog/2011/01/25/why-command-helpers-suck/)," and she is still right: if you only use the convenience methods without understanding the unifying concept of a "command," you're unnecessarily tied to a particular driver's API, and you don't know how MongoDB really works.
+
+So let's do a pop quiz:
+
+1. Which MongoDB drivers support the Aggregation Framework?
+2. Which support the "group" operation?
+3. Which drivers are compatible with MongoDB's mapreduce feature?
+4. Which drivers let you run "count" or "distinct" on a collection?
+
+If you answered, "all of them," you're right&mdash;every driver supports commands, and all the features I asked about are commands.
+
+Let's consider three MongoDB drivers for Python and show examples of using the `distinct` command in each.
+
+# PyMongo
+
+PyMongo has two convenience methods for `distinct`. One is on the `Collection` class, the other on `Cursor`:
+
+```python
+>>> from pymongo import MongoClient
+>>> db = MongoClient().test
+>>> db.test_collection.distinct('my_key')
+[1.0, 2.0, 3.0]
+>>> db.test_collection.find().distinct('my_key')
+[1.0, 2.0, 3.0]
+
+```
+But this all boils down to the same MongoDB command. We can look up its arguments in the [MongoDB Command Reference](http://docs.mongodb.org/manual/reference/commands/) and see that [distinct](http://docs.mongodb.org/manual/reference/commands/#distinct) takes the form:
+
+```
+{ distinct: collection, key: <field>, query: <query> }
+
+```
+So let's use PyMongo's generic `command` method to run `distinct` directly. We'll pass the `collection` and `key` arguments and omit `query`. We need to use PyMongo's `SON` class to ensure we pass the arguments in the right order:
+
+```python
+>>> from bson import SON
+>>> db.command(SON([('distinct', 'test_collection'), ('key', 'my_key')]))
+{u'ok': 1.0,
+ u'stats': {u'cursor': u'BasicCursor',
+            u'n': 3,
+            u'nscanned': 3,
+            u'nscannedObjects': 3,
+            u'timems': 0},
+ u'values': [1.0, 2.0, 3.0]}
+
+```
+The answer is in `values`.
+
+# Motor
+
+My async driver for Tornado and MongoDB, called [Motor](http://emptysquare.net/motor/), supports a similar conveniences for `distinct`. It has both the `MotorCollection.distinct` method:
+
+```python hl_lines="8"
+
+>>> from tornado.ioloop import IOLoop
+>>> from tornado import gen
+>>> import motor
+>>> from motor import MotorConnection
+>>> db = MotorConnection().open_sync().test
+>>> @gen.engine
+... def f():
+...     print (yield motor.Op(db.test_collection.distinct, 'my_key'))
+...     IOLoop.instance().stop()
+... 
+>>> f()
+>>> IOLoop.instance().start()
+[1.0, 2.0, 3.0]
+
+```
+... and `MotorCursor.distinct`:
+
+```python hl_lines="3"
+
+>>> @gen.engine
+... def f():
+...     print (yield motor.Op(db.test_collection.find().distinct, 'my_key'))
+...     IOLoop.instance().stop()
+... 
+>>> f()
+>>> IOLoop.instance().start()
+[1.0, 2.0, 3.0]
+
+```
+Again, these are just convenient alternatives to using `MotorDatabase.command`:
+
+```python hl_lines="3 4"
+
+>>> @gen.engine
+... def f():
+...     print (yield motor.Op(db.command,
+...         SON([('distinct', 'test_collection'), ('key', 'my_key')])))
+...     IOLoop.instance().stop()
+... 
+>>> f()
+>>> IOLoop.instance().start()
+{u'ok': 1.0,
+ u'stats': {u'cursor': u'BasicCursor',
+            u'n': 3,
+            u'nscanned': 3,
+            u'nscannedObjects': 3,
+            u'timems': 0},
+ u'values': [1.0, 2.0, 3.0]}
+
+```
+# AsyncMongo
+
+AsyncMongo is another driver for Tornado and MongoDB. Its interface isn't nearly so rich as Motor's, so I often hear questions like, "Does AsyncMongo support `distinct`? Does it support `aggregate`? What about `group`?" In fact, it's those questions that prompted this post. And of course the answer is yes, AsyncMongo supports all commands:
+
+```python hl_lines="8 9"
+
+>>> from tornado.ioloop import IOLoop
+>>> import asyncmongo
+>>> db = asyncmongo.Client(
+...     pool_id='mydb', host='127.0.0.1', port=27017,
+...     maxcached=10, maxconnections=50, dbname='test')
+>>> @gen.engine
+... def f():
+...     results = yield gen.Task(db.command,
+...         SON([('distinct', 'test_collection'), ('key', 'my_key')]))
+...     print results.args[0]
+...     IOLoop.instance().stop()
+... 
+>>> f()
+>>> IOLoop.instance().start()
+{u'ok': 1.0,
+ u'stats': {u'cursor': u'BasicCursor',
+            u'n': 3,
+            u'nscanned': 3,
+            u'nscannedObjects': 3,
+            u'timems': 0},
+ u'values': [1.0, 2.0, 3.0]}
+
+```
+# Exceptions
+
+There are some areas where drivers really differ, like [Replica Set](http://docs.mongodb.org/manual/replication/) support, or [Read Preferences](http://emptysquare.net/blog/reading-from-mongodb-replica-sets-with-pymongo/). 10gen's drivers are much more consistent than third-party drivers. But if the underlying operation is a command, then all drivers are essentially the same.
+
+# So Go Learn How To Run Commands
+
+So the next time you're about to ask, "Does driver X support feature Y," first check if Y is a command by looking for it in the [command reference](http://docs.mongodb.org/manual/reference/commands/). Chances are it's there, and if so, you know how to run it.

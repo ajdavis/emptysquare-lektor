@@ -1,0 +1,42 @@
+_model: blog-post
+---
+title: Vote For Me At Open Source Bridge!
+---
+pub_date: 2015-04-16
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Programming
+Python
+---
+summary: A shameless plug for my three talk proposals.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/04/portland-old-town.jpg" alt="Portland old town" title="Portland old town" />
+
+**Update:** [Two of these talks were accepted](http://emptysqua.re/blog/speaking-at-open-source-bridge-2015/), thanks for your support.
+
+This is a shameless plug. I'm not ashamed of how much I want to speak at Open Source Bridge this year&mdash;it's my favorite conference with my favorite people and I desperately want to speak there again. So vote for me! Add stars and comments to the three talks I proposed.
+
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/04/add-star.png" alt="Add star" title="Add star" />](http://opensourcebridge.org/proposals/1580)
+
+**[Cat-herd's Crook: Enforcing Standards in 10 Programming Languages](http://opensourcebridge.org/proposals/1580).**
+
+I'm proposing this talk with my colleague and first-time speaker Samantha Ritter. We helped MongoDB specify and test our specifications for driver APIs and behaviors, and we persuaded dozens of open source programmers to implement these specifications the same. We want to show you how we herded all the cats in the same direction.
+
+**[Dodge Disasters and March to Triumph as a Mentor](http://opensourcebridge.org/proposals/1581).**
+
+If you're ambitious to advance in your career, or you care about your junior colleagues' advancement, then it is time for you to learn how to be a great mentor. Especially if you&rsquo;re committed to diversity: mentorship is critical to the careers of women and minorities in tech. I have failed at mentoring, then succeeded. Learn from me and march to mentorship triumph.
+
+**[How Do Python Coroutines Work?](http://opensourcebridge.org/proposals/1582)**
+
+I'll explain asyncio's new coroutine implementation in depth, including the mystical "yield from" statement. You'll know better than any of your peers how this amazing new programming model works. Plus, in a magical and entertaining feat of daring, I plan to live-code an asynchronous coroutine implementation before your very eyes!

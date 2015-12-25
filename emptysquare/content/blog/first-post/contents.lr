@@ -1,0 +1,26 @@
+_model: blog-post
+---
+title: First post
+---
+pub_date: 2011-10-26
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Uncategorized
+---
+summary: I'm going to blog like it's 1999. People may come here primarily to read about Python, MongoDB, and other software topics, but I also intend to post occasionally on photography, Zen, and personal stuff -- but nothing icky.
+---
+body:
+
+I'm going to blog like it's 1999. People may come here primarily to read
+about Python, MongoDB, and other software topics, but I also intend to
+post occasionally on photography, Zen, and personal stuff -- but nothing
+icky.

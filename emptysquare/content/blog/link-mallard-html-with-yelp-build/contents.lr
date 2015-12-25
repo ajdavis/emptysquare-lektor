@@ -1,0 +1,123 @@
+_model: blog-post
+---
+title: Cross-linking Mallard HTML Pages With yelp-build
+---
+pub_date: 2015-10-23
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+C
+Programming
+---
+summary: How to link from pages of one Mallard document to another.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/10/Mallard_Ducks_Drawing.jpg" alt="Mallard Ducks - John James Audubon" title="Mallard Ducks - John James Audubon" />
+
+From its start, the MongoDB C Driver has been split into two projects: libbson and libmongoc. Each has its own reference manual, each comprising hundreds of pages, written in the [Mallard XML format](http://projectmallard.org/). We use [yelp-build](https://github.com/GNOME/yelp-tools) to convert the Mallard to HTML and put it online. For example, here's the reference page for libmongoc's `mongoc_collection_find`:
+
+***
+
+<div style="font-family: monospace !important; text-align: left !important">
+<h2>mongoc_collection_find</h2>
+<div><pre>mongoc_cursor_t *
+mongoc_collection_find (mongoc_collection_t       *collection,
+                        mongoc_query_flags_t       flags,
+                        uint32_t                   skip,
+                        uint32_t                   limit,
+                        uint32_t                   batch_size,
+                        const bson_t              *query,
+                        const bson_t              *fields,
+                        const mongoc_read_prefs_t *read_prefs);</pre></div>
+<h2>Parameters</h2>
+<style>
+#parameters-table td p { margin-right: 10px; }
+</style>
+<table id="parameters-table">
+<tr>
+<td><p>collection</p></td>
+<td><p>A <a href="http://api.mongodb.org/c/current/mongoc_collection_t.html" title="mongoc_collection_t">mongoc_collection_t</a>.</p></td>
+</tr>
+<tr>
+<td><p>flags</p></td>
+<td><p>A <a href="http://api.mongodb.org/c/current/mongoc_query_flags_t.html" title="mongoc_query_flags_t">mongoc_query_flags_t</a>.</p></td>
+</tr>
+<tr>
+<td><p>skip</p></td>
+<td><p>Number of documents to skip.</p></td>
+</tr>
+<tr>
+<td><p>limit</p></td>
+<td><p>Max number of documents to return or 0.</p></td>
+</tr>
+<tr>
+<td><p>batch_size</p></td>
+<td><p>Batch size of document result sets or 0 for default.</p></td>
+</tr>
+<tr>
+<td><p>query</p></td>
+<td><p>A <a href="http://api.mongodb.org/libbson/current/bson_t.html" title="bson:bson_t">bson_t</a>.</p></td>
+</tr>
+<tr>
+<td><p>fields</p></td>
+<td><p>A <a href="http://api.mongodb.org/libbson/current/bson_t.html" title="bson:bson_t">bson_t</a> containing fields to return or NULL.</p></td>
+</tr>
+<tr>
+<td><p>read_prefs</p></td>
+<td><p>A <a href="http://api.mongodb.org/c/current/mongoc_read_prefs_t.html" title="mongoc_read_prefs_t">mongoc_read_prefs_t</a> or NULL for default read preferences.</p></td>
+</tr>
+</table>
+</div>
+
+***
+
+Notice how names like `mongoc_collection_t` are links to other pages in libmongoc's manual. That's easy enough to do with yelp-build:
+```xml
+<code xref="mongoc_collection_t">mongoc_collection_t</code>
+```
+What I couldn't figure out was this: how can I link references from libmongoc's manual to libbson's?
+
+With incredible generosity, Shaun McCance designed a solution for me. He told me how to [create an "xref extension" using an XML transformation](http://projectmallard.org/pipermail/mallard-list/2015-April/000216.html) so that an element like this:
+```xml
+<code xref="bson:bson_t">bson_t</code>
+```
+...is rendered as a link to libbson's page about the `bson_t` type.
+
+Here's the XSL file that does the transform:
+```xml
+<xsl:stylesheet>
+    <!--
+    Turn markup like this:
+    <code xref="bson:bson_t">bson_t</code>
+    ... into a link like this:
+    http://api.mongodb.org/libbson/current/bson_t.html
+    -->
+    <xsl:template name="mal.link.target.custom">
+        <xsl:param name="node" select="."/>
+        <xsl:param name="xref" select="$node/@xref"/>
+        <xsl:if test="starts-with($xref, 'bson:')">
+            <xsl:variable name="ref"
+                          select="substring-after($xref, 'bson:')"/>
+            <xsl:text>http://api.mongodb.org/libbson/current/</xsl:text>
+            <xsl:value-of select="$ref"/>
+            <xsl:text>.html</xsl:text>
+        </xsl:if>
+    </xsl:template>
+</xsl:stylesheet>
+```
+Pass that to `yelp-build -x` and Bob, as they say, is your uncle.
+
+[**Read the complete discussion on the Project Mallard mailing list.**](http://projectmallard.org/pipermail/mallard-list/2015-April/000216.html)
+
+***
+
+[<span style="color:gray">Image: Mallard Ducks, John James Audubon.</span>](https://commons.wikimedia.org/wiki/File:Mallard_Ducks_Drawing.jpg)

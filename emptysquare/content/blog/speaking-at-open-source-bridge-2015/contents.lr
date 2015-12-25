@@ -1,0 +1,38 @@
+_model: blog-post
+---
+title: Samantha Ritter And Me At Open Source Bridge 2015
+---
+pub_date: 2015-04-24
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+C
+Mongo
+Programming
+Python
+---
+summary: We'll speak about driver spec compliance, and I'll do a talk on asyncio coroutines.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2013/10/open-source-bridge-1.jpg" alt="Open source bridge 1" title="Open source bridge 1" />
+
+I'm so excited to tell you, my colleague Samantha Ritter and I were accepted to speak in Portland, Oregon this June.
+
+**[Cat-herd's Crook: Enforcing Standards in 10 Programming Languages](http://opensourcebridge.org/proposals/1580).**
+
+Samantha and I helped specify and test how MongoDB drivers behave in ten programming languages, and we persuaded dozens of open source programmers to implement these specifications the same. We created a test framework that verified compliance with YAML descriptions of how drivers should act, and we communicated updates to the specs by pushing changes to the YAML files.
+
+We want to show you how we herded all the cats in the same direction.
+
+**[How Do Python Coroutines Work?](http://opensourcebridge.org/proposals/1582)**
+
+I'll explain asyncio's new coroutine implementation in depth, including the mystical "yield from" statement. You'll know better than any of your peers how this amazing new programming model works. Plus, in a magical and entertaining feat of daring, I plan to live-code an asynchronous coroutine implementation before your very eyes!

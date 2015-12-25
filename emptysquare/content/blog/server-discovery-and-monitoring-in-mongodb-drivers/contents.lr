@@ -1,0 +1,33 @@
+_model: blog-post
+---
+title: Server Discovery and Monitoring in MongoDB Drivers
+---
+pub_date: 2015-05-20
+---
+author: 
+---
+type: page
+---
+tags:
+
+
+---
+categories:
+
+
+---
+summary: Our drivers' algorithms to discover and stay connected to your server, replica set, or sharded cluster.
+---
+body:
+
+Beginning in 2015, all our official drivers strive to implement the same algorithm to discover and stay connected to your standalone server, replica set, or sharded cluster.
+
+To learn about the Server Discovery And Monitoring Spec:
+
+* "[MongoDB Drivers And High Availability: Deep Dive](https://www.mongodb.com/presentations/mongodb-drivers-and-high-availability-deep-dive)", my presentation at MongoDB World about PyMongo 3's implementation of server discovery and monitoring, along with a reasonable strategy for operation retries in your application.
+* My article "[Server Discovery And Monitoring In PyMongo, Perl, And C](http://emptysqua.re/blog/server-discovery-and-monitoring-in-pymongo-perl-and-c/)".
+* My colleague David Golden's [article on the related Server Selection Spec](http://www.mongodb.com/blog/post/server-selection-next-generation-mongodb-drivers).
+* [A summary of the spec.](http://emptysqua.re/server-discovery-and-monitoring-summary.html)
+* [The Server Discovery And Monitoring Spec.](http://emptysqua.re/server-discovery-and-monitoring.html)
+* [The spec source, including the YAML test files.](https://github.com/mongodb/specifications/tree/master/source/server-discovery-and-monitoring)
+* [Slides from my MongoDB World 2015 talk, "MongoDB Drivers And High Availability: Deep Dive"](http://www.slideshare.net/emptysquare/drivers-and-high-availability-mongo-db-world-2015)

@@ -1,0 +1,44 @@
+_model: blog-post
+---
+title: Motor 0.1 Migration Instructions
+---
+pub_date: 2013-03-07
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Motor
+Programming
+Python
+---
+summary: If you've been using Motor prior to the 0.1 release, here's how to upgrade.
+---
+body:
+
+Motor (which is indeed my non-blocking driver for MongoDB and Tornado) [had a 0.1 release to PyPI yesterday](http://emptysquare.net/blog/motor-officially-released/). It had an odd history prior, so there are various versions of the code that you, dear reader, may have installed on your system. All you need to do is:
+
+```
+$ pip uninstall pymongo motor
+$ pip install motor
+
+```
+Motor will pull in the official PyMongo, plus Tornado and Greenlet, as dependencies. You should now have Motor 0.1 and PyMongo 2.4.2:
+
+```python
+>>> import pymongo
+>>> pymongo.version
+'2.4.2'
+>>> import motor
+>>> motor.version
+'0.1'
+
+```
+(The lore is: I started Motor last year in a branch of my fork of PyMongo, so you could've installed an experimental version of **both** PyMongo and Motor from there. Then we transferred Motor into its own repo within the MongoDB.org organization on January 15. And on February 1st a zealous fan actually grabbed the "Motor" package name on PyPI and uploaded my code to it, then transferred ownership to me, just to make sure I could use the name Motor.)

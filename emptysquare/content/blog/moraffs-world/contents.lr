@@ -1,0 +1,67 @@
+_model: blog-post
+---
+title: Moraff's World
+---
+pub_date: 2013-04-20
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Review
+---
+summary: A very strange 1991 role-playing game, and the current state of videogame art.
+---
+body:
+
+A long-quiescent memory got knocked loose. I recalled that I'd played Moraff's World obsessively as a kid, sneaking out of bed at night to play it on my mother's Tandy 3000. So I downloaded the game and played it for a few hours this week in a DOS emulator.
+
+Moraff's World is a fantasy role-playing game from 1991. It has the usual mechanics of the genre: You choose a race and a class like Fighter or Wizard, explore dungeons, and gain money and items by killing monsters. But Moraff's World is distinguished by its insane complexity. Characters can be one of eight races and seven classes. Killed monsters drop money in seven currencies. There are over a hundred distinct spells, and they come in books, scrolls, wands, and papers. Some characters can learn wizardly or priestly spells, some can learn both. The main UI looks like the bridge of a nuclear submarine:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/04/moraff-dungeon.png" alt="Moraff dungeon" title="moraff-dungeon.png" border="0"   />
+
+You look in all four directions at once. There is also an overhead map, like this section of town:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/04/moraff-town.png" alt="Moraff town" title="moraff-town.png" border="0"   />
+
+It is the player's job to memorize that yellow squares are temples, red are inns, and so forth.
+
+In a modern role-playing game like Diablo, the town feels alive: music plays, rain patters down, random characters walk around and talk. Moraff's town is vacant and still.
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/04/moraff-town-2.png" alt="Moraff town 2" title="moraff-town-2.png" border="0"   />
+
+It is not characters who speak to you in Moraff's World, but the programmer Steve Moraff himself. When you enter a bank, the options include PRESS 4 TO ROB BANK. Do so, and the game replies, COME ON! DO YOU REALLY THINK I'D LET YOU ROB MY OWN BANK? PRESS ANY KEY TO CONTINUE.... You are not immersed. You are explicitly in a game designed by a single programmer.
+
+The experience does not resemble a fantasy movie like Lord of the Rings as much as it does reading a fantasy book. When I see a balrog in the movie, I see its fiery skull and its whip, pretty much the same as other viewers. How different from reading Tolkien's description: "a great shadow, in the middle of which was a dark form, of man-shape maybe, yet greater; and a power and terror seemed to be in it and to go before it." I make my own balrog from these words. In the same way, in the absence of any sound or animation, I supply the missing life to Moraff's static world.
+
+This is not to say that the game lacks charm. It is incredibly idiosyncratic. The monsters seem drawn in MS Paint by an exuberant child. Consider this werewolf, and what appears to be a Hawaiian zombie:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/04/moraff-monsters.png" alt="Moraff monsters" title="moraff-monsters.png" border="0"   />
+
+The game's engineering is as primitive as its art. Graphics are drawn in layers with the Painter's Algorithm. With each step your character takes, the views in all four directions are re-rendered. The walls are slowly drawn on screen from farthest to nearest. Even on my modern laptop this can take some time when looking down a long hallway. But the technique lends itself to fun effects, like the translucent Shadow Minidragon, partially drawn over the walls behind him:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/04/moraff-minidragon.png" alt="Moraff minidragon" title="moraff-minidragon.png" border="0"   />
+
+Moraff applied a similar method to the Wilderness. You may climb a ladder out of town to reach this randomly-generated landscape. It takes several seconds to calculate. (It took several *minutes* on my mother's Tandy.) If you hit H for Help, Moraff tells you that there's no point exploring the wilderness. It only leads to other dungeons which are all the same. It's a sightseeing expedition.
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/04/moraff-wilderness.png" alt="Moraff wilderness" title="moraff-wilderness.png" border="0"   />
+
+When I downloaded it this week, my first impression of this Shareware-era game was nostalgic. Back then, games were envisioned by a few people or, in the case of Moraff, one programmer-auteur. There was room for a folk genius to succeed with a very weird game. Nowadays he'd be drowned out by games with [hundred-million-dollar budgets](http://www.gamesindustry.biz/articles/2013-02-01-gta-v-dev-costs-over-USD137-million-says-analyst) like Grand Theft Auto V.
+
+But on second thought, the industry is simply more mature, with a bigger audience and a broader range of games. There's still a place for avant-garde titles developed by small teams, like [Braid](http://braid-game.com/) or [Sword & Sworcery](http://www.swordandsworcery.com/). Both use the vocabulary of the simple video games we played as children to evoke grown-up ideas.
+
+Braid is a platform-jumping game, explicitly an homage to Super Mario Brothers. There's even a princess to rescue. But the protagonist has mysterious powers to slow or reverse time, and the game asks: if you had these powers, what would you be? Does the princess want to be rescued? Are you playing the good guy or not?
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/04/braid-game.png" alt="Braid" title="braid-game.png" border="0"   />
+
+In the iPad game Sword & Sworcery, the graphics are deliberately archaic and pixellated, but the themes are innovative. The game makes surprising demands regarding its place in the player's life. After you beat a level, for example, Sword & Sworcery pauses for a minute and suggests you take a break and do something else. There are levels that can only be played near a full moon, or a new moon. I changed my iPad's date so I could play them immediately. The designers' goal&mdash;to make me aware of my addictive game-love&mdash;was accomplished.
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/04/sword-and-sworcery.png" alt="Sword and Sworcery" title="sword-and-sworcery.png" border="0"   />
+
+The other striking idea of Sword & Sworcery is that one's character does not level up. Instead, with each victory she is weakened. She must keep fighting the same monsters but they grow tougher as the protagonist becomes more vulnerable. At the end, she beats the final boss, but she is retching blood, and flings herself into the river to die. By comparison, role-playing games where your character gains godlike powers seem like childish wish-fulfillment. If you were really a warrior come to save a town, this would be how you'd end up.

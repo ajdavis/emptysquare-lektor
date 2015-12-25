@@ -1,0 +1,65 @@
+_model: blog-post
+---
+title: Five Things About Scaling MongoDB
+---
+pub_date: 2014-01-19
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+---
+summary: Scaling MongoDB is simpler than you think.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/01/king-tree.jpg" alt="King Tree" title="King Tree" />
+
+There are a lot of articles about neat hacks for scaling MongoDB, but neat hacks are rarely necessary. MongoDB is designed to scale. Most applications just need to get these five things right.
+
+## 1. Indexes
+
+By far the most important aspect of scaling. For every common query on every collection, make sure you have the right indexes in place. Read the MongoDB manual's fine [introduction to indexes](http://docs.mongodb.org/manual/core/indexes-introduction/), and then my long article on [optimizing compound indexes](http://emptysqua.re/blog/optimizing-mongodb-compound-indexes/). The latter offers simple rules for choosing indexes for almost any query.
+
+## 2. Filesystem
+
+On Linux, [choose ext4 or xfs](http://docs.mongodb.org/manual/administration/production-notes/#mongodb-on-linux). Since MongoDB is constantly accessing its files, you can get significant performance by telling Linux not to track files' access times. Add `noatime` in your `/etc/fstab`:
+
+```
+# /etc/fstab
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+/dev/sda1       /               ext4    noatime         0       0
+```
+
+## 3. Working Set
+
+Your working set is the portion of your data that's accessed frequently. On a social network, for example, the newest status updates are accessed far more often than older data. If your working set fits in RAM you can serve most queries from the OS's in-memory cache, without waiting for the disk.
+
+Calculating working set size is a craft. You can estimate it by summing the size of the documents you commonly access or insert, plus all the indexes you use. If you overestimate your working set and buy too much RAM, that's a cheap mistake to make. If you underestimate it a bit, you'll see a high rate of page faults and won't get the best possible performance.
+
+More [info on working sets is in the manual](http://docs.mongodb.org/manual/faq/diagnostics/#faq-memory).
+
+## 4. Disks
+
+MongoDB uses your disk for random access, so it's the disk's seek time that is the bottleneck, rather than the disk's throughput. All spinning disks are capable of 100 or so seeks per second. If your working set fits in RAM, 100 seeks per second may suffice to serve your sustained load; otherwise, you can increase your seek performance with [RAID 10](http://en.wikipedia.org/wiki/RAID), [even on EC2](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/raid-config.html). Or use SSDs.
+
+## 5. Shard
+
+A single replica set can usually meet your performance requirements if you optimize your indexes and configure the filesystem correctly, if your working set fits in RAM and you choose the right disks. You can scale out further, if necessary, by sharding your data across multiple replica sets. This increases the total amount of RAM available in your cluster, since each shard need only cache the data it's responsible for. It also increases your write throughput, since you can write to all shards in parallel.
+
+A sharded cluster is more complex to set up and administer than a replica set. Simple rules: if you don't have to shard, don't. If you must eventually shard, do it now. It's easier to design your application for a sharded cluster early, than to adapt an existing application.
+
+You have many options. Rather than shard, you can put some collections on some replica sets, and other collections on others. Since MongoDB is non-relational, there's no need for all your data to live on the same machine. And if any single collection experiences too much load for one replica set to handle, you can shard just that collection and leave the others unsharded.
+
+[Sharding is thoroughly covered in the manual](http://docs.mongodb.org/manual/core/sharding-introduction/).
+
+***
+
+There are always exceptions, of course. Sometimes you'll need more complex techniques to scale MongoDB. But in almost all cases, stick to the basics. These five things will usually get you the performance you need.

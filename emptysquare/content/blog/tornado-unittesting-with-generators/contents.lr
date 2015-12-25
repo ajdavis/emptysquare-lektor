@@ -1,0 +1,151 @@
+_model: blog-post
+---
+title: Tornado Unittesting With Generators
+---
+pub_date: 2012-03-28
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: 
+---
+body:
+
+Intro
+=====
+
+This is the second installment of what is becoming an ongoing series on
+unittesting in Tornado, the Python asynchronous web framework.
+
+A couple months ago [I shared some code called
+assertEventuallyEqual](/blog/tornado-unittesting-eventually-correct/),
+which tests that Tornado asynchronous processes eventually arrive at the
+expected result. Today I'll talk about Tornado's generator interface and
+how to write even pithier unittests.
+
+Late last year Tornado gained the "gen" module, which allows you to
+write async code in a synchronous-looking style by making your request
+handler into a generator. [Go look at the Tornado documentation for the
+gen module.](http://www.tornadoweb.org/documentation/gen.html)
+
+I've extended that idea to unittest methods by making a test decorator
+called `async_test_engine`. Let's look at the classic way of testing
+Tornado code first, then I'll show a unittest using my new method.
+
+Classic Tornado Testing
+=======================
+
+Here's some code that tests
+[AsyncMongo](https://github.com/bitly/asyncmongo), bit.ly's MongoDB
+driver for Tornado, using a typical Tornado testing style:
+
+```python
+def test_stuff(self):
+    import sys; print >> sys.stderr, 'foo'
+    db = asyncmongo.Client(
+        pool_id='test_query',
+        host='127.0.0.1',
+        port=27017,
+        dbname='test',
+        mincached=3
+    )
+
+    def cb(result, error):
+        self.stop((result, error))
+
+    db.collection.remove(safe=True, callback=cb)
+    self.wait()
+    db.collection.insert({"_id" : 1}, safe=True, callback=cb)
+    self.wait()
+
+    # Verify the document was inserted
+    db.collection.find(callback=cb)
+    result, error = self.wait()
+    self.assertEqual([{'_id': 1}], result)
+
+    # MongoDB has a unique index on _id
+    db.collection.insert({"_id" : 1}, safe=True, callback=cb)
+    result, error = self.wait()
+    self.assertTrue(isinstance(error, asyncmongo.errors.IntegrityError))
+```
+
+[Full code in this gist](https://gist.github.com/2230276).&nbsp;This is the
+style of testing [shown in the docs for Tornado's testing
+module](http://www.tornadoweb.org/documentation/testing.html).
+
+Tornado Testing With Generators
+===============================
+
+Here's the same test, rewritten using my `async_test_engine` decorator:
+
+```python
+@async_test_engine(timeout_sec=2)
+def test_stuff(self):
+    db = asyncmongo.Client(
+        pool_id='test_query',
+        host='127.0.0.1',
+        port=27017,
+        dbname='test',
+        mincached=3
+    )
+
+    yield gen.Task(db.collection.remove, safe=True)
+    yield gen.Task(db.collection.insert, {"_id" : 1}, safe=True)
+
+    # Verify the document was inserted
+    yield AssertEqual([{'_id': 1}], db.collection.find)
+
+    # MongoDB has a unique index on _id
+    yield AssertRaises(
+          asyncmongo.errors.IntegrityError,
+          db.collection.insert, {"_id" : 1}, safe=True)
+```
+A few things to note about this code: First is its brevity. Most
+operations and assertions about their outcomes can co&euml;xist on a single
+line.
+
+Next, look at the `@async_test_engine` decorator. This is my subclass of
+the Tornado-provided `gen.engine`. Its main difference is that it starts
+the IOLoop before running this test method, and it stops the IOLoop when
+this method completes. By default it fails a test that takes more than 5
+seconds, but the timeout is configurable.
+
+Within the test method itself, the first two operations use `remove` to
+clear the MongoDB collection, and `insert` to add one document. For both
+those operations I use `yield gen.Task`, from the `tornado.gen` module,
+to pause this test method (which is a generator) until the operation has
+completed.
+
+Next is a class I wrote, `AssertEqual`, which inherits from `gen.Task`.
+The expression
+
+```python
+yield AssertEqual(expected_value, function, arguments, ...)
+```
+
+pauses this method until the async operation completes and calls the
+implicit callback. `AssertEqual` then compares the callback's argument
+to the expected value, and fails the test if they're different.
+
+Finally, look at `AssertRaises`. This runs the async operation, but
+instead of examining the result passed to the callback, it examines the
+**error** passed to the callback, and checks that it's the expected
+Exception.
+
+[Full code for `async_test_engine`, `AssertEqual`, and `AssertError` are
+in this gist](https://gist.github.com/2229985). The code relies on
+AsyncMongo's convention of passing (result, error) to each callback, so
+I invite you to generalize the code for your own purposes. Let me know
+what you do with it, I feel like there's a place in the world for an
+elegant Tornado test framework.

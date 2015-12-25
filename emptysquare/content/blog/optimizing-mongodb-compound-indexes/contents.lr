@@ -1,0 +1,336 @@
+_model: blog-post
+---
+title: Optimizing MongoDB Compound Indexes
+---
+pub_date: 2012-10-08
+---
+author: 
+---
+type: post
+---
+tags:
+
+best
+index
+optimization
+---
+categories:
+
+Mongo
+Programming
+---
+summary: How to find the best multicolumn index for a complex query.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/09/beinecke-library.jpg" alt="Beinecke Library, Yale University, 1963" title="Beinecke Library, Yale University, 1963" border="0"   />
+
+[*Courtesy The Beinecke Library*](http://commons.wikimedia.org/wiki/File:1960s_Yale_5062811384_card_catalog.jpg)
+
+How do you create the best index for a complex MongoDB query? I'll present a method specifically for queries that combine equality tests, sorts, and range filters, and demonstrate the best order for fields in a compound index. We'll look at the `explain()` output to see exactly how well it performs, and we'll see how the MongoDB query-optimizer selects an index.
+
+* * *
+
+Contents:
+
+- [The Setup](#setup)
+- [Range Query](#range)
+- [Equality Plus Range Query](#equality-plus-range)
+- [The Optimizer](#optimizer)
+- [Equality, Range Query, And Sort](#equality-range-sort)
+- [Final Method](#method)
+
+<a name="setup"></a>The Setup
+-----------
+
+Let's pretend I'm building a comments system like Disqus on MongoDB. (They actually use Postgres, but I'm asking you to use your imagination.) I plan to store millions of comments, but I'll begin with four. Each has a timestamp and a quality rating, and one was posted by an anonymous coward:
+
+```javascript
+{ timestamp: 1, anonymous: false, rating: 3 }
+{ timestamp: 2, anonymous: false, rating: 5 }
+{ timestamp: 3, anonymous:  true, rating: 1 }
+{ timestamp: 4, anonymous: false, rating: 2 }
+```
+<!---
+db.comments.insert([    { timestamp: 1, anonymous: false, rating: 3 },
+    { timestamp: 2, anonymous: false, rating: 5 },
+    { timestamp: 3, anonymous:  true, rating: 1 },
+    { timestamp: 4, anonymous: false, rating: 2 }])
+
+-->
+
+I want to query for non-anonymous comments with timestamps from 2 to 4, and order them by rating. We'll build up the query in three stages and examine the best index for each using MongoDB's `explain()`.
+
+<a name="range"></a>Range Query
+-----------
+
+We'll start with a simple range query for comments with timestamps from 2 to 4:
+
+```javascript
+> db.comments.find( { timestamp: { $gte: 2, $lte: 4 } } )
+```
+
+There are three, obviously. `explain()` shows how Mongo found them:
+
+```javascript
+> db.comments.find( { timestamp: { $gte: 2, $lte: 4 } } ).explain()
+{
+	"cursor" : "BasicCursor",
+	"n" : 3,
+	"nscannedObjects" : 4,
+	"nscanned" : 4,
+	"scanAndOrder" : false
+    // ... snipped output ...
+}
+```
+	
+Here's how to read a MongoDB query plan: First look at the cursor type. "BasicCursor" is a warning sign: it means MongoDB had to do a full collection scan. That won't work once I have millions of comments, so I add an index on timestamp:
+
+```javascript
+> db.comments.createIndex( { timestamp: 1 } )
+```
+
+The `explain()` output is now:
+
+```javascript
+> db.comments.find( { timestamp: { $gte: 2, $lte: 4 } } ).explain()
+{
+	"cursor" : "BtreeCursor timestamp_1",
+	"n" : 3,
+	"nscannedObjects" : 3,
+	"nscanned" : 3,
+	"scanAndOrder" : false
+}
+```
+
+Now the cursor type is "BtreeCursor" plus the name of the index I made. "nscanned" fell from 4 to 3, because Mongo used an index to go directly to the documents it needed, skipping the one whose timestamp is out of range.
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/10/range.png" alt="Range" title="range.png" border="0"   />
+
+For indexed queries, nscanned is the number of *index keys* in the range that Mongo scanned, and nscannedObjects is the number of *documents* it looked at to get to the final result. nscannedObjects includes at least all the documents returned, even if Mongo could tell just by looking at the index that the document was definitely a match. Thus, you can see that nscanned >= nscannedObjects >= n always. For simple queries you want the three numbers to be equal. It means you've created the ideal index and Mongo is using it.
+
+<a name="equality-plus-range"></a>Equality Plus Range Query
+-------------------------
+
+When would nscanned be greater than n? It's when Mongo had to examine some index keys pointing to documents that don't match the query. For example, I'll filter out anonymous comments:
+
+```javascript hl_lines="6"
+> db.comments.find(
+...     { timestamp: { $gte: 2, $lte: 4 }, anonymous: false }
+... ).explain()
+{
+    "cursor" : "BtreeCursor timestamp_1",
+    "n" : 2,
+    "nscannedObjects" : 3,
+    "nscanned" : 3,
+    "scanAndOrder" : false
+}
+```
+
+Although n has fallen to 2, nscanned and nscannedObjects are still 3. Mongo scanned the timestamp index from 2 to 4, which includes both the signed comments and the cowardly one, and it couldn't filter out the latter until it had examined the document itself.
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/10/eq-range-1.png" alt="Equality Check and Range Query 1" title="eq-range-1.png" border="0"   />
+
+How do I get my ideal query plan back, where nscanned = nscannedObjects = n? I could try a compound index on timestamp and anonymous:
+
+```javascript hl_lines="1,8"
+> db.comments.createIndex( { timestamp:1, anonymous:1 } )
+> db.comments.find(
+...     { timestamp: { $gte: 2, $lte: 4 }, anonymous: false }
+... ).explain()
+{
+    "cursor" : "BtreeCursor timestamp_1_anonymous_1",
+    "n" : 2,
+    "nscannedObjects" : 2,
+    "nscanned" : 3,
+    "scanAndOrder" : false
+}
+```
+
+This is better: nscannedObjects has dropped from 3 to 2. But nscanned is still 3! Mongo had to scan the range of the index from (timestamp 2, anonymous false) to (timestamp 4, anonymous false), *including* the entry (timestamp 3, anonymous true). When it scanned that middle entry, Mongo saw it pointed to an anonymous comment and skipped it, without inspecting the document itself. Thus the incognito comment is charged against nscanned but not against nscannedObjects, and nscannedObjects is only 2.
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/10/eq-range-2.png" alt="Equality Check and Range Query 2" title="eq-range-2.png" border="0"   />
+
+Can I improve this plan? Can I get nscanned down to 2, also? You probably know this: the order I declared the fields in my compound index was wrong. It shouldn't be "timestamp, anonymous" but "anonymous, timestamp":
+
+<!---
+db.comments.find({ timestamp: { $gte: 2, $lte: 4 }, anonymous: false }).explain(true)
+--->
+
+```javascript hl_lines="1,9"
+> db.comments.createIndex( { anonymous:1, timestamp:1 } )
+> db.comments.find(
+...     { timestamp: { $gte: 2, $lte: 4 }, anonymous: false }
+... ).explain()
+{
+    "cursor" : "BtreeCursor anonymous_1_timestamp_1",
+    "n" : 2,
+    "nscannedObjects" : 2,
+    "nscanned" : 2,
+    "scanAndOrder" : false
+}
+```
+
+Order matters in MongoDB compound indexes, as with any database. If I make an index with "anonymous" first, Mongo can jump straight to the section of the index with signed comments, then do a range-scan from timestamp 2 to 4.
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/10/eq-range-3.png" alt="Equality Check and Range Query 3" title="eq-range-3.png" border="0"   />
+
+So I've shown the first part of my heuristic: equality tests before range filters!
+
+Let's consider whether including "anonymous" in the index was worth it. In a system with millions of comments and millions of queries per day, reducing nscanned might seriously improve throughput. Plus, if the anonymous section of the index is rarely used, it can be paged out to disk and make room for hotter sections. On the other hand, a two-field index is larger than a one-field index and takes more RAM, so the win could be outweighed by the costs. Most likely, the compound index is a win if a significant proportion of comments are anonymous, otherwise not.
+
+<a name="optimizer"></a>Digression: How MongoDB Chooses An Index
+----------------------------------------
+
+Let's not skip an interesting question. In the previous example I first created an index on "timestamp", then on "timestamp, anonymous", and finally on "anonymous, timestamp". Mongo chose the final, superior index for my query. How?
+
+MongoDB's optimizer chooses an index for a query in two phases. First it looks for a prima facie "optimal index" for the query. Second, if no such index exists it runs an experiment to see which index actually performs best. The optimizer remembers its choice for all similar queries. (Until a thousand documents are modified or an index is added or removed.)
+
+What does the optimizer consider an "optimal index" for a query? The optimal index must include all the query's filtered fields and sort fields. Additionally, any range-filtered or sort fields in the query must come after equality fields. (If there are multiple optimal indexes, Mongo chooses one arbitrarily.) In my example, the "anonymous, timestamp" index is clearly optimal, so MongoDB chooses it immediately.
+
+This isn't a terrifically exciting explanation, so I'll describe how the second phase would work. When the optimizer needs to choose an index and none is obviously optimal, it gathers all the indexes relevant to the query and pits them against each other in a race to see who finishes, or finds 101 documents, first.
+
+Here's my query again:
+
+```javascript
+db.comments.find({ timestamp: { $gte: 2, $lte: 4 }, anonymous: false })
+```
+
+All three indexes are relevant, so MongoDB lines them up in an arbitrary order and advances each index one entry in turn:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/10/optimizer.png" alt="Optimizer" title="optimizer.png" border="0"   />
+
+(I omitted the ratings for brevity; I'm just showing the documents' timestamps and anonymosity.)
+
+All the indexes return
+
+```javascript
+{ timestamp: 2, anonymous: false, rating: 5 }
+```
+
+first. On the second pass through the indexes, the left and middle return
+
+```javascript
+{ timestamp: 3, anonymous:  true, rating: 1 }
+```
+
+which isn't a match, and our champion index on the right returns
+
+```javascript
+{ timestamp: 4, anonymous: false, rating: 2 }
+```
+
+which *is* a match. Now the index on the right is finished before the others, so it's declared the winner and used until the next race.
+
+In short: if there are several useful indexes, MongoDB chooses the one that gives the lowest nscanned.
+
+**Update:** [Betlista reminded me in the comments](http://emptysquare.net/blog/optimizing-mongodb-compound-indexes/#comment-777924667) that you can do `explain({ verbose: true })` to get all the plans Mongo tried. In this example, there are three relevant indexes, but the verbose explain will only show one plan, because one index is an "optimal index."
+
+<a name="equality-range-sort"></a>Equality, Range Query, And Sort
+-------------------------------
+
+Now I have the perfect index to find signed comments with timestamps between 2 and 4. The last step is to sort them, top-rated first:
+
+<!---
+db.comments.find({ timestamp: { $gte: 2, $lte: 4 }, anonymous: false }).sort( { rating: -1 } ).explain()
+--->
+
+```javascript hl_lines="3,9"
+> db.comments.find(
+...     { timestamp: { $gte: 2, $lte: 4 }, anonymous: false }
+... ).sort( { rating: -1 } ).explain()
+{
+	"cursor" : "BtreeCursor anonymous_1_timestamp_1",
+	"n" : 2,
+	"nscannedObjects" : 2,
+	"nscanned" : 2,
+	"scanAndOrder" : true
+}
+```
+
+This is the same access plan as before, and it's still good: nscanned = nscannedObjects = n. But now "scanAndOrder" is true. This means MongoDB had to batch up all the results in memory, sort them, and then return them. Infelicities abound. First, it costs RAM and CPU on the server. Also, instead of [streaming my results in batches](http://www.mongodb.org/display/DOCS/Queries+and+Cursors#QueriesandCursors-Executionofqueriesinbatches), Mongo just dumps them all onto the network at once, taxing the RAM on my app servers. And finally, Mongo enforces a 32MB limit on data it will sort in memory. We're only dealing with four comments now, but we're designing a system to handle millions!
+
+How can I avoid scanAndOrder? I want an index where Mongo can jump to the non-anonymous section, and scan that section in order from top-rated to bottom-rated:
+
+<!---
+db.comments.find({ timestamp: { $gte: 2, $lte: 4 }, anonymous: false }).sort( { rating: -1 } ).hint({ anonymous:1, rating: 1 }).explain(true)
+--->
+
+```javascript
+> db.comments.createIndex( { anonymous: 1, rating: 1 } )
+```
+
+Will Mongo use this index? No, because it doesn't win the race to the lowest nscanned. The optimizer does *not* consider whether the index helps with sorting.[^1]
+
+I'll use a hint to force Mongo's choice:
+
+```javascript hl_lines="4,9,10"
+> db.comments.find(
+...     { timestamp: { $gte: 2, $lte: 4 }, anonymous: false }
+... ).sort( { rating: -1 }
+... ).hint( { anonymous: 1, rating: 1 } ).explain()
+{
+	"cursor" : "BtreeCursor anonymous_1_rating_1 reverse",
+	"n" : 2,
+	"nscannedObjects" : 3,
+	"nscanned" : 3,
+	"scanAndOrder" : false
+}
+```
+
+The argument to `hint` is the same as `createIndex`. Now nscanned has risen to 3 but scanAndOrder is false. Mongo walks through the "anonymous, rating" index in reverse, getting comments in the correct order, and then checks each document to see if its timestamp is in range.
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/10/eq-range-sort-1.png" alt="Equality Check, Range Query, and Sort 1" title="eq-range-sort-1.png" border="0"   />
+
+This is why the optimizer won't choose this index, but prefers to go with the old "anonymous, **timestamp**" index which requires an in-memory sort but has a lower nscanned.
+
+So I've solved the scanAndOrder problem, at the cost of a higher nscanned. I can't reduce nscanned, but can I reduce nscannedObjects? I'll put the timestamp in the index so Mongo doesn't have to get it from each document:
+
+```javascript
+> db.comments.createIndex( { anonymous: 1, rating: 1, timestamp: 1 } )
+```
+
+Again, the optimizer won't prefer this index so I have to force it:
+
+<!---
+db.comments.find({ timestamp: { $gte: 2, $lte: 4 }, anonymous: false }).sort( { rating: -1 } ).hint({ anonymous:1, rating: 1, timestamp: 1 }).explain()
+--->
+
+```javascript hl_lines="4,8"
+> db.comments.find(
+...     { timestamp: { $gte: 2, $lte: 4 }, anonymous: false }
+... ).sort( { rating: -1 }
+... ).hint( { anonymous: 1, rating: 1, timestamp: 1 } ).explain()
+{
+	"cursor" : "BtreeCursor anonymous_1_rating_1_timestamp_1 reverse",
+	"n" : 2,
+	"nscannedObjects" : 2,
+	"nscanned" : 3,
+	"scanAndOrder" : false,
+}
+```
+
+This is as good as it gets. Mongo follows a similar plan as before, moonwalking across the "anonymous, rating, timestamp" index so it finds comments in the right order. But now, nscannedObjects is only 2, because Mongo can tell from the index entry alone that the comment with timestamp 1 isn't a match.
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/10/eq-range-sort-2.png" alt="Equality Check, Range Query, and Sort 2" title="eq-range-sort-2.png" border="0"   />
+
+If my range filter on timestamp is selective, adding timestamp to the index is worthwhile; if it's not selective then the additional size of the index won't be worth the price.
+
+<a name="method"></a>Final Method
+-------------
+
+So here's my method for creating a compound index for a query combining equality tests, sort fields, and range filters:
+
+1. Equality Tests
+    * Add all equality-tested fields to the compound index, in any order
+2. Sort Fields (ascending / descending only matters if there are multiple sort fields)
+    * Add sort fields to the index in the same order and direction as your query's sort
+3. Range Filters
+    * First, add the range filter for the field with the lowest cardinality (fewest distinct values in the collection)
+    * Then the next lowest-cardinality range filter, and so on to the highest-cardinality
+
+You can omit some equality-test fields or range-filter fields if they are not selective, to decrease the index size&mdash;a rule of thumb is, if the field doesn't filter out at least 90% of the possible documents in your collection, it's probably better to omit it from the index. Remember that if you have several indexes on a collection, you may need to hint Mongo to use the right index.
+
+That's it! For complex queries on several fields, there's a heap of possible indexes to consider. If you use this method you'll narrow your choices radically and go straight to a good index.
+
+[^1]: Gory details: the scanAndOrder query plan "anonymous, timestamp" wins over the pre-ordered plan "anonymous, rating," because it gets to the end of my small result set first. But if I had a larger result set, then the pre-ordered plan might win. First, because it returns data in the right order, so it crosses the finish line when it finds 101 documents, while a scanAndOrder query plan isn't declared finished until it's found **all** the results. Second, because a scanAndOrder plan quits the race if it reaches 32MB of data, leaving the pre-ordered plans to finish. I told you these details would be gory.

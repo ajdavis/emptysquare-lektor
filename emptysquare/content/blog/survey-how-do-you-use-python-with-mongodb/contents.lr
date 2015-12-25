@@ -1,0 +1,42 @@
+_model: blog-post
+---
+title: Survey: How Do You Use Python With MongoDB?
+---
+pub_date: 2015-10-16
+---
+author: 
+---
+type: post
+---
+tags:
+
+pymongo
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: Do you care about Python 3? Async? NumPy? Take this quick survey on what packages and versions you use, it would help me http://svy.mk/1Mt4UdY
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/10/I/Albertus_Seba_Python_sebae.jpg" alt="Albertus Seba Python sebae" title="Albertus Seba Python sebae" />
+
+***
+
+The Python ecosystem is varied, and at MongoDB we've done our best to support our varied users.
+
+[PyMongo](http://api.mongodb.org/python/current/), the mainstream official driver, supports most use cases: Python 2 and 3, in threaded or Gevent mode, with or without a C compiler. It even works with Jython. If you need an async driver, my [Motor](https://motor.readthedocs.org/) package integrates MongoDB with Tornado, and will soon integrate with asyncio as well. If you need a specialized library for NumPy and MongoDB, our contributions to [Monary](https://monary.readthedocs.org/) give you a high-performance NumPy integration.
+
+So, where should we now focus our effort? What would be most useful to you? Do you care about Python 3? Django? Do you need an official Twisted driver for MongoDB? Are you a NumPy user?
+
+**[Please take our survey. It would be a great help to me.](http://svy.mk/1Mt4UdY)**
+
+Thanks,  
+Jesse
+
+***
+
+<span style="color:gray">[Image Source](https://commons.wikimedia.org/wiki/File:Albertus_Seba_Python_sebae.jpg)</span>

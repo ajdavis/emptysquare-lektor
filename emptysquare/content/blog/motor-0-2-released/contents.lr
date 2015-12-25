@@ -1,0 +1,40 @@
+_model: blog-post
+---
+title: Motor 0.2 Released
+---
+pub_date: 2014-04-10
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Motor
+Programming
+Python
+---
+summary: Motor 0.2 has been released. It's a huge upgrade: ease-of-use improvements, non-blocking DNS, and compatibility with MongoDB 2.6 and PyMongo 2.7.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
+
+Version 0.2 of Motor, the asynchronous MongoDB driver for Python and Tornado, has been released.
+
+This release is compatible with MongoDB 2.6 and PyMongo 2.7. It dramatically improves interoperability with Tornado coroutines, includes support for non-blocking DNS, and adds numerous smaller features.
+
+Links:
+
+* [Read the gigantic changelog.](http://motor.readthedocs.org/en/stable/changelog.html)
+* [Download it from PyPI.](https://pypi.python.org/pypi/motor)
+* [Read the manual.](http://motor.readthedocs.org/)
+
+If you encounter any issues, [please file them in our bug tracker](https://jira.mongodb.org/browse/MOTOR).
+
+That's it! With the Motor release behind me, I'm looking forward to enjoying PyCon, and [talking about async at 3:15pm tomorrow](https://us.pycon.org/2014/schedule/presentation/284/).

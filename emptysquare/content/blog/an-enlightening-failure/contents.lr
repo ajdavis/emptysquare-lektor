@@ -1,0 +1,56 @@
+_model: blog-post
+---
+title: An Enlightening Failure
+---
+pub_date: 2014-03-27
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Programming
+Python
+---
+summary: How I fooled myself into thinking I'd made my code eight times faster.
+---
+body:
+
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/04/dammit.jpg" alt="Facepalm" title="Facepalm" />
+
+This year I plan to rewrite PyMongo's BSON decoder. The decoder is written in C, and it's pretty fast, but I had a radical idea for how to make it faster. That idea turned out to be wrong, although it took me a long time to discover that.
+
+Discovering I'm wrong is the best way to learn. The second-best way is by writing. So I'll multiply the two by writing a story about my wrong idea.
+
+# The Story
+
+Currently, when PyMongo decodes a buffer of BSON documents, it creates a Python dict (hashtable) for each BSON document. It returns the dicts in a list.
+
+My radical idea was to make a maximally-lazy decoder. I wouldn't decode all the documents at once, I would decode each document just-in-time as you iterate. Even more radically, I wouldn't convert each document into a dict. Instead, each document would only know its offset in the BSON buffer. When you access a field in the document, like this:
+
+```python
+document["fieldname"]
+```
+
+...I wouldn't do a hashtable lookup anymore. I'd do a linear-search through the BSON. I thought this approach might be faster, since the linear search would usually be fast, and I'd avoid the overhead of creating the hashtable. If a document was frequently accessed or had many fields, I'd eventually "inflate" it into a dict.
+
+I coded up a prototype in C, benchmarked it, and it was eight times faster than the current code. I rejoiced, and began to develop it into a full-featured decoder.
+
+At some point I applied our unicode tests to my decoder, and I realized I was using [`PyString_FromString`](http://docs.python.org/2/c-api/string.html#PyString_FromString) to decode strings, when I should be using [`PyUnicode_DecodeUTF8`](http://docs.python.org/2/c-api/unicode.html#PyUnicode_DecodeUTF8). (I was targeting only Python 2 at this point.) I added the call to `PyUnicode_DecodeUTF8`, and my decoder started passing our unicode tests. I continued adding features.
+
+Then next day I benchmarked again, and my code was no longer any faster than the current decoder. I didn't know which change had caused the slowdown, so I learned how to use callgrind and tried all sorts of things and went a little crazy. Eventually I used `git bisect`, and I was enlightened: my prototype had only been fast as long as it didn't decode UTF-8 properly. Once I had fixed that, I had the same speed as the current PyMongo.
+
+# Lessons Learned
+
+1. The cost of PyMongo's BSON decoding is typically dominated by UTF-8 decoding. There's no way to avoid it, and it's [already optimized like crazy](http://bugs.python.org/issue14738).
+2. Python's dict is really fast for PyMongo's kind of workload. It's not worth trying to beat it.
+3. When I care about speed, I need to run my benchmarks on each commit. I should use `git bisect` as the first resort, not the last.
+
+This is disappointing, but I've learned a ton about the Python C API, BSON, and callgrind. On my next attempt to rewrite the decoder, I won't forget my hard-won lessons.

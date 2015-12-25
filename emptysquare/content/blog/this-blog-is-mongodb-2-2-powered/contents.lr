@@ -1,0 +1,26 @@
+_model: blog-post
+---
+title: This Blog is MongoDB 2.2-powered
+---
+pub_date: 2012-08-28
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories:
+
+Mongo
+Programming
+---
+summary: This blog has been running on my experimental MongoDB driver, Motor, since June. But in case that wasn't cutting-edge enough, I'm now running it on MongoDB 2.2 release candidate 2. This is what I do for excitement.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/08/mongo-22.png" alt="Mongo DB 2.2 rc2" title="mongo-22.png" border="0"   />
+
+This blog has been running on my experimental MongoDB driver, <a href="http://emptysquare.net/motor/">Motor</a>, since June. But in case that wasn't cutting-edge enough, I'm now running it on <a href="http://docs.mongodb.org/manual/release-notes/2.2/">MongoDB 2.2</a> release candidate 2. This is what I do for excitement.
