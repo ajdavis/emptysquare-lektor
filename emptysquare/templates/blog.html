@@ -6,9 +6,15 @@
 {% block content %}{{ render_blog_post(this) }}
   <h1 id="latest-posts">Latest Posts</h1>
   <p><ul class="post-list">
-      {% for child in this.pagination.items.filter(F._model == 'blog-post') -%}
+      {% for child in this.pagination.items.limit(5) -%}
+        <li>{{ render_blog_post_summary(child) }}</li>
+      {% endfor %}
+      <li><a href="all-posts">All posts</a></li>
+  </ul></p>
+  <h1 id="selected-articles">Selected Articles</h1>
+  <p><ul class="post-list">
+      {% for child in this.children.filter(F.tags.contains('best')) -%}
         <li>{{ render_blog_post_summary(child) }}</li>
       {% endfor %}
   </ul></p>
-  {{ render_pagination(this.pagination) }}
 {% endblock %}
