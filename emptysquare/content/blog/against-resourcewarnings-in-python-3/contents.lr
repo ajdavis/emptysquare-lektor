@@ -155,3 +155,4 @@ know they're not needed, or rely on the garbage-collector to clean them
 up. Python should leave it up to us to make that decision, rather than
 forcing our hand. The alternative, which is to implement manual
 management in Python for all resources, is too horrible to contemplate.
+

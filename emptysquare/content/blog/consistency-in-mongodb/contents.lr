@@ -24,3 +24,4 @@ body:
 Friend and colleague Dan has a nice [post on ensuring consistency in
 MongoDB](http://late.am/post/2011/11/18/ensuring-write-your-own-reads-consistency-in-mongodb)
 by maintaining a version number in your documents.
+

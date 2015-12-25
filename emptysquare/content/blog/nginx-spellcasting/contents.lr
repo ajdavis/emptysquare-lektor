@@ -42,3 +42,4 @@ daemonic Nginxes:
     ps aux|grep nginx\:\ master\ process|grep -v grep|awk '{ print $2; }'|sudo xargs kill
 
 Use it wisely.
+

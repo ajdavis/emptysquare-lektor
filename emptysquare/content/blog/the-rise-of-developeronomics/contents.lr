@@ -72,3 +72,4 @@ Right, and even if we did model the whole world, we'd need **another**
 system to model all the software we've written so we know whether it's
 running correctly, and so we can keep it running correctly. And as
 Turing proved, we can only get asymptotically close to that goal.
+

@@ -88,3 +88,4 @@ these queries. NoSQL databases encourage you to figure out ahead of
 time, "What one question do I need to answer?" Figure that out, and
 choose your database software and your schema based on that. Nothing
 else really matters.
+

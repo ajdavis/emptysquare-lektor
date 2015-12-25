@@ -43,3 +43,4 @@ Gadfly to talk with Cassandra (a NoSQL contender from Facebook) using
 SQL. It seems to be at the clever-hack stage right now, but could lead
 the way to integrating NoSQL databases with legacy systems that expect
 SQL databases?
+

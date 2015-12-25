@@ -238,3 +238,4 @@ The spec is long but tractable. It explains the monitoring algorithm in very fin
 * [My MongoDB World 2015 talk, "MongoDB Drivers And High Availability: Deep Dive", in which I describe PyMongo 3's implementation of the spec. Also useful for a reasonable retry strategy.](https://www.mongodb.com/presentations/mongodb-drivers-and-high-availability-deep-dive)
 
 Its job is to describe the demand side of the driver's information economy. For the supply side, read my colleague David Golden's [article on his Server Selection Spec](http://www.mongodb.com/blog/post/server-selection-next-generation-mongodb-drivers).
+

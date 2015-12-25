@@ -35,3 +35,4 @@ extension is interfacing with V8 in general, not Node specifically.
 While I have no pressing need to extend Node, [reading Shtylman's
 slides](http://shtylman.github.com/node-presentation/) from tonight gave
 me a feel for how V8's internals work, which is its own reward.
+

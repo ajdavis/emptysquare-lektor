@@ -131,3 +131,4 @@ what the `@auth` decorator returns in lieu of the wrapped function. Now
 when Tornado-RPC does `inspect.getargspec()` on the wrapped function to
 check its arguments, it thinks the wrapper has the proper method
 signature.
+

@@ -100,3 +100,4 @@ A final note: if you create checkboxes dynamically after the page has
 loaded, you must call \$(my\_new\_checkbox\_element).iButton() on them,
 once they're visible, to ensure they get the proper toggle-switch
 behavior.
+
