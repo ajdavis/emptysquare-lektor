@@ -1,0 +1,222 @@
+_model: blog-post
+---
+title: How To Deadlock Your Python With getaddrinfo()
+---
+pub_date: 2015-12-21
+---
+author: A. Jesse Jiryu Davis
+---
+summary: On Mac, multiprocessing plus multithreading can easily lead you to hang your process.
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/12/spectacled-caiman.jpg" alt="Spectacled caiman and American pipesnake" title="Spectacled caiman and American pipesnake" />
+
+What happens if you run this code?:
+
+```python
+import os
+import socket
+import threading
+
+
+def lookup():
+    socket.getaddrinfo('python.org', 80)
+
+t = threading.Thread(target=lookup)
+t.start()
+if os.fork():
+    # Parent waits for child.
+    os.wait()
+else:
+    # Child hangs here.
+    socket.getaddrinfo('mongodb.org', 80)
+```
+
+On Linux, it completes in milliseconds. On Mac, it usually hangs. Why?
+
+***
+
+# Journey To The Center Of The Interpreter
+
+Anna Herlihy and I tackled this question a few months ago. It didn't look like the code example above&mdash;not at first. We'd come across an article by Anthony Fejes reporting that the new PyMongo 3.0 didn't work with his software, which combined multithreading with multiprocessing. Often, he'd create a MongoClient, then fork, and in the child process the MongoClient couldn't connect to any servers:
+
+```python
+import os
+
+from pymongo import MongoClient
+
+
+client = MongoClient()
+if os.fork():
+    # Parent waits for child.
+    os.wait()
+else:
+    # After 30 sec, "ServerSelectionTimeoutError: No servers found".
+    client.admin.command('ping')
+```
+
+In PyMongo 3, a MongoClient begins connecting to your server with a background thread. This lets it parallelize the connections if there are several servers, and it prevents your code from blocking, even if some of the connections are slow. This worked fine, except in Anthony Fejes's scenario: when the MongoClient constructor was immediately followed by a `fork`, the MongoClient was broken in the child process.
+
+Anna investigated. She could reproduce the timeout on her Mac, but not on a Linux box.
+
+She descended through PyMongo's layers using the PyCharm debugger and print statements, and found that the child process hung when it tried to open its first connection to MongoDB. It reached this line and stopped cold:
+
+```
+infos = socket.getaddrinfo(host, port)
+```
+
+It reminded me of the `getaddrinfo` quirk I'd learned about during a side-trip while I was [debugging a completely unrelated `getaddrinfo` deadlock last year](https://emptysqua.re/blog/weird-green-bug/). The quirk is this: on some platforms, Python locks around `getaddrinfo` calls, allowing only one thread to resolve a name at a time. In Python's standard socketmodule.c:
+
+```c
+/* On systems on which getaddrinfo() is believed to not be thread-safe,
+   (this includes the getaddrinfo emulation) protect access with a lock. */
+#if defined(WITH_THREAD) && (defined(__APPLE__) || \
+    (defined(__FreeBSD__) && __FreeBSD_version+0 < 503000) || \
+    defined(__OpenBSD__) || defined(__NetBSD__) || \
+    defined(__VMS) || !defined(HAVE_GETADDRINFO))
+#define USE_GETADDRINFO_LOCK
+#endif
+```
+
+So Anna added some printfs in socketmodule.c, rebuilt her copy of CPython on Mac, and descended yet deeper into the layers. Sure enough, the interpreter deadlocks here in the child process:
+
+```c hl_lines="7"
+static PyObject *
+socket_getaddrinfo(PyObject *self, PyObject *args)
+{
+    /* ... */
+    Py_BEGIN_ALLOW_THREADS
+    printf("getting gai lock...\n");
+    ACQUIRE_GETADDRINFO_LOCK
+    printf("got gai lock\n");
+    error = getaddrinfo(hptr, pptr, &hints, &res0);
+    Py_END_ALLOW_THREADS
+    RELEASE_GETADDRINFO_LOCK
+```
+
+The macro `Py_BEGIN_ALLOW_THREADS` drops the Global Interpreter Lock, so other Python threads can run while this one waits for `getaddrinfo`. Then, depending on the platform, `ACQUIRE_GETADDRINFO_LOCK` does nothing (Linux) or grabs a lock (Mac). Once `getaddrinfo` returns, this code first reacquires the Global Interpreter Lock, then drops the `getaddrinfo` lock (if there is one).
+
+So, on Linux, these lines allow concurrent hostname lookups. On Mac, only one thread can wait for `getaddrinfo` at a time. But why does forking cause a total deadlock?
+
+# Diagnosis
+
+Consider our original example:
+
+```python
+def lookup():
+    socket.getaddrinfo('python.org', 80)
+
+t = threading.Thread(target=lookup)
+t.start()
+if os.fork():
+    # Parent waits for child.
+    os.wait()
+else:
+    # Child hangs here.
+    socket.getaddrinfo('mongodb.org', 80)
+```
+
+The `lookup` thread starts, drops the Global Interpreter Lock, grabs the `getaddrinfo` lock, and waits for `getaddrinfo`. Since the GIL is available, the main thread takes it and resumes. The main thread's next call is `fork`.
+
+When a process forks, only the thread that called `fork` is copied into the child process. Thus in the child process, the main thread continues and the `lookup` thread is gone. But that was the thread holding the `getaddrinfo` lock! In the child process, the `getaddrinfo` lock will never be released&mdash;the thread whose job it was to release it is kaput.
+
+In this stripped-down example, the next event is the child process calling `getaddrinfo` on the main thread. The `getaddrinfo` lock is never released, so the process simply deadlocks. In the actual PyMongo scenario, the main thread isn't blocked, but whenever it tries to use a MongoDB server it times out. Anna explained, "in the child process, the `getaddrinfo` lock will never be unlocked&mdash;the thread that locked it was not copied to the child&mdash;so the background thread can never resolve the server's hostname and connect. The child's main thread will then time out."
+
+(A digression: If this were a C program it would switch threads unpredictably, and it would not always deadlock. Sometimes the `lookup` thread would finish `getaddrinfo` before the main thread forked, sometimes not. But in Python, thread switching is infrequent and predictable. Threads are allowed to switch every 1000 bytecodes in Python 2, or every 15 ms in Python 3. If multiple threads are waiting for the GIL, they will tend to switch every time they drop the GIL with `Py_BEGIN_ALLOW_THREADS` and wait for a C call like `getaddrinfo`. So in Python, the deadlock is practically deterministic.)
+
+# Verification
+
+Anna and I had our hypothesis. But could we prove it?
+
+One test was, if we waited until the background thread had probably dropped the `getaddrinfo` lock before we forked, we shouldn't see a deadlock. Indeed, we avoided the deadlock if we added a tiny sleep before the fork:
+
+```python hl_lines="2"
+client = MongoClient()
+time.sleep(0.1)
+if os.fork():
+    # ... and so on ...
+```
+
+We read the `ifdef` in sockmodule.c again and devised another way to verify our hypothesis: we should deadlock on Mac and OpenBSD, but not Linux or FreeBSD. We created a few kinds of virtual machines and voil&agrave;, they deadlocked or didn't, as expected.
+
+(Windows would deadlock too, except Python on Windows can't fork.)
+
+# Why Now?
+
+Why was this bug reported in PyMongo 3, and not our previous driver version PyMongo 2?
+
+PyMongo 2 had a simpler, less concurrent design: if you create a single MongoClient it spawns no background threads, so you can `fork` safely.
+
+The old PyMongo 2 MongoReplicaSetClient did use a background thread, but its constructor blocked until the background thread completed its connections. This code was slow but fairly safe:
+
+```python
+# Blocks until initial connections are done.
+client = MongoReplicaSetClient(hosts, replicaSet="rs")
+
+if os.fork():
+    os.wait()
+else:
+    client.admin.command('ping')
+```
+
+In PyMongo 3, however, MongoReplicaSetClient is gone. MongoClient now handles connections to single servers or replica sets. The new client's constructor spawns one or more threads to begin connecting, and it returns immediately instead of blocking. Thus, a background thread is *usually* holding the `getaddrinfo` lock while the main thread executes its next few statements.
+
+# Just Don't Do That, Then
+
+Unfortunately, there is no real solution to this bug. We won't go back to the old single-threaded, blocking MongoClient&mdash;the new code's advantages are too great. Besides, even the slow old code didn't make it completely safe to fork. You were less *likely* to fork while a thread was holding the `getaddrinfo` lock, but if you used MongoReplicaSetClient the risk of deadlock was always there.
+
+Anna and I decided that the use-case for forking right after constructing a MongoClient isn't common or necessary, anyway. You're better off forking first:
+
+```python
+if os.fork():
+    os.wait()
+else:
+    # Safe to create the client in the child process.
+    client = MongoClient()
+    client.admin.command('ping')
+```
+
+Forking first is a good idea with PyMongo or any other network library&mdash;it's terribly hard to make libraries fork-proof, best not to risk it.
+
+If you must create the client first, you can tell it not to start its background threads until needed, like this:
+
+```python hl_lines="1"
+client = MongoClient(connect=False)
+if os.fork():
+    os.wait()
+else:
+    # Threads start on demand and connect to server.
+    client.admin.command('ping')
+```
+
+# Warning, Deadlock Ahead!
+
+We had convenient workarounds. But how do we prevent the next user like Anthony from spending days debugging this?
+
+Anna found a way to detect if MongoClient was being used riskily and print a warning from the child process:
+
+```text
+    UserWarning: MongoClient opened before fork. Create MongoClient
+    with connect=False, or create client after forking. See PyMongo's
+    documentation for details:
+
+    http://bit.ly/pymongo-faq#using-pymongo-with-multiprocessing
+```
+
+We shipped this fix with PyMongo 3.1 in November.
+
+***
+
+Next time: the `getaddrinfo` lock strikes again, and I spend a week patching asyncio in the Python standard library.
+
+References:
+
+* [Anthony Fejes's bug report](https://jira.mongodb.org/browse/PYTHON-961)
+* [The `getaddrinfo` lock in socketmodule.c](https://hg.python.org/cpython/file/d2b8354e87f5/Modules/socketmodule.c#l187)
+* [Anna's fix](https://github.com/mongodb/mongo-python-driver/commit/07ff7ea721cda71e6adaa2f5dbc78928f116501b#diff-03c28c992fc572c14be4a1b39cb26850R68)
+* [Her FAQ entry](http://bit.ly/pymongo-faq#using-pymongo-with-multiprocessing)
+
+***
+
+[<span style="color:gray">Image: Spectacled Caiman and American Pipe Snake</span>](http://www.oldbookillustrations.com/illustrations/spectacled-caiman/)

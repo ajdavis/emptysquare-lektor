@@ -1,20 +1,49 @@
-{% macro render_blog_post(post, from_index=false) %}
-  <div class="blog-post">
-  {% if from_index %}
-    <h2><a href="{{ post|url }}">{{ post.title }}</a></h2>
-  {% else %}
-    <h2>{{ post.title }}</h2>
-  {% endif %}
-  <p class="meta">
-    written by
-    {% if post.twitter_handle %}
-      <a href="https://twitter.com/{{ post.twitter_handle
-        }}">{{ post.author or post.twitter_handle }}</a>
-    {% else %}
-      {{ post.author }}
-    {% endif %}
-    on {{ post.pub_date }}
-  </p>
-  {{ post.body }}
-  </div>
+{% macro render_main_nav() %}
+  <nav class="main-nav">
+    <ul>
+      <li class="nav-item menu-nav-item all-posts-nav-item"><a href="/blog/all-posts/">All Posts</a>
+      </li>
+      <li class="nav-item menu-nav-item feed-nav-item"><a href="/blog/feed/">Feed</a>
+      </li>{% for url, title, classname in [
+                ('/blog/about/', 'About', 'about-nav-item'),
+                ('/photography/', 'Photography', 'photography-nav-item'),
+            ] %}
+      <li class="nav-item menu-nav-item {{ classname }}"><a href="{{ url }}">{{ title|escape }}</a>
+      </li>{% endfor %}
+      <li class="nav-item nav-divider nav-divider-1">Categories:</li>{% for category in site.query('blog/category') %}
+      <li class="nav-item category-nav-item"><a href="{{ category.path + '/' }}" title="{{ 'View all posts filed under ' + category.name }}">{{ category.name|escape }}</a>
+      </li>{% endfor %}
+      <li class="nav-item nav-divider nav-divider-2">&nbsp;</li>
+      <li class="nav-item search-item">
+        <form action="/blog/search/" method="get" class="search-form">
+          <input type="text" name="q" value="" id="search-input" class="search-text-input"/>
+          <input type="submit" value="search" id="search-submit" class="button search-button"/>
+        </form>
+      </li>
+    </ul>
+  </nav>
+{% endmacro %}
+
+
+{% macro render_category_nav(active=none) %}
+  <ul>
+  {% for category in site.query('/categories') %}
+    <li><a href="{{ category|url }}">{{ category.name }}</a>
+  {% endfor %}
+  </ul>
+{% endmacro %}
+
+
+{% macro render_blog_post(post) %}
+  <header>
+    <h1 class="title"><a href="{{ post|url }}">{{ post.title }}</a>
+    </h1>
+  </header>
+  <div class="post-content">{{ post.body }}</div>
+{% endmacro %}
+
+
+{% macro render_blog_post_summary(post) -%}
+  <a href="{{ post|url }}" class="summary-title">{{ post.title }}</a>
+  <a href="{{ post|url }}"><span class="excerpt">{{ post.summary }}</span></a>
 {% endmacro %}

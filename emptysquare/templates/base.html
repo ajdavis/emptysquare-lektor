@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=1">
+    <title>{% block title %}{{ this.title }}{% endblock %}</title>{% block extrahead %}{% endblock %}
+    <link rel="stylesheet" href="{{ '/static/blog.css'|url }}">
+    <link rel="shortcut icon" href="{{ '/static/favicon.gif'|url }}">
+    <link rel="alternate" type="application/rss+xml" title="emptysqua.re - Feed" href="https://feeds.feedburner.com/emptysquare">
+    <meta name="author" content="A. Jesse Jiryu Davis">
+  </head>
+  <body class="{{ this.body_class }}">
+    {% block body %}{% endblock %}
+    <script type="text/javascript">(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-41411917-1', 'emptysqua.re');
+      ga('send', 'pageview');
+
+    </script>
+  </body>
+</html>
