@@ -22,7 +22,7 @@ summary: Fixes bugs discovered in PyMongo 3.0.1.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/05/leaf.jpg" alt="Hepatica leaf" title="Hepatica leaf" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/05/leaf.jpg" alt="Hepatica leaf" title="Hepatica leaf" />
 
 Bernie Hackett and I are pleased to announce [PyMongo 3.0.2](https://pypi.python.org/pypi/pymongo/3.0.2). This release fixes bugs reported since PyMongo 3.0.1&mdash;most importantly, a bug that could route operations to replica set members that are not in primary or secondary state when using read preference `PrimaryPreferred` or `Nearest`.
 
@@ -30,4 +30,4 @@ For the full list of bugs fixed in PyMongo 3.0.2, please [see the release in Jir
 
 If you use PyMongo 3.0.x, upgrade.
 
-If you are on PyMongo 2.8.0, upgrade to [yesterday's bugfix release PyMongo 2.8.1 instead](http://emptysqua.re/blog/announcing-pymongo-2-8-1/). [Read the changelog for major API changes in PyMongo 3](http://api.mongodb.org/python/current/changelog.html), and test your application carefully with PyMongo 3.0.x before deploying.
+If you are on PyMongo 2.8.0, upgrade to [yesterday's bugfix release PyMongo 2.8.1 instead](/blog/announcing-pymongo-2-8-1/). [Read the changelog for major API changes in PyMongo 3](http://api.mongodb.org/python/current/changelog.html), and test your application carefully with PyMongo 3.0.x before deploying.

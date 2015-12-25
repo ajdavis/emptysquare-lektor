@@ -21,13 +21,13 @@ summary: We took a reader's suggestion and updated the shell to match drivers' m
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/08/leaf-on-water.jpg" alt="Leaf on water" title="Leaf on water" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/08/leaf-on-water.jpg" alt="Leaf on water" title="Leaf on water" />
 
 We released the latest development version of MongoDB the other week. The [official announcement](http://blog.mongodb.org/post/127802855483/mongodb-317-is-released) focuses on bug fixes, but I'm much more excited about a new feature: the mongo shell includes the new CRUD API! In addition to the old `insert`, `update`, and `remove`, the shell now supports `insertMany`, `replaceOne`, and a variety of other new methods.
 
 Why do I care about this, and why should you?
 
-MongoDB's next-generation drivers, released this spring, include [the new API for CRUD operations](https://www.mongodb.com/blog/post/consistent-crud-api-next-generation-mongodb-drivers), but the shell did not initially follow suit. My reader Nick Milon [commented](http://emptysqua.re/blog/announcing-pymongo-3/#comment-1955330570) that this is a step in the wrong direction: drivers are now less consistent with the shell. He pointed out, "developers switch more often between a driver and shell than drivers in different programming languages." So [I proposed the feature](https://jira.mongodb.org/browse/SERVER-17953), Christian Kvalheim coded it, and Kay Kim is updating the user's manual.
+MongoDB's next-generation drivers, released this spring, include [the new API for CRUD operations](https://www.mongodb.com/blog/post/consistent-crud-api-next-generation-mongodb-drivers), but the shell did not initially follow suit. My reader Nick Milon [commented](/blog/announcing-pymongo-3/#comment-1955330570) that this is a step in the wrong direction: drivers are now less consistent with the shell. He pointed out, "developers switch more often between a driver and shell than drivers in different programming languages." So [I proposed the feature](https://jira.mongodb.org/browse/SERVER-17953), Christian Kvalheim coded it, and Kay Kim is updating the user's manual.
 
 It's satisfying when a stranger's suggestion is so obviously right that we hurry to implement it.
 

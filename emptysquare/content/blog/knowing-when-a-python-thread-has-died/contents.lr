@@ -21,7 +21,7 @@ summary: Sometimes thread.join() isn't enough.
 ---
 body:
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/01/Young_Woman_Contemplating_a_Skull_by_Alessandro_Casolani_-_Statens_Museum_for_Kunst_-_DSC08131.JPG" alt="Young Woman Contemplating a Skull by Alessandro Casolani Statens Museum for Kunst DSC08131" title="Young_Woman_Contemplating_a_Skull_by_Alessandro_Casolani_-_Statens_Museum_for_Kunst_-_DSC08131.JPG" border="0"   />
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/01/Young_Woman_Contemplating_a_Skull_by_Alessandro_Casolani_-_Statens_Museum_for_Kunst_-_DSC08131.JPG" alt="Young Woman Contemplating a Skull by Alessandro Casolani Statens Museum for Kunst DSC08131" title="Young_Woman_Contemplating_a_Skull_by_Alessandro_Casolani_-_Statens_Museum_for_Kunst_-_DSC08131.JPG" border="0"   />
 ](http://commons.wikimedia.org/wiki/File:Young_Woman_Contemplating_a_Skull_by_Alessandro_Casolani_-_Statens_Museum_for_Kunst_-_DSC08131.JPG)
 
 A few months ago I had to solve a problem in PyMongo that is harder than it seems: how do you register for notifications when the current thread has died?
@@ -79,7 +79,7 @@ Let's step through this. When a thread calls `watch()`, the only strong referenc
 
 When exactly is the vigil deleted? This is a subtle point, as the sages among you know. First, PyPy uses occasional [mark and sweep garbage collection](http://doc.pypy.org/en/latest/garbage_collection.html#minimark-gc) instead of reference-counting, so the vigil isn't deleted until some time after the thread dies. In unittests, I force the issue with `gc.collect()`.
 
-Second, there's a [bug in CPython 2.6](http://bugs.python.org/issue1868) and earlier, fixed by Antoine Pitrou in CPython 2.7.1, where thread locals aren't cleaned up until the thread dies *and* some other thread accesses the local. I [wrote about this in detail](http://emptysquare.net/blog/pythons-thread-locals-are-weird/) last year when I was struggling with it. `gc.collect()` won't help in this case.
+Second, there's a [bug in CPython 2.6](http://bugs.python.org/issue1868) and earlier, fixed by Antoine Pitrou in CPython 2.7.1, where thread locals aren't cleaned up until the thread dies *and* some other thread accesses the local. I [wrote about this in detail](/blog/pythons-thread-locals-are-weird/) last year when I was struggling with it. `gc.collect()` won't help in this case.
 
 Thirdly, when is the local cleaned up in Python 2.7.1 and later? It happens as soon as the interpreter deletes the underlying `PyThreadState`, but that can actually come *after* `Thread.join()` returns&mdash;`join()` is simply waiting for a [Condition](http://docs.python.org/2/library/threading.html#condition-objects) to be set at the end of the thread's run, which comes before the locals are cleared. So in Python 2.7.1 we need to sleep a few milliseconds after joining the thread to be certain it's truly gone.
 
@@ -164,7 +164,7 @@ In Python 2.7.1 and later the test passes because all ten threads' locals are cl
 
 I discovered this bug when I rewrote the connection pool in PyMongo 2.2 and a user reported that in Python 2.6 and mod_wsgi, every *second* request leaked one socket! I fixed PyMongo in version 2.2.1 by avoiding accessing thread locals while they're being torn down. (See bug [PYTHON-353](https://jira.mongodb.org/browse/PYTHON-353).)
 
-**Update:** I've discovered that in Python 2.7.0 and earlier, you need to lock around the assignment to `self._local.vigil`, see ["Another Thing About Threadlocals"](http://emptysquare.net/blog/another-thing-about-pythons-threadlocals/).
+**Update:** I've discovered that in Python 2.7.0 and earlier, you need to lock around the assignment to `self._local.vigil`, see ["Another Thing About Threadlocals"](/blog/another-thing-about-pythons-threadlocals/).
 
 For further reading:
 
@@ -178,10 +178,10 @@ Post-script: The image up top is a [memento mori](http://en.wikipedia.org/wiki/M
 
 This was painted circa 1502 by Andrea Previtali:
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/01/Andrea_Previtali_Memento_Mori_WGA18406.jpg" alt="Andrea Previtali Memento Mori WGA18406" title="Andrea_Previtali_Memento_Mori_WGA18406.jpg" border="0"   />](http://commons.wikimedia.org/wiki/File:Andrea_Previtali_-_Memento_Mori_%28verso%29_-_WGA18406.jpg)
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/01/Andrea_Previtali_Memento_Mori_WGA18406.jpg" alt="Andrea Previtali Memento Mori WGA18406" title="Andrea_Previtali_Memento_Mori_WGA18406.jpg" border="0"   />](http://commons.wikimedia.org/wiki/File:Andrea_Previtali_-_Memento_Mori_%28verso%29_-_WGA18406.jpg)
 
 The inscription is "Hic decor hec forma manet, hec lex omnibus unam," which my Latin-nerd friends translate as, "This beauty endures only in this form, this law is the same for everyone." It was painted upside-down on the back of this handsome guy:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/01/Andrea_Previtali-portrait-of-a-man.jpg" alt="Andrea Previtali portrait of a man" title="Andrea_Previtali-portrait-of-a-man.jpg" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/01/Andrea_Previtali-portrait-of-a-man.jpg" alt="Andrea Previtali portrait of a man" title="Andrea_Previtali-portrait-of-a-man.jpg" border="0"   />
 
 The painting was mounted on an axle so the face and the skull could be rapidly alternated and compared. Think about that the next time you start a thread&mdash;it may be running now, but soon enough it will terminate and even its thread-id will be recycled.

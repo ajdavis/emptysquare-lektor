@@ -25,7 +25,7 @@ body:
 
 Mike Wilson's O'Reilly book from December 2012 introduces some hip web development techniques by building a book-long example of a social networking app. Besides introducing MongoDB, Backbone, and Node, he shows the beauty and remarkable concision of [Jade](http://jade-lang.com/), [Require.js](http://requirejs.org/), and [Mongoose](http://mongoosejs.com/). He demonstrates good patterns for organizing your code in an application of substantial complexity, covers a lot of ground in few pages, and concludes with an unusually feature-complete chat-server example that weaves together all the layers of the stack. Wilson has some dangerous habits readers shouldn't emulate, but on balance his book teaches well.
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/03/building-node-applications.jpg" alt="Building node applications" title="building-node-applications.jpg" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/03/building-node-applications.jpg" alt="Building node applications" title="building-node-applications.jpg" border="0"   />
 
 By necessity, the book jumps frequently between Node and Backbone, models and views, HTML and Javascript. It's the nature of web development that each new feature requires changes in many places, and it's hard to stay oriented. Wilson maintains a corrected version of each chapter's code [on Github](https://github.com/Swiftam/book-node-mongodb-backbone); use that instead of relying entirely on the examples in the book.
 

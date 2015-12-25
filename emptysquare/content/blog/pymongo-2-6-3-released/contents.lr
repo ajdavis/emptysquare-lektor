@@ -22,7 +22,7 @@ summary: Announcing PyMongo 2.6.3, which fixes some connection-pool bugs and har
 ---
 body:
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2013/10/grail-tree.jpg" alt="Grail tree" title="Grail tree" />](http://www.flickr.com/photos/emptysquare/4527549354/)
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/10/grail-tree.jpg" alt="Grail tree" title="Grail tree" />](http://www.flickr.com/photos/emptysquare/4527549354/)
 
 Bernie Hackett and I released [PyMongo 2.6.3](https://pypi.python.org/pypi/pymongo/2.6.3) this afternoon. It fixes some bugs introduced in 2.6.0 when we added major features to PyMongo's connection pool.
 
@@ -30,4 +30,4 @@ The headline fix is for a [semaphore leak during connection failure](https://jir
 
 I also fixed a sheer oversight of mine: Although you can fine-tune the pool by passing the [waitQueueMultiple and waitQueueTimeoutMS](http://api.mongodb.org/python/current/faq.html#how-does-connection-pooling-work-in-pymongo) parameters to MongoClient, you couldn't do the same for MongoReplicaSetClient, because it [ignored those parameters](https://jira.mongodb.org/browse/PYTHON-579).
 
-Meanwhile, Bernie tightened up our BSON parser. It now [raises errors instead of crashing](https://jira.mongodb.org/browse/PYTHON-571) when parsing a wider range of bad inputs. This continues our effort over the last few releases to harden the parser against corrupt documents, [bizarre Python interpreter states](http://emptysqua.re/blog/python-c-extensions-and-mod-wsgi/), out-of-memory errors, and the like.
+Meanwhile, Bernie tightened up our BSON parser. It now [raises errors instead of crashing](https://jira.mongodb.org/browse/PYTHON-571) when parsing a wider range of bad inputs. This continues our effort over the last few releases to harden the parser against corrupt documents, [bizarre Python interpreter states](/blog/python-c-extensions-and-mod-wsgi/), out-of-memory errors, and the like.

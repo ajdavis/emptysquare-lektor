@@ -23,15 +23,15 @@ summary:
 ---
 body:
 
-<img src="http://emptysquare.net/blog/media/2012/09/motor-musho.png" alt="Motor" title="Motor" border="0"   />
+<img src="/blog/media/2012/09/motor-musho.png" alt="Motor" title="Motor" border="0"   />
 
 As it was foretold, so has it come to pass. The omens all are satisfied, the prophecy fulfilled.
 
-Last month [I wrote about](http://emptysquare.net/blog/pymongos-new-default-safe-writes/) PyMongo renaming its main classes from `Connection` to `MongoClient` and from `ReplicaSetConnection` to `MongoReplicaSetClient`. For consistency, I promised to rename [Motor](http://emptysquare.net/motor/)'s main classes, too: from `MotorConnection` to `MotorClient` and from `MotorReplicaSetConnection` to `MotorReplicaSetClient`. [Now I've done so](https://github.com/ajdavis/mongo-python-driver/commit/3aa4948d13858f3ebf286256c5af3263e3f6eeb5).
+Last month [I wrote about](/blog/pymongos-new-default-safe-writes/) PyMongo renaming its main classes from `Connection` to `MongoClient` and from `ReplicaSetConnection` to `MongoReplicaSetClient`. For consistency, I promised to rename [Motor](/motor/)'s main classes, too: from `MotorConnection` to `MotorClient` and from `MotorReplicaSetConnection` to `MotorReplicaSetClient`. [Now I've done so](https://github.com/ajdavis/mongo-python-driver/commit/3aa4948d13858f3ebf286256c5af3263e3f6eeb5).
 
 # Migration
 
 1. Obviously, anywhere you refer to `MotorConnection` or `MotorReplicaSetConnection`, replace it with `MotorClient` or `MotorReplicaSetClient`.
-2. More subtly, if you use the `sync_connection` method, that's changed to [`sync_client`](http://emptysquare.net/motor/pymongo/api/motor/motor_client.html#motor.MotorClient.sync_client).
+2. More subtly, if you use the `sync_connection` method, that's changed to [`sync_client`](/motor/pymongo/api/motor/motor_client.html#motor.MotorClient.sync_client).
 
 I've updated this blog to run on the latest version of Motor, [you can see the commit here](https://github.com/ajdavis/motor-blog/commit/0c91d721a2bdb108cbf9c629542c9a8c0579bd02).

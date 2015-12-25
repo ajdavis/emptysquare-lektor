@@ -21,9 +21,9 @@ summary:
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/11/toro.png" alt="Toro" title="toro.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/11/toro.png" alt="Toro" title="toro.png" border="0"   />
 
-[Speaking of my package Toro](http://emptysquare.net/blog/pycon-lightning-talk-about-toro/), I've just released version 0.5. Toro provides semaphores, queues, and so on, for advanced control flows with Tornado coroutines. 
+[Speaking of my package Toro](/blog/pycon-lightning-talk-about-toro/), I've just released version 0.5. Toro provides semaphores, queues, and so on, for advanced control flows with Tornado coroutines. 
 
 Version 0.5 is a rewrite, motivated by two recent events. First, the release of Tornado 3.0 has introduced a much more convenient coroutine API, and I wanted Toro to support the modern style. Second, I [contributed a version of Toro's queues to Tulip](http://code.google.com/p/tulip/source/detail?r=f83dba559f89), and the queues changed a bit in the process. As much as possible, I updated Toro to match the API of Tulip's locks and queues, for consistency's sake.
 

@@ -24,7 +24,7 @@ body:
 
 If you use multiple mongos servers in a sharded cluster, be cautious upgrading to PyMongo 3. We've just discovered [a critical bug](https://jira.mongodb.org/browse/PYTHON-898) related to our new mongos load-balancing feature.
 
-**Update:** [PyMongo 3.0.1 was released April 21, 2015](http://emptysqua.re/blog/announcing-pymongo-3-0-1/) with fixes for this and other bugs.
+**Update:** [PyMongo 3.0.1 was released April 21, 2015](/blog/announcing-pymongo-3-0-1/) with fixes for this and other bugs.
 
 If you create a MongoClient instance with PyMongo 3 and pass the addresses of several mongos servers, like so:
 

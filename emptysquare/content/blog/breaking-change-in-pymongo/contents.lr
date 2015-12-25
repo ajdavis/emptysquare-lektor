@@ -22,7 +22,7 @@ summary: In my excitement about the big changes in PyMongo 2.4, I forgot to ment
 ---
 body:
 
-In my excitement about [the big changes in PyMongo 2.4](http://emptysquare.net/blog/pymongos-new-default-safe-writes/), I forgot to mention a smaller one you should watch out for: from now on, if the initial connection to MongoDB fails, PyMongo raises `ConnectionFailure` instead of `AutoReconnect`. This is a more intuitive exception to throw, but it does mean you need to change your exception handlers. If you've been doing this:
+In my excitement about [the big changes in PyMongo 2.4](/blog/pymongos-new-default-safe-writes/), I forgot to mention a smaller one you should watch out for: from now on, if the initial connection to MongoDB fails, PyMongo raises `ConnectionFailure` instead of `AutoReconnect`. This is a more intuitive exception to throw, but it does mean you need to change your exception handlers. If you've been doing this:
 
 ```python
 try:

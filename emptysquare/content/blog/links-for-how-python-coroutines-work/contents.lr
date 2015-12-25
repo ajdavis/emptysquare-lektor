@@ -20,7 +20,7 @@ summary: More information about my live-coding demonstration of a Python 3 async
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/08/python.png" alt="Python" title="Python" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/08/python.png" alt="Python" title="Python" />
 
 At [Open Source Bridge](http://opensourcebridge.org/sessions/1582) and [PyGotham](https://pygotham.org/2015/talks/162/how-do-python-coroutines/) in 2015, I demonstrated that you can code a Python 3 async framework in about a half hour. I start the demo by writing a callback-based async framework, built on non-blocking sockets and a simple event loop. Then I adapt the framework to use generator-based coroutines, which are cleaner than callbacks but still more efficient than threads for async I/O.
 
@@ -34,7 +34,7 @@ The material for this demo is adapted from [a chapter I wrote with Guido van
 Rossum for an upcoming book](https://github.com/aosabook/500lines/blob/master/crawler/crawler.markdown) in the Architecture of Open Source Applications
 series.
 
-Ben Darnell wrote a marvelous [guide to coroutines in Tornado](http://www.tornadoweb.org/en/stable/guide/coroutines.html). For advanced coroutine patterns see ["Refactoring Tornado Coroutines"](http://emptysqua.re/blog/refactoring-tornado-coroutines/) and my [locks and queues for Tornado](http://www.tornadoweb.org/en/stable/coroutine.html).
+Ben Darnell wrote a marvelous [guide to coroutines in Tornado](http://www.tornadoweb.org/en/stable/guide/coroutines.html). For advanced coroutine patterns see ["Refactoring Tornado Coroutines"](/blog/refactoring-tornado-coroutines/) and my [locks and queues for Tornado](http://www.tornadoweb.org/en/stable/coroutine.html).
 
 ***
 

@@ -23,7 +23,7 @@ summary: Some thoughts on Mike Bayer's excellent article about asyncio, database
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/03/tulips.png" alt="Tulips" title="Tulips" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/03/tulips.png" alt="Tulips" title="Tulips" />
 
 In his excellent article a few weeks ago, ["Asynchronous Python and Databases"](http://techspot.zzzeek.org/2015/02/15/asynchronous-python-and-databases/), SQLAlchemy's author Mike Bayer writes:
 
@@ -37,7 +37,7 @@ The general principle is: if you do not control both sides of the socket, one si
 
 But what about your application's connection to your database? Here, you control both sides, and you are responsible for ensuring all database requests are quick. As Mike's tests showed, your application may not spend much time at all waiting for database responses. He tested with Postgres, but a well-configured MongoDB instance is similarly responsive. With a low-latency database your program's raw speed, not its scalability, is your priority. In this case async is not the right answer, at least not in Python: a small thread pool serving low-latency connections is typically faster than an async framework.
 
-I agree with Mike's article, based on my own tests and my discussions with Tornado's author Ben Darnell. As I [said at PyCon last year](http://emptysqua.re/blog/pycon-2014-video-what-is-async/), async minimizes resources per idle connection, while you are waiting for some event to occur in the indefinite future. Its big win is not that it is faster. In many cases it is not.
+I agree with Mike's article, based on my own tests and my discussions with Tornado's author Ben Darnell. As I [said at PyCon last year](/blog/pycon-2014-video-what-is-async/), async minimizes resources per idle connection, while you are waiting for some event to occur in the indefinite future. Its big win is not that it is faster. In many cases it is not.
 
 The strategy Mike seems to advocate is to separate the async API for a database driver from an async *implementation* for it. In asyncio, for example, it is important that you can read from a database with code like:
 

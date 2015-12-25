@@ -20,17 +20,17 @@ summary: Links to further reading about my "Eventually Correct" talk about testi
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/04/toad-vs-birdo.jpg" alt="Toad vs Birdo" title="Toad vs Birdo" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/04/toad-vs-birdo.jpg" alt="Toad vs Birdo" title="Toad vs Birdo" />
 
 Links to further reading related to my talk "Eventually Correct: Testing Async Apps", about testing asynchronous Tornado code.
 
-* [Video of the talk from PyCon 2015](http://emptysqua.re/blog/pycon-video-eventually-correct-async-testing/).
-* [Screencast of the same content](http://emptysqua.re/blog/screencast-of-eventually-correct-async-testing-with-tornado/), perhaps easier to follow than the talk.
-* [A writeup of the talk, plus a bonus level that uses an asynchronous coroutine as a test method](http://emptysqua.re/blog/eventually-correct-async-testing-tornado/).
+* [Video of the talk from PyCon 2015](/blog/pycon-video-eventually-correct-async-testing/).
+* [Screencast of the same content](/blog/screencast-of-eventually-correct-async-testing-with-tornado/), perhaps easier to follow than the talk.
+* [A writeup of the talk, plus a bonus level that uses an asynchronous coroutine as a test method](/blog/eventually-correct-async-testing-tornado/).
 * [Example code from my talk](https://github.com/ajdavis/eventuallycorrect).
 * Tornado's [testing documentation](http://tornado.readthedocs.org/en/latest/testing.html).
 * Tornado's [coroutine guide](http://tornado.readthedocs.org/en/latest/guide/coroutines.html).
-* [Refactoring Tornado Coroutines](http://emptysqua.re/blog/refactoring-tornado-coroutines/).
+* [Refactoring Tornado Coroutines](/blog/refactoring-tornado-coroutines/).
 * [Testing (asyncio) coroutines with&nbsp;pytest](http://stefan.sofa-rockers.org/2015/04/22/testing-coroutines/) by Stefan Scherfke.
 * [Smooth McGroove's a capella remix of the Super Mario Bros 2 music](http://smoothmcgroove.bandcamp.com/track/super-mario-bros-2-overworld-theme)!
 

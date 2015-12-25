@@ -22,7 +22,7 @@ summary: This Thursday in NYC I'm talking about Python, MongoDB, and asynchronou
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/08/mongo-db-logo.png" alt="Mongo db logo" title="mongo-db-logo.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/08/mongo-db-logo.png" alt="Mongo db logo" title="mongo-db-logo.png" border="0"   />
 
 This Thursday in NYC I'm talking about Python, MongoDB, and asynchronous
 web frameworks at a meetup called [For the Love of Python: Wine tasting,

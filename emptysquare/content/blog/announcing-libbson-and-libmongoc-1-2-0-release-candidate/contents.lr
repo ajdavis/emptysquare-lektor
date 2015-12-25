@@ -22,10 +22,10 @@ summary: The next big release of the MongoDB C Driver is available for testing.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/10/F2Y_Sea_Dart_2.jpg" alt="Sea Dart 2" title="Sea Dart 2" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/10/F2Y_Sea_Dart_2.jpg" alt="Sea Dart 2" title="Sea Dart 2" />
 
 
-We just released 1.2.0-rc0. This is a release candidate of libbson and libmongoc, the libraries that constitute the MongoDB C driver. The release includes features and bugfixes developed since 1.2.0-beta1. For an overview of what the 1.2.0 release means for you, read [my announcement of the first 1.2.0 beta last month](http://emptysqua.re/blog/announcing-libmongoc-1-2-beta/). In short: high-performance non-blocking I/O, and standardized logic for high availability.
+We just released 1.2.0-rc0. This is a release candidate of libbson and libmongoc, the libraries that constitute the MongoDB C driver. The release includes features and bugfixes developed since 1.2.0-beta1. For an overview of what the 1.2.0 release means for you, read [my announcement of the first 1.2.0 beta last month](/blog/announcing-libmongoc-1-2-beta/). In short: high-performance non-blocking I/O, and standardized logic for high availability.
 
 Download the release candidate release tarballs here:
 
@@ -50,7 +50,7 @@ This release candidate also includes all bugfixes from libbson and libmongoc 1.1
 
 Version 1.2.0 final will be a stable release with additive ABI changes and bugfixes. It is compatible with MongoDB version 2.4 and later.
 
-In the last few weeks my colleague Hannes Magnusson has shouldered a large portion of the work. Kyle Suarez is also working on the C Driver for his initial six-week rotation at MongoDB&mdash;he returns for full-time work after [a triumphant internship with me last summer](http://emptysqua.re/blog/mentoring/) and he's become even more meticulous and productive in the year since we met. My great gratitude to both of them, and all who contributed to this release candidate:
+In the last few weeks my colleague Hannes Magnusson has shouldered a large portion of the work. Kyle Suarez is also working on the C Driver for his initial six-week rotation at MongoDB&mdash;he returns for full-time work after [a triumphant internship with me last summer](/blog/mentoring/) and he's become even more meticulous and productive in the year since we met. My great gratitude to both of them, and all who contributed to this release candidate:
 
  * A. Jesse Jiryu Davis
  * Hannes Magnusson

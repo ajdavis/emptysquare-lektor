@@ -22,7 +22,7 @@ summary: Bugfix release of the MongoDB C library.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/06/deep-sea.jpg" alt="Deep sea fish" title="Deep sea fish" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/06/deep-sea.jpg" alt="Deep sea fish" title="Deep sea fish" />
 
 I released libbson and libmongoc 1.1.8 today. The significant change is the defeat of a stubborn crash reported weeks ago. Very rarely, when a `mongoc_client_t` is connected to a replica set while a member is added, and authentication fails, it leaves the client's data structures in an inconsistent state that makes it seg fault later in `mongoc_client_destroy()`.
 
@@ -49,7 +49,7 @@ Additionally, zero-out all nodes right after reallocating the nodes list to ensu
 
 [Details about the bug and the fix are in Jira](https://jira.mongodb.org/browse/CDRIVER-695).
 
-It's satisfying to nail this bug after a long chase, but also painful: that code path is long gone in the 1.2.0 branch, replaced by Samantha Ritter's implementation of the [Server Discovery And Monitoring spec](http://emptysqua.re/blog/server-discovery-and-monitoring-in-pymongo-perl-and-c/). If I could've released 1.2.0 by now we'd have saved all the trouble of debugging the old code. It only redoubles my drive to release a beta of the new driver this quarter and get out of this bind.
+It's satisfying to nail this bug after a long chase, but also painful: that code path is long gone in the 1.2.0 branch, replaced by Samantha Ritter's implementation of the [Server Discovery And Monitoring spec](/blog/server-discovery-and-monitoring-in-pymongo-perl-and-c/). If I could've released 1.2.0 by now we'd have saved all the trouble of debugging the old code. It only redoubles my drive to release a beta of the new driver this quarter and get out of this bind.
 
 ***
 

@@ -21,7 +21,7 @@ summary: The conference in Portland blew my mind, man.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2013/06/portland-osu.jpg" alt="Portland" title="Portland" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/06/portland-osu.jpg" alt="Portland" title="Portland" border="0"   />
 <span style="color:gray; font-style: italic">[[Source]](http://www.flickr.com/photos/osucommons/3708634412/)</span>
 
 I was at the [Open Source Bridge](http://opensourcebridge.org/) conference last week, in Portland Oregon. It blew my mind, man. Who knew that going to a software convention could be so transformative? Some unstructured impressions follow.
@@ -34,11 +34,11 @@ At the "Diversity in Open Source" panel, I asked [Asheesh Laroia](http://asheesh
 
 The conference was Open Source Portlandia. Everyone had purple hair or weird piercings. I'd have felt like a square if I hadn't shown up with purple nail polish. Volunteers served vegan, gluten-free cookies at the after-party. We made a field trip to the Museum of Science and Industry to see a laser show in the planetarium, set to Pink Floyd's The Wall.
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2013/06/the-wall.jpg" alt="The Wall" title="The Wall" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/06/the-wall.jpg" alt="The Wall" title="The Wall" border="0"   />
 
 The general vibe was co&ouml;peration, acceptance, encouragement. Compared to other conferences where vendors promote their products and hackers promote their egos, the attendees at Open Source Bridge were intent only on sharing. I had a similar experience here as at Zen retreats: after a day or two, suddenly I felt best friends with everyone, and I was looking around and smiling all the time. I took photos in the conference's Hacker Lounge. Here's one [Nick Patch](https://twitter.com/nickpatch) took of me while I photographed him:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2013/06/me-photographing.jpg" alt="Me photographing" title="Me photographing" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/06/me-photographing.jpg" alt="Me photographing" title="Me photographing" border="0"   />
 
 I hung out in the lounge much of Thursday and Friday with two amazing men. One, Bill Den Beste, a big guy with a big white beard, was teaching people to solder. He had a box of parts, and a diagram for building a little circuit board that blinked two LEDs alternately. I chose an amber and a blue LED. Bill taught me how to use a soldering iron. He explained how the iron transmits heat to the solder, how the flux within the solder cleans oxidized metal off the leads, how the solder's surface-tension helps it form a connection. I think he was disappointed that my circuit lit up the first time I plugged it into a battery. He got most excited when someone's circuit failed: then he could pull out his multimeter and teach how to test a circuit and infer where the fault is.
 

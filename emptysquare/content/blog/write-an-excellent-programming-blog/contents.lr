@@ -21,7 +21,7 @@ summary: I want you to write. You can help us by writing just as much as by hack
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/06/vermeer-writing.jpg" alt="Vermeer, Lady Writing a Letter with her Maid" title="Vermeer, Lady Writing a Letter with her Maid" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/06/vermeer-writing.jpg" alt="Vermeer, Lady Writing a Letter with her Maid" title="Vermeer, Lady Writing a Letter with her Maid" />
 
 I want you to write. Not just code. Also words.
 
@@ -39,7 +39,7 @@ For example, the author of [HappyBase](https://pypi.python.org/pypi/happybase/),
 
 Being known in your community as an expert or as a cogent explainer helps you. You're more likely to get patches accepted by projects, get talks accepted by conferences, get users, get a job.
 
-Writing an explanation of a bug requires you to think it through, better than any other technique. My faith in writing-as-thinking is so fervent that when I see a tricky bug my first step is to start an article. That is what I did when I hit a bug in PyMongo's connection pool last year. It turns out that in Python 2.6, [assigning to a threadlocal is not thread-safe](http://emptysqua.re/blog/another-thing-about-pythons-threadlocals/). I am not nearly smart enough, dear reader, to discover such an intricate race condition unless I consolidate each step of the discovery by explaining it in writing. 
+Writing an explanation of a bug requires you to think it through, better than any other technique. My faith in writing-as-thinking is so fervent that when I see a tricky bug my first step is to start an article. That is what I did when I hit a bug in PyMongo's connection pool last year. It turns out that in Python 2.6, [assigning to a threadlocal is not thread-safe](/blog/another-thing-about-pythons-threadlocals/). I am not nearly smart enough, dear reader, to discover such an intricate race condition unless I consolidate each step of the discovery by explaining it in writing. 
 
 # What?
 
@@ -52,9 +52,9 @@ I notice roughly five formats among the best articles by programmers: stories, o
 Ideas:
 
 * [We had an outage, this is the post-mortem.](https://groups.google.com/forum/#!topic/mongodb-user/UoqU8ofp134)
-* [I went to a conference, heard talks, met people, learned something.](http://emptysqua.re/blog/recap-open-source-bridge/)
+* [I went to a conference, heard talks, met people, learned something.](/blog/recap-open-source-bridge/)
 * [I survived a tough mudder and so did my FitBit.](http://meghangill.com/2013/06/05/how-i-survived-a-tough-mudder-with-my-fitbit-intact/)
-* [I had dwarf hamsters. They died. I grieved, then accepted.](http://emptysqua.re/blog/good-night-sweet-hamster/)
+* [I had dwarf hamsters. They died. I grieved, then accepted.](/blog/good-night-sweet-hamster/)
 
 We are innately interested in stories about people. You need not be confessional or icky. If I get to know you a little through your blog, your technical articles feel warmer, and I remember who you are.
 
@@ -70,7 +70,7 @@ Ideas:
 * Bar works great with Baz.
 * [Open source authors have a grave responsibility to their users.](http://alexgaynor.net/2014/may/19/service/)
 * [It's okay not to contribute to open source.](http://jvns.ca/blog/2014/04/26/i-dont-feel-guilty-about-not-contributing-to-open-source/)
-* [College students do career fairs wrong.](http://emptysqua.re/blog/so-youre-coming-to-a-career-fair/)
+* [College students do career fairs wrong.](/blog/so-youre-coming-to-a-career-fair/)
 
 ## How-To
 
@@ -109,7 +109,7 @@ It's tempting to evaluate a book, movie, game, or project on a good&ndash;bad ax
 
 Ideas:
 
-* Technical books! They need not be recent, though staying abreast of publications in your area is good. Reading a book with the intent to review it makes you read more closely, and teaches you about good technical writing too. [Here's my review of O'Reilly's "Building Node Applications with MongoDB and Backbone"](http://emptysqua.re/blog/building-node-applications-mongodb-backbone/).
+* Technical books! They need not be recent, though staying abreast of publications in your area is good. Reading a book with the intent to review it makes you read more closely, and teaches you about good technical writing too. [Here's my review of O'Reilly's "Building Node Applications with MongoDB and Backbone"](/blog/building-node-applications-mongodb-backbone/).
 * Others' software projects. But be gentle.
 * Games, movies, music, books that are not about programming: Writing reviews is excellent practice, and warms your blog.
 
@@ -141,7 +141,7 @@ Julia Evans is loose and exuberant in her blog, the same as when she speaks. But
 
 Graham Dumpleton's [magisterial series on Python decorators](https://github.com/GrahamDumpleton/wrapt/tree/master/blog) obsoletes all other writing on that topic.
 
-At Open Source Bridge a group of writers made [a list of additional writers to emulate, and tips for improving our writing about programming](http://emptysqua.re/blog/resources-for-writing-about-programming/).
+At Open Source Bridge a group of writers made [a list of additional writers to emulate, and tips for improving our writing about programming](/blog/resources-for-writing-about-programming/).
 
 # How do you make the time?
 

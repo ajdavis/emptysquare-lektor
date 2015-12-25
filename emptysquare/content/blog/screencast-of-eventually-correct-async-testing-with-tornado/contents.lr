@@ -22,12 +22,12 @@ summary: In video form with closed captions, my talk about testing asynchronous 
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/04/toad-vs-birdo.jpg" alt="Toad vs Birdo" title="Toad vs Birdo" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/04/toad-vs-birdo.jpg" alt="Toad vs Birdo" title="Toad vs Birdo" />
 
-In preparation for [my PyCon talk today in Montr&eacute;al](https://us.pycon.org/2015/schedule/presentation/404/) I recorded and closed-captioned a screencast of it. This is a talk about testing asynchronous Python code with [Tornado](http://www.tornadoweb.org/). I also wrote [an article that covers this talk](http://emptysqua.re/blog/eventually-correct-async-testing-tornado/), plus additional information about testing with coroutines.
+In preparation for [my PyCon talk today in Montr&eacute;al](https://us.pycon.org/2015/schedule/presentation/404/) I recorded and closed-captioned a screencast of it. This is a talk about testing asynchronous Python code with [Tornado](http://www.tornadoweb.org/). I also wrote [an article that covers this talk](/blog/eventually-correct-async-testing-tornado/), plus additional information about testing with coroutines.
 
 <div style="text-align: center">
 <iframe width="420" height="315" src="https://www.youtube.com/embed/peeTRU7cg6Q?rel=0" frameborder="0" allowfullscreen></iframe>
 </div>
 
-You can visit [my "Eventually Correct" landing page](http://emptysqua.re/blog/eventually-correct-links/) for further links about Tornado, testing, and asynchronous coroutines.
+You can visit [my "Eventually Correct" landing page](/blog/eventually-correct-links/) for further links about Tornado, testing, and asynchronous coroutines.

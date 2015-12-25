@@ -43,7 +43,7 @@ MongoDB's writes happen in two phases. First the driver sends the server an `ins
 
 In the next phase, the driver runs the [`getLastError`](http://docs.mongodb.org/manual/applications/replication/#replica-set-write-concern) command on the server and awaits the response:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/11/get-last-error.png" alt="getLastError" title="get_last_error.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/11/get-last-error.png" alt="getLastError" title="get_last_error.png" border="0"   />
 
 This `getLastError` call can be omitted for speed, in which case the driver just sends all its write messages without awaiting acknowledgment. "Fire-and-forget" mode is obviously very high-performance, because it can take advantage of network *throughput* without being affected by network *latency*. But this mode doesn't report errors to your application, and it doesn't guarantee that a write has completed before you do a query. It's not the right mode to use by default, so we're changing it now.
 
@@ -140,7 +140,7 @@ Now that `MongoClient` waits for acknowledgment of every write, `auto_start_requ
 >>> print collection.find_one({'foo': 'bar'})
 
 ```
-... then the `find_one` won't run until the `insert` is acknowledged, which means your document has definitely been inserted and you can query for it confidently on any socket. We turned off `auto_start_request` for improved performance and fewer sockets. If you're doing unacknowledged writes with `w=0` followed by reads, you should consider whether to call `MongoClient.start_request()`. See the details (with charts!) in [my blog post on requests](http://emptysquare.net/blog/requests-in-python-and-mongodb/) from April.
+... then the `find_one` won't run until the `insert` is acknowledged, which means your document has definitely been inserted and you can query for it confidently on any socket. We turned off `auto_start_request` for improved performance and fewer sockets. If you're doing unacknowledged writes with `w=0` followed by reads, you should consider whether to call `MongoClient.start_request()`. See the details (with charts!) in [my blog post on requests](/blog/requests-in-python-and-mongodb/) from April.
 
 # <a id="migration"></a>Migration
 

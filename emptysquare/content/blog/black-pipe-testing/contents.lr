@@ -24,7 +24,7 @@ summary: Traditional "black box" testing can't fully validate MongoDB clients an
 ---
 body:
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/09/lower-east-side-pipes.jpg" alt="Pipes" title="Pipes" />](https://www.flickr.com/photos/emptysquare/477797865)
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/09/lower-east-side-pipes.jpg" alt="Pipes" title="Pipes" />](https://www.flickr.com/photos/emptysquare/477797865)
 
 A "black box" test runs your code with some input and verifies its output,
 without peering at internal data. You toss something in and out pops the result, like toast.
@@ -68,9 +68,9 @@ might help you re&euml;xamine how to test all interfaces of a connected applicat
 
 In the next few weeks I will share a series of articles about black pipe testing:
 
-* [Testing PyMongo As A Black Pipe](http://emptysqua.re/blog/black-pipe-testing-pymongo/)
-* [MockupDB: Testing The MongoDB C Driver With Python](http://emptysqua.re/blog/mockupdb-test-libmongoc-mongodb-c-driver-python/)
-* [Black-Pipe Testing A Connected Application In C](http://emptysqua.re/blog/libmongoc-black-pipe-testing-mock-server/)
+* [Testing PyMongo As A Black Pipe](/blog/black-pipe-testing-pymongo/)
+* [MockupDB: Testing The MongoDB C Driver With Python](/blog/mockupdb-test-libmongoc-mongodb-c-driver-python/)
+* [Black-Pipe Testing A Connected Application In C](/blog/libmongoc-black-pipe-testing-mock-server/)
 * Testing MongoDB Failure Scenarios With MockupDB
 * Generalizing the black pipe idea to other connected programs.
 

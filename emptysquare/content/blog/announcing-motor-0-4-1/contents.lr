@@ -23,11 +23,11 @@ summary: One critical bugfix.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
 
 I received an [extraordinarily helpful bug report](https://jira.mongodb.org/browse/MOTOR-66) yesterday from Brent Miller, who showed me that Motor's replica set client hangs if it tries two operations at once, *while* it is setting up its initial connection. He sent a script that not only reproduces the hang, but diagnoses it, too, by regularly dumping all threads' stacks to a file.
 
-A report this generous made my work easy. I found that I'd caused this bug while fixing another one. In the previous bug, if Motor's replica set client was under load while reconnecting to your servers, it could start multiple greenlets to monitor your replica set, instead of just one. (Eventually, Motor will be *designed* to start multiple greenlets and [monitor all servers in parallel, the same as PyMongo 3](http://emptysqua.re/blog/announcing-pymongo-3/#replica-set-discovery-and-monitoring), but for now, starting multiple monitor greenlets is a bug.)
+A report this generous made my work easy. I found that I'd caused this bug while fixing another one. In the previous bug, if Motor's replica set client was under load while reconnecting to your servers, it could start multiple greenlets to monitor your replica set, instead of just one. (Eventually, Motor will be *designed* to start multiple greenlets and [monitor all servers in parallel, the same as PyMongo 3](/blog/announcing-pymongo-3/#replica-set-discovery-and-monitoring), but for now, starting multiple monitor greenlets is a bug.)
 
 I fixed that bug overzealously: now if you start multiple operations on a replica set client as it connects, it does not start the monitor greenlet at all, and deadlocks. Motor 0.4.1 gets it right. It starts one and only one monitor greenlet as it connects to your replica set. Get it from PyPI:
 

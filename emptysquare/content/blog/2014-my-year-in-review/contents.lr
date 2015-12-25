@@ -23,7 +23,7 @@ summary: A year crammed with Python and Zen, and looking forward to another one.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/01/manhattan.jpg" alt="Manhattan" title="Manhattan" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/01/manhattan.jpg" alt="Manhattan" title="Manhattan" />
 
 I'm inspired by [Katie Cunningham's blog post "looking back and looking forward"](http://therealkatie.net/blog/2014/dec/31/looking-back-and-looking-forward-2014/) to review my year and the prospects for 2015.
 
@@ -31,11 +31,11 @@ I'm inspired by [Katie Cunningham's blog post "looking back and looking forward"
 
 ## Python
 
-Most of the code I wrote this year was open source Python for MongoDB: [Bernie Hackett and I shipped PyMongo 2.7](http://emptysqua.re/blog/pymongo-2-7-rc0/), and we began [an overhaul of PyMongo to correct its regrettable designs](http://emptysqua.re/blog/good-idea-at-the-time-pymongo/), which we'll release in a couple months as PyMongo 3.0.
+Most of the code I wrote this year was open source Python for MongoDB: [Bernie Hackett and I shipped PyMongo 2.7](/blog/pymongo-2-7-rc0/), and we began [an overhaul of PyMongo to correct its regrettable designs](/blog/good-idea-at-the-time-pymongo/), which we'll release in a couple months as PyMongo 3.0.
 
-I made two versions of Motor, my non-blocking MongoDB driver for Tornado. [Motor 0.2 was a near-rewrite](http://emptysqua.re/blog/motor-0-2-released/) of the driver, while [Motor 0.3 was a more routine set of improvements](http://emptysqua.re/blog/motor-0-3-released/).
+I made two versions of Motor, my non-blocking MongoDB driver for Tornado. [Motor 0.2 was a near-rewrite](/blog/motor-0-2-released/) of the driver, while [Motor 0.3 was a more routine set of improvements](/blog/motor-0-3-released/).
 
-I spent a large part of the year specifying logic in YAML and English instead of Python: I wrote the [Server Discovery And Monitoring Spec](http://emptysqua.re/blog/server-discovery-and-monitoring-spec/) to standardize how all MongoDB drivers talk to clusters of database servers.
+I spent a large part of the year specifying logic in YAML and English instead of Python: I wrote the [Server Discovery And Monitoring Spec](/blog/server-discovery-and-monitoring-spec/) to standardize how all MongoDB drivers talk to clusters of database servers.
 
 For the first time, I added a feature to the Python standard library: I wrote a set of [queue classes for asyncio](https://docs.python.org/3/library/asyncio-sync.html#queues), which shipped with Python 3.4 in March.
 

@@ -23,17 +23,17 @@ body:
 
 I've found a useful set of tools for writing RST, when I must. I'll show you how to configure LiveReload and Chrome to make the experience of writing RST's tortured syntax somewhat bearable.
 
-(This article is an improvement over [the method I wrote about last year](http://emptysqua.re/blog/restructuredtext-in-pycharm-firefox-and-anger/).)
+(This article is an improvement over [the method I wrote about last year](/blog/restructuredtext-in-pycharm-firefox-and-anger/).)
 
 # LiveReload
 
 I bought [LiveReload](https://itunes.apple.com/us/app/livereload/id482898991?mt=12) from the Mac App Store for $10, and opened it. Under "Monitored Folders" I added my project's home directory: I was updating [Motor's documentation](https://github.com/mongodb/motor/tree/master/doc) so I added the "motor/doc" directory.
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/10/livereload-1.png" alt="LiveReload" title="LiveReload" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/10/livereload-1.png" alt="LiveReload" title="LiveReload" />
 
 Next to "Monitoring 44 file extensions" I hit "Options" and added "rst" as a 45th.
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/10/livereload-2.png" alt="LiveReload file extension options" title="LiveReload file extension options" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/10/livereload-2.png" alt="LiveReload file extension options" title="LiveReload file extension options" />
 
 Then I checked "Run custom command after processing changes" and hit "Options". In the popup dialog I added the command for building Motor's documentation. It's a typical Sphinx project, so the build command is:
 ```
@@ -44,7 +44,7 @@ Note that I specified the full path to the virtualenv'ed sphinx script.
 
 That's all there is to configuring LiveReload. Hit the green box on the lower right of its main window to see the build command's output. Now whenever you change an RST file you should see some Sphinx output scroll by:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/10/livereload-output.png" alt="LiveReload Sphinx output" title="LiveReload Sphinx output" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/10/livereload-output.png" alt="LiveReload Sphinx output" title="LiveReload Sphinx output" />
 
 # Chrome
 
@@ -52,11 +52,11 @@ Next, [follow LiveReload's instructions for installing the Chrome extension](htt
 
 Now open one of the HTML files Sphinx made, and click the LiveReload icon on your browser to enable it. The difference between "enabled" and "disabled" is damn subtle. This is disabled:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/10/disabled.png" alt="Disabled" title="Disabled" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/10/disabled.png" alt="Disabled" title="Disabled" />
 
 This is enabled:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/10/enabled.png" alt="Enabled" title="Enabled" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/10/enabled.png" alt="Enabled" title="Enabled" />
 
 The icon plays it close to the chest, but if you hover your mouse over it, it'll admit whether it's enabled or not.
 

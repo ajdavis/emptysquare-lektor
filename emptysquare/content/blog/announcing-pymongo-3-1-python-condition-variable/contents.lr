@@ -22,7 +22,7 @@ summary: PyMongo 3.1 implements performance monitoring, a new GridFS API, and I 
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/11/leaf.jpg" alt="Leaf" title="Leaf" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/11/leaf.jpg" alt="Leaf" title="Leaf" />
 
 Bernie Hackett, Anna Herlihy, Luke Lovett, and I are pleased to announce the release of PyMongo 3.1. It adds features that conform to two new cross-language driver specs: it implements the [Command Monitoring Spec](https://github.com/mongodb/specifications/blob/master/source/command-monitoring/command-monitoring.rst) to help you measure performance, and it adds a [GridFSBucket class](http://api.mongodb.org/python/3.1/api/gridfs/index.html#gridfs.GridFSBucket) to match our new [GridFS Spec](https://github.com/mongodb/specifications/blob/master/source/gridfs/gridfs-spec.rst).
 
@@ -30,13 +30,13 @@ A few of our users reported that PyMongo 3 used five or ten percent of their CPU
 
 # A Reasonable Tradeoff?
 
-PyMongo 3 has new server discovery and monitoring logic which requires one background thread to monitor each server driver is connected to. These monitors wake every 10 seconds or, when PyMongo is actively searching for a server, every half-second. This architecture has big performance advantages over PyMongo 2's&mdash;it's faster at discovering servers, and more performant and responsive if you have a large replica set, or if your replica set's topology changes, or if some members are down or slow to respond. ([More info here.](https://emptysqua.re/blog/announcing-pymongo-3/#responsiveness))
+PyMongo 3 has new server discovery and monitoring logic which requires one background thread to monitor each server driver is connected to. These monitors wake every 10 seconds or, when PyMongo is actively searching for a server, every half-second. This architecture has big performance advantages over PyMongo 2's&mdash;it's faster at discovering servers, and more performant and responsive if you have a large replica set, or if your replica set's topology changes, or if some members are down or slow to respond. ([More info here.](/blog/announcing-pymongo-3/#responsiveness))
 
 So, I expected PyMongo 3 to cost a bit of idle CPU, because its threads wake every 10 seconds to check the servers; this is intended to cost a tiny bit of memory and load in exchange for big wins in performance and reliability. But our users reported, and I confirmed, that the cost was much more than I'd guessed.
 
 It is a requirement of our Server Discovery And Monitoring Spec that [a sleeping monitor can be awakened early](https://github.com/mongodb/specifications/blob/master/source/server-discovery-and-monitoring/server-discovery-and-monitoring.rst#requesting-an-immediate-check) if the driver detects a server failure. My monitors implement this using the Python standard library's [Condition.wait](https://docs.python.org/2/library/threading.html#threading.Condition.wait) with a timeout.
 
-Aside from infrequent wakeups to do their appointed chores, and occasional interruptions, monitors also wake frequently to check if they should terminate. The reason for this odd design is to avoid a deadlock in the garbage collector: a PyMongo client's destructor can't take a lock, so it can't signal the monitor's condition variable. (See [What To Expect When You're Expiring](http://emptysqua.re/blog/pypy-garbage-collection-and-a-deadlock/), or [PYTHON-863](https://jira.mongodb.org/browse/PYTHON-863).) Therefore, the only way for a dying client to terminate its background threads is to set their "stopped" flags, and let the threads see the flag the next time they wake. I erred on the side of prompt cleanup and set this frequent check interval at 100ms.
+Aside from infrequent wakeups to do their appointed chores, and occasional interruptions, monitors also wake frequently to check if they should terminate. The reason for this odd design is to avoid a deadlock in the garbage collector: a PyMongo client's destructor can't take a lock, so it can't signal the monitor's condition variable. (See [What To Expect When You're Expiring](/blog/pypy-garbage-collection-and-a-deadlock/), or [PYTHON-863](https://jira.mongodb.org/browse/PYTHON-863).) Therefore, the only way for a dying client to terminate its background threads is to set their "stopped" flags, and let the threads see the flag the next time they wake. I erred on the side of prompt cleanup and set this frequent check interval at 100ms.
 
 I figured that checking a flag and going back to sleep 10 times a second was cheap on modern machines. I was incorrect. Where did I go wrong?
 

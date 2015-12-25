@@ -24,9 +24,9 @@ summary: The fourth "black pipe testing" article: testing the MongoDB C Driver w
 ---
 body:
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/09/f-train.jpg" alt="The F Train" title="The F Train" />](https://www.flickr.com/photos/emptysquare/404160108)
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/09/f-train.jpg" alt="The F Train" title="The F Train" />](https://www.flickr.com/photos/emptysquare/404160108)
 
-This is the fourth article in [my series on "black pipe" testing](http://emptysqua.re/blog/black-pipe-testing-series/). Here I describe testing libmongoc (the MongoDB C Driver) as a black pipe.
+This is the fourth article in [my series on "black pipe" testing](/blog/black-pipe-testing-series/). Here I describe testing libmongoc (the MongoDB C Driver) as a black pipe.
 
 Like any network client library, libmongoc cannot be fully tested as a black box. Traditional black box tests enter some input and check the output&mdash;this only validates one side of the system at a time. But libmongoc has two sides, working in concert. One side is its public API, its structs and functions and so on. The other is its communication over the network with the MongoDB server. Only by treating it as a black pipe can we fully test its two sides.
 
@@ -46,11 +46,11 @@ Besides the protocol-version test, Christian also used the mock server to valida
 
 In these two tests I saw the two use cases for "black pipe" testing. First, black pipe tests simulate unusual server behavior and network events. Second, in cases where the client's API behavior can appear correct even when there are bugs at the network layer, black pipe tests validate the network-level logic too.
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/10/f-train-2.jpg" alt="F Train" title="F Train" />](https://www.flickr.com/photos/emptysquare/352837037/)
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/10/f-train-2.jpg" alt="F Train" title="F Train" />](https://www.flickr.com/photos/emptysquare/352837037/)
 
 # Evolution: from C to Python
 
-I had not yet taken leadership of libmongoc&mdash;I was finishing up some Python work. So, inspired by Christian's idea, I wrote a mock server in Python, called [MockupDB](http://mockupdb.readthedocs.org/). MockupDB is the subject of my earlier article in this series: ["Testing PyMongo As A Black Pipe."](http://emptysqua.re/blog/black-pipe-testing-pymongo/)
+I had not yet taken leadership of libmongoc&mdash;I was finishing up some Python work. So, inspired by Christian's idea, I wrote a mock server in Python, called [MockupDB](http://mockupdb.readthedocs.org/). MockupDB is the subject of my earlier article in this series: ["Testing PyMongo As A Black Pipe."](/blog/black-pipe-testing-pymongo/)
 
 Since I was working in my native tongue Python, I could afford to be finicky about MockupDB's interface. I didn't want callbacks, dammit, I wanted to make something nice! As I wrote in the MockupDB article, I came up with a future-based programming interface that let me neatly interleave client and server operations in a single test function:
 
@@ -92,7 +92,7 @@ assert(future().inserted_id == 1)
 
 # More evolution: from Python back to C
 
-Once Bernie Hackett and I [released PyMongo 3.0](http://emptysqua.re/blog/announcing-pymongo-3/), I devoted myself to libmongoc full-time. I set to work updating its `mock_server_t` with the ideas I had developed in Python. I wrote an example with the API I wanted:
+Once Bernie Hackett and I [released PyMongo 3.0](/blog/announcing-pymongo-3/), I devoted myself to libmongoc full-time. I set to work updating its `mock_server_t` with the ideas I had developed in Python. I wrote an example with the API I wanted:
 
 ```C
 mock_server_t *server;
@@ -292,7 +292,7 @@ I wrote the MockupDB package in Python, and then I overhauled Christian's mock s
 
 Next:
 
-* [Testing MongoDB Failure Scenarios With MockupDB.](http://emptysqua.re/blog/test-mongodb-failures-mockupdb/)
-* [Read the whole series on black pipe testing.](http://emptysqua.re/blog/black-pipe-testing-series/)
+* [Testing MongoDB Failure Scenarios With MockupDB.](/blog/test-mongodb-failures-mockupdb/)
+* [Read the whole series on black pipe testing.](/blog/black-pipe-testing-series/)
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/10/coney-island.jpg" alt="Coney Island / Stillwell Avenue" title="Coney Island / Stillwell Avenue" />](https://www.flickr.com/photos/emptysquare/855064419)
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/10/coney-island.jpg" alt="Coney Island / Stillwell Avenue" title="Coney Island / Stillwell Avenue" />](https://www.flickr.com/photos/emptysquare/855064419)

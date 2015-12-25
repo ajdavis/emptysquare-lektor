@@ -1,4 +1,5 @@
 import os
+import re
 import shutil
 import sys
 
@@ -8,6 +9,8 @@ db = pymongo.MongoClient().motorblog
 this_dir = os.path.dirname(sys.argv[0])
 blog_dir = os.path.normpath(os.path.join(
     this_dir, '..', 'emptysquare', 'content', 'blog'))
+
+urls = re.compile(r'https?://(emptysquare.net|emptysqua.re)/')
 
 for post in db.posts.find({'pub_date': {'$exists': True}}):
     slug = post['slug']
@@ -19,6 +22,7 @@ for post in db.posts.find({'pub_date': {'$exists': True}}):
     post['categories'] = '\n'.join(
         c['name'] for c in post.get('categories', []))
     post['summary'] = post.get('meta_description', post['summary'])
+    post['original'] = urls.sub('/', post['original'])
 
     with open(post_path, 'w') as contents:
         print(post['title'])

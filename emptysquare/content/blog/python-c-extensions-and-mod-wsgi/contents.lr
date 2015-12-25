@@ -83,7 +83,7 @@ def application(environ, start_response):
     return [output]
 ```
 
-([Incrementing an integer is not thread-safe](http://emptysqua.re/blog/python-increment-is-weird/), but I'm ignoring thread-safety here.)
+([Incrementing an integer is not thread-safe](/blog/python-increment-is-weird/), but I'm ignoring thread-safety here.)
 
 I'll map two URLs, "foo" and "bar", to the same script:
 
@@ -503,4 +503,4 @@ Extension authors can't rely on users to deploy this way, so C extensions should
 
 ***
 
-You might also like my article on [measuring test coverage of C extensions](http://emptysqua.re/blog/code-coverage-python-c-extensions/), or the one on [automatically detecting refcount errors in C extensions](http://emptysqua.re/blog/analyzing-python-c-extensions-with-cpychecker/).
+You might also like my article on [measuring test coverage of C extensions](/blog/code-coverage-python-c-extensions/), or the one on [automatically detecting refcount errors in C extensions](/blog/analyzing-python-c-extensions-with-cpychecker/).

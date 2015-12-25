@@ -23,7 +23,7 @@ summary: If you've been using Motor prior to the 0.1 release, here's how to upgr
 ---
 body:
 
-Motor (which is indeed my non-blocking driver for MongoDB and Tornado) [had a 0.1 release to PyPI yesterday](http://emptysquare.net/blog/motor-officially-released/). It had an odd history prior, so there are various versions of the code that you, dear reader, may have installed on your system. All you need to do is:
+Motor (which is indeed my non-blocking driver for MongoDB and Tornado) [had a 0.1 release to PyPI yesterday](/blog/motor-officially-released/). It had an odd history prior, so there are various versions of the code that you, dear reader, may have installed on your system. All you need to do is:
 
 ```
 $ pip uninstall pymongo motor

@@ -24,11 +24,11 @@ summary: Fourth in my "black pipe testing" series. How do you test your MongoDB 
 ---
 body:
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/09/york-street-pipes.jpg" alt="York Street pipes" title="York Street pipes" />](https://www.flickr.com/photos/emptysquare/1528243252)
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/09/york-street-pipes.jpg" alt="York Street pipes" title="York Street pipes" />](https://www.flickr.com/photos/emptysquare/1528243252)
 
-This is the fifth article in [my series on "black pipe" testing](http://emptysqua.re/blog/black-pipe-testing-series/). Traditional black box tests work well if your application takes inputs and returns output through one interface: the API. But connected applications have two interfaces: both the API and the messages they send and receive on the network. I call the validation of both ends a black pipe test.
+This is the fifth article in [my series on "black pipe" testing](/blog/black-pipe-testing-series/). Traditional black box tests work well if your application takes inputs and returns output through one interface: the API. But connected applications have two interfaces: both the API and the messages they send and receive on the network. I call the validation of both ends a black pipe test.
 
-In my previous article [I described black pipe testing in pure C](http://emptysqua.re/blog/libmongoc-black-pipe-testing-mock-server/); now we return to Python.
+In my previous article [I described black pipe testing in pure C](/blog/libmongoc-black-pipe-testing-mock-server/); now we return to Python.
 
 I implemented a Python tool for black pipe testing called
 [MockupDB](http://mockupdb.readthedocs.org/). It is a [MongoDB wire protocol](http://docs.mongodb.org/meta-driver/latest/legacy/mongodb-wire-protocol/) server, built to subject PyMongo to black pipe tests. But it's not only for testing PyMongo&mdash;if you develop a MongoDB application, you can use MockupDB too. It easily simulates network errors and server failures, or it can refuse to respond at all. Such antics are nearly impossible to test reliably using a real MongoDB server, but it's easy with MockupDB.
@@ -90,7 +90,7 @@ def test(self):
                      http_response.get_data(as_text=True))
 ```
 
-We use MockupDB's function `go` to run Flask on a background thread, just like [we ran PyMongo operations on a background thread in an earlier article](http://emptysqua.re/blog/black-pipe-testing-pymongo/). The `go` function returns a Future, which will be resolved once the background thread completes.
+We use MockupDB's function `go` to run Flask on a background thread, just like [we ran PyMongo operations on a background thread in an earlier article](/blog/black-pipe-testing-pymongo/). The `go` function returns a Future, which will be resolved once the background thread completes.
 
 On the foreground thread, we impersonate the database server and have a conversation with the application, speaking the MongoDB wire protocol. MockupDB receives the application's query, responds with a document, and that allows Flask to finish its job and create an HTTP response. We assert the response has the expected content.
 
@@ -144,4 +144,4 @@ And how about your connection applications? Do you continuously test them with n
 
 ***
 
-Next is the thrilling conclusion: [generalizing black pipe testing to other applications](https://emptysqua.re/blog/black-pipe-testing-in-summary/), or [read the complete "black pipe" series here](http://emptysqua.re/blog/black-pipe-testing-series/).
+Next is the thrilling conclusion: [generalizing black pipe testing to other applications](/blog/black-pipe-testing-in-summary/), or [read the complete "black pipe" series here](/blog/black-pipe-testing-series/).

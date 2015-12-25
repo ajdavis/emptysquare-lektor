@@ -22,7 +22,7 @@ summary: I'm at Open Source Bridge Wednesday through Friday. Wednesday I'm speak
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2013/06/portland.jpg" alt="Portland" title="Portland" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/06/portland.jpg" alt="Portland" title="Portland" border="0"   />
 <span style="color:gray; font-style: italic">[[Source]](http://www.flickr.com/photos/fusionpanda/284254012/)</span>
 
 I'm flying to Portland, Oregon today and attending the [Open Source Bridge](http://opensourcebridge.org/) conference tomorrow through Friday. I'll speak at 2:30 on Wednesday, on ["What Is Async, How Does It Work, And When Should I Use It?"](http://opensourcebridge.org/sessions/1008) I'm going to talk about network I/O, websockets, and CPU- versus memory-bound web applications to justify the popularity of async, I'll dissuade you from using it if you don't need it, and then I'll show how my favorite framework, Tornado, is implemented.

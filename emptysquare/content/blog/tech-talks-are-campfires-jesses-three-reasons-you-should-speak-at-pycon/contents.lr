@@ -21,7 +21,7 @@ summary: A talk about software doesn't have to be a tour de force. It's just the
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/11/rose-lamartine-yates-addressing-a-crowd-on-wimbledon-common-before-the-war.jpg" alt="Rose Lamartine Yates" title="Rose Lamartine Yates" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/11/rose-lamartine-yates-addressing-a-crowd-on-wimbledon-common-before-the-war.jpg" alt="Rose Lamartine Yates" title="Rose Lamartine Yates" />
 
 The [PyCon call for proposals](https://us.pycon.org/2016/speaking/) has been open a few weeks now&mdash;why should you submit a talk? Why should you speak at software events in general?
 
@@ -43,7 +43,7 @@ Sure, at a prestigious yearly conference like PyCon there's an abundance of pote
 
 # Refine your thinking
 
-Preparing a talk is thinking. Just like [writing is thinking](https://emptysqua.re/blog/write-an-excellent-programming-blog/).
+Preparing a talk is thinking. Just like [writing is thinking](/blog/write-an-excellent-programming-blog/).
 
 My arguments for speaking about programming are much like my arguments for writing about it. Before you deliver a tech talk you'll spend hard hours with your topic. You'll excise weak ideas, trim off digressions, hone your insights. You'll do what's needed to speak well. Perhaps you're afraid of embarrassment, or moved to give generously to your audience, or you're just an artisan who won't ship shoddy work. Whatever the motive, having a deadline makes you finish your thought and be prepared to explain it.
 
@@ -53,7 +53,7 @@ The curse of the conference, if you're like me, is that everyone is there and yo
 
 Therefore, public speaking is for introverts. You stand on stage for a bit and give a speech about your specialty, about the thing you love. Then people you should meet come find you. It's easy to talk with them, because you already began the conversation with your presentation.
 
-Again, this is like [the argument I make about blogging](https://emptysqua.re/blog/write-an-excellent-programming-blog/): your presentation broadcasts the message, "I am a specialist in Foo." Now the other Foo specialists, the people you want to connect with, know who you are.
+Again, this is like [the argument I make about blogging](/blog/write-an-excellent-programming-blog/): your presentation broadcasts the message, "I am a specialist in Foo." Now the other Foo specialists, the people you want to connect with, know who you are.
 
 So please: for the sake of our community, light the campfire. Give us a tech talk to gather around. And if you want to connect with people at a conference, speaking is the start. It's easier than you think. You don't need to be an elite programmer, or a celebrity. You just need to make the effort to write a great talk proposal. And a little luck.
 

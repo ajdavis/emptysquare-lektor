@@ -1,6 +1,5 @@
 {% extends "base.html" %}
-{% from "macros/blog.html" import render_main_nav, render_blog_post, render_blog_post_summary %}
-{% from "macros/pagination.html" import render_pagination %}
+{% from "macros/blog.html" import render_main_nav %}
 {% block extrahead %}
 <meta name="description" content="A. Jesse Jiryu Davis's blog on C, Python, Tornado, asyncio, MongoDB, Zen, and photography">
 <meta name="generator" content="Lektor">
@@ -16,8 +15,9 @@
     <div class="{{ 'backgroundplaceholder%s' % i }}"></div>
   {% endfor %}
   <div class="container">
-    <header class="main-header"><a href="/blog/" class="logo"></a>
-      <h1><a href="/blog/">A. Jesse Jiryu Davis</a>
+    {% set blog = site.get('/blog') %}
+    <header class="main-header"><a href="{{ blog|url }}" class="logo"></a>
+      <h1><a href="{{ blog|url }}">{{ blog.title }}</a>
       </h1>
       {{ render_main_nav() }}
     </header>

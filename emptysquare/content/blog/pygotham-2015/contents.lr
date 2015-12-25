@@ -21,7 +21,7 @@ summary: Anna Herlihy presents a Python-to-machine-code compiler, and I'll live-
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/08/pygotham-logo.jpg" alt="PyGotham 2015 logo" title="PyGotham 2015 logo" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/08/pygotham-logo.jpg" alt="PyGotham 2015 logo" title="PyGotham 2015 logo" />
 
 Are you coming to PyGotham in NYC this year? My colleague Anna Herlihy presents her mad science project [PyLLVM](https://github.com/aherlihy/PythonLLVM), a high-performance Python-to-machine-code compiler, at the start of the conference. In the last slot of the second day, I'll live-code a Python 3 async framework, first with callbacks and then with coroutines, in just thirty minutes!
 

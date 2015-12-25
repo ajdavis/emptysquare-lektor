@@ -24,11 +24,11 @@ summary: First in a four-part series about choices we regretted in the design of
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/11/road-1.jpg" alt="Road" title="Road" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/11/road-1.jpg" alt="Road" title="Road" />
 
 *The road to hell is paved with good intentions.*
 
-I'll tell you the story of [four regrettable decisions we made when we designed PyMongo](http://emptysqua.re/blog/good-idea-at-the-time-pymongo/), the standard Python driver for MongoDB. Each of these decisions led to years of pain for PyMongo's maintainers, Bernie Hackett and me, and years of confusion for our users. This winter I'm ripping out these regrettable designs in preparation for PyMongo 3.0. As I delete them, I give each a bitter little eulogy.
+I'll tell you the story of [four regrettable decisions we made when we designed PyMongo](/blog/good-idea-at-the-time-pymongo/), the standard Python driver for MongoDB. Each of these decisions led to years of pain for PyMongo's maintainers, Bernie Hackett and me, and years of confusion for our users. This winter I'm ripping out these regrettable designs in preparation for PyMongo 3.0. As I delete them, I give each a bitter little eulogy.
 
 Today I'll tell the story of the first regrettable decision: "requests".
 
@@ -72,7 +72,7 @@ At the time we thought our database's funky protocol was a feature: if you wante
 
 Unacknowledged writes didn't care about network latency, so they could saturate the network's throughput:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/11/no-get_last_error.png" alt="Unacknowledged write" title="Unacknowledged write" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/11/no-get_last_error.png" alt="Unacknowledged write" title="Unacknowledged write" />
 
 On the other hand, if you wanted acknowledged writes, you could ask after each operation whether it succeeded:
 
@@ -84,7 +84,7 @@ On the other hand, if you wanted acknowledged writes, you could ask after each o
 
 But you'd pay for the latency:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/11/get_last_error.png" alt="Get last error" title="Get last error" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/11/get_last_error.png" alt="Get last error" title="Get last error" />
 
 We thought this design was great! You, the user, get to choose whether to await acknowledgment, or "fire and forget." We made our first regrettable decision: we set the default to "fire and forget."
 
@@ -115,13 +115,13 @@ threading.Thread(target=function_two).start()
 
 Since there are two threads doing concurrent operations, PyMongo opens two sockets. Sometimes, one thread finishes sending documents on a socket, checks the socket into the connection pool, and checks the *other* socket out of the pool to execute the "count". If that happens, the server might not finish reading the final inserts from the first socket before it responds to the "count" request on the other socket. Thus the count is less than 100:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/11/unacknowledged-inserts.png" alt="Unacknowledged inserts" title="Unacknowledged inserts" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/11/unacknowledged-inserts.png" alt="Unacknowledged inserts" title="Unacknowledged inserts" />
 
 If the driver did acknowledged writes by default, it would await the server's acknowledgment of the inserts before it ran the "count", so there's no consistency problem.
 
 But the default was unacknowledged, so users would get results that surprised them. In January of 2009, PyMongo's original author Mike Dirolf fixed this problem. He wrote a connection pool that simply allocated a socket per thread. As long as a thread always uses the same socket, it doesn't matter if its writes are acknowledged or not: 
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/11/unacknowledged-inserts-single-socket.png" alt="Unacknowledged inserts single socket" title="Unacknowledged inserts single socket" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/11/unacknowledged-inserts-single-socket.png" alt="Unacknowledged inserts single socket" title="Unacknowledged inserts single socket" />
 
 The server doesn't read the "count" request from the socket until it's processed all the inserts, so the count is always correct. (Assuming the inserts succeeded.) Problem solved!
 
@@ -176,11 +176,11 @@ class SocketInfo(object):
 
 Piece of cake. We released this code in May 2012, and it was much more efficient. Whereas the previous version of PyMongo's pool tended to close and open sockets frequently:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2012/04/pymongo-2-1.png" alt="PyMongo 2.1" title="PyMongo 2.1">
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/04/pymongo-2-1.png" alt="PyMongo 2.1" title="PyMongo 2.1">
 
 PyMongo 2.2 reclaimed dead threads' sockets for new threads that wanted them:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2012/04/pymongo-2-2-auto-start-request.png" alt="PyMongo 2.2" title="PyMongo 2.2">
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/04/pymongo-2-2-auto-start-request.png" alt="PyMongo 2.2" title="PyMongo 2.2">
 
 I was proud of my achievement. Then all hell broke loose.
 
@@ -192,7 +192,7 @@ The unreported bug I'd found was in the C function in the Python interpreter tha
 
 This bug in an obsolete version of Python was, in turn, interacting with an obsolete version of mod_wsgi, which cleared each Python thread's state after each HTTP request. So anyone on Python 2.7 or mod_wsgi 3.x, or both, wouldn't hit the bug. But ancient versions of Python and mod_wsgi are widely used.
 
-I [wrote up my diagnosis of the bug](https://jira.mongodb.org/browse/PYTHON-353?focusedCommentId=124033&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-124033), reimplemented my socket reclamation code to avoid the recursive call, and released the fix. [I wrote a frustrated article about how weird Python's threadlocals are](http://emptysqua.re/blog/pythons-thread-locals-are-weird/), and early the next year [I wrote a description of my workaround](http://emptysqua.re/blog/knowing-when-a-python-thread-has-died/).
+I [wrote up my diagnosis of the bug](https://jira.mongodb.org/browse/PYTHON-353?focusedCommentId=124033&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-124033), reimplemented my socket reclamation code to avoid the recursive call, and released the fix. [I wrote a frustrated article about how weird Python's threadlocals are](/blog/pythons-thread-locals-are-weird/), and early the next year [I wrote a description of my workaround](/blog/knowing-when-a-python-thread-has-died/).
 
 To this day, the bug is my worst. It's among the worst for impact, certainly it was the hardest to diagnose, and it remains the most complicated to explain.
 
@@ -200,11 +200,11 @@ That last point&mdash;the bug is hard to explain&mdash;has real costs. It makes 
 
 ## A bug factory
 
-A full year later, in April 2013, I discovered [another connection leak](https://jira.mongodb.org/browse/PYTHON-509). Unlike the 2012 bug, this leak was rare and hard to reproduce. I don't think anyone was hurt by it. I was a much better diagnostician by now, and I knew the relevant part of CPython all too well. It took me less than a day to determine that in Python 2.6, [*assigning* to a threadlocal is not thread safe](http://emptysqua.re/blog/another-thing-about-pythons-threadlocals/). I added a lock around the assignment and released yet another bugfix for "start_request" in PyMongo.
+A full year later, in April 2013, I discovered [another connection leak](https://jira.mongodb.org/browse/PYTHON-509). Unlike the 2012 bug, this leak was rare and hard to reproduce. I don't think anyone was hurt by it. I was a much better diagnostician by now, and I knew the relevant part of CPython all too well. It took me less than a day to determine that in Python 2.6, [*assigning* to a threadlocal is not thread safe](/blog/another-thing-about-pythons-threadlocals/). I added a lock around the assignment and released yet another bugfix for "start_request" in PyMongo.
 
 For my whole career at MongoDB, I've regularly found and fixed bugs in "start_request". In 2012 I found that if one thread calls "start_request", [other threads can sometimes think, wrongly, that they're in a request, too](https://jira.mongodb.org/browse/PYTHON-428). And when a replica set primary steps down, [threads in requests all threw an exception before reconnecting](https://jira.mongodb.org/browse/PYTHON-345).
 
-In 2013 a contributor Justin Patrin tried to add a feature to our connection pool, but what should have been a straightforward patch got fouled by the barbed wire in "start_request". In his code, if a thread in a request [got a network error it leaked a semaphore](https://jira.mongodb.org/browse/PYTHON-537). And just last month I had to fix a [little bug in the connection pool](http://emptysqua.re/blog/a-normal-accident-in-python-and-mod-wsgi/) related to "start_request" and mod_wsgi.
+In 2013 a contributor Justin Patrin tried to add a feature to our connection pool, but what should have been a straightforward patch got fouled by the barbed wire in "start_request". In his code, if a thread in a request [got a network error it leaked a semaphore](https://jira.mongodb.org/browse/PYTHON-537). And just last month I had to fix a [little bug in the connection pool](/blog/a-normal-accident-in-python-and-mod-wsgi/) related to "start_request" and mod_wsgi.
 
 ## An attractive nuisance
 
@@ -239,7 +239,7 @@ Late in 2012, while I was in the midst of all these "start_request" bugs, Eliot 
 >>> c = MongoClient()
 ```
 
-While we were at it, we deprecated the old "safe / unsafe" terms and [introduced a new terminology, "write concern"](http://emptysqua.re/blog/pymongos-new-default-safe-writes/). Users could opt into the new class, but we wouldn't break any existing code. Orpheus took the first step of his walk home from Hades.
+While we were at it, we deprecated the old "safe / unsafe" terms and [introduced a new terminology, "write concern"](/blog/pymongos-new-default-safe-writes/). Users could opt into the new class, but we wouldn't break any existing code. Orpheus took the first step of his walk home from Hades.
 
 ## Write commands
 
@@ -247,11 +247,11 @@ In MongoDB 2.6, released this spring, we began to undo an even older decision: t
 
 <!-- Another benefit of the new write commands is scalability in a sharded cluster. With the old protocol, you had to call getLastError on the *same* connection you used for the last write operation. That means every client thread had its own connection to mongos, and mongos made a distinct connection to each shard for each client thread.
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/11/old-sharding.png" alt="Old sharding" title="Old sharding" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/11/old-sharding.png" alt="Old sharding" title="Old sharding" />
 
 You can see that the number of mongos's outbound connections becomes a bottleneck when you have hundreds of client connections and dozens of shards. You can scale out the number of mongoses to account for this, but it would be better if mongos could multiplex client connections among shard connections:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/11/new-sharding.png" alt="New sharding" title="New sharding" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/11/new-sharding.png" alt="New sharding" title="New sharding" />
 
 MongoDB 2.6's new write commands allow us to do this: mongos need no longer call getLastError on each shard, since write commands don't require a separate getLastError. Therefore it can put a shard connection back in the general connection pool as soon as a particular operation is complete; mongos doesn't need to reserve the connection for the client in case it calls "getLastError". Therefore mongos only needs as many connections to the shards as there are concurrent operations in flight, which is far fewer than one connection per client. -->
 
@@ -285,4 +285,4 @@ But even though we made a regrettable decision, we eventually righted ourselves.
 
 ***
 
-*The next installment in "It Seemed Like A Good Idea At The Time" is [PyMongo's "use_greenlets"](http://emptysqua.re/blog/it-seemed-like-a-good-idea-at-the-time-pymongo-use-greenlets/).*
+*The next installment in "It Seemed Like A Good Idea At The Time" is [PyMongo's "use_greenlets"](/blog/it-seemed-like-a-good-idea-at-the-time-pymongo-use-greenlets/).*

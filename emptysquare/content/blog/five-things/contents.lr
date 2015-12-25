@@ -20,13 +20,13 @@ summary: Scaling MongoDB is simpler than you think.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/01/king-tree.jpg" alt="King Tree" title="King Tree" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/01/king-tree.jpg" alt="King Tree" title="King Tree" />
 
 There are a lot of articles about neat hacks for scaling MongoDB, but neat hacks are rarely necessary. MongoDB is designed to scale. Most applications just need to get these five things right.
 
 ## 1. Indexes
 
-By far the most important aspect of scaling. For every common query on every collection, make sure you have the right indexes in place. Read the MongoDB manual's fine [introduction to indexes](http://docs.mongodb.org/manual/core/indexes-introduction/), and then my long article on [optimizing compound indexes](http://emptysqua.re/blog/optimizing-mongodb-compound-indexes/). The latter offers simple rules for choosing indexes for almost any query.
+By far the most important aspect of scaling. For every common query on every collection, make sure you have the right indexes in place. Read the MongoDB manual's fine [introduction to indexes](http://docs.mongodb.org/manual/core/indexes-introduction/), and then my long article on [optimizing compound indexes](/blog/optimizing-mongodb-compound-indexes/). The latter offers simple rules for choosing indexes for almost any query.
 
 ## 2. Filesystem
 

@@ -22,11 +22,11 @@ summary: A mysterious deadlock with PyMongo and Gevent.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/01/Green_caterpillar.jpg" alt="Green caterpillar" title="Green caterpillar" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/01/Green_caterpillar.jpg" alt="Green caterpillar" title="Green caterpillar" />
 
 <span style="color:gray">[Source: Andrew Magill](http://commons.wikimedia.org/wiki/File:Green_caterpillar_(1).jpg)</span>
 
-Working on PyMongo exposes me to a vexing swarm of issues in the Python interpreter itself. I've dealt with [bugs in Python's threadlocals](http://emptysqua.re/blog/another-thing-about-pythons-threadlocals/), [a race condition in the Thread class](http://emptysqua.re/blog/night-of-the-living-thread/), and [the awful things that happen when you run C extensions in multiple sub interpreters](http://emptysqua.re/blog/python-c-extensions-and-mod-wsgi/).
+Working on PyMongo exposes me to a vexing swarm of issues in the Python interpreter itself. I've dealt with [bugs in Python's threadlocals](/blog/another-thing-about-pythons-threadlocals/), [a race condition in the Thread class](/blog/night-of-the-living-thread/), and [the awful things that happen when you run C extensions in multiple sub interpreters](/blog/python-c-extensions-and-mod-wsgi/).
 
 Last month I was faced with a real stumper. A user reported a deadlock in the following code:
 

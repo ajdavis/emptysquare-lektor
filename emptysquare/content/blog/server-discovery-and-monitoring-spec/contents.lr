@@ -22,7 +22,7 @@ summary: The new spec defines how MongoDB drivers connect to replica sets and ot
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/09/discovery-2001.jpg" alt="Spacecraft Discovery from 2001: A Space Odyssey" title="Spacecraft Discovery from 2001: A Space Odyssey" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/09/discovery-2001.jpg" alt="Spacecraft Discovery from 2001: A Space Odyssey" title="Spacecraft Discovery from 2001: A Space Odyssey" />
 
 Today I published a draft of the Server Discovery And Monitoring Spec for MongoDB drivers. This spec defines how a MongoDB client discovers and monitors a single server, a set of mongoses, or a replica set. How does the client determine what types of servers they are? How does it keep this information up to date? How does the client find an entire replica set from a seed list, and how does it respond to a stepdown, election, reconfiguration, or network error?
 
@@ -40,16 +40,16 @@ Once we have multiple reference implementations and the dust has settled, the dr
 
 You can read more about the Server Discovery And Monitoring Spec at these links:
 
-* [A summary of the spec.](http://emptysqua.re/server-discovery-and-monitoring-summary.html)
-* [The Server Discovery And Monitoring Spec.](http://emptysqua.re/server-discovery-and-monitoring.html)
+* [A summary of the spec.](/server-discovery-and-monitoring-summary.html)
+* [The Server Discovery And Monitoring Spec.](/server-discovery-and-monitoring.html)
 * [The spec source, including the YAML test files.](https://github.com/mongodb/specifications/tree/master/source/server-discovery-and-monitoring)
 * [PyMongo's test runner.](https://github.com/mongodb/mongo-python-driver/blob/3.0-dev/test/test_discovery_and_monitoring.py)
 * [PyMongo's core implementation of the spec.](https://github.com/mongodb/mongo-python-driver/blob/3.0-dev/pymongo/topology_description.py)
 
-We have more work to do. For one thing, the Server Discovery And Monitoring Spec only describes how the client gathers information about your server topology&mdash;it does not describe which servers the client uses for operations. [My Read Preferences Spec](http://emptysqua.re/blog/reading-from-mongodb-replica-sets-with-pymongo/) only partly answers this second question. My colleague David Golden is writing an improved and expanded version of Read Preferences, which will be called the Server Selection Spec. Once that spec is complete, we'll have a standard algorithm for all drivers that answers questions like, "Which replica set member does the driver use for a query? What about an aggregation? Which mongos does it use for an insert?" It'll include tests of the same formality and rigor as the Server Discovery And Monitoring Spec does.
+We have more work to do. For one thing, the Server Discovery And Monitoring Spec only describes how the client gathers information about your server topology&mdash;it does not describe which servers the client uses for operations. [My Read Preferences Spec](/blog/reading-from-mongodb-replica-sets-with-pymongo/) only partly answers this second question. My colleague David Golden is writing an improved and expanded version of Read Preferences, which will be called the Server Selection Spec. Once that spec is complete, we'll have a standard algorithm for all drivers that answers questions like, "Which replica set member does the driver use for a query? What about an aggregation? Which mongos does it use for an insert?" It'll include tests of the same formality and rigor as the Server Discovery And Monitoring Spec does.
 
 Looking farther ahead, we plan to standardize the drivers' APIs so we all do basic CRUD operations the same. And since [we'll allow much larger replica sets soon](https://jira.mongodb.org/browse/SERVER-15060), both the server-discovery and the server-selection specs will need amendments to handle large replica sets. In all cases, we'll provide a higher level of rigor, clarity, and formality in our specs than we have before.
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/09/shuttle-discovery.jpg" alt="Space Shuttle Discovery" title="Space Shuttle Discovery" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/09/shuttle-discovery.jpg" alt="Space Shuttle Discovery" title="Space Shuttle Discovery" />
 
 <span style="color: gray; font-style: italic">[[Space Shuttle Discovery]](http://en.wikipedia.org/wiki/Space_Shuttle_Discovery)</span>

@@ -22,6 +22,6 @@ summary: My PyCon 2015 talk about testing asynchronous code with Tornado's inclu
 ---
 body:
 
-Async frameworks like Tornado scramble our usual unittest strategies: how can you validate the outcome when you do not know when to expect it? Here's my PyCon 2015 talk about Tornado's testing module. You can also [read my article on the topic](http://emptysqua.re/blog/eventually-correct-async-testing-tornado/) or see [a screencast which I closed-captioned](http://emptysqua.re/blog/screencast-of-eventually-correct-async-testing-with-tornado/).
+Async frameworks like Tornado scramble our usual unittest strategies: how can you validate the outcome when you do not know when to expect it? Here's my PyCon 2015 talk about Tornado's testing module. You can also [read my article on the topic](/blog/eventually-correct-async-testing-tornado/) or see [a screencast which I closed-captioned](/blog/screencast-of-eventually-correct-async-testing-with-tornado/).
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/GpvCSkxLiZo?rel=0" frameborder="0" allowfullscreen></iframe>

@@ -23,11 +23,11 @@ summary: Third in a four-part series about choices we regretted in the design of
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/11/road-3.jpg" alt="Road" title="Road" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/11/road-3.jpg" alt="Road" title="Road" />
 
 *The road to hell is paved with good intentions.*
 
-I'm writing [eulogies for four regrettable decisions we made when we designed PyMongo](http://emptysqua.re/blog/good-idea-at-the-time-pymongo/), the standard Python driver for MongoDB. Each of them made maintaining PyMongo painful, and confused our users. This winter, as I undo these regrettable designs in preparation for PyMongo 3.0, I carve for each a sad epitaph.
+I'm writing [eulogies for four regrettable decisions we made when we designed PyMongo](/blog/good-idea-at-the-time-pymongo/), the standard Python driver for MongoDB. Each of them made maintaining PyMongo painful, and confused our users. This winter, as I undo these regrettable designs in preparation for PyMongo 3.0, I carve for each a sad epitaph.
 
 Today we reach the third regrettable decision: "copy_database".
 
@@ -77,21 +77,21 @@ In the beginning, MongoDB had [a "copydb" command](http://docs.mongodb.org/manua
 
 The initial protocol was simple. The client told MongoDB the source and target database names, and MongoDB made a copy:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/11/copydb.png" alt="copydb" title="copydb" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/11/copydb.png" alt="copydb" title="copydb" />
 
 You could give the target server a "fromhost" option and it would clone from a remote server, similar to how a replica set member does an initial sync:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/12/copydb-fromhost.png" alt="copydb fromhost" title="copydb fromhost" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/12/copydb-fromhost.png" alt="copydb fromhost" title="copydb fromhost" />
 
 This is a really useful feature for sysadmins who occasionally copy a database using the mongo shell, but of course it's not a likely use case for application developers. So the [mongo shell has a "db.copyDatabase" helper function](http://docs.mongodb.org/manual/reference/method/db.copyDatabase/), but at the time none of our drivers did.
 
 A year later, in January 2010, a user [wanted to do "copydb" from a remote server with authentication](https://jira.mongodb.org/browse/SERVER-579). Aaron Staple came up with a secure protocol: as long as the client knows the password for the source server, it can instruct the target server to authenticate, without revealing its password to the target server. The client tells the target to call "getnonce" on the source, and the source responds with a [nonce](https://en.wikipedia.org/wiki/Cryptographic_nonce), which the target forwards to the client:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/12/copydbgetnonce.png" alt="copydbgetnonce" title="copydbgetnonce" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/12/copydbgetnonce.png" alt="copydbgetnonce" title="copydbgetnonce" />
 
 Then the client hashes its password with the nonce, and gives the hashed password back to the target server, allowing the target to authenticate against the source *once*:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/12/copydb-auth.png" alt="copydb with auth" title="copydb with auth" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/12/copydb-auth.png" alt="copydb with auth" title="copydb with auth" />
 
 There's one important detail (imagine foreboding music now): "copydbgetnonce" and "copydb" must be sent on the same socket. This will be important later.
 
@@ -107,7 +107,7 @@ I understand why this seemed like a good idea at the time. Let's avoid duplicati
 
 Remember how I said copydbgetnonce and copydb must be sent on the same socket? Well, that wasn't a problem for Mike: at this time PyMongo always reserved a socket for each thread, and you couldn't turn this "feature" off. So if one thread called copydbgetnonce and then copydb, the two commands were sent on the same socket automatically.
 
-[But, as I described in my "start_request" story](http://emptysqua.re/blog/good-idea-at-the-time-pymongo-start-request/), after Mike had left and I joined the company, I made major connection pooling improvements. This included the ability for threads to freely share sockets in the connection pool. For real applications this dramatically increased PyMongo's efficiency. But it was bad news for "copy_database" with auth: now we needed a special way to ensure that the two commands were executed on the same socket. So I had to update "copy_database": Before calling copydbgetnonce, it checked if the current thread had a socket reserved. If not, it reserved one. Then it called the two commands in a row. Finally, it returned the socket, but only if the socket had been specially reserved for the sake of "copy_database".
+[But, as I described in my "start_request" story](/blog/good-idea-at-the-time-pymongo-start-request/), after Mike had left and I joined the company, I made major connection pooling improvements. This included the ability for threads to freely share sockets in the connection pool. For real applications this dramatically increased PyMongo's efficiency. But it was bad news for "copy_database" with auth: now we needed a special way to ensure that the two commands were executed on the same socket. So I had to update "copy_database": Before calling copydbgetnonce, it checked if the current thread had a socket reserved. If not, it reserved one. Then it called the two commands in a row. Finally, it returned the socket, but only if the socket had been specially reserved for the sake of "copy_database".
 
 There were already two code paths for "copy_database": one with authentication and one without. Now there were four: with and without authentication, with and without a socket already reserved for the current thread. Since concurrency bugs were a greater threat, I bloated the test suite with a half-dozen tests, probing for logic bugs and race conditions.
 
@@ -117,7 +117,7 @@ Six months after I'd made these changes to PyMongo's connection pool and its "co
 
 Tricking PyMongo into executing concurrently on one thread was straightforward, actually, except for one method: "copy_database". It wants to reserve a socket for the current thread, but in Motor, many I/O operations are in flight at once for the main thread. So I had to reimplement "copy_database" from scratch just for Motor. I also reimplemented all PyMongo's "copy_database" tests, and distorted Motor's design so it could reserve sockets for asynchronous tasks, purely to support "copy_database".
 
-I made a horrible mistake, too: I introduced a bug in Motor's "copy_database" [that leaked a socket on every single call](http://emptysqua.re/blog/let-us-now-praise-resourcewarnings/), but no one ever complained. The method clearly was risky, and unused.
+I made a horrible mistake, too: I introduced a bug in Motor's "copy_database" [that leaked a socket on every single call](/blog/let-us-now-praise-resourcewarnings/), but no one ever complained. The method clearly was risky, and unused.
 
 What the hell was I thinking when I added "copy_database" to Motor? Why would anyone need it? We'd seen no signs, after all, that anyone was even using "copy_database" in PyMongo. And compared to PyMongo, Motor is optimized for web applications with lots of small concurrent operations. It's not intended for rare, lengthy tasks like "copy_database". But I was new at the company and I was excited about making Motor feature-complete: it would include every PyMongo feature, no matter how silly.
 
@@ -127,9 +127,9 @@ The breaking point for the PyMongo team came this fall, when MongoDB 2.8 introdu
 
 Our senior security engineer Andreas Nilsson devised a new protocol for copydb with SCRAM-SHA-1, using a SASL conversation. It's more complex than the old protocol:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/12/copydbsaslstart.png" alt="copydbsaslstart" title="copydbsaslstart" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/12/copydbsaslstart.png" alt="copydbsaslstart" title="copydbsaslstart" />
 
-This accomplishes the same goal as the old copydbgetnonce protocol: it allows the target server to log in to the source server *once*, without the client revealing its password to either server. But instead of two round trips, three are now required. Andreas added the new protocol to the mongo shell. Bernie had already implemented [PyMongo's support for authentication with SCRAM-SHA-1](http://emptysqua.re/blog/pymongo-2-8-rc0/#scram-sha-1-authentication), and he asked me to add it to our "copy_database" helper, too.
+This accomplishes the same goal as the old copydbgetnonce protocol: it allows the target server to log in to the source server *once*, without the client revealing its password to either server. But instead of two round trips, three are now required. Andreas added the new protocol to the mongo shell. Bernie had already implemented [PyMongo's support for authentication with SCRAM-SHA-1](/blog/pymongo-2-8-rc0/#scram-sha-1-authentication), and he asked me to add it to our "copy_database" helper, too.
 
 I've worked at MongoDB over three years, but I'm still prone to rushing headlong into new features. "I know!" I thought, "I won't just add SCRAM-SHA-1 to copy_database, I'll add LDAP and Kerberos, too!" It took Bernie and Andreas some effort to talk me down. I scaled the work to reasonable proportions. [My final patch is tight](https://github.com/mongodb/mongo-python-driver/commit/0b7b51975e0156fabe8ba36bb5c5c7b7b90a30de).
 
@@ -149,7 +149,7 @@ Things were looking up. Maybe we could just delete the damn method. We polled th
 
 # Bright Future
 
-In [PyMongo's next release, version 2.8](http://emptysqua.re/blog/pymongo-2-8-rc0/), "copy_database" still works; in fact it gains the ability to do SCRAM-SHA-1 authentication against the source server. But it's also [deprecated](https://jira.mongodb.org/browse/PYTHON-783). [In PyMongo 3.0 "copy_database" will be gone](https://jira.mongodb.org/browse/PYTHON-788), and good riddance: there's no evidence that anyone copies databases using Python, and it's one of the most difficult features to maintain. [It'll be gone from Motor 0.4 as well](https://jira.mongodb.org/browse/MOTOR-56).
+In [PyMongo's next release, version 2.8](/blog/pymongo-2-8-rc0/), "copy_database" still works; in fact it gains the ability to do SCRAM-SHA-1 authentication against the source server. But it's also [deprecated](https://jira.mongodb.org/browse/PYTHON-783). [In PyMongo 3.0 "copy_database" will be gone](https://jira.mongodb.org/browse/PYTHON-788), and good riddance: there's no evidence that anyone copies databases using Python, and it's one of the most difficult features to maintain. [It'll be gone from Motor 0.4 as well](https://jira.mongodb.org/browse/MOTOR-56).
 
 The lesson I learned is similar to last week's: gather requirements. But this time, we didn't just make up a useless feature: someone actually asked us for it. Even so, we should have turned him down. "Innovation is saying no to a thousand things," according to Steve Jobs.
 
@@ -157,4 +157,4 @@ Features are like children. They're conceived in a moment of passion, but you mu
 
 ***
 
-*The final installment in "It Seemed Like A Good Idea At The Time" is [MongoReplicaSetClient](http://emptysqua.re/blog/good-idea-at-the-time-pymongo-mongoreplicasetclient/).*
+*The final installment in "It Seemed Like A Good Idea At The Time" is [MongoReplicaSetClient](/blog/good-idea-at-the-time-pymongo-mongoreplicasetclient/).*

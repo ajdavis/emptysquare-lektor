@@ -22,7 +22,7 @@ summary: This is a partial rewrite of the Python driver for MongoDB, our biggest
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/04/leaf.jpg" alt="Leaf" title="Leaf" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/04/leaf.jpg" alt="Leaf" title="Leaf" />
 
 PyMongo 3.0 is a partial rewrite of the Python driver for MongoDB. More than six years after the first release of the driver, this is the biggest release in PyMongo's history. Bernie Hackett, Luke Lovett, Anna Herlihy, and I are proud of its many improvements and eager for you to try it out. I will shoehorn the major improvements into four shoes: conformance, responsiveness, robustness, and modernity.
 
@@ -54,7 +54,7 @@ The new CRUD API names its methods like `update_one`, `insert_many`, `find_one_a
 
 In the past we had three client classes: Connection for any one server, and ReplicaSetConnection to connect to a replica set. We also had a MasterSlaveConnection that could distribute reads to slaves in a master-slave set. In November 2012 we created new classes, MongoClient and MongoReplicaSetClient, with better default settings, so now PyMongo had five clients! Even more confusingly, MongoClient could connect to a set of mongos servers and do hot failover.
 
-[As I wrote earlier](http://emptysqua.re/blog/good-idea-at-the-time-pymongo-mongoreplicasetclient/), the fine distinctions between the client classes baffled users. And the set of clients we provided did not conform with other drivers. But since PyMongo is among the most-used of all Python libraries we waited long, and thought hard, before making major changes.
+[As I wrote earlier](/blog/good-idea-at-the-time-pymongo-mongoreplicasetclient/), the fine distinctions between the client classes baffled users. And the set of clients we provided did not conform with other drivers. But since PyMongo is among the most-used of all Python libraries we waited long, and thought hard, before making major changes.
 
 The day has come. MongoClient is now the one and only client class for a single server, a set of mongoses, or a replica set. It includes the functionality that had been split into MongoReplicaSetClient: it can connect to a replica set, discover all its members, and monitor the set for stepdowns, elections, and reconfigs. MongoClient now also supports the full [ReadPreference API](http://api.mongodb.org/python/current/examples/high_availability.html#secondary-reads). MongoReplicaSetClient lives on for a time, for compatibility's sake, but new code should use MongoClient exclusively. The obsolete Connection, ReplicaSetConnection, and MasterSlaveConnection are removed.
 
@@ -76,9 +76,9 @@ This is exciting because PyMongo applications are now so easy to deploy: your co
 
 ## Non-Conforming Features
 
-PyMongo 2 had some quirky features it did not share with other drivers. For one, we had a `copy_database` method that only one other driver had, and which almost no one used. [It was hard to maintain](http://emptysqua.re/blog/good-idea-at-the-time-pymongo-copy-database/) and we believe you want us to focus on the features you use, so we removed it.
+PyMongo 2 had some quirky features it did not share with other drivers. For one, we had a `copy_database` method that only one other driver had, and which almost no one used. [It was hard to maintain](/blog/good-idea-at-the-time-pymongo-copy-database/) and we believe you want us to focus on the features you use, so we removed it.
 
-A more pernicious misfeature was the `start_request` method. It bound a thread to a socket, which hurt performance without actually guaranteeing monotonic write consistency. It was overwhelmingly misused, too: new PyMongo users naturally called `start_request` before starting a request, but in truth the feature had nothing to do with its name. For the history and details, including some entertaining (in retrospect) tales of Python threadlocal bugs, [see my article on the removal of start_request](http://emptysqua.re/blog/good-idea-at-the-time-pymongo-start-request/).
+A more pernicious misfeature was the `start_request` method. It bound a thread to a socket, which hurt performance without actually guaranteeing monotonic write consistency. It was overwhelmingly misused, too: new PyMongo users naturally called `start_request` before starting a request, but in truth the feature had nothing to do with its name. For the history and details, including some entertaining (in retrospect) tales of Python threadlocal bugs, [see my article on the removal of start_request](/blog/good-idea-at-the-time-pymongo-start-request/).
 
 Finally, the Python team rewrote our distributed-systems internals to conform to the new standards we have specified for all our drivers. But if you are a Python programmer you may care only a little that the new code conforms to a spec; it is more interesting to you that the new code is responsive and robust.
 
@@ -185,7 +185,7 @@ Making these options mutable encouraged such mistakes, so we made them immutable
 
 Last, and most satisfying to the team, we have completed our transition to modern Python.
 
-While PyMongo 2 already supported the latest version of Python 3, it did so tortuously by executing `auto2to3` on its source at install time. This made it too hard for the open source community to contribute to our code, and it led to some [absurdly obscure bugs](http://emptysqua.re/blog/a-normal-accident-in-python-and-mod-wsgi/). We have updated to a single code base that is compatible with Python 2 and 3. We had to drop support for the ancient Pythons 2.4 and 2.5; we were encouraged by recent download statistics to believe that these zombie Python versions are finally at rest.
+While PyMongo 2 already supported the latest version of Python 3, it did so tortuously by executing `auto2to3` on its source at install time. This made it too hard for the open source community to contribute to our code, and it led to some [absurdly obscure bugs](/blog/a-normal-accident-in-python-and-mod-wsgi/). We have updated to a single code base that is compatible with Python 2 and 3. We had to drop support for the ancient Pythons 2.4 and 2.5; we were encouraged by recent download statistics to believe that these zombie Python versions are finally at rest.
 
 # Motor
 

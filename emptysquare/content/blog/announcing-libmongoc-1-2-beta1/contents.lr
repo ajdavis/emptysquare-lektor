@@ -21,7 +21,7 @@ summary: Further improvements to the MongoDB C Driver since the first 1.2.0 beta
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/09/sea-clive-varley.jpg" alt="Sea, by Clive Varley" title="Sea, by Clive Varley" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/09/sea-clive-varley.jpg" alt="Sea, by Clive Varley" title="Sea, by Clive Varley" />
 
 It is my pleasure to announce the second beta release of the MongoDB C driver
 1.2.0. It includes features and bugfixes developed since 1.2.0-beta. Get it here:

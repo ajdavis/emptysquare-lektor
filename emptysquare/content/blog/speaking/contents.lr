@@ -20,13 +20,13 @@ summary: Upcoming engagements.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/08/speaking.jpg" alt="Speaking" title="Speaking" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/08/speaking.jpg" alt="Speaking" title="Speaking" />
 
 # Dharma Talks
 
 I regularly speak at the Village Zendo about Zen Buddhism. You can:
 
-* [Listen to my talks and read transcripts here](http://emptysqua.re/blog/search/?q=dharmatalk)
+* [Listen to my talks and read transcripts here](/blog/search/?q=dharmatalk)
 * [Subscribe to my podcast in iTunes](https://itunes.apple.com/us/podcast/a.-jesse-jiryu-daviss-dharma/id982925865?mt=2)
 * Use the podcast feed URL: `http://emptysquare.libsyn.com/rss`
 
@@ -62,21 +62,21 @@ I regularly speak at the Village Zendo about Zen Buddhism. You can:
 
 ## MongoDB World, New York City, June 2015.
 
-* ["MongoDB Drivers And High Availability"](https://www.mongodb.com/presentations/mongodb-drivers-and-high-availability-deep-dive), about [server discovery and monitoring](http://emptysqua.re/blog/server-discovery-and-monitoring-in-pymongo-perl-and-c/).
+* ["MongoDB Drivers And High Availability"](https://www.mongodb.com/presentations/mongodb-drivers-and-high-availability-deep-dive), about [server discovery and monitoring](/blog/server-discovery-and-monitoring-in-pymongo-perl-and-c/).
 
 ## Village Zendo, March 2015
 
-* ["Yangshan Plants His Hoe"](http://emptysqua.re/blog/yangshan-plants-his-hoe/), my first Zen dharma talk.
+* ["Yangshan Plants His Hoe"](/blog/yangshan-plants-his-hoe/), my first Zen dharma talk.
 
 ## <a name="pycon-2015"></a>PyCon, Montr&eacute;al, April 2015.
 
-* ["Eventually Correct: Testing Async Apps."](http://emptysqua.re/blog/pycon-video-eventually-correct-async-testing/)
+* ["Eventually Correct: Testing Async Apps."](/blog/pycon-video-eventually-correct-async-testing/)
 
 * "Python Profiling: The Guts And The Glory."
 
 ## PyTennessee, Nashville, February 2015.
 
-* ["Dodge Disaster And March To Triumph As a Mentor."](http://emptysqua.re/blog/mentoring/)
+* ["Dodge Disaster And March To Triumph As a Mentor."](/blog/mentoring/)
 
 ## OSCON, Portland Oregon, July 2014.
 
@@ -84,7 +84,7 @@ I regularly speak at the Village Zendo about Zen Buddhism. You can:
 
 ## Open Source Bridge, Portland Oregon, June 2014
 
-* ["Write An Excellent Programming Blog."](http://emptysqua.re/blog/write-an-excellent-programming-blog/)
+* ["Write An Excellent Programming Blog."](/blog/write-an-excellent-programming-blog/)
 
 ## MongoDB World, New York City, June 2014.
 
@@ -92,7 +92,7 @@ I regularly speak at the Village Zendo about Zen Buddhism. You can:
 
 ## PyCon, Montr&eacute;al, April 2014.
 
-* ["What Is Async, How Does It Work, And When Should I Use It?"](http://emptysqua.re/blog/pycon-2014-video-what-is-async/)
+* ["What Is Async, How Does It Work, And When Should I Use It?"](/blog/pycon-2014-video-what-is-async/)
 
 ## PyCON APAC, Taipei, May 2014.
 

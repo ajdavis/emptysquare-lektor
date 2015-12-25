@@ -23,13 +23,13 @@ summary: An excellent new O'Reilly book on MongoDB gives detailed, well-thought-
 ---
 body:
 
-There's a lot of bad advice out there regarding MongoDB. [As I wrote in my last review](http://emptysquare.net/blog/building-node-applications-mongodb-backbone/), even smart sources can encourage risky methods. Soon, I hope, there will be as much good MongoDB instruction from experts outside 10gen as there is good third-party SQL instruction. For now, know that you can trust Rick Copeland.
+There's a lot of bad advice out there regarding MongoDB. [As I wrote in my last review](/blog/building-node-applications-mongodb-backbone/), even smart sources can encourage risky methods. Soon, I hope, there will be as much good MongoDB instruction from experts outside 10gen as there is good third-party SQL instruction. For now, know that you can trust Rick Copeland.
 
 Copeland's new O'Reilly book on MongoDB complements O'Reilly's other five: the majestic *Definitive Guide* (due for a second edition in June), *Scaling MongoDB*, *50 Tips and Tricks*, and the MongoDB books for Python and PHP.
 
 After you've read the *Definitive Guide*, a good candidate for your second MongoDB book is *Applied Design Patterns*. (Disclosure: I was paid to critique an early draft.) Copeland's intended audience has basic MongoDB competence and wants application examples that optimize either for scalability or maintainability, plus the principles to guide new designs. Copeland also assumes basic SQL knowledge, and presents most examples in contrast to conventional SQL solutions, a method I find distracting and irrelevant. He identifies some common application types (product catalog, CMS, analytics, etc.) and provides for each a schema and application logic. He goes far beyond prior works when he discusses performance, consistency guarantees, and sharding considerations for every application.
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/03/MongoDB-Applied-Design-Patterns.jpg" alt="MongoDB Applied Design Patterns" title="MongoDB-Applied-Design-Patterns.jpg" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/03/MongoDB-Applied-Design-Patterns.jpg" alt="MongoDB Applied Design Patterns" title="MongoDB-Applied-Design-Patterns.jpg" border="0"   />
 
 In Part 1, Copeland discusses the basic questions about MongoDB schemas. Right away, he identifies what makes nonrelational design different:
 

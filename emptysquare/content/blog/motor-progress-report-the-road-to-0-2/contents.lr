@@ -23,7 +23,7 @@ summary: Big changes are coming in the next release of my async MongoDB driver.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0"   />
 
 **Update**: Motor 0.2rc0 is out, [its manual and changelog are on ReadTheDocs](http://motor.readthedocs.org/en/latest/changelog.html).
 

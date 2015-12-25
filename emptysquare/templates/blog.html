@@ -1,20 +1,29 @@
 {% extends "blog-layout.html" %}
-{% from "macros/blog.html" import render_blog_post %}
-{% block title %}{{ this.title }}{% endblock %}
-{% block extrahead %}
-{% endblock %}
-{% block content %}{{ render_blog_post(this) }}
-  <h1 id="latest-posts">Latest Posts</h1>
-  <p><ul class="post-list">
-      {% for child in this.pagination.items.limit(5) -%}
-        <li>{{ render_blog_post_summary(child) }}</li>
-      {% endfor %}
-      <li><a href="all-posts">All posts</a></li>
-  </ul></p>
-  <h1 id="selected-articles">Selected Articles</h1>
-  <p><ul class="post-list">
-      {% for child in this.children.filter(F.tags.contains('best')) -%}
-        <li>{{ render_blog_post_summary(child) }}</li>
-      {% endfor %}
-  </ul></p>
+{% from "macros/blog.html" import render_blog_head, render_blog_post_content, render_blog_post_summary %}
+{% from "macros/pagination.html" import render_pagination %}
+{% block content %}
+  {{ render_blog_head(site.get('/blog')) }}
+  {% if this.pagination.page == 1 %}
+    {{ render_blog_post_content(this) }}
+    <h1 id="latest-posts">Latest Posts</h1>
+    <p><ul class="post-list">
+        {% for child in this.pagination.items.limit(5) -%}
+          <li>{{ render_blog_post_summary(child) }}</li>
+        {% endfor %}
+    </ul></p>
+    {{ render_pagination(this.pagination) }}
+    <h1 id="selected-articles">Selected Articles</h1>
+    <p><ul class="post-list">
+        {% for child in this.children.filter(F.tags.contains('best')) -%}
+          <li>{{ render_blog_post_summary(child) }}</li>
+        {% endfor %}
+    </ul></p>
+  {% else %}
+    <p><ul class="post-list">
+        {% for child in this.pagination.items.limit(5) -%}
+          <li>{{ render_blog_post_summary(child) }}</li>
+        {% endfor %}
+    </ul></p>
+    {{ render_pagination(this.pagination) }}
+  {% endif %}
 {% endblock %}

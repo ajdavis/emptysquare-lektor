@@ -24,7 +24,7 @@ body:
 
 For a year and a half I've been part of the team maintaining [PyMongo](https://pypi.python.org/pypi/pymongo/), the Python MongoDB driver. It's one of the most widely used Python packages with [1.5 million lifetime downloads](http://pypi-ranking.info/module/pymongo). The code itself is only moderately complex; about 8300 source lines. What makes it a tiny horror to work on is the range of environments we support. Here's our test matrix in Jenkins:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/04/pymongo-jenkins-matrix.png" alt="PyMongo test matrix" title="pymongo-jenkins-matrix.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/04/pymongo-jenkins-matrix.png" alt="PyMongo test matrix" title="pymongo-jenkins-matrix.png" border="0"   />
 
 That's 72 test configurations. (It looks like more than that, but we don't test Jython and PyPy with C extensions compiled since that currently doesn't make sense.) The dimensions are:
 
@@ -56,7 +56,7 @@ For a team of three people to build and maintain this volume of test infrastruct
 
 Lessons learned:
 
-* **Test code is a liability:** Too much testing code is as bad as too much of any other kind of code. Write as few tests as possible to cover the cases you need to test. Over-testing comforts the novice but impedes agility. For example, when we [renamed PyMongo's Connection class to MongoClient](http://emptysquare.net/blog/pymongos-new-default-safe-writes/), I had to change over 1000 lines in 32 files in the test suite. A commit that huge is a barrier in the repository's history, across which no commit can be moved without conflicts. I hope to never do anything like it again. The test suite should be smaller and better factored.
+* **Test code is a liability:** Too much testing code is as bad as too much of any other kind of code. Write as few tests as possible to cover the cases you need to test. Over-testing comforts the novice but impedes agility. For example, when we [renamed PyMongo's Connection class to MongoClient](/blog/pymongos-new-default-safe-writes/), I had to change over 1000 lines in 32 files in the test suite. A commit that huge is a barrier in the repository's history, across which no commit can be moved without conflicts. I hope to never do anything like it again. The test suite should be smaller and better factored.
 
 * **Tests must be very reliable:** It needs to be not only minimal but also very reliable. Tests should fail if and only if the behavior they test breaks. When I joined the team, PyMongo's tests often failed "just cuz." Fixing them all took months: We'd observe an intermittent failure in Jenkins due to some race condition that we couldn't reproduce on our laptops (an EC2 "medium" instance runs a three-node MongoDB cluster slower than you could possibly imagine). We'd think real hard and finally understand and fix the failure. Then we'd do the same for some other test. It was a costly exercise but necessary: It's not until our tests always passed that we took them seriously when they didn't.
 

@@ -77,7 +77,7 @@ The answer is in `values`.
 
 # Motor
 
-My async driver for Tornado and MongoDB, called [Motor](http://emptysquare.net/motor/), supports a similar conveniences for `distinct`. It has both the `MotorCollection.distinct` method:
+My async driver for Tornado and MongoDB, called [Motor](/motor/), supports a similar conveniences for `distinct`. It has both the `MotorCollection.distinct` method:
 
 ```python hl_lines="8"
 
@@ -162,7 +162,7 @@ AsyncMongo is another driver for Tornado and MongoDB. Its interface isn't nearly
 ```
 # Exceptions
 
-There are some areas where drivers really differ, like [Replica Set](http://docs.mongodb.org/manual/replication/) support, or [Read Preferences](http://emptysquare.net/blog/reading-from-mongodb-replica-sets-with-pymongo/). 10gen's drivers are much more consistent than third-party drivers. But if the underlying operation is a command, then all drivers are essentially the same.
+There are some areas where drivers really differ, like [Replica Set](http://docs.mongodb.org/manual/replication/) support, or [Read Preferences](/blog/reading-from-mongodb-replica-sets-with-pymongo/). 10gen's drivers are much more consistent than third-party drivers. But if the underlying operation is a command, then all drivers are essentially the same.
 
 # So Go Learn How To Run Commands
 

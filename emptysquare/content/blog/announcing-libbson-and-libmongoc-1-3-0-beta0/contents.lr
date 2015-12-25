@@ -22,7 +22,7 @@ summary: MongoDB 3.2 features, many fixes and improvements in GridFS, better fin
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/11/morecambe-bay.jpg" alt="Morecambe Bay" title="Morecambe Bay" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/11/morecambe-bay.jpg" alt="Morecambe Bay" title="Morecambe Bay" />
 
 I've just released a beta of the MongoDB C driver 1.3.0, with support for new features in
 the upcoming MongoDB 3.2. The driver is compatible with MongoDB 2.4 and later. Please try it out and [file a ticket in Jira if you see any issues](https://jira.mongodb.org/browse/CDRIVER).

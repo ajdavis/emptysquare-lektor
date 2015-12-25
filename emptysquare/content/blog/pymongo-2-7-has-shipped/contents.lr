@@ -23,13 +23,13 @@ summary: New features, mainly to support MongoDB 2.6.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/04/amethystine-scrub-python.jpg" alt="Amethystine scrub python" title="Amethystine scrub python" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/04/amethystine-scrub-python.jpg" alt="Amethystine scrub python" title="Amethystine scrub python" />
 
 <span style="color:gray">[Source: inrideo on Flickr](https://www.flickr.com/photos/bitterbug/420932565/)</span>
 
 I announce with satisfaction that we've released PyMongo 2.7, the successor to PyMongo 2.6.3. The bulk of the driver's changes are to support MongoDB 2.6, which is currently a release candidate. The newest MongoDB has an enhanced wire protocol and some big new features, so PyMongo 2.7 is focused on supporting it. However, the driver still supports server versions as old as 1.8.
 
-[Read my prior post for a full list of the features and improvements in PyMongo](http://emptysqua.re/blog/pymongo-2-7-rc0/). Since I wrote that, we've fixed some compatibility issues with MongoDB 2.6, dealt with recent changes to the `nose` and `setuptools` packages, and made a couple memory optimizations.
+[Read my prior post for a full list of the features and improvements in PyMongo](/blog/pymongo-2-7-rc0/). Since I wrote that, we've fixed some compatibility issues with MongoDB 2.6, dealt with recent changes to the `nose` and `setuptools` packages, and made a couple memory optimizations.
 
 Motor 0.2 is about to ship, as well. I'll give the details in my next post.
 

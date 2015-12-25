@@ -27,7 +27,7 @@ Sometimes writing callback-style asynchronous code with <a href="http://www.torn
 
 # For Example
 
-I'll use this blog to illustrate. I built it with <a href="https://github.com/ajdavis/motor-blog">Motor-Blog</a>, a trivial blog platform on top of <a href="http://emptysquare.net/motor/">Motor</a>, my new driver for Tornado and <a href="http://www.mongodb.org/">MongoDB</a>.
+I'll use this blog to illustrate. I built it with <a href="https://github.com/ajdavis/motor-blog">Motor-Blog</a>, a trivial blog platform on top of <a href="/motor/">Motor</a>, my new driver for Tornado and <a href="http://www.mongodb.org/">MongoDB</a>.
 
 When you came here, Motor-Blog did three or four MongoDB queries to render this page.
 

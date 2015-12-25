@@ -1,8 +1,6 @@
 {% macro render_main_nav() %}
   <nav class="main-nav">
     <ul>
-      <li class="nav-item menu-nav-item all-posts-nav-item"><a href="/blog/all-posts/">All Posts</a>
-      </li>
       <li class="nav-item menu-nav-item feed-nav-item"><a href="/blog/feed/">Feed</a>
       </li>{% for url, title, classname in [
                 ('/blog/about/', 'About', 'about-nav-item'),
@@ -10,8 +8,8 @@
             ] %}
       <li class="nav-item menu-nav-item {{ classname }}"><a href="{{ url }}">{{ title|escape }}</a>
       </li>{% endfor %}
-      <li class="nav-item nav-divider nav-divider-1">Categories:</li>{% for category in site.query('blog/category') %}
-      <li class="nav-item category-nav-item"><a href="{{ category.path + '/' }}" title="{{ 'View all posts filed under ' + category.name }}">{{ category.name|escape }}</a>
+      <li class="nav-item nav-divider nav-divider-1">Categories:</li>{% for category in site.query('blog/category/') %}
+      <li class="nav-item category-nav-item"><a href="{{ category|url }}" title="{{ 'View all posts filed under ' + category.name }}">{{ category.name|escape }}</a>
       </li>{% endfor %}
       <li class="nav-item nav-divider nav-divider-2">&nbsp;</li>
       <li class="nav-item search-item">
@@ -34,11 +32,15 @@
 {% endmacro %}
 
 
-{% macro render_blog_post(post) %}
+{% macro render_blog_head(record) %}
   <header>
-    <h1 class="title"><a href="{{ post|url }}">{{ post.title }}</a>
+    <h1 class="title"><a href="{{ record|url }}">{{ record.title }}</a>
     </h1>
   </header>
+{% endmacro %}
+
+
+{% macro render_blog_post_content(post) %}
   <div class="post-content">{{ post.body }}</div>
 {% endmacro %}
 

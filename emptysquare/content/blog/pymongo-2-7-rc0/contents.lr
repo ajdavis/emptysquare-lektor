@@ -22,7 +22,7 @@ summary: Try it out: "pip install https://github.com/mongodb/mongo-python-driver
 ---
 body:
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/02/Green_leaf_leaves.jpg" alt="Leaf" title="Leaf" />](http://commons.wikimedia.org/wiki/File:Green_leaf_leaves.jpg)
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/02/Green_leaf_leaves.jpg" alt="Leaf" title="Leaf" />](http://commons.wikimedia.org/wiki/File:Green_leaf_leaves.jpg)
 
 Yesterday afternoon Bernie Hackett and I shipped a release candidate for PyMongo 2.7, with substantial contributions from Amalia Hawkins and Kyle Erf. This version supports new features in the upcoming MongoDB 2.6, and includes major internal improvements in the driver code. We rarely make RCs before releases, but given the scope of changes it seems wise.
 
@@ -73,13 +73,13 @@ PyMongo collects the operations into a minimal set of messages to the server. Co
 
 # Improved C code
 
-After great effort, I understand why our C extensions didn't like running in `mod_wsgi`. I [wrote an explanation](http://emptysqua.re/blog/python-c-extensions-and-mod-wsgi) that's more detailed than you want to read. But even better, Bernie fixed our C code so `mod_wsgi` no longer slows it down or makes it log weird warnings. Finally, I put [clear configuration instructions](http://api.mongodb.org/python/current/examples/mod_wsgi.html) in the PyMongo docs.
+After great effort, I understand why our C extensions didn't like running in `mod_wsgi`. I [wrote an explanation](/blog/python-c-extensions-and-mod-wsgi) that's more detailed than you want to read. But even better, Bernie fixed our C code so `mod_wsgi` no longer slows it down or makes it log weird warnings. Finally, I put [clear configuration instructions](http://api.mongodb.org/python/current/examples/mod_wsgi.html) in the PyMongo docs.
 
 Bernie fixed all remaining platform-specific C code. Now you can run PyMongo with its C extensions on ARM, for example if you talk to MongoDB from a Raspberry Pi.
 
 # Thundering herd
 
-I overhauled `MongoClient` so its concurrency control is closer to [what I did for `MongoReplicaSetClient` in the last release](http://emptysqua.re/blog/wasps-nest-read-copy-update-python/). With the new MongoClient, a heavily multithreaded Python application will be much more robust in the face of network hiccups or downed MongoDB servers. You can read details in the [bug report](https://jira.mongodb.org/browse/PYTHON-487).
+I overhauled `MongoClient` so its concurrency control is closer to [what I did for `MongoReplicaSetClient` in the last release](/blog/wasps-nest-read-copy-update-python/). With the new MongoClient, a heavily multithreaded Python application will be much more robust in the face of network hiccups or downed MongoDB servers. You can read details in the [bug report](https://jira.mongodb.org/browse/PYTHON-487).
 
 # GridFS cursor
 

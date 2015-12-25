@@ -22,7 +22,7 @@ summary: Yesterday we released PyMongo 2.6.1, which fixes a memory leak in inser
 ---
 body:
 
-<a href="http://www.flickr.com/photos/usnavy/7684409578/"><img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2013/09/leak.jpg" alt="Leak" title="Leak" /></a>
+<a href="http://www.flickr.com/photos/usnavy/7684409578/"><img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/09/leak.jpg" alt="Leak" title="Leak" /></a>
 
 Bernie Hackett and I released [PyMongo 2.6.1](https://pypi.python.org/pypi/pymongo/2.6.1) yesterday. This version fixes a bug in PyMongo 2.6, [a reference-count leak](https://jira.mongodb.org/browse/PYTHON-564) in `insert()` that caused memory to grow slowly without bound. Please upgrade immediately.
 

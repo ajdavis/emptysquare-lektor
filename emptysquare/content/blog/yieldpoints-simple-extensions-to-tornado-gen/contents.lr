@@ -21,7 +21,7 @@ summary: I affectionately introduce YieldPoints, my littlest project yet. It's j
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/12/yield.png" alt="YieldPoints" title="yield.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/12/yield.png" alt="YieldPoints" title="yield.png" border="0"   />
 
 I affectionately introduce YieldPoints, my littlest project yet. It's just some simple extensions to [Tornado's gen module](http://www.tornadoweb.org/documentation/gen.html).
 

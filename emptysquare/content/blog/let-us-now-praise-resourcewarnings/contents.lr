@@ -23,13 +23,13 @@ summary: I used to hate Python 3's ResourceWarnings, until one saved my tuchus.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/07/Poisonous_snake_warning_sign.JPG" alt="Poisonous snake warning sign" title="Poisonous snake warning sign" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/07/Poisonous_snake_warning_sign.JPG" alt="Poisonous snake warning sign" title="Poisonous snake warning sign" />
 
 [<span style="color:gray">[Source]</span>](http://commons.wikimedia.org/wiki/File:Poisonous_snake_warning_sign.JPG)
 
 Luckily, Pythons aren't poisonous.
 
-A couple years ago when I began using Python 3, [its new ResourceWarnings infuriated me and I ranted against them](http://emptysqua.re/blog/against-resourcewarnings-in-python-3/). Python core developer Nick Coghlan patiently corrected me, and I wrote a followup, ["Mollified About ResourceWarnings"](http://emptysqua.re/blog/mollified-about-resourcewarnings/).
+A couple years ago when I began using Python 3, [its new ResourceWarnings infuriated me and I ranted against them](/blog/against-resourcewarnings-in-python-3/). Python core developer Nick Coghlan patiently corrected me, and I wrote a followup, ["Mollified About ResourceWarnings"](/blog/mollified-about-resourcewarnings/).
 
 And now, a ResourceWarning has saved my tuchus.
 
@@ -87,7 +87,7 @@ def copy_database(self, source, target):
         if socket:
             member.pool.return_socket(socket)
 ```
-[I've released this fix today in Motor 0.3.2](http://emptysqua.re/blog/motor-0-3-2-released/).
+[I've released this fix today in Motor 0.3.2](/blog/motor-0-3-2-released/).
 
 One lesson learned is: I was foolish when I made my code "robust" against unexpected conditions. The earlier code had returned the socket ``if pool and socket``. But if ``socket`` isn't null, ``pool`` shouldn't be, either. So ``if socket`` alone should be sufficient. This simpler code, that only handles the case I expect to arise, would have failed immediately when I introduced the bug. The misguided robustness of my earlier code masked my bug for months.
 

@@ -23,10 +23,10 @@ summary: The roadmap for asyncio support, plus "async" and "await" in Python 3.5
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
 
 I want to update you about [Motor](http://motor.readthedocs.org/en/stable/), my asynchronous Python driver for
-MongoDB and Tornado. Motor development has been on hiatus since January while I concentrated on my tasks for [PyMongo 3](http://emptysqua.re/blog/announcing-pymongo-3/). After PyMongo 3, I took over as the lead for [libmongoc](http://api.mongodb.org/c/current/), the MongoDB C Driver, and most of my Python work ceased.
+MongoDB and Tornado. Motor development has been on hiatus since January while I concentrated on my tasks for [PyMongo 3](/blog/announcing-pymongo-3/). After PyMongo 3, I took over as the lead for [libmongoc](http://api.mongodb.org/c/current/), the MongoDB C Driver, and most of my Python work ceased.
 
 # Spring Break
 
@@ -36,7 +36,7 @@ thing well: it integrates MongoDB with Tornado, probably the most popular
 Python async framework. Motor's limited scope lets it rest peacefully for
 months, feature-complete and free of major bugs. While Motor
 quiesced like this, I devoted myself to [writing the Server Discovery
-And Monitoring Spec](http://emptysqua.re/blog/server-discovery-and-monitoring-in-pymongo-perl-and-c/), then to implementing that spec in PyMongo 3, and
+And Monitoring Spec](/blog/server-discovery-and-monitoring-in-pymongo-perl-and-c/), then to implementing that spec in PyMongo 3, and
 then to relearning C fast enough to keep up with libmongoc's demands.
 
 At the time I set Motor aside, I had begun integrating it
@@ -77,8 +77,8 @@ While I'm at it, it should be an easy win, and a huge one, to add support for Py
 
 The new Motor will
 still wrap the outdated PyMongo 2.8, however. So my next priority, after Motor 0.5 is released, is to
-port Motor to PyMongo 3 to take advantage of [PyMongo's new features](http://emptysqua.re/blog/announcing-pymongo-3/):
-its implementation of the [Server Discovery and Monitoring Spec](http://emptysqua.re/blog/server-discovery-and-monitoring-in-pymongo-perl-and-c/), the
+port Motor to PyMongo 3 to take advantage of [PyMongo's new features](/blog/announcing-pymongo-3/):
+its implementation of the [Server Discovery and Monitoring Spec](/blog/server-discovery-and-monitoring-in-pymongo-perl-and-c/), the
 [Server Selection Spec](https://www.mongodb.com/blog/post/server-selection-next-generation-mongodb-drivers), and the [new CRUD API](https://www.mongodb.com/blog/post/consistent-crud-api-next-generation-mongodb-drivers). This will make Motor much
 more scalable when connected to large replica sets, and makes its API
 consistent with our other drivers. That may merit the name Motor 1.0.

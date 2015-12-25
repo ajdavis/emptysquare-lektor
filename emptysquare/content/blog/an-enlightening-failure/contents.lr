@@ -23,7 +23,7 @@ summary: How I fooled myself into thinking I'd made my code eight times faster.
 body:
 
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/04/dammit.jpg" alt="Facepalm" title="Facepalm" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/04/dammit.jpg" alt="Facepalm" title="Facepalm" />
 
 This year I plan to rewrite PyMongo's BSON decoder. The decoder is written in C, and it's pretty fast, but I had a radical idea for how to make it faster. That idea turned out to be wrong, although it took me a long time to discover that.
 

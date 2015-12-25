@@ -22,7 +22,7 @@ summary: Bugfix releases for the MongoDB C libraries.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/06/TomCorser_Wild_Sea_Cot_Valley_Conwall_IMG_5558.JPG" alt="TomCorser Wild Sea Cot Valley Conwall IMG 5558" title="TomCorser Wild Sea Cot Valley Conwall IMG 5558" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/06/TomCorser_Wild_Sea_Cot_Valley_Conwall_IMG_5558.JPG" alt="TomCorser Wild Sea Cot Valley Conwall IMG 5558" title="TomCorser Wild Sea Cot Valley Conwall IMG 5558" />
 
 I released libbson and libmongoc 1.1.7 today.
 

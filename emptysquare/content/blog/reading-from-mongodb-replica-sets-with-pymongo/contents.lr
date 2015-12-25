@@ -22,7 +22,7 @@ summary:
 ---
 body:
 
-<a href="http://en.wikipedia.org/wiki/Bookwheel"><img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/11/bookwheel.jpg" alt="Book Wheel" title="bookwheel.jpg" border="0"   /></a>
+<a href="http://en.wikipedia.org/wiki/Bookwheel"><img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/11/bookwheel.jpg" alt="Book Wheel" title="bookwheel.jpg" border="0"   /></a>
 
 Read preferences are a new feature in MongoDB 2.2 that lets you finely control how queries are routed to replica set members. With fine control comes complexity, but fear not: I'll explain how to use read preferences to route your queries with PyMongo.
 
@@ -113,7 +113,7 @@ Each mode interacts a little differently with tag sets:
 
 Say you have members who are 10, 20, and 30 milliseconds away:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/12/servers.png" alt="Servers" title="servers.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/12/servers.png" alt="Servers" title="servers.png" border="0"   />
 
 PyMongo distributes queries evenly between the 10- and 20-millisecond member. It excuses the 30-millisecond member, because it's more than 15ms farther than the closest member. You can override the 15ms default by setting the snappily-named `secondary_acceptable_latency_ms` option.
 

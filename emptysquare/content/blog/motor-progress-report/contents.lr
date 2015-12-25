@@ -22,9 +22,9 @@ summary:
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0"   />
 
-<a href="http://emptysquare.net/motor/">Motor</a>, my async driver for <span style='text-decoration:underline;'>Mo</span>ngoDB and <span style='text-decoration:underline;'>Tor</span>nado, is now compatible with all the same Python versions as Tornado: CPython 2.5, 2.6, 2.7, and 3.2, and PyPy 1.9.
+<a href="/motor/">Motor</a>, my async driver for <span style='text-decoration:underline;'>Mo</span>ngoDB and <span style='text-decoration:underline;'>Tor</span>nado, is now compatible with all the same Python versions as Tornado: CPython 2.5, 2.6, 2.7, and 3.2, and PyPy 1.9.
 
 To get Motor working with Python 3 I had to make a **backwards breaking change**: `MotorCursor.next` is now `next_object`. So this:
 
@@ -44,5 +44,5 @@ I had to do this to neatly support Python 3, because `2to3` was unhelpfully tran
 
 The only remaining feature to implement is <a href="http://www.mongodb.org/display/DOCS/GridFS">GridFS</a>, which I'll do within the month. There's some more testing and documentation to do, and then we'll move from alpha to beta.
 
-I know a few people are trying out Motor. I've received no bug reports so far, but some users have reported omissions in the <a href="http://emptysquare.net/motor/pymongo/api/motor/index.html">docs</a> which I've filled in. If you're using Motor, get in touch and let me know: <a href="mailto:jesse@10gen.com">jesse@10gen.com</a>.
+I know a few people are trying out Motor. I've received no bug reports so far, but some users have reported omissions in the <a href="/motor/pymongo/api/motor/index.html">docs</a> which I've filled in. If you're using Motor, get in touch and let me know: <a href="mailto:jesse@10gen.com">jesse@10gen.com</a>.
 

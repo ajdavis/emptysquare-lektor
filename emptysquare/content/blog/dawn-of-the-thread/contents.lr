@@ -21,9 +21,9 @@ summary: How to avoid zombie threads in ancient versions of Python.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2013/10/dawn-of-the-thread.jpg" alt="Dawn of the thread" title="Dawn of the thread" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/10/dawn-of-the-thread.jpg" alt="Dawn of the thread" title="Dawn of the thread" />
 
-In my previous post, [Night of the Living Thread](http://emptysqua.re/blog/night-of-the-living-thread/), I described how a dead Python thread may think it's still alive after a fork, and how I fixed this bug in the Python standard library. But what if you need to save your code from the ravenous undead in Python 2.6? The bug will never be fixed in Python 2.6's standard library. You're on your own. In Python 2.6, no one can hear you scream.
+In my previous post, [Night of the Living Thread](/blog/night-of-the-living-thread/), I described how a dead Python thread may think it's still alive after a fork, and how I fixed this bug in the Python standard library. But what if you need to save your code from the ravenous undead in Python 2.6? The bug will never be fixed in Python 2.6's standard library. You're on your own. In Python 2.6, no one can hear you scream.
 
 Recall from my last post that I can create a zombie thread like this:
 
@@ -58,6 +58,6 @@ I create an [event](http://docs.python.org/2/library/threading.html#event-object
 
 You can imagine more complex scenarios that will still defeat me. For example, Thread A could start Thread B, and Thread C could fork at the wrong moment and leave Thread B zombified. For absolute safety from zombies, upgrade to Python 2.7.6 or 3.3.3 when they're released with my bugfix. Meanwhile, SafeThread is good enough for the common case where the main thread creates the background thread and then forks.
 
-(Now read the gory finale, [Day of the Thread](http://emptysqua.re/blog/day-of-the-thread/), in which humanity's last hope is to figure out the quirky code review system used by the Python Software Foundation.)
+(Now read the gory finale, [Day of the Thread](/blog/day-of-the-thread/), in which humanity's last hope is to figure out the quirky code review system used by the Python Software Foundation.)
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2013/10/dawndead1.jpg" alt="Dawn of the Dead" title="Dawn of the Dead" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/10/dawndead1.jpg" alt="Dawn of the Dead" title="Dawn of the Dead" />

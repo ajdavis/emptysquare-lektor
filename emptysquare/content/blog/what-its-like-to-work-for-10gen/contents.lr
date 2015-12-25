@@ -27,7 +27,7 @@ My colleague Kristina Chodorow wrote a post [on working at 10gen](http://www.kch
 
 10gen, the MongoDB company, is as distributed as our database. We're spread around four continents, partly because we hired interesting people wherever they were, and partly to support our customers in their regions and time zones. Once a year everyone comes together, this time in Miami. My room had an acceptable vista:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/02/IMG_0333.jpg" alt="IMG 0333" title="IMG_0333.jpg" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/02/IMG_0333.jpg" alt="IMG 0333" title="IMG_0333.jpg" border="0"   />
 
 There was a hot tub on my balcony but I was the only one so equipped. Please don't tell my colleagues.
 
@@ -35,7 +35,7 @@ At our annual meetings we have nerdy contests. Last year, rocket building. This 
 
 The basic robot kit comes programmed to turn in a circle, and when it detects something in front of it, it charges. The 10gen teams came up with designs a little more sophisticated. Most bots had color-sensors pointed at the table's surface in front of them, so they could turn away from the edge without falling off. By far the cleverest hack I saw was this:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/02/bot.jpg" alt="Bot" title="bot.jpg" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/02/bot.jpg" alt="Bot" title="bot.jpg" border="0"   />
 
 <span style="color: gray">Photo: <a href="https://twitter.com/GaryMurakami" style="color: gray">Gary Murakami</a></span>
 
@@ -53,6 +53,6 @@ Ruby Team Plus formed in a conference room in Miami, and drifted apart after we 
 
 That's what it's like to work for 10gen. I'm proud of us, and I'm having the time of my life.
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/02/miami-beach.jpg" alt="Miami beach" title="miami-beach.jpg" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/02/miami-beach.jpg" alt="Miami beach" title="miami-beach.jpg" border="0"   />
 
 <span style="color: gray">Photo: <a href="https://twitter.com/GaryMurakami" style="color: gray">Gary Murakami</a> again</span>

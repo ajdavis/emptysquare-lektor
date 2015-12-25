@@ -22,7 +22,7 @@ summary: Three bugfixes in the MongoDB C library.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/07/coastline.jpg" alt="Coastline" title="Coastline" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/07/coastline.jpg" alt="Coastline" title="Coastline" />
 
 I released libbson and libmongoc 1.1.10 last night. (That's version "one one ten".) There are no changes in libbson, but in libmongoc I fixed:
 

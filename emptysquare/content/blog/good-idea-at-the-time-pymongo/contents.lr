@@ -21,7 +21,7 @@ summary: A four-part series about choices we regretted in the design of PyMongo.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/11/road-2.jpg" alt="Road" title="Road" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/11/road-2.jpg" alt="Road" title="Road" />
 
 *The road to hell is paved with good intentions.*
 
@@ -31,7 +31,7 @@ I describe the motivations behind these decisions and try to find the moral of t
 
 **The Regrettable Decisions:**
 
-* [start_request.](http://emptysqua.re/blog/good-idea-at-the-time-pymongo-start-request/)
-* [use_greenlets.](http://emptysqua.re/blog/it-seemed-like-a-good-idea-at-the-time-pymongo-use-greenlets/)
-* [copy_database.](http://emptysqua.re/blog/good-idea-at-the-time-pymongo-copy-database/)
-* [MongoReplicaSetClient.](http://emptysqua.re/blog/good-idea-at-the-time-pymongo-mongoreplicasetclient/)
+* [start_request.](/blog/good-idea-at-the-time-pymongo-start-request/)
+* [use_greenlets.](/blog/it-seemed-like-a-good-idea-at-the-time-pymongo-use-greenlets/)
+* [copy_database.](/blog/good-idea-at-the-time-pymongo-copy-database/)
+* [MongoReplicaSetClient.](/blog/good-idea-at-the-time-pymongo-mongoreplicasetclient/)

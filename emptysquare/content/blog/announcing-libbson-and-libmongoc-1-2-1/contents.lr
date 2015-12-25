@@ -22,7 +22,7 @@ summary: An SSL bugfix for pooled clients, domain socket fix, El Capitan build g
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/10/miami-haze.jpg" alt="Miami Haze, by Dan DeChiaro" title="Miami Haze, by Dan DeChiaro" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/10/miami-haze.jpg" alt="Miami Haze, by Dan DeChiaro" title="Miami Haze, by Dan DeChiaro" />
 
 It is my pleasure to announce the 1.2.1 release of libbson and libmongoc, the C libraries that compose the MongoDB C Driver.
 

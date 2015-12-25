@@ -22,7 +22,7 @@ summary: Yet another danger of __del__.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/04/ouroboros.jpg" alt="Ouroboros" title="Ouroboros" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/04/ouroboros.jpg" alt="Ouroboros" title="Ouroboros" />
 
 I fixed a deadlock in PyMongo 3 and PyPy which, rarely, could happen in PyMongo 2 as well. Diagnosing the deadlock was educational and teaches us a rule about writing ``__del__`` methods&mdash;yet another tip about what to expect when you're expiring.
 
@@ -67,7 +67,7 @@ Just like the first example, this prints "getting lock" and deadlocks.
 
 # The PyMongo Bug
 
-A few weeks ago, I found a deadlock like this in my code for [the upcoming PyMongo 3.0 release](http://emptysqua.re/blog/pymongo-3-beta/). From there, I discovered a far rarer deadlock in the current release as well.
+A few weeks ago, I found a deadlock like this in my code for [the upcoming PyMongo 3.0 release](/blog/pymongo-3-beta/). From there, I discovered a far rarer deadlock in the current release as well.
 
 I'll give you a little context so you can see how the bug arose. With PyMongo you stream results from the MongoDB server like:
 ```python
@@ -186,7 +186,7 @@ I borrowed a technique from the MongoDB Java Driver: I deferred the job of closi
 
 I already knew that a ``__del__`` method:
 
-* Must not reference globals or builtins, [see my "normal accidents" article](http://emptysqua.re/blog/a-normal-accident-in-python-and-mod-wsgi/).
+* Must not reference globals or builtins, [see my "normal accidents" article](/blog/a-normal-accident-in-python-and-mod-wsgi/).
 * Must not access threadlocals, to avoid a refleak in Python 2.6 and older (see [the bug that cost me a month](https://jira.mongodb.org/browse/PYTHON-353)).
 
 Now, add a third rule:

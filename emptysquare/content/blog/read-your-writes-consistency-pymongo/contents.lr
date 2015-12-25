@@ -22,7 +22,7 @@ summary: What's the best way to get read-your-writes consistency in PyMongo?
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2013/11/quill.jpg" alt="Quill" title="Quill" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/11/quill.jpg" alt="Quill" title="Quill" />
 <span style="color:gray">Photo: [Thomas van de Vosse](http://www.flickr.com/photos/appeltaart_/8645069389/)</span>
 
 A PyMongo user asked me a good question today: if you want read-your-writes consistency, is it better to do acknowledged writes with a connection pool (the default), or to do unacknowledged writes over a single socket?
@@ -41,7 +41,7 @@ collection.update(
 print collection.find_one({'_id': 1})
 
 ```
-In a multithreaded application, PyMongo's connection pool may have multiple sockets in it, so we don't promise that you'll use the same socket for the `update` and for the `find_one`. Yet you're still guaranteed read-your-writes consistency: the change you wrote to the document is reflected in the version of the document you subsequently read with `find_one`. PyMongo accomplishes this consistency by waiting for MongoDB to acknowledge the update operation before it sends the `find_one` query. (I [explained last year how acknowledgment works in PyMongo](http://emptysqua.re/blog/pymongos-new-default-safe-writes/).)
+In a multithreaded application, PyMongo's connection pool may have multiple sockets in it, so we don't promise that you'll use the same socket for the `update` and for the `find_one`. Yet you're still guaranteed read-your-writes consistency: the change you wrote to the document is reflected in the version of the document you subsequently read with `find_one`. PyMongo accomplishes this consistency by waiting for MongoDB to acknowledge the update operation before it sends the `find_one` query. (I [explained last year how acknowledgment works in PyMongo](/blog/pymongos-new-default-safe-writes/).)
 
 There's another way to get read-your-writes consistency: you can send both the `update` and the `find_one` over the same socket, to ensure MongoDB processes them in order. In this case, you can tell PyMongo not to request acknowledgment for the update with the `w=0` option:
 
@@ -65,7 +65,7 @@ client = pymongo.MongoClient(
     max_pool_size=None)
 
 ```
-(See [my article on requests](http://emptysqua.re/blog/requests-in-python-and-mongodb/) for details.)
+(See [my article on requests](/blog/requests-in-python-and-mongodb/) for details.)
 
 So, to answer the user's question: If there are two ways to get read-your-writes consistency, which should you use?
 

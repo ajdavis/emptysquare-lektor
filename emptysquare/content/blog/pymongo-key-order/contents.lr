@@ -64,7 +64,7 @@ stored in BSON. Here, "a" is shown before "b":
 
 To preserve order when reading BSON, use the `SON` class,
 which is a dict that remembers its key order. First, get a handle to the
-collection, configured to use `SON` instead of dict. In [PyMongo 3.0](http://emptysqua.re/blog/pymongo-3-beta/) do this like:
+collection, configured to use `SON` instead of dict. In [PyMongo 3.0](/blog/pymongo-3-beta/) do this like:
 
 ```pycon
 >>> from bson import CodecOptions, SON

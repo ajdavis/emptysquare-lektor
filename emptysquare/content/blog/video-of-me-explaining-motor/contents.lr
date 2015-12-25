@@ -23,10 +23,10 @@ summary:
 ---
 body:
 
-**Update**: Sadly, we didn't make a copy of this video before Blip.tv deleted their users' content. But you can read plenty about Motor: [here's all my blog posts tagged "motor".](http://emptysqua.re/blog/category/motor/)
+**Update**: Sadly, we didn't make a copy of this video before Blip.tv deleted their users' content. But you can read plenty about Motor: [here's all my blog posts tagged "motor".](/blog/category/motor/)
 
 ***
 
-Film student [Jack Finlay](http://www.finlaycoopermedia.com/) generously took the time to record me reprising my talk on [Motor](http://emptysquare.net/motor/) from PyGotham this spring. The result is a good 35-minute intro to the motivations behind Motor and how I implemented it, in a fireside-chat style.
+Film student [Jack Finlay](http://www.finlaycoopermedia.com/) generously took the time to record me reprising my talk on [Motor](/motor/) from PyGotham this spring. The result is a good 35-minute intro to the motivations behind Motor and how I implemented it, in a fireside-chat style.
 
-See? I feel like Franklin Roosevelt. The material covered is similar to my post on [Motor Internals: How I Asynchronized a Synchronous Library](http://emptysquare.net/blog/motor-internals-how-i-asynchronized-a-synchronous-library/).
+See? I feel like Franklin Roosevelt. The material covered is similar to my post on [Motor Internals: How I Asynchronized a Synchronous Library](/blog/motor-internals-how-i-asynchronized-a-synchronous-library/).

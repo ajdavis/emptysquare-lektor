@@ -22,7 +22,7 @@ summary: Links to more info about my presentation at MongoDB Boston, about Mongo
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/10/acorn-street.jpg" alt="Acorn Street" title="Acorn Street" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/10/acorn-street.jpg" alt="Acorn Street" title="Acorn Street" />
 
 <span style="color: gray; font-style: italic">[[Source]](http://commons.wikimedia.org/wiki/File:08_506.jpg)</span>
 
@@ -42,10 +42,10 @@ I'm speaking at MongoDB Boston. My talk is about visualizing weather data using 
 
 Postscript: near my hotel, Boston's Trinity Church is absurdly juxtaposed with The Hancock:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/10/trinity-hancock.jpg" alt="Trinity Church and The Hancock" title="Trinity Church and The Hancock" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/10/trinity-hancock.jpg" alt="Trinity Church and The Hancock" title="Trinity Church and The Hancock" />
 
 It reminds me of Christ Church Cathedral in Montr&eacute;al, which I photographed six years ago. It's similarly dominated by a glass box:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/10/christ-church-montreal.jpg" alt="Christ Church Montreal" title="Christ Church Montreal" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/10/christ-church-montreal.jpg" alt="Christ Church Montreal" title="Christ Church Montreal" />
 
 I guess this is inevitable in cities with a history. Skyscrapers move in and all the old buildings are torn down but the churches, dwarves living among young giants.

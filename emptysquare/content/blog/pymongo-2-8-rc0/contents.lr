@@ -22,7 +22,7 @@ summary: Compatible with new MongoDB 2.8 features, and deprecates some features 
 ---
 body:
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/11/Morelia_spilota_variegata_MNHN.jpg" alt="Morelia spilota variegata" title="Morelia spilota variegata" />
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/11/Morelia_spilota_variegata_MNHN.jpg" alt="Morelia spilota variegata" title="Morelia spilota variegata" />
 ](https://commons.wikimedia.org/wiki/File%3AMorelia_spilota_variegata_MNHN.jpg)
 
 [<span style="color:gray">By Jebulon, via Wikimedia Commons</span>](https://commons.wikimedia.org/wiki/File%3AMorelia_spilota_variegata_MNHN.jpg)
@@ -115,7 +115,7 @@ Soon we'll release a PyMongo 3.0 that removes many obsolete features from PyMong
 
 Second, I deprecated some features that will be removed in PyMongo 3.0:
 
-``start_request`` is deprecated and will be removed in PyMongo 3.0, because it's [not the right way to ensure consistency](http://emptysqua.re/blog/read-your-writes-consistency-pymongo/), and [it doesn't work with sharding in MongoDB 2.8](https://jira.mongodb.org/browse/SERVER-12273). Further justifications [can be found here](https://jira.mongodb.org/browse/PYTHON-785).
+``start_request`` is deprecated and will be removed in PyMongo 3.0, because it's [not the right way to ensure consistency](/blog/read-your-writes-consistency-pymongo/), and [it doesn't work with sharding in MongoDB 2.8](https://jira.mongodb.org/browse/SERVER-12273). Further justifications [can be found here](https://jira.mongodb.org/browse/PYTHON-785).
 
 ``MasterSlaveConnection`` is deprecated and will be removed, since master-slave setups are themselves obsolete. Replica sets are superior to master-slave, especially now that [replica sets can have more than 12 members](https://jira.mongodb.org/browse/SERVER-15060). Anyway, even if you still have a master-slave setup, PyMongo's ``MasterSlaveConnection`` wasn't very useful.
 
@@ -123,4 +123,4 @@ And finally, ``copy_database`` is deprecated. We asked customers if they used it
 
 # Bugs
 
-The only notable bugfix in PyMongo 2.8 is [the delightfully silly mod_wsgi error I wrote about last month](http://emptysqua.re/blog/a-normal-accident-in-python-and-mod-wsgi/). But if you find any *new* bugs, please let us know by [opening an issue in Jira](https://jira.mongodb.org/browse/PYTHON), I promise we'll handle it promptly.
+The only notable bugfix in PyMongo 2.8 is [the delightfully silly mod_wsgi error I wrote about last month](/blog/a-normal-accident-in-python-and-mod-wsgi/). But if you find any *new* bugs, please let us know by [opening an issue in Jira](https://jira.mongodb.org/browse/PYTHON), I promise we'll handle it promptly.

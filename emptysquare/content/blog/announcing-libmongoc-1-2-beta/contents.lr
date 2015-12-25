@@ -22,7 +22,7 @@ summary: A rewritten mongoc_client_t with parallel server discovery, plus many f
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/08/sea-splash.jpg" alt="Sea splash" title="Sea splash" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/08/sea-splash.jpg" alt="Sea splash" title="Sea splash" />
 
 This is the highlight of my summer: I just released 1.2.0-beta of libmongoc, the C driver for MongoDB. You can download the tarball here:
 
@@ -30,7 +30,7 @@ This is the highlight of my summer: I just released 1.2.0-beta of libmongoc, the
 
 *** 
 
-The main feature is Jason Carey and Samantha Ritter's rewrite of the [`mongoc_client_t`](http://api.mongodb.org/c/current/mongoc_client_t.html) internals. They overhauled it to match [the Server Discovery And Monitoring Spec](http://emptysqua.re/blog/server-discovery-and-monitoring-in-pymongo-perl-and-c/) and [the
+The main feature is Jason Carey and Samantha Ritter's rewrite of the [`mongoc_client_t`](http://api.mongodb.org/c/current/mongoc_client_t.html) internals. They overhauled it to match [the Server Discovery And Monitoring Spec](/blog/server-discovery-and-monitoring-in-pymongo-perl-and-c/) and [the
 Server Selection Spec](https://www.mongodb.com/blog/post/server-selection-next-generation-mongodb-drivers). The payoff is huge:
 
 * All replica set members or mongos servers are discovered and periodically

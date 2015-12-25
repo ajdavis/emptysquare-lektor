@@ -46,17 +46,17 @@ $ genhtml coverage.info --output-directory out
 
 Here's a portion of its report for PyMongo's BSON decoder:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/02/lcov-table.png" alt="lcov table" title="lcov table" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/02/lcov-table.png" alt="lcov table" title="lcov table" />
 
 Our C code coverage is significantly lower than our Python coverage. This is mainly because such a large portion of the C code is devoted to error handling: it checks for *every* possible error, but we only trigger a subset of all possible errors in our tests. 
 
 A trivial example is in `_write_regex_to_buffer`, when we ensure the buffer is large enough to hold 4 more bytes. We check that `realloc`, if it was called, succeeded:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/02/lcov-source-nomem.png" alt="lcov source: No Memory" title="lcov source: No Memory" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/02/lcov-source-nomem.png" alt="lcov source: No Memory" title="lcov source: No Memory" />
 
 We don't run out of memory during our tests, so these two lines of error-handling are never run. A more realistic failure is in `decode_all`:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/02/lcov-source.png" alt="lcov source" title="lcov source" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/02/lcov-source.png" alt="lcov source" title="lcov source" />
 
 This is the error handler that runs when a message is shorter than five bytes. Evidently the size check runs 56,883 times during our tests, but this particular error never occurs so the error-handler isn't tested. This is the sort of insight that'd be onerous to attain without a tool like gcov.
 
@@ -64,4 +64,4 @@ Try it for yourself and see: are you testing your C code as thoroughly as your P
 
 ***
 
-You might also like my article on [automatically detecting refcount errors in C extensions](http://emptysqua.re/blog/analyzing-python-c-extensions-with-cpychecker/), or the one on [making C extensions compatible with mod_wsgi](http://emptysqua.re/blog/python-c-extensions-and-mod-wsgi/).
+You might also like my article on [automatically detecting refcount errors in C extensions](/blog/analyzing-python-c-extensions-with-cpychecker/), or the one on [making C extensions compatible with mod_wsgi](/blog/python-c-extensions-and-mod-wsgi/).

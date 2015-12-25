@@ -21,7 +21,7 @@ summary: Image: William Warby on Flickr Here's a Python gotcha I've hit often en
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/01/python.png" alt="Python" title="python.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/01/python.png" alt="Python" title="python.png" border="0"   />
 
 <a style="color: gray; font-style: italic" href="http://www.flickr.com/photos/wwarby/3279021508/">Image: William Warby on Flickr</a>
 

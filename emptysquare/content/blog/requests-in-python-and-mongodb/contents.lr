@@ -35,11 +35,11 @@ Each PyMongo `Connection` object includes a connection pool (a pool of
 sockets) to minimize the cost of reconnecting. If you do two operations
 (e.g., two `find()`s) on a Connection, it creates a socket for the first
 `find()`, then reuses that socket for the second. (Update: [Starting
-with PyMongo 2.4 you should use `MongoClient` instead of `Connection`](http://emptysqua.re/blog/pymongos-new-default-safe-writes/).)
+with PyMongo 2.4 you should use `MongoClient` instead of `Connection`](/blog/pymongos-new-default-safe-writes/).)
 
 When sockets are returned to the pool, the pool checks if it has more
 than `max_pool_size` spare sockets, and if so, it closes the extra
-sockets. By default max\_pool\_size is 10. (Update: in PyMongo 2.6, [max\_pool\_size is now 100](http://emptysqua.re/blog/pymongo-2-6-released/),
+sockets. By default max\_pool\_size is 10. (Update: in PyMongo 2.6, [max\_pool\_size is now 100](/blog/pymongo-2-6-released/),
 and its meaning has changed since I wrote this article.)
 
 What if multiple Python threads share a Connection? A possible
@@ -64,7 +64,7 @@ print 'You are visitor number %s' % n
 Since PyMongo defaults to **unsafe** writes&mdash;that is, it does not ask the
 server to acknowledge its inserts and updates&mdash;it will send the `update`
 message to the server and then instantly send the `find_one`, then await
-the result. (Update: if you use `MongoClient`, [safe writes are the default](http://emptysqua.re/blog/pymongos-new-default-safe-writes/).) If PyMongo gave out sockets to threads at random, then the
+the result. (Update: if you use `MongoClient`, [safe writes are the default](/blog/pymongos-new-default-safe-writes/).) If PyMongo gave out sockets to threads at random, then the
 following sequence **could** occur:
 
 1.  This thread gets a socket, which I'll call socket 1, from the pool.
@@ -103,7 +103,7 @@ The Fix: One Socket Per Thread
 
 PyMongo solves this problem by automatically assigning a socket to each
 thread, when the thread first requests one. (Update: since `MongoClient` defaults to
-using safe writes, [it no longer assigns a socket to each thread](http://emptysqua.re/blog/pymongos-new-default-safe-writes/#auto_start_request). Instead all sockets are kept in a connection pool.)
+using safe writes, [it no longer assigns a socket to each thread](/blog/pymongos-new-default-safe-writes/#auto_start_request). Instead all sockets are kept in a connection pool.)
 The socket is stored in a
 thread-local variable within the connection pool. Since MongoDB
 processes messages on any single socket in order, using a single socket

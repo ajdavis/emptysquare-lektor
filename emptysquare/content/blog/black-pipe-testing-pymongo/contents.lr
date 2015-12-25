@@ -24,9 +24,9 @@ summary: The second "black pipe testing" article: testing PyMongo with MockupDB.
 ---
 body:
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/09/pipe.jpg" alt="Pipe" title="Pipe" />](https://www.flickr.com/photos/emptysquare/2227062653)
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/09/pipe.jpg" alt="Pipe" title="Pipe" />](https://www.flickr.com/photos/emptysquare/2227062653)
 
-This is the second article in [my six-part series on "black pipe" testing](http://emptysqua.re/blog/black-pipe-testing-series/). PyMongo, the official Python client for MongoDB, is a great example of a connected application that can't be fully tested as a black box. It has *two* ends that take inputs and provide outputs: one is its public API, the methods `find` and `insert_one` and so on. But the other is its communication over the network with the MongoDB server. Only by treating it as a black pipe can we fully test its surfaces.
+This is the second article in [my six-part series on "black pipe" testing](/blog/black-pipe-testing-series/). PyMongo, the official Python client for MongoDB, is a great example of a connected application that can't be fully tested as a black box. It has *two* ends that take inputs and provide outputs: one is its public API, the methods `find` and `insert_one` and so on. But the other is its communication over the network with the MongoDB server. Only by treating it as a black pipe can we fully test its surfaces.
 
 This year I implemented a tool for black pipe testing called
 [MockupDB](http://mockupdb.readthedocs.org/). It is a [MongoDB wire protocol](http://docs.mongodb.org/meta-driver/latest/legacy/mongodb-wire-protocol/) server written in Python, with three
@@ -110,5 +110,5 @@ A variety of MongoDB driver tests were difficult or impossible, until now. I'm e
 
 Next:
 
-* [MockupDB: Testing The MongoDB C Driver With Python](http://emptysqua.re/blog/mockupdb-test-libmongoc-mongodb-c-driver-python/)
-* [Read the whole series on black pipe testing.](http://emptysqua.re/blog/black-pipe-testing-series/)
+* [MockupDB: Testing The MongoDB C Driver With Python](/blog/mockupdb-test-libmongoc-mongodb-c-driver-python/)
+* [Read the whole series on black pipe testing.](/blog/black-pipe-testing-series/)

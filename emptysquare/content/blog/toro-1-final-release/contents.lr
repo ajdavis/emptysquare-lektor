@@ -21,7 +21,7 @@ summary: This version includes a new RWLock. Further development of Toro's ideas
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/11/toro.png" alt="Toro" title="toro.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/11/toro.png" alt="Toro" title="toro.png" border="0"   />
 
 I just shipped Toro with a new feature contributed by [Alexander Gridnev](https://github.com/alexander-gridnev): a [readers-writer lock, or "RWLock"](http://toro.readthedocs.org/en/stable/classes.html#rwlock). It protects a shared data structure by allowing multiple coroutines to lock it for reads. As soon as a coroutine wants to modify the structure it requests a write-lock and waits for all readers to release their locks. While a writer is waiting, all readers and writers queue. Once the writer releases the lock, readers or the next writer can acquire it.
 
@@ -33,4 +33,4 @@ I recognized the usefulness of this kind of lock so I took the contribution. Bes
 
 And now it's the end of the line: Toro is both completed and deprecated. [Toro's locks and queues were merged into Tornado 4.2](http://www.tornadoweb.org/en/stable/releases/v4.2.0.html#new-modules-tornado-locks-and-tornado-queues), and further development on those ideas will continue in Tornado itself from now on. Indeed, [Ben Darnell has just updated Tornado's locks and queues for Python 3.5's new `async` and `await` statements](https://github.com/tornadoweb/tornado/pull/1476). [I've recommended to Alexander that he spin off his RWLock for Tornado into a separate package](https://github.com/ajdavis/toro/pull/12), to stand alone the same as asyncio's RWLock does.
 
-Toro is among my favorite and most complete works, [you can read my thoughts on its retirement in my May article](http://emptysqua.re/blog/tornado-locks-and-queues/).
+Toro is among my favorite and most complete works, [you can read my thoughts on its retirement in my May article](/blog/tornado-locks-and-queues/).

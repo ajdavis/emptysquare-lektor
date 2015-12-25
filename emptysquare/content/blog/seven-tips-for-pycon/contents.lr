@@ -21,11 +21,11 @@ summary: Advice on submitting to CFPs at software conferences.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/09/Emmeline-Pankhurst-Trafalgar-Square-11.jpg" alt="Emmeline Pankhurst at Trafalgar Square" title="Emmeline Pankhurst at Trafalgar Square" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/09/Emmeline-Pankhurst-Trafalgar-Square-11.jpg" alt="Emmeline Pankhurst at Trafalgar Square" title="Emmeline Pankhurst at Trafalgar Square" />
 
 The PyCon 2016 call for proposals opens today. Do you want to speak? I want it, greedily&mdash;I'm greedy for speaking at software conferences, because I'm greedy to connect with you, and standing on stage is a sure way to start the discussion. The best stuff comes after I give the talk.
 
-In the last year my proposals performed well and my greed was indulged by conference committees. I was accepted by PyTennessee, PyGotham, OSCON, QCon, MongoDB World, and Open Source Bridge, and I got [*two* talks into PyCon 2015](http://emptysqua.re/blog/speaking/#pycon-2015). In gratitude, I'll tell you what I learned about submitting talks.
+In the last year my proposals performed well and my greed was indulged by conference committees. I was accepted by PyTennessee, PyGotham, OSCON, QCon, MongoDB World, and Open Source Bridge, and I got [*two* talks into PyCon 2015](/blog/speaking/#pycon-2015). In gratitude, I'll tell you what I learned about submitting talks.
 
 ***
 
@@ -49,7 +49,7 @@ Software conferences, on the other hand, want great talks. You need not be an ex
 
 ## Be General And Basic
 
-We are all specialists, but a talk on your specialty is very unlikely to be accepted. Certainly my proposals on the areas of my expertise have been widely rejected. I hope you [write an article](http://emptysqua.re/blog/write-an-excellent-programming-blog/) instead of proposing a talk; an article is where your special expertise is valuable.
+We are all specialists, but a talk on your specialty is very unlikely to be accepted. Certainly my proposals on the areas of my expertise have been widely rejected. I hope you [write an article](/blog/write-an-excellent-programming-blog/) instead of proposing a talk; an article is where your special expertise is valuable.
 
 Submit about three proposals to each conference. My colleague Emily Stolfo taught me to hedge my bets this way. Your proposals should range wide: a basic general talk, an intermediate talk, and a non-technical talk. (Non-technical topics include management, mentoring, self-care, diversity, ethics, business, and so on.) There is a good chance that one of your three proposals fits an undersupplied track in the organizers' agenda.
 
@@ -57,7 +57,7 @@ Do not submit an advanced talk. For one thing, advanced topics are usually speci
 
 ## ... Or Get On Your SoapBox
 
-The goal of this advice is to get your proposal accepted, of course. But you may have a different goal in mind: to communicate an idea. If you are passionate about an idea then you should certainly propose a talk about it. I proposed my [mentoring](http://emptysqua.re/blog/mentoring/) and [writing](http://emptysqua.re/blog/write-an-excellent-programming-blog/) talks to conferences, not so much because I expected it to be popular with organizers, but because I care about the topic and I want to express my opinion to you. I give my [weather visualization talk](http://emptysqua.re/blog/weather-of-the-century-links/) regularly because I want people to know how well MongoDB and NumPy work together. Several talks at last year's PyCon were intended to advance an opinion: [Glyph exhorted us to develop a code of ethics](http://pyvideo.org/video/3507/the-ethical-consequences-of-our-collective-activi), [Carol Willing convinced us we could all contribute to famous projects](http://pyvideo.org/video/3502/finding-your-groove-contributing-to-cpython-and), and [Kate Heddleston argued we must fix our workplaces to ensure diversity](http://pyvideo.org/video/3491/how-our-engineering-environments-are-killing-dive).
+The goal of this advice is to get your proposal accepted, of course. But you may have a different goal in mind: to communicate an idea. If you are passionate about an idea then you should certainly propose a talk about it. I proposed my [mentoring](/blog/mentoring/) and [writing](/blog/write-an-excellent-programming-blog/) talks to conferences, not so much because I expected it to be popular with organizers, but because I care about the topic and I want to express my opinion to you. I give my [weather visualization talk](/blog/weather-of-the-century-links/) regularly because I want people to know how well MongoDB and NumPy work together. Several talks at last year's PyCon were intended to advance an opinion: [Glyph exhorted us to develop a code of ethics](http://pyvideo.org/video/3507/the-ethical-consequences-of-our-collective-activi), [Carol Willing convinced us we could all contribute to famous projects](http://pyvideo.org/video/3502/finding-your-groove-contributing-to-cpython-and), and [Kate Heddleston argued we must fix our workplaces to ensure diversity](http://pyvideo.org/video/3491/how-our-engineering-environments-are-killing-dive).
 
 These were some of the best talks. After all, giving a speech about how some code works is bound to be troublesome, and we are still refining the form. But in human history there is no more compelling nor more honored method than a speech to deliver an argument.
 
@@ -87,7 +87,7 @@ At the same time, organizers do not want speakers to go over time, so be realist
 
 ## Revise Ruthlessly
 
-I write the abstract like any substantial work: I spend a few days brainstorming and talking to friends until I have a long list of subtopics. Then I choose the best and try to order them sensibly. If the best cannot hold together, I swap subtopics in and out until they do. The thesis of the proposal improves as I work on the abstract. For example my [mentoring talk](http://emptysqua.re/blog/mentoring/) for PyTennessee evolved from "how to mentor" to the more operative "how to design a mentorship with the prerequisites for success." Once complete, the abstract is a good first draft of the talk itself. It is also a draft of an article on the topic.
+I write the abstract like any substantial work: I spend a few days brainstorming and talking to friends until I have a long list of subtopics. Then I choose the best and try to order them sensibly. If the best cannot hold together, I swap subtopics in and out until they do. The thesis of the proposal improves as I work on the abstract. For example my [mentoring talk](/blog/mentoring/) for PyTennessee evolved from "how to mentor" to the more operative "how to design a mentorship with the prerequisites for success." Once complete, the abstract is a good first draft of the talk itself. It is also a draft of an article on the topic.
 
 Allison Kaptur maintains [a repository of PyCon proposals](https://github.com/akaptur/pycon-proposals) with contributions from several speakers. Both the accepted and rejected proposals are examples of good abstracts.
 
@@ -117,7 +117,7 @@ A proposal begins life in the ideas list, and I complete it when I need it for a
 
 I turn most proposals into articles at some point, even ones that aren't accepted as talks, since a detailed abstract is half way to an article. Waste not, want not.
 
-Lately I record screencasts of my talks before delivering them at conferences. For example here is a screencast of my PyCon talk "[Eventually Correct: Testing Async Apps](http://emptysqua.re/blog/screencast-of-eventually-correct-async-testing-with-tornado/)". The advantage of a screencast is that I can do it again until it's good. Even better, I closed-caption my own screencasts for the sake of Deaf viewers&mdash;conferences rarely caption videos, and my own captions will always be best.
+Lately I record screencasts of my talks before delivering them at conferences. For example here is a screencast of my PyCon talk "[Eventually Correct: Testing Async Apps](/blog/screencast-of-eventually-correct-async-testing-with-tornado/)". The advantage of a screencast is that I can do it again until it's good. Even better, I closed-caption my own screencasts for the sake of Deaf viewers&mdash;conferences rarely caption videos, and my own captions will always be best.
 
 If a proposal performs well I reuse it for a year or two. Eventually I get tired of a talk, or organizers stop wanting it. Committees like a talk with a track record, but not once it's overexposed. Its time in the sun is brief. If I am fortunate enough to give a talk at a couple big conferences I retire it.
 
@@ -125,7 +125,7 @@ If a proposal performs well I reuse it for a year or two. Eventually I get tired
 
 If you can make it at PyCon you can make it anywhere. Their CFP is the most rigorous I have seen. This year's long window for submissions, September 28 through January 3rd, will make it even more competitive. But PyCon also provides the most guidance. Read [their proposal advice](https://us.pycon.org/2015/speaking/proposal_advice/) and [Brian Curtin's commentary last year](http://blog.briancurtin.com/posts/writing-a-pycon-proposal.html) in full; these articles are deeper and better than mine.
 
-Next: [Why Should You Speak At A Conference, Anyway?](http://emptysqua.re/blog/tech-talks-are-campfires-jesses-three-reasons-you-should-speak-at-pycon/)
+Next: [Why Should You Speak At A Conference, Anyway?](/blog/tech-talks-are-campfires-jesses-three-reasons-you-should-speak-at-pycon/)
 
 ***
 

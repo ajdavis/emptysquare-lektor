@@ -22,7 +22,7 @@ summary: Supports MongoDB 3.2.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/12/catania.jpg" alt="San Giovanni li Cuti - Catania" title="San Giovanni li Cuti - Catania" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/12/catania.jpg" alt="San Giovanni li Cuti - Catania" title="San Giovanni li Cuti - Catania" />
 
 I just released version 1.3.0 of libbson and libmongoc, the C libraries that compose the MongoDB C Driver. The changelist is massive; the highlights are support for new MongoDB 3.2 features, and a widespread cleanup of GridFS.
 

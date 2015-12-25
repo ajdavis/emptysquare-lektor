@@ -23,7 +23,7 @@ summary: This version is compatible with Python 2.6 through 3.5, and it can use 
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="https://emptysqua.re/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
 
 Welcome back, I hope you enjoyed Thanksgiving. I certainly did; among everything for which I give thanks this year, I am grateful for the contributions R&eacute;mi Jolin, Andrew Svetlov, and Nikolay Novik made to Motor's asyncio integration. Their help is the greatest gift any project of mine has received.
 
@@ -35,6 +35,6 @@ python -m pip install motor
 
 This version of Motor is compatible with Python 2.6 through 3.5, and it can use either Tornado or asyncio. This means pip no longer automatically installs Tornado.
 
-For a detailed description of the changes, [read the beta announcement](http://emptysqua.re/blog/motor-0-5-beta-asyncio-async-await/).
+For a detailed description of the changes, [read the beta announcement](/blog/motor-0-5-beta-asyncio-async-await/).
 
 Enjoy!

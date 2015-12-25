@@ -23,7 +23,7 @@ summary: On Mac, multiprocessing plus multithreading can easily lead you to hang
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/12/spectacled-caiman.jpg" alt="Spectacled caiman and American pipesnake" title="Spectacled caiman and American pipesnake" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/12/spectacled-caiman.jpg" alt="Spectacled caiman and American pipesnake" title="Spectacled caiman and American pipesnake" />
 
 What happens if you run this code?:
 
@@ -79,7 +79,7 @@ She descended through PyMongo's layers using the PyCharm debugger and print stat
 infos = socket.getaddrinfo(host, port)
 ```
 
-It reminded me of the `getaddrinfo` quirk I'd learned about during a side-trip while I was [debugging a completely unrelated `getaddrinfo` deadlock last year](https://emptysqua.re/blog/weird-green-bug/). The quirk is this: on some platforms, Python locks around `getaddrinfo` calls, allowing only one thread to resolve a name at a time. In Python's standard socketmodule.c:
+It reminded me of the `getaddrinfo` quirk I'd learned about during a side-trip while I was [debugging a completely unrelated `getaddrinfo` deadlock last year](/blog/weird-green-bug/). The quirk is this: on some platforms, Python locks around `getaddrinfo` calls, allowing only one thread to resolve a name at a time. In Python's standard socketmodule.c:
 
 ```c
 /* On systems on which getaddrinfo() is believed to not be thread-safe,

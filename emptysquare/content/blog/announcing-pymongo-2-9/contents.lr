@@ -21,7 +21,7 @@ summary: A compatibility bridge between PyMongo 2 and PyMongo 3 APIs.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/10/I/Boelen_Python.jpg" alt="Boelen Python" title="Boelen Python" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/10/I/Boelen_Python.jpg" alt="Boelen Python" title="Boelen Python" />
 
 Bernie Hackett, Anne Herlihy, and Luke Lovett released PyMongo 2.9 last week. "Why," you ask, "was PyMongo 2.9 released after PyMongo 3?"
 
@@ -33,9 +33,9 @@ Read the [Migration Guide](http://api.mongodb.org/python/2.9/migrate-to-pymongo3
 python -Wd my_application.py
 ```
 
-Once you have run your tests and fixed all your uses of deprecated PyMongo 2 APIs, you are most of the way to PyMongo 3 readiness. There are a few API changes this technique can't catch, so read the rest of the migration guide carefully. Once you've done that, upgrade to PyMongo 3 and run your tests once again. Now you've safely reached PyMongo 3, with all [the performance and robustness enhancements it offers](http://emptysqua.re/blog/announcing-pymongo-3/).
+Once you have run your tests and fixed all your uses of deprecated PyMongo 2 APIs, you are most of the way to PyMongo 3 readiness. There are a few API changes this technique can't catch, so read the rest of the migration guide carefully. Once you've done that, upgrade to PyMongo 3 and run your tests once again. Now you've safely reached PyMongo 3, with all [the performance and robustness enhancements it offers](/blog/announcing-pymongo-3/).
 
-(I'm a little late announcing this one&mdash;last week's [C Driver release](http://emptysqua.re/blog/announcing-libbson-and-libmongoc-1-2-0-release-candidate/) and [the Philadelphia meetup](http://emptysqua.re/blog/march-to-triumph-as-a-mentor-video/) took all my attention.)
+(I'm a little late announcing this one&mdash;last week's [C Driver release](/blog/announcing-libbson-and-libmongoc-1-2-0-release-candidate/) and [the Philadelphia meetup](/blog/march-to-triumph-as-a-mentor-video/) took all my attention.)
 
 ***
 

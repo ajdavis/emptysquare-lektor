@@ -23,10 +23,10 @@ summary: Fixes a socket leak in "copy_database" that has been present since Moto
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
 
 Today I released version 0.3.2 of Motor, the asynchronous MongoDB driver for Python and Tornado. This release is compatible with MongoDB 2.2, 2.4, and 2.6. It requires PyMongo 2.7.1.
 
-This release fixes [a socket leak in the "copy_database" method](https://jira.mongodb.org/browse/MOTOR-44) that has been present since Motor 0.2. Evidently Motor users don't call "copy_database" much. I've written about the bug and lessons learned in ["Let Us Now Praise ResourceWarnings"](http://emptysqua.re/blog/let-us-now-praise-resourcewarnings/).
+This release fixes [a socket leak in the "copy_database" method](https://jira.mongodb.org/browse/MOTOR-44) that has been present since Motor 0.2. Evidently Motor users don't call "copy_database" much. I've written about the bug and lessons learned in ["Let Us Now Praise ResourceWarnings"](/blog/let-us-now-praise-resourcewarnings/).
 
 Get the latest version with `pip install --upgrade motor`. [The documentation is on ReadTheDocs](http://motor.readthedocs.org/en/stable). If you encounter any issues, please [file them in Jira](https://jira.mongodb.org/browse/MOTOR).

@@ -24,13 +24,13 @@ summary: Second in a four-part series about choices we regretted in the design o
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/11/road.jpg" alt="Road" title="Road" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/11/road.jpg" alt="Road" title="Road" />
 
 *The road to hell is paved with good intentions.*
 
-This is the second of [a four-part series on regrettable decisions we made when we designed PyMongo](http://emptysqua.re/blog/good-idea-at-the-time-pymongo/). This winter we're preparing PyMongo 3.0, and we have an opportunity to make big changes. I'm putting our regrettable designs to rest, and writing their epitaphs as I go.
+This is the second of [a four-part series on regrettable decisions we made when we designed PyMongo](/blog/good-idea-at-the-time-pymongo/). This winter we're preparing PyMongo 3.0, and we have an opportunity to make big changes. I'm putting our regrettable designs to rest, and writing their epitaphs as I go.
 
-Last week [I wrote about the first regrettable decision, "start_request"](http://emptysqua.re/blog/good-idea-at-the-time-pymongo-start-request/). Today I'll tell you the story of the second: PyMongo and Gevent.
+Last week [I wrote about the first regrettable decision, "start_request"](/blog/good-idea-at-the-time-pymongo-start-request/). Today I'll tell you the story of the second: PyMongo and Gevent.
 
 [TOC]
 
@@ -72,7 +72,7 @@ At the time, I clearly described my half-feature in PyMongo's documentation:
 
 Hah! In my commit message, I claimed I'd "improved Gevent compatibility." What exactly did I mean? I meant you could use PyMongo after calling Gevent's ``patch_socket()`` without having to call ``patch_thread()``. But who would do that? What conceivable use case had I enabled? After all, once you've called ``patch_socket()``, regular multi-threaded networking code doesn't work. So I had *not* allowed you to mix Gevent and non-Gevent code in one application.
 
-**Update**: Peter Hansen explained to me exactly what I was missing, and [I've written a followup article in response](http://emptysqua.re/blog/pymongo-use-greenlets-followup/).
+**Update**: Peter Hansen explained to me exactly what I was missing, and [I've written a followup article in response](/blog/pymongo-use-greenlets-followup/).
 
 What was I thinking? Maybe I thought "use_greenlets" worked around [a bug in Gevent's threadlocals](https://code.google.com/p/gevent/issues/detail?id=24), but Gevent fixed that bug two years prior, so that's not the answer.
 
@@ -96,8 +96,8 @@ The lesson here is obvious: gather requirements. It's harder for an open source 
 
 Nowadays I'd know better. Especially when I'm not scratching my own itch, when I'm integrating with a library I don't use, I need to define rigorously what need I'm filling. Otherwise I'm meeting you in a foreign country with a ship full of the wrong goods for trade.
 
-The same challenge presents itself to me now with Motor, my async driver for MongoDB. So far Motor has only worked with Tornado, an async framework I've used and know well. But I'm going to start integrating Motor with asyncio and, eventually, Twisted, and I need to be awfully careful about gathering requirements. One technique I'll use is [eating my own hamster food](http://emptysqua.re/blog/eating-your-own-hamster-food/): Before I release the version of Motor that supports asyncio, I'll port Motor-Blog, the software that runs this site, from Tornado to asyncio. That way there will be at least one real-world application that uses Motor and asyncio before I release the new version.
+The same challenge presents itself to me now with Motor, my async driver for MongoDB. So far Motor has only worked with Tornado, an async framework I've used and know well. But I'm going to start integrating Motor with asyncio and, eventually, Twisted, and I need to be awfully careful about gathering requirements. One technique I'll use is [eating my own hamster food](/blog/eating-your-own-hamster-food/): Before I release the version of Motor that supports asyncio, I'll port Motor-Blog, the software that runs this site, from Tornado to asyncio. That way there will be at least one real-world application that uses Motor and asyncio before I release the new version.
 
 ***
 
-*The next installment in "It Seemed Like A Good Idea At The Time" is [PyMongo's "copy_database"](http://emptysqua.re/blog/good-idea-at-the-time-pymongo-copy-database/).*
+*The next installment in "It Seemed Like A Good Idea At The Time" is [PyMongo's "copy_database"](/blog/good-idea-at-the-time-pymongo-copy-database/).*

@@ -23,11 +23,11 @@ summary: Concludes a four-part series about choices we regretted in the design o
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/11/road-4.jpg" alt="Road" title="Road" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/11/road-4.jpg" alt="Road" title="Road" />
 
 *The road to hell is paved with good intentions.*
 
-I'm writing [post mortems for four regrettable decisions in PyMongo](http://emptysqua.re/blog/good-idea-at-the-time-pymongo/), the standard Python driver for MongoDB. Each of these decisions made life painful for Bernie Hackett and me&mdash;PyMongo's maintainers&mdash;and confused our users. This winter we're preparing PyMongo 3.0, and we have the chance to fix them all. As I snip out these regrettable designs I ask, what went wrong?
+I'm writing [post mortems for four regrettable decisions in PyMongo](/blog/good-idea-at-the-time-pymongo/), the standard Python driver for MongoDB. Each of these decisions made life painful for Bernie Hackett and me&mdash;PyMongo's maintainers&mdash;and confused our users. This winter we're preparing PyMongo 3.0, and we have the chance to fix them all. As I snip out these regrettable designs I ask, what went wrong?
 
 I conclude the series with the final regrettable decision: MongoReplicaSetClient.
 
@@ -90,7 +90,7 @@ PyMongo has special burdens, since it's the intersection between two huge groups
 
 But we never merged the two classes.
 
-Ever since November 2011, when Bernie wrote ReplicaSetConnection and I joined MongoDB, we've maintained ReplicaSetConnection's separate code. It gained features. It learned to run mapreduce jobs on secondaries. Its read preference options [expanded to include members' network latency and tags](http://emptysqua.re/blog/reading-from-mongodb-replica-sets-with-pymongo/). Connection gained distinct features, too, diverging further from ReplicaSetConnection: [it can connect to the nearest mongos from a list of them](https://github.com/mongodb/mongo-python-driver/blob/v2.8/doc/examples/high_availability.rst#high-availability-and-mongos), and fail over to the next if that mongos goes down. Other features applied equally to both classes, so we wrote them twice. We had two tests for most of these features. When we [renamed Connection to MongoClient](http://emptysqua.re/blog/pymongos-new-default-safe-writes/), we also renamed ReplicaSetConnection to MongoReplicaSetClient. And still, we didn't merge them.
+Ever since November 2011, when Bernie wrote ReplicaSetConnection and I joined MongoDB, we've maintained ReplicaSetConnection's separate code. It gained features. It learned to run mapreduce jobs on secondaries. Its read preference options [expanded to include members' network latency and tags](/blog/reading-from-mongodb-replica-sets-with-pymongo/). Connection gained distinct features, too, diverging further from ReplicaSetConnection: [it can connect to the nearest mongos from a list of them](https://github.com/mongodb/mongo-python-driver/blob/v2.8/doc/examples/high_availability.rst#high-availability-and-mongos), and fail over to the next if that mongos goes down. Other features applied equally to both classes, so we wrote them twice. We had two tests for most of these features. When we [renamed Connection to MongoClient](/blog/pymongos-new-default-safe-writes/), we also renamed ReplicaSetConnection to MongoReplicaSetClient. And still, we didn't merge them.
 
 The persistent, slight differences between the two classes persistently confused our users. I remember my feet aching as I stood at our booth at PyCon in 2013, explaining to a user when he should use MongoClient and when he should use MongoReplicaSetClient&mdash;and I remember his expression growing sourer each minute as he realized how irrational the distinction was.
 
@@ -98,7 +98,7 @@ I explained it again during [MongoDB Office Hours](http://www.meetup.com/New-Yor
 
 # The Curse Is Lifted
 
-This year, two events conspired to kill MongoReplicaSetClient. First, we resolved to write a PyMongo 3.0 with a cleaned-up API. Second, I wrote the [Server Discovery And Monitoring Spec](http://emptysqua.re/blog/server-discovery-and-monitoring-spec/), a comprehensive description of how all our drivers should connect to a standalone server, a set of mongos servers, or a replica set. This spec closely followed the design of our Java and C# drivers, which never had a ReplicaSetConnection. These drivers each have a single class that connects to any kind of MongoDB topology.
+This year, two events conspired to kill MongoReplicaSetClient. First, we resolved to write a PyMongo 3.0 with a cleaned-up API. Second, I wrote the [Server Discovery And Monitoring Spec](/blog/server-discovery-and-monitoring-spec/), a comprehensive description of how all our drivers should connect to a standalone server, a set of mongos servers, or a replica set. This spec closely followed the design of our Java and C# drivers, which never had a ReplicaSetConnection. These drivers each have a single class that connects to any kind of MongoDB topology.
 
 Since the Server Discovery And Monitoring Spec provides the algorithm to connect to any topology with the same class, I just followed my spec and wrote a unified MongoClient for PyMongo 3. For the sake of backwards compatibility, MongoReplicaSetClient lives a while longer [as an empty, deprecated subclass of MongoClient](https://github.com/mongodb/mongo-python-driver/blob/3.0-dev/pymongo/mongo_replica_set_client.py).
 
@@ -136,7 +136,7 @@ Bernie wanted the new code exercised. So it needed to be in a release. He had to
 
 Maybe the moment to merge them was when we introduced MongoClient in late 2012. You had to choose to opt into MongoClient, so we could have merged the two classes into one new class, instead of preserving the distinction and creating MongoReplicaSetClient. But the introduction of MongoClient was complex and urgent; we didn't have time to unify the classes, too. It was too much risk at once.
 
-I think the moral is: cultivate beta testers. That's what I did with [Motor](http://motor.readthedocs.org/), my asynchronous driver for Tornado and MongoDB. It had long alpha and beta phases where I pressed developers to try it. I found PyMongo and AsyncMongo users and asked them to try switching to Motor. I kept a list of Motor testers and checked in with them occasionally. I [ate my own hamster food](http://emptysqua.re/blog/eating-your-own-hamster-food/): I used Motor to build the blog you're reading. Once I had some reports of Motor in production, and I saw it mentioned on Stack Overflow, and I discovered projects that depended on Motor in GitHub, I figured I had users and it was time for an official release.
+I think the moral is: cultivate beta testers. That's what I did with [Motor](http://motor.readthedocs.org/), my asynchronous driver for Tornado and MongoDB. It had long alpha and beta phases where I pressed developers to try it. I found PyMongo and AsyncMongo users and asked them to try switching to Motor. I kept a list of Motor testers and checked in with them occasionally. I [ate my own hamster food](/blog/eating-your-own-hamster-food/): I used Motor to build the blog you're reading. Once I had some reports of Motor in production, and I saw it mentioned on Stack Overflow, and I discovered projects that depended on Motor in GitHub, I figured I had users and it was time for an official release.
 
 Not all these methods will work for an established project like PyMongo, but still: for PyMongo 3.0, we should ask our community to help shake out the bugs. 
 
@@ -144,4 +144,4 @@ When the beta is ready, will you help?
 
 ***
 
-*This is the final installment in [my four-part series on regrettable decisions we made with PyMongo](http://emptysqua.re/blog/good-idea-at-the-time-pymongo/).*
+*This is the final installment in [my four-part series on regrettable decisions we made with PyMongo](/blog/good-idea-at-the-time-pymongo/).*

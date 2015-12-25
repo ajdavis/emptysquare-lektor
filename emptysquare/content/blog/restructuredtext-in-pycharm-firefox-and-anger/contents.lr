@@ -39,6 +39,6 @@ Now that I can regenerate HTML automatically, I need a way to reload the browser
 
 **auto-reload** is a [Firefox extension](https://addons.mozilla.org/en-US/firefox/addon/auto-reload/) that detects any tab with a `file://` URL and reloads it when the file changes. In my testing it seems to detect changes in linked files (CSS and Javascript) too. A nice little bar slides down to tell me when it's reloading. That way I know that the reason the page is still a mess is because my reST is still wrong, not because it hasn't reloaded:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/04/auto-reload.png" alt="Auto reload" title="auto-reload.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/04/auto-reload.png" alt="Auto reload" title="auto-reload.png" border="0"   />
 
 This little suite of tools deals well with invoking Sphinx and reloading my web page, so I can focus on the task at hand: trying to write reStructuredText, which is a loathsome afterbirth expelled from the same womb as XML and TeX.

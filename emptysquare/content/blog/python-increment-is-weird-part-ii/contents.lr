@@ -21,7 +21,7 @@ summary: I wrote the other day about two things I think are weird about Python's
 ---
 body:
 
-I wrote the other day about two things I think are weird about Python's `+=` operator. [In the comments](http://emptysquare.net/blog/python-increment-is-weird/#comment-752873234), famed Twisted hacker Jean-Paul Calderone showed me something far, far weirder. This post is a record of me playing around and trying to understand it.
+I wrote the other day about two things I think are weird about Python's `+=` operator. [In the comments](/blog/python-increment-is-weird/#comment-752873234), famed Twisted hacker Jean-Paul Calderone showed me something far, far weirder. This post is a record of me playing around and trying to understand it.
 
 To begin let's review what we know. Tuples are immutable in Python, so you can't increment a member of a tuple:
 

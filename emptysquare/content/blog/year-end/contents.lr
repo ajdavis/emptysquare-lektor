@@ -23,13 +23,13 @@ summary: The year in review: Motor, Toro, and asyncio.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2013/12/hands.jpg" alt="Hands" title="Hands" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/12/hands.jpg" alt="Hands" title="Hands" />
 
 As we usually do, my girlfriend and I spent last week in Chicago with her family for Christmas, and leave tomorrow morning for [the Village Zendo's year end meditation retreat](http://villagezendo.org/2013-year-end/), which lasts until January 1st.
 
 I've stretched myself as an open source contributor this year. In March I released the first version of [Motor](http://motor.readthedocs.org/en/stable/), the most complex open source project I've created. I also rewrote [Toro](http://toro.readthedocs.org/), a library of locks and queues for Tornado coroutines: the 0.5 release of Toro was a big leap forward. Much more significantly, I contributed my ideas from Toro to asyncio, a.k.a. Tulip. I'm so proud that [my queue code is in Python 3.4's standard library](http://hg.python.org/cpython/file/default/Lib/asyncio/queues.py).
 
-Early next year I look forward to [releasing Motor 0.2](http://emptysqua.re/blog/motor-progress-report-the-road-to-0-2/). After that, Bernie Hackett and I are embarking upon a partial rewrite of PyMongo. We're going to make a PyMongo that's extensible, maintainable, and fast, and we'll jettison a ton of cruft that's accumulated since the the beginning of the PyMongo project. My hope is to include in PyMongo 3.0 all the hooks needed to support a Motor 1.0 that can be maintained more easily than the current crop of Motor releases. The same hooks should make PyMongo play more nicely with Gevent, asyncio, and whatever new concurrency framework you throw at it.
+Early next year I look forward to [releasing Motor 0.2](/blog/motor-progress-report-the-road-to-0-2/). After that, Bernie Hackett and I are embarking upon a partial rewrite of PyMongo. We're going to make a PyMongo that's extensible, maintainable, and fast, and we'll jettison a ton of cruft that's accumulated since the the beginning of the PyMongo project. My hope is to include in PyMongo 3.0 all the hooks needed to support a Motor 1.0 that can be maintained more easily than the current crop of Motor releases. The same hooks should make PyMongo play more nicely with Gevent, asyncio, and whatever new concurrency framework you throw at it.
 
 After that? Who knows. I'm getting a little tired of Python, actually. I'm looking to branch out into C, C++, or even Go. Luckily I work for MongoDB, where there's opportunities to play with almost any programming language.
 

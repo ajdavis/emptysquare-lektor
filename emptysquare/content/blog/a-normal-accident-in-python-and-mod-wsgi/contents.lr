@@ -22,7 +22,7 @@ summary: Cascading failures lead to a tricky bug in PyMongo.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/10/Three_Mile_Island_nuclear_power_plant.jpg" alt="Three Mile Island nuclear power plant" title="Three Mile Island nuclear power plant" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/10/Three_Mile_Island_nuclear_power_plant.jpg" alt="Three Mile Island nuclear power plant" title="Three Mile Island nuclear power plant" />
 
 I fixed a glitch in PyMongo last week, the result of a slapstick series of mishaps. It reminds me of the Three Mile Island nuclear accident, which inspired the ["Normal Accidents"](http://en.wikipedia.org/wiki/Normal_Accidents) theory of failure in complex systems: one surprise leads to the next, to the next, to an outcome no one anticipated.
 
@@ -69,7 +69,7 @@ So it must be the call to "list" that raises the TypeError. Sure enough, when I 
 
 Why don't we see this error all the time, though? Perhaps it has to do with the shutdown sequence. Normally, a pool is referred to by other objects, but not by a class. I hypothesized that the reporter saw the error because he'd made a reference from a class to the MongoClient to the pool, which delayed the pool's destruction until after the "list" builtin had been set to None:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/10/class-refers-to-pool.png" alt="Class refers to pool" title="Class refers to pool" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/10/class-refers-to-pool.png" alt="Class refers to pool" title="Class refers to pool" />
 
 To test this theory, I replaced this line:
 ```python
@@ -81,7 +81,7 @@ client = pymongo.MongoClient()
 ```
 Now the pool is no longer referred to by a class, it's only referred to by a global variable in the module named "mod":
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/10/variable-refers-to-pool.png" alt="Variable refers to pool" title="Variable refers to pool" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/10/variable-refers-to-pool.png" alt="Variable refers to pool" title="Variable refers to pool" />
 
 Sure enough the error disappeared.
 
@@ -120,15 +120,15 @@ void Py_Finalize(void) {
 ```
 When "PyGC_Collect" runs, the "mod" module still refers to class C, so the class isn't destroyed and neither is the Pool it refers to:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/10/class-reference-cycle.png" alt="Class reference cycle" title="Class reference cycle" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/10/class-reference-cycle.png" alt="Class reference cycle" title="Class reference cycle" />
 
 Next, "PyImport_Cleanup" sets all modules' global variables to None. Now class C is garbage: it's in a reference cycle and nothing else refers to it:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/10/cyclic-garbage.png" alt="Cyclic garbage" title="Cyclic garbage" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/10/cyclic-garbage.png" alt="Cyclic garbage" title="Cyclic garbage" />
 
 But the interpreter is dying and it will never call "PyGC_Collect" again, so class C is never destroyed and neither is the pool.
 
-Great, I understand everything up to this point. But, if the pool is never destroyed when a regular Python interpreter shuts down, why is it destroyed when a mod_wsgi application restarts? I dove into mod_wsgi's source code to see how it manages Python interpreters. (This isn't my first rodeo: I examined mod_wsgi closely for my ["Python C Extensions And mod_wsgi"](http://emptysqua.re/blog/python-c-extensions-and-mod-wsgi/) article last year.) I wrote [a little C program that runs Python in a sub interpreter](https://github.com/ajdavis/python-sub-interpreter-demo), the same as mod_wsgi does:
+Great, I understand everything up to this point. But, if the pool is never destroyed when a regular Python interpreter shuts down, why is it destroyed when a mod_wsgi application restarts? I dove into mod_wsgi's source code to see how it manages Python interpreters. (This isn't my first rodeo: I examined mod_wsgi closely for my ["Python C Extensions And mod_wsgi"](/blog/python-c-extensions-and-mod-wsgi/) article last year.) I wrote [a little C program that runs Python in a sub interpreter](https://github.com/ajdavis/python-sub-interpreter-demo), the same as mod_wsgi does:
 ```c
 int main()
 {
@@ -163,7 +163,7 @@ My little C program acts just like the application in the bug report! What is it
 
 I stepped through my program in the debugger and solved the final mystery. What makes this code special is, it calls "Py_EndInterpreter". "Py_EndInterpreter" calls "PyImport_Cleanup", which sets all modules' global variables to None, thus turning class C into cyclic garbage:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2014/10/cyclic-garbage.png" alt="Cyclic garbage" title="Cyclic garbage" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/10/cyclic-garbage.png" alt="Cyclic garbage" title="Cyclic garbage" />
 
 "PyImport_Cleanup" even clears the "builtins" module, which includes functions like "list". Any code that tries to call "list" afterward is actually calling None.
 

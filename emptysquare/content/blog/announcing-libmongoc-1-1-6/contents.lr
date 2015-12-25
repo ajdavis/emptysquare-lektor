@@ -22,7 +22,7 @@ summary: Major bugfixes, a performance enhancement, and two tiny little features
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/05/Hans_Egede_sea_serpent_1734.jpg" alt="Hans Egede sea serpent 1734" title="Hans Egede sea serpent 1734" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/05/Hans_Egede_sea_serpent_1734.jpg" alt="Hans Egede sea serpent 1734" title="Hans Egede sea serpent 1734" />
 
 I released libmongoc 1.1.6 today with some bugfixes and a major performance enhancement.
 
@@ -47,7 +47,7 @@ Release tarballs are available for download:
 * [libbson-1.1.6.tar.gz](https://github.com/mongodb/libbson/releases/download/1.1.6/libbson-1.1.6.tar.gz)
 * [mongo-c-driver-1.1.6.tar.gz](https://github.com/mongodb/mongo-c-driver/releases/download/1.1.6/mongo-c-driver-1.1.6.tar.gz)
 
-You'll notice this is just a week after [the 1.1.5 release](http://emptysqua.re/blog/announcing-libbson-and-libmongoc-1-1-5/), since there were a users waiting on these particular fixes that I couldn't get in to last week's release.
+You'll notice this is just a week after [the 1.1.5 release](/blog/announcing-libbson-and-libmongoc-1-1-5/), since there were a users waiting on these particular fixes that I couldn't get in to last week's release.
 
 It's my intention to do only the most critical work for the 1.1.x line of the driver libraries, and concentrate on shipping 1.2.0 as soon as possible: a reasonably tested beta in the middle of June and a stable version at the beginning of August. (Circumstances are likely to intervene, of course.) Shipping version 1.2.0 will offer you a C driver that conforms with the modern MongoDB specs: [Server Discovery And Monitoring](http://www.mongodb.com/blog/post/server-discovery-and-monitoring-next-generation-mongodb-drivers), and [Server Selection](http://www.mongodb.com/blog/post/server-selection-next-generation-mongodb-drivers). It will resolve a heap of replica set issues in the current driver.
 

@@ -23,7 +23,7 @@ summary: How can you port a complex application from blocking to non-blocking st
 ---
 body:
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2013/09/F5_tornado_Elie_Manitoba_2007.jpg" alt="Tornado" title="Tornado" />
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/09/F5_tornado_Elie_Manitoba_2007.jpg" alt="Tornado" title="Tornado" />
 ](http://commons.wikimedia.org/wiki/File:F5_tornado_Elie_Manitoba_2007.jpg)
 
 Distressingly often, I see good programmers building applications with a flawed stack: PyMongo plus Tornado. Tornado is an asynchronous Python web framework, and PyMongo is a blocking driver for MongoDB. Obviously, any lengthy PyMongo operation blocks the event loop and hobbles its throughput.

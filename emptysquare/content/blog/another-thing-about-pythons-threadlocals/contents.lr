@@ -22,7 +22,7 @@ summary: Another concurrency bug in old Python threadlocals. In Python 2.6, no o
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysquare.net/blog/media/2013/04/dammit.jpg" alt="Dammit" title="dammit.jpg" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/04/dammit.jpg" alt="Dammit" title="dammit.jpg" border="0"   />
 
 As the maintainer of the connection pool for PyMongo, the official MongoDB driver for Python, I've gotten far more intimate knowledge of Python threads than I'd ever wanted.
 
@@ -65,9 +65,9 @@ assert ncallbacks == nthreads, \
     'only %d callbacks run' % ncallbacks
 
 ```
-This is the method I presented in ["Knowing When A Python Thread Has Died"](http://emptysquare.net/blog/knowing-when-a-python-thread-has-died/). Each thread creates a "vigil" object and sticks it in a threadlocal. Since only the threadlocal refers to the vigil, the vigil should be destroyed when the thread dies. I make a weakref to the vigil and register a [weakref callback](http://docs.python.org/2/library/weakref.html#weakref.ref). If all goes well, the callback is run as the thread dies. A quirk of Python 2.7.0 or lesser is that the callback is run when the **next** thread accesses the threadlocal. This oddity is a consequence of [Python Issue 1868](http://bugs.python.org/issue1868), fixed by Antoine Pitrou in late 2010 and released in Python 2.7.1.
+This is the method I presented in ["Knowing When A Python Thread Has Died"](/blog/knowing-when-a-python-thread-has-died/). Each thread creates a "vigil" object and sticks it in a threadlocal. Since only the threadlocal refers to the vigil, the vigil should be destroyed when the thread dies. I make a weakref to the vigil and register a [weakref callback](http://docs.python.org/2/library/weakref.html#weakref.ref). If all goes well, the callback is run as the thread dies. A quirk of Python 2.7.0 or lesser is that the callback is run when the **next** thread accesses the threadlocal. This oddity is a consequence of [Python Issue 1868](http://bugs.python.org/issue1868), fixed by Antoine Pitrou in late 2010 and released in Python 2.7.1.
 
-Note also that I synchronize `ncallbacks += 1` with a mutex, since `+=` [is not atomic in Python](http://emptysquare.net/blog/python-increment-is-weird/). This innocent-looking mutex harbors a dark intent, as we shall soon discover.
+Note also that I synchronize `ncallbacks += 1` with a mutex, since `+=` [is not atomic in Python](/blog/python-increment-is-weird/). This innocent-looking mutex harbors a dark intent, as we shall soon discover.
 
 In Python 2.7.1 and newer, the code above works as expected: `ncallbacks` is equal to 1000 immediately after all the threads are joined. In Python 2.7.0, `ncallbacks` should be 999 after the threads are joined, and then 1000 after the main thread does the final `getattr` to trigger cleanup.
 

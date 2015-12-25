@@ -37,13 +37,13 @@ He had the database loaded for his diverting article on a [Year of PyPI Download
 
 Here's PyMongo's downloads this year, by Python version:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/05/pymongo-downloads.png" alt="PyMongo downloads" title="PyMongo downloads" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/05/pymongo-downloads.png" alt="PyMongo downloads" title="PyMongo downloads" />
 
 Python 2.7 dominates, and it is growing at the expense of 2.6. Python 2.4 is absent, and PyMongo downloads for Python 2.5 vanished last year, which validates our decision to [drop Python 2.4 and 2.5 from the latest release, PyMongo 3.0](http://api.mongodb.org/python/current/changelog.html).
 
 Donald made a second chart isolating the Python 3 downloads:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/05/pymongo-downloads-python-3.png" alt="PyMongo downloads for Python 3" title="PyMongo downloads for Python 3" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/05/pymongo-downloads-python-3.png" alt="PyMongo downloads for Python 3" title="PyMongo downloads for Python 3" />
 
 As one expects, people who use Python 3 use the latest one, Python 3.4. When we released PyMongo 2.8.0 at the end of January, the download spike was *entirely* Python 3.4 users.
 
@@ -53,23 +53,23 @@ I expect Python 3.5 will soon dominate among Python 3 users, and Python 2.6 will
 
 Something is wrong with Donald's chart for Motor, but it suggests that Motor users are like PyMongo users: 10% run the latest Python 3, 50% run Python 2.7, and the others run a smattering of other Pythons. (Motor has never supported Python before 2.6.)
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/05/motor-downloads.png" alt="Motor downloads" title="Motor downloads" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/05/motor-downloads.png" alt="Motor downloads" title="Motor downloads" />
 
 In Donald's Python 3 chart, it seems only Python 3.4 is represented:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/05/motor-downloads-python-3.png" alt="Motor downloads for Python 3" title="Motor downloads for Python 3" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/05/motor-downloads-python-3.png" alt="Motor downloads for Python 3" title="Motor downloads for Python 3" />
 
 # Tornado
 
 Motor's potential user base includes all Tornado users, so I was curious about Tornado's overall distribution:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/05/tornado-downloads.png" alt="Tornado downloads" title="Tornado downloads" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/05/tornado-downloads.png" alt="Tornado downloads" title="Tornado downloads" />
 
 I have no explanation for the spike of Python 2.6 downloads last fall; Tornado's release schedule doesn't strongly correlate with it. Tornado's user base is distributed similarly to PyMongo's, though more inclined to stay on Python 2.6.
 
 Again, Tornado's Python 3 users hold steady at ten percent, but they switched to Python 3.4 quickly after it was released.
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/05/tornado-downloads-python-3.png" alt="Tornado downloads for Python 3" title="Tornado downloads for Python 3" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/05/tornado-downloads-python-3.png" alt="Tornado downloads for Python 3" title="Tornado downloads for Python 3" />
 
 # Conclusion
 

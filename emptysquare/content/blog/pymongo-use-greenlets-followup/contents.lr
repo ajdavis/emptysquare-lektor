@@ -23,9 +23,9 @@ summary: I wrote in December that we were removing a quirky feature from PyMongo
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="http://emptysqua.re/blog/media/2015/03/fern.jpg" alt="Fern - (cc) Wingchi Poon" title="Fern - (cc) Wingchi Poon" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/03/fern.jpg" alt="Fern - (cc) Wingchi Poon" title="Fern - (cc) Wingchi Poon" />
 
-In December, I wrote that [we are removing the idiosyncratic `use_greenlets` option from PyMongo](http://emptysqua.re/blog/it-seemed-like-a-good-idea-at-the-time-pymongo-use-greenlets/) when we release [PyMongo 3](http://emptysqua.re/blog/pymongo-3-beta/).
+In December, I wrote that [we are removing the idiosyncratic `use_greenlets` option from PyMongo](/blog/it-seemed-like-a-good-idea-at-the-time-pymongo-use-greenlets/) when we release [PyMongo 3](/blog/pymongo-3-beta/).
 
 In PyMongo 2 you have two options for using Gevent. First, you can do:
 
