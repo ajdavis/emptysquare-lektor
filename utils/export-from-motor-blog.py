@@ -79,7 +79,7 @@ target: /blog/{redirect}
 
 
 def main():
-    for p in db.posts.find({'pub_date': {'$exists': True}}):
+    for p in db.posts.find({'status': 'publish'}):
         slug = p['slug']
         post_dir = os.path.join(blog_dir, slug)
         shutil.rmtree(post_dir, ignore_errors=True)
