@@ -22,7 +22,7 @@ summary: If you are a software developer, then from time to time you will have t
 ---
 body:
 
-![Graph theory](/blog/media/2012/05/graph-theory.jpg "graph-theory.jpg")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="graph-theory.jpg" title="Graph theory" />
 
 If you are a software developer, then from time to time you will have to
 solve an Interesting Problem in optimization, such as finding the best

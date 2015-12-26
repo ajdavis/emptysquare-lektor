@@ -66,5 +66,5 @@ Email <a href="mailto:jesse@emptysquare.net">jesse@emptysquare.net</a> or <a hre
 
 I look like this:
 
-![Profile](/blog/media/2011/11/profile.jpg "profile.jpg")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="profile.jpg" title="Profile" />
 

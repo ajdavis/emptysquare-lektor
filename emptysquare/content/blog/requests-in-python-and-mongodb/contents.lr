@@ -252,7 +252,7 @@ opens 41 total sockets (one for each worker thread plus one for the
 main) and tops out at 21 concurrent sockets, because there are 21
 concurrent threads (counting the main thread):
 
-![Pymongo 2.1](/blog/media/2012/04/pymongo-2-1.png "pymongo-2-1.png")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="pymongo-2-1.png" title="Pymongo 2.1" />
 
 PyMongo 2.2 with auto\_start\_request=True acts rather differently (and
 much better). It ramps up to 21 sockets and keeps them open throughout

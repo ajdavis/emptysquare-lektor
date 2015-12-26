@@ -20,7 +20,7 @@ summary: My gig, 10gen, sponsored the The New York C++ Developers meetup tonight
 ---
 body:
 
-![Node.js](/blog/media/2011/11/nodejs-light.png "nodejs-light.png")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="nodejs-light.png" title="Node.js" />
 
 My gig, 10gen, sponsored the [The New York C++ Developers meetup
 tonight](http://www.meetup.com/nyccpp/events/16232776/). [Roman

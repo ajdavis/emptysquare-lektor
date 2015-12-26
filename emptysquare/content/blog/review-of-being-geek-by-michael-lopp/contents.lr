@@ -20,7 +20,7 @@ summary: I'm always late to the party, but here's my review of Michael Lopp's 20
 ---
 body:
 
-![Being Geek](/blog/media/2012/04/being-geek.gif "being-geek.gif")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="being-geek.gif" title="Being Geek" />
 
 I'm always late to the party, but here's my review of Michael Lopp's
 2010 book [Being

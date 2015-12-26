@@ -20,9 +20,9 @@ summary: Photos: A. Jesse Jiryu Davis More photos from September of Scott in Chi
 ---
 body:
 
-![Scott 1](/blog/media/2011/12/scott-1.jpg "scott-1.jpg")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="scott-1.jpg" title="Scott 1" />
 
-![Scott \#2](/blog/media/2011/12/scott-2.jpg "scott-2.jpg")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="scott-2.jpg" title="Scott \#2" />
 
 Photos: A. Jesse Jiryu Davis
 

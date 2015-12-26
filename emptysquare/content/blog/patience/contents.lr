@@ -20,7 +20,7 @@ summary:
 ---
 body:
 
-![Rocks](/blog/media/2012/05/Rocks.jpg "Rocks.jpg")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="Rocks.jpg" title="Rocks" />
 
 This is my second homework for Path of Practice. Last month [I wrote
 about generosity](/blog/generosity/), this month it's about ksh&#257;nti, or
@@ -96,5 +96,5 @@ talk&mdash;go mostly unmentioned. And if Grandma can live patiently through a
 day stripped of everything that makes it worth living, I can cheerfully
 walk her around the garden before I go home.
 
-![Grandma](/blog/media/2012/05/grandma.jpg "grandma.jpg")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="grandma.jpg" title="Grandma" />
 

@@ -20,7 +20,7 @@ summary: Photo: A. Jesse Jiryu Davis I'm back in NYC tonight. I spent a few days
 ---
 body:
 
-![Winter Ango](/blog/media/2011/12/winter-ango.jpg "winter-ango.jpg")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="winter-ango.jpg" title="Winter Ango" />
 
 Photo: A. Jesse Jiryu Davis
 

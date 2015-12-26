@@ -22,6 +22,9 @@ imgs = re.compile(r'<img(?P<pre>\s.*?)src="/blog/media/'
                   r'(?P<path>(.*?)(/|%2F)(?P<name>[^"/]+))"'
                   r'(?P<post>.*?)/?>')
 
+md_imgs = re.compile(r'!\[(?P<title>.*?)]\(/blog/media/'
+                     r'(?P<path>([^)]+)(/|%2F)(?P<name>[^(]+?))(\s+"(.*?)")?\)')
+
 
 def replace_img(post_dir, match):
     path = match.group('path')
@@ -35,6 +38,20 @@ def replace_img(post_dir, match):
     return match.expand(r'<img\g<pre>src="\g<name>"\g<post>/>')
 
 
+def replace_md_img(post_dir, match):
+    title = match.group('title')
+    path = match.group('path')
+    name = match.group('name')
+
+    # I once quoted a few paths by accident with Motor-Blog.
+    gridout = gfs.get_last_version(urllib.unquote(path))
+    with open(os.path.join(post_dir, name), 'wb') as f:
+        f.write(gridout.read())
+
+    return ('<img style="display:block; margin-left:auto; margin-right:auto;" '
+            'src="{name}" title="{title}" />').format(**locals())
+
+
 def render_post(p, post_dir, f):
     print(p['title'])
 
@@ -43,7 +60,10 @@ def render_post(p, post_dir, f):
         c['name'] for c in p.get('categories', []))
     p['summary'] = p.get('meta_description', p['summary'])
     p['original'] = urls.sub('/', p['original'])
-    p['original'] = imgs.sub(partial(replace_img, post_dir), p['original'])
+    p['original'] = imgs.sub(partial(replace_img, post_dir),
+                             p['original'])
+    p['original'] = md_imgs.sub(partial(replace_md_img, post_dir),
+                                p['original'])
 
     f.write(u'''_model: blog-post
 ---

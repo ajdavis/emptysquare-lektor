@@ -20,7 +20,7 @@ summary: When I joined 10gen they gave me a MacBook Pro with an SSD drive. This 
 ---
 body:
 
-![Vagrant](/blog/media/2012/05/hippie.png "hippie.png")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="hippie.png" title="Vagrant" />
 
 When I joined 10gen they gave me a MacBook Pro with an SSD drive. This
 is wonderful, mainly because it loads StarCraft II really fast. An SSD

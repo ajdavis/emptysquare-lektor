@@ -21,7 +21,7 @@ summary: Photo: Tim Green I'm a fan of Tornado, one of the major async web frame
 ---
 body:
 
-![Time was, time is](/blog/media/2011/12/sundial.jpg "sundial.jpg")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="sundial.jpg" title="Time was, time is" />
 
 [Photo: Tim Green](http://www.flickr.com/photos/atoach/3945656686/)
 

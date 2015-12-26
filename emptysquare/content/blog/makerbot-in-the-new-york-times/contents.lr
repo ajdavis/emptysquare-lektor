@@ -20,7 +20,7 @@ summary: My friend and old Wireless Generation colleague Adam Mayer's 3D-printer
 ---
 body:
 
-![Makerbot](/blog/media/2011/11/makerbot1.jpg "makerbot.jpg")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="makerbot1.jpg" title="Makerbot" />
 
 My friend and old Wireless Generation colleague [Adam Mayer's 3D-printer
 startup](http://www.makerbot.com/) is [featured in the New York

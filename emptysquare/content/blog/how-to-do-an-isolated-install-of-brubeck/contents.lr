@@ -23,7 +23,7 @@ summary: I wanted to install James Dennis's Brubeck web framework, but lately I'
 ---
 body:
 
-![Brubeck](/blog/media/2012/01/brubeck.png "brubeck.png")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="brubeck.png" title="Brubeck" />
 
 I wanted to install James Dennis's [Brubeck](http://brubeck.io/) web
 framework, but lately I've become fanatical about installing nothing,

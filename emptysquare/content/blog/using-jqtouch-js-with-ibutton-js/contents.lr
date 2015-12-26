@@ -32,7 +32,7 @@ ask about IE.) By default, it renders HTML like this:
 
 ... as toggle switches, like this:
 
-![](/blog/media/2011/10/Screen-shot-2011-10-25-at-11.48.18-PM.png "jQTouch toggle control")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="Screen-shot-2011-10-25-at-11.48.18-PM.png" title="" />
 
 &nbsp;Another library,
 [iButton.js](www.givainc.com/labs/ibutton_jquery_plugin.htm), provides
@@ -41,7 +41,7 @@ you can easily togglify your checkboxes at runtime, dragging laterally
 across the control with your mouse or fingertip works as expected, and
 frankly it makes prettier toggles:
 
-![](/blog/media/2011/10/Screen-shot-2011-10-25-at-11.51.51-PM.png "iButton toggle switch")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="Screen-shot-2011-10-25-at-11.51.51-PM.png" title="" />
 
 So you might be motivated to combine jQTouch with iButton.js. It should
 be simple&nbsp;&mdash; just remove all the \<span class="toggle"\> tags and run
@@ -73,7 +73,7 @@ toggle-control HTML, and then it measures the width of the HTML it
 created so it knows how far to slide the toggle control when a user
 clicks on it.
 
-![](/blog/media/2011/10/how_wide.png "How wide?")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="how_wide.png" title="" />
 
 Alas, it's impossible to measure the width of a hidden element. First
 jQTouch hides all but the current div, then iButton tries to initialize

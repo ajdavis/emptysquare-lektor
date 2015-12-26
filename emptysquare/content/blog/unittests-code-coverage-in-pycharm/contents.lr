@@ -43,11 +43,11 @@ are all in the tests/ directory, as they ought to be, so in PyCharm you
 can simply open the Project pane and right-click the tests/ directory
 and choose "Run with Coverage":
 
-![Run tests](/blog/media/2011/11/run-tests.png "run-tests.png")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="run-tests.png" title="Run tests" />
 
 PyCharm will show you your tests' outcomes in a nice tree diagram:
 
-![Test Results](/blog/media/2011/11/test-results.png "test-results.png")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="test-results.png" title="Test Results" />
 
 It also displays which lines were exercised by your unittests, and which
 were not, in two places. First, in your source files themselves, by

@@ -1,0 +1,3 @@
+_model: redirect
+---
+target: /blog/libbson-and-libmongoc-1-1-5

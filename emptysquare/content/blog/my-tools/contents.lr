@@ -28,7 +28,7 @@ of my time in:
 PyCharm
 -------
 
-![](/blog/media/2011/10/Screen-shot-2011-10-28-at-12.12.23-AM.png "PyCharm")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="Screen-shot-2011-10-28-at-12.12.23-AM.png" title="" />
 
 PyCharm takes a solid minute to start up, but saves me hours when I'm
 writing Python. Its interactive debugger is fast and solid (far better
@@ -48,7 +48,7 @@ features I've yet to try.
 Git Tower
 ---------
 
-![](/blog/media/2011/10/Screen-shot-2011-10-28-at-12.12.02-AM.png "Git Tower")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="Screen-shot-2011-10-28-at-12.12.02-AM.png" title="" />
 
 [Dan Crosta says to never use git
 GUIs](http://late.am/post/2011/09/27/never-use-source-control-guis "Never Use Source Control GUIs"),
