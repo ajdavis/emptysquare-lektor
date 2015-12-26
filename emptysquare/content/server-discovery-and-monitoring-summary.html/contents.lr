@@ -1,0 +1,3 @@
+_model: redirect
+---
+target: https://github.com/mongodb/specifications/tree/master/source/server-discovery-and-monitoring
