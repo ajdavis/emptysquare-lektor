@@ -22,7 +22,7 @@ summary: A fix for hidden secondaries, and an improvement to the build system.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/12/Great_Sea-Dragons.jpg" alt="Great Sea Dragons" title="Great Sea Dragons" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="Great_Sea-Dragons.jpg" alt="Great Sea Dragons" title="Great Sea Dragons" />
 
 This morning I released version 1.2.2 of libbson and libmongoc, the libraries that compose the MongoDB C Driver.
 

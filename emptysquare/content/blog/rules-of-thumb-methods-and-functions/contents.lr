@@ -21,7 +21,7 @@ summary: How I stay sane when designing an object-oriented architecture.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/06/le-pouce.jpg" alt="Le Pouce, sculpture in Paris" title="Le Pouce, sculpture in Paris" />[<span style="color:gray">[Source]</span>](https://www.flickr.com/photos/paveita/3195664073/)
+<img style="display:block; margin-left:auto; margin-right:auto;" src="le-pouce.jpg" alt="Le Pouce, sculpture in Paris" title="Le Pouce, sculpture in Paris" />[<span style="color:gray">[Source]</span>](https://www.flickr.com/photos/paveita/3195664073/)
 
 The Python team at MongoDB is partially rewriting [PyMongo](https://pypi.python.org/pypi/pymongo/). The next version, 3.0,
 aims to be faster, more flexible, and more maintainable than the current 2.x series.

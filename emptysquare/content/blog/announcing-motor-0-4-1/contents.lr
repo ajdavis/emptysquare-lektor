@@ -23,7 +23,7 @@ summary: One critical bugfix.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
 
 I received an [extraordinarily helpful bug report](https://jira.mongodb.org/browse/MOTOR-66) yesterday from Brent Miller, who showed me that Motor's replica set client hangs if it tries two operations at once, *while* it is setting up its initial connection. He sent a script that not only reproduces the hang, but diagnoses it, too, by regularly dumping all threads' stacks to a file.
 

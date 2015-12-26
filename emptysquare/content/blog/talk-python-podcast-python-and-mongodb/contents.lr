@@ -26,7 +26,7 @@ body:
 
 I was honored to be [Michael Kennedy's guest for the second episode of his new podcast](http://www.talkpythontome.com/episodes/show/2/python-and-mongodb). We talked about my career as a Python programmer and how I came to work for MongoDB. We discussed [PyMongo](http://api.mongodb.org/python/current/), [Motor](http://motor.readthedocs.org/), and [Monary](https://bitbucket.org/djcbeach/monary/wiki/Home).
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/04/talk-python-to-me.png" alt="Talk Python To Me, Episode 2" title="Talk Python To Me, Episode 2" />
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="talk-python-to-me.png" alt="Talk Python To Me, Episode 2" title="Talk Python To Me, Episode 2" />
 ](http://www.talkpythontome.com/episodes/show/2/python-and-mongodb)
 
 You should subscribe to [Michael's podcast](https://itunes.apple.com/us/podcast/talk-python-to-me-python-conversations/id979020229). His conversation with Nicola Iarocci in the previous episode was great, too, and the upcoming interviews promise to be informative.

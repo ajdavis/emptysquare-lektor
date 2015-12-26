@@ -23,7 +23,7 @@ summary: Asynchronous Python is more flexible than blocking code, but you need t
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/06/tornado-noaa.jpg" alt="Tornado" title="Tornado" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="tornado-noaa.jpg" alt="Tornado" title="Tornado" />
 [<span style="color:gray">[Source]</span>](http://es.wikipedia.org/wiki/Flujo_ciclostr%C3%B3fico#mediaviewer/Archivo:Tornado0_-_NOAA.jpg)
 
 Sometimes writing callback-style asynchronous code with <a href="http://www.tornadoweb.org/">Tornado</a> is a pain. But the real hurt comes when you want to refactor your async code into reusable subroutines. Tornado's <a href="http://www.tornadoweb.org/en/stable/gen.html#tornado.gen.coroutine">coroutines</a> make refactoring easy. I'll explain the rules.

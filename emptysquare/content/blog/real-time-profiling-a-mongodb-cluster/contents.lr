@@ -21,7 +21,7 @@ summary: Let's experiment with queries and commands in a sharded cluster. We'll 
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/06/blue-shards.jpg" alt="Blue shards" title="Blue shards" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="blue-shards.jpg" alt="Blue shards" title="Blue shards" border="0"   />
 <span style="color: gray; font-style: italic">[[Source]](http://www.flickr.com/photos/cybasheep/41105405/)</span>
 
 In a sharded cluster of replica sets, which server or servers handle each of your queries? What about each insert, update, or command? If you know how a MongoDB cluster routes operations among its servers, you can predict how your application will scale as you add shards and add members to shards.

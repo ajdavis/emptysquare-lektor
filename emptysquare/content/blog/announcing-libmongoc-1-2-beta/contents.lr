@@ -22,7 +22,7 @@ summary: A rewritten mongoc_client_t with parallel server discovery, plus many f
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/08/sea-splash.jpg" alt="Sea splash" title="Sea splash" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="sea-splash.jpg" alt="Sea splash" title="Sea splash" />
 
 This is the highlight of my summer: I just released 1.2.0-beta of libmongoc, the C driver for MongoDB. You can download the tarball here:
 

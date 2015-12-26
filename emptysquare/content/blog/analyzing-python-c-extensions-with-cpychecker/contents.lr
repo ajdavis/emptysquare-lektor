@@ -69,7 +69,7 @@ $ CC=~/gcc-python-plugin/gcc-with-cpychecker python setup.py build
 ```
 CPyChecker spits its output into the terminal, but it's barely intelligible. The good stuff is in the HTML file it places in `build/temp.linux-x86_64-2.7`:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/08/cpychecker-leaky.png" alt="CPyChecker: leaky()" title="CPyChecker: leaky()" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="cpychecker-leaky.png" alt="CPyChecker: leaky()" title="CPyChecker: leaky()" />
 
 CPyChecker points out that "ob_refcnt of return value is 1 too high" when `PyString_FromString` succeeds.
 
@@ -117,7 +117,7 @@ static PyObject* randerr(PyObject* self, PyObject* args) {
 ```
 It warns about the consequences of taking the false path:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/08/cpychecker-randerr.png" alt="CPyChecker: randerr()" title="CPyChecker: randerr()" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="cpychecker-randerr.png" alt="CPyChecker: randerr()" title="CPyChecker: randerr()" />
 
 Indeed, this code throws a `SystemError` when it returns `NULL`:
 
@@ -170,7 +170,7 @@ Exception: error
 ```
 But CPyChecker only analyzes code paths through a single function at a time, so it wrongly criticizes `caller` for omitting the exception:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/08/cpychecker-caller.png" alt="CPyChecker: caller()" title="CPyChecker: caller()" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="cpychecker-caller.png" alt="CPyChecker: caller()" title="CPyChecker: caller()" />
 
 The C extensions I help maintain&mdash;those for PyMongo&mdash;use this pattern in a few places, so we have persistent false positives. If CPyChecker grows up into an adult tool like Coverity that's used in CI systems, it will either need to do inter-function analysis, or have [a way of marking particular warnings as false positives](https://fedorahosted.org/gcc-python-plugin/ticket/17).
 

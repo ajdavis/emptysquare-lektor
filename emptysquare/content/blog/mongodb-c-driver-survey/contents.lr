@@ -22,7 +22,7 @@ summary: If you use MongoDB from a C application, what features do you care abou
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/10/8607366285_ef0860f689_o.jpg" alt="Sea" title="Sea" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="8607366285_ef0860f689_o.jpg" alt="Sea" title="Sea" />
 
 If you use libbson and libmongoc, I could use your help: tell me what features you care about most. Do you use the driver on ARM or PowerPC? Wish the manual had more examples? Are you on FreeBSD, Mac OS X, Windows? Do you want the driver to be easier to use from Swift or R?
 

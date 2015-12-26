@@ -20,7 +20,7 @@ summary: Links to further reading about my "Eventually Correct" talk about testi
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/04/toad-vs-birdo.jpg" alt="Toad vs Birdo" title="Toad vs Birdo" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="toad-vs-birdo.jpg" alt="Toad vs Birdo" title="Toad vs Birdo" />
 
 Links to further reading related to my talk "Eventually Correct: Testing Async Apps", about testing asynchronous Tornado code.
 

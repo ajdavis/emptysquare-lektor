@@ -23,7 +23,7 @@ summary:
 ---
 body:
 
-<img src="/blog/media/2012/09/motor-musho.png" alt="Motor" title="Motor" border="0"   />
+<img src="motor-musho.png" alt="Motor" title="Motor" border="0"   />
 
 This is another post about [Motor, my non-blocking driver for MongoDB and Tornado](/motor/).
 

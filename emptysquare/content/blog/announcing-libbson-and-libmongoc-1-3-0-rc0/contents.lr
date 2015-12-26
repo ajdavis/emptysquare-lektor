@@ -22,7 +22,7 @@ summary: A couple fixes and features since the 1.3.0 beta.
 ---
 body:
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/12/1951336700_4295b5ebb7_o.jpg" title="Sea, from Staten Island Ferry" />
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="1951336700_4295b5ebb7_o.jpg" title="Sea, from Staten Island Ferry" />
 ](https://www.flickr.com/photos/emptysquare/1951336700/)
 
 [The MongoDB C Driver beta I announced two weeks ago](/blog/announcing-libbson-and-libmongoc-1-3-0-beta0/) has ripened into a release candidate. Here is what's changed between 1.3.0-beta0 and today's release, 1.3.0-rc0.

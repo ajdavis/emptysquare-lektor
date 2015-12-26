@@ -21,7 +21,7 @@ summary: We took a reader's suggestion and updated the shell to match drivers' m
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/08/leaf-on-water.jpg" alt="Leaf on water" title="Leaf on water" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="leaf-on-water.jpg" alt="Leaf on water" title="Leaf on water" />
 
 We released the latest development version of MongoDB the other week. The [official announcement](http://blog.mongodb.org/post/127802855483/mongodb-317-is-released) focuses on bug fixes, but I'm much more excited about a new feature: the mongo shell includes the new CRUD API! In addition to the old `insert`, `update`, and `remove`, the shell now supports `insertMany`, `replaceOne`, and a variety of other new methods.
 

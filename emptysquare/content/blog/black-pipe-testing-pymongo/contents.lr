@@ -24,7 +24,7 @@ summary: The second "black pipe testing" article: testing PyMongo with MockupDB.
 ---
 body:
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/09/pipe.jpg" alt="Pipe" title="Pipe" />](https://www.flickr.com/photos/emptysquare/2227062653)
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="pipe.jpg" alt="Pipe" title="Pipe" />](https://www.flickr.com/photos/emptysquare/2227062653)
 
 This is the second article in [my six-part series on "black pipe" testing](/blog/black-pipe-testing-series/). PyMongo, the official Python client for MongoDB, is a great example of a connected application that can't be fully tested as a black box. It has *two* ends that take inputs and provide outputs: one is its public API, the methods `find` and `insert_one` and so on. But the other is its communication over the network with the MongoDB server. Only by treating it as a black pipe can we fully test its surfaces.
 

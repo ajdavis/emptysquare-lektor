@@ -22,7 +22,7 @@ summary: Bugfix release for PyMongo 2.8.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/05/vines.jpg" alt="Vines" title="Vines" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="vines.jpg" alt="Vines" title="Vines" />
 
 [PyMongo 2.8.1](https://pypi.python.org/pypi/pymongo/2.8.1) is a bugfix release that addresses issues discovered since PyMongo 2.8 was released, primarily related to authentication and metadata operations on replica sets. If you're on PyMongo 2.8 and not ready to update your code for the [new APIs and behaviors of the PyMongo 3.0 line](/blog/pymongo-3-beta/), please upgrade to PyMongo 2.8.1 promptly.
 

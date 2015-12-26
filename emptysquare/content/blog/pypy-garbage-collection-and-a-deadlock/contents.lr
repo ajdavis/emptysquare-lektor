@@ -22,7 +22,7 @@ summary: Yet another danger of __del__.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/04/ouroboros.jpg" alt="Ouroboros" title="Ouroboros" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="ouroboros.jpg" alt="Ouroboros" title="Ouroboros" />
 
 I fixed a deadlock in PyMongo 3 and PyPy which, rarely, could happen in PyMongo 2 as well. Diagnosing the deadlock was educational and teaches us a rule about writing ``__del__`` methods&mdash;yet another tip about what to expect when you're expiring.
 

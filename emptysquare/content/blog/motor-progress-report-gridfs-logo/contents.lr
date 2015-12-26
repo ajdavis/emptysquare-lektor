@@ -23,7 +23,7 @@ summary: Two big updates to Motor, my non-blocking driver for MongoDB and Tornad
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor" title="motor-musho.png" border="0"   />
 
 Two big updates to [Motor](/motor/), my non-blocking driver for MongoDB and Tornado.
 

@@ -22,7 +22,7 @@ summary: Urgent bugfix release of the MongoDB C library.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/06/sea-black-and-white-flight-sky.jpg" alt="Sea black and white flight sky" title="Sea black and white flight sky" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="sea-black-and-white-flight-sky.jpg" alt="Sea black and white flight sky" title="Sea black and white flight sky" />
 
 I'm releasing libmongoc with an urgent bugfix for a common crash in 1.1.8, which itself was introduced while I was fixing a rare crash in 1.1.7. For further details:
 

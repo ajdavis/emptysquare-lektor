@@ -23,7 +23,7 @@ summary: Fixes an incompatibility between Motor and the latest version of PyMong
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/09/motor-musho.png" alt="Motor" title="Motor" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor" title="Motor" border="0"   />
 
 Motor is my async driver for [Tornado](http://www.tornadoweb.org/) and [MongoDB](http://www.mongodb.org/). Version 0.1 has been out since early March and is having a successful career with no serious bugs reported so far. Unfortunately PyMongo, the blocking driver that Motor wraps, has changed a bit since then and Motor is no longer compatible with the latest PyMongo. If you did `pip install motor` you'd pull in Motor 0.1 and PyMongo 2.5.2, and see a failure when opening a `MotorReplicaSetClient`, like:
 

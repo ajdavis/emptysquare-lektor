@@ -23,7 +23,7 @@ summary: On Mac, multiprocessing plus multithreading can easily lead you to hang
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/12/spectacled-caiman.jpg" alt="Spectacled caiman and American pipesnake" title="Spectacled caiman and American pipesnake" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="spectacled-caiman.jpg" alt="Spectacled caiman and American pipesnake" title="Spectacled caiman and American pipesnake" />
 
 What happens if you run this code?:
 

@@ -23,7 +23,7 @@ summary:
 ---
 body:
 
-<img src="/blog/media/2012/09/motor-musho.png" alt="Motor" title="Motor" border="0"   />
+<img src="motor-musho.png" alt="Motor" title="Motor" border="0"   />
 
 Motor (yes, that's my non-blocking MongoDB driver for [Tornado](http://www.tornadoweb.org/)) has three methods for iterating a cursor: [`to_list`](/motor/pymongo/api/motor/motor_cursor.html#motor.MotorCursor.to_list), [`each`](/motor/pymongo/api/motor/motor_cursor.html#motor.MotorCursor.each), and [`next_object`](/motor/pymongo/api/motor/motor_cursor.html#motor.MotorCursor.next_object). I chose these three methods to match the [Node.js driver's methods](http://mongodb.github.com/node-mongodb-native/api-generated/cursor.html), but in Python they all have problems.
 

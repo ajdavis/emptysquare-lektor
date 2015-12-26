@@ -23,7 +23,7 @@ summary: The roadmap for asyncio support, plus "async" and "await" in Python 3.5
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
 
 I want to update you about [Motor](http://motor.readthedocs.org/en/stable/), my asynchronous Python driver for
 MongoDB and Tornado. Motor development has been on hiatus since January while I concentrated on my tasks for [PyMongo 3](/blog/announcing-pymongo-3/). After PyMongo 3, I took over as the lead for [libmongoc](http://api.mongodb.org/c/current/), the MongoDB C Driver, and most of my Python work ceased.

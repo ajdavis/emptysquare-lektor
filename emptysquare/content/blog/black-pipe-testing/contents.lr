@@ -24,7 +24,7 @@ summary: Traditional "black box" testing can't fully validate MongoDB clients an
 ---
 body:
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/09/lower-east-side-pipes.jpg" alt="Pipes" title="Pipes" />](https://www.flickr.com/photos/emptysquare/477797865)
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="lower-east-side-pipes.jpg" alt="Pipes" title="Pipes" />](https://www.flickr.com/photos/emptysquare/477797865)
 
 A "black box" test runs your code with some input and verifies its output,
 without peering at internal data. You toss something in and out pops the result, like toast.

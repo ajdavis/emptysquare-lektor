@@ -62,7 +62,7 @@ important to bound the duration of operations during a load spike than it is to 
 
 All this intricate work on the connection pool was generously contributed by [Justin Patrin](http://www.reversefold.com/blog/), a developer at Idle Games.
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/08/justin-patrin.jpg" alt="Justin Patrin" title="Justin Patrin" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="justin-patrin.jpg" alt="Justin Patrin" title="Justin Patrin" />
 
 With extraordinary patience Justin worked with us for a month to deal with our critiques and all the edge cases. Adding a feature to PyMongo's connection pool is maximally difficult. We support Python 2.4 through 3.3, PyPy, and Jython, plus Gevent, and each has very different behavior regarding concurrency, I/O, object lifetimes, and threadlocals. Our pool needs special code for each of them. Justin pounded through the bugs and made one of the best contributions PyMongo's received from an outside programmer.
 

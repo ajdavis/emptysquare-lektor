@@ -96,13 +96,13 @@ Since I joined 10gen in November last year, I'd been thinking there must be a be
 
 Asynchronizing PyMongo takes two steps. First, I wrap each PyMongo method and run it on a greenlet, like this:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/07/motor-collection.png" alt="MotorCollection" title="motor-collection.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="motor-collection.png" alt="MotorCollection" title="motor-collection.png" border="0"   />
 
 So when you call `collection.find_one(callback=found)`, Motor (1) grabs the callback argument and (2) starts a greenlet that (3) runs PyMongo's original `find_one`. That `find_one` sends a message to the server and calls `recv` on a socket to get the response.
 
 The second step is to pause the greenlet whenever it would block. I wrote a `MotorSocket` class which seems to PyMongo like a regular socket, but in fact it wraps a Tornado IOStream:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/07/motor-socket.png" alt="MotorSocket" title="motor-socket.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="motor-socket.png" alt="MotorSocket" title="motor-socket.png" border="0"   />
 
 `MotorSocket.recv` (4) starts reading the requested number of bytes and (5) pauses the caller's greenlet. At this point, (6) the original call to `find_one` returns. Because Motor's API is callback-based, its `find_one` returns `None`. The actual MongoDB document will be passed into the callback asynchronously.
 
@@ -112,7 +112,7 @@ Eventually, IOStream's `read_bytes` call completes and executes the callback, wh
 
 If you're a visual learner, here's the same sequence of events diagrammed:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/07/motor-internals.png" alt="Motor Internals" title="motor-internals.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="motor-internals.png" alt="Motor Internals" title="motor-internals.png" border="0"   />
 
 Sorry, it's the best diagram I can think of.
 

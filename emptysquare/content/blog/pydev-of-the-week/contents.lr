@@ -23,7 +23,7 @@ summary: Mike Driscoll profiles a Python developer each week, this week he featu
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/02/mouse-versus-python.jpg" alt="Mouse versus Python logo" title="Mouse versus Python logo" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="mouse-versus-python.jpg" alt="Mouse versus Python logo" title="Mouse versus Python logo" />
 
 On "Mouse versus Python", Mike Driscoll profiles a Python developer each week; this week he features me. In the interview I talk about my rocky college education and my first days with Stackless Python 2.3, and I claim you're wasting your life using vim.
 

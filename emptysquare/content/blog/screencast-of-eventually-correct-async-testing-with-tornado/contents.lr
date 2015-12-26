@@ -22,7 +22,7 @@ summary: In video form with closed captions, my talk about testing asynchronous 
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/04/toad-vs-birdo.jpg" alt="Toad vs Birdo" title="Toad vs Birdo" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="toad-vs-birdo.jpg" alt="Toad vs Birdo" title="Toad vs Birdo" />
 
 In preparation for [my PyCon talk today in Montr&eacute;al](https://us.pycon.org/2015/schedule/presentation/404/) I recorded and closed-captioned a screencast of it. This is a talk about testing asynchronous Python code with [Tornado](http://www.tornadoweb.org/). I also wrote [an article that covers this talk](/blog/eventually-correct-async-testing-tornado/), plus additional information about testing with coroutines.
 

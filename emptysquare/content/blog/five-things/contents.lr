@@ -20,7 +20,7 @@ summary: Scaling MongoDB is simpler than you think.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/01/king-tree.jpg" alt="King Tree" title="King Tree" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="king-tree.jpg" alt="King Tree" title="King Tree" />
 
 There are a lot of articles about neat hacks for scaling MongoDB, but neat hacks are rarely necessary. MongoDB is designed to scale. Most applications just need to get these five things right.
 

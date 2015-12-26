@@ -23,7 +23,7 @@ summary: Documentation improvements and many network-layer bugfixes.
 body:
 
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/09/crow-sea.jpg" alt="Crow, sea - by Mark Abercrombie" title="Crow, sea - by Mark Abercrombie" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="crow-sea.jpg" alt="Crow, sea - by Mark Abercrombie" title="Crow, sea - by Mark Abercrombie" />
 
 Today I released version 1.1.11 of libbson and libmongoc, the two libraries that constitute the MongoDB C Driver.
 

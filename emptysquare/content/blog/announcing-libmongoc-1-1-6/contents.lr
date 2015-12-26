@@ -22,7 +22,7 @@ summary: Major bugfixes, a performance enhancement, and two tiny little features
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/05/Hans_Egede_sea_serpent_1734.jpg" alt="Hans Egede sea serpent 1734" title="Hans Egede sea serpent 1734" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="Hans_Egede_sea_serpent_1734.jpg" alt="Hans Egede sea serpent 1734" title="Hans Egede sea serpent 1734" />
 
 I released libmongoc 1.1.6 today with some bugfixes and a major performance enhancement.
 

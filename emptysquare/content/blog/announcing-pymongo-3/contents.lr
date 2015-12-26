@@ -22,7 +22,7 @@ summary: This is a partial rewrite of the Python driver for MongoDB, our biggest
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/04/leaf.jpg" alt="Leaf" title="Leaf" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="leaf.jpg" alt="Leaf" title="Leaf" />
 
 PyMongo 3.0 is a partial rewrite of the Python driver for MongoDB. More than six years after the first release of the driver, this is the biggest release in PyMongo's history. Bernie Hackett, Luke Lovett, Anna Herlihy, and I are proud of its many improvements and eager for you to try it out. I will shoehorn the major improvements into four shoes: conformance, responsiveness, robustness, and modernity.
 

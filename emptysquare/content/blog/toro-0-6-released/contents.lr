@@ -21,7 +21,7 @@ summary: One minor bug fixed in Toro, my package of semaphores, locks, and queue
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/11/toro.png" alt="Toro" title="toro.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="toro.png" alt="Toro" title="toro.png" border="0"   />
 
 I've just released version 0.6 of Toro. Toro provides semaphores, queues, and so on, for advanced control flows with Tornado coroutines. Get it with "pip install --upgrade toro". Toro's [documentation, with plenty of examples, is on ReadTheDocs](https://toro.readthedocs.org/).
 

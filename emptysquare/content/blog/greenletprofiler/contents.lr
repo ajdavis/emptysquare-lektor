@@ -60,7 +60,7 @@ stats.output(open('cProfile.callgrind', 'w'))
 
 Let's pretend I'm a total idiot and I don't know why this program is slow. I profile it with cProfile, and convert its output with [lsprofcalltree](https://pypi.python.org/pypi/lsprofcalltree) so I can view the profile in KCacheGrind. cProfile is evidently confused: it thinks `bar` took twice as long as `foo`, although the opposite is true:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/01/cProfile-bar-vs-foo.png" alt="CProfile bar vs foo" title="CProfile bar vs foo" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="cProfile-bar-vs-foo.png" alt="CProfile bar vs foo" title="CProfile bar vs foo" />
 
 cProfile also fails to count the calls to `sleep`. I'm not sure why cProfile's befuddlement manifests this particular way. If you understand it, please explain it to me in the comments. But it's not surprising that cProfile doesn't understand my script: cProfile is built to trace a single thread, so it assumes that if one function is called, and then a second function is called, that the first must have called the second. Greenlets defeat this assumption because the call stack can change entirely between one function call and the next.
 
@@ -84,21 +84,21 @@ stats.save('yappi.callgrind', type='callgrind')
 
 Yappi thinks that when `foo` and `bar` call `gevent.sleep`, they indirectly call `Greenlet.run`, and eventually call themselves:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/01/yappi-call-graph.jpg" alt="Yappi call graph" title="Yappi call graph" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="yappi-call-graph.jpg" alt="Yappi call graph" title="Yappi call graph" />
 
 This is true in some philosophical sense. When my greenlets sleep, they indirectly cause each other to be scheduled by the Gevent hub. But it's wrong to say they actually call themselves recursively, and it confuses Yappi's cost measurements: Yappi attributes most of the CPU cost of the program to Gevent's internal `Waiter.get` function. Yappi also, for some reason, thinks that `sleep` is called only once each by `foo` and `bar`, though it knows it was called 30 times in total.
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/01/yappi-costs.png" alt="Yappi costs" title="Yappi costs" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="yappi-costs.png" alt="Yappi costs" title="Yappi costs" />
 
 # GreenletProfiler Groks Greenlets
 
 Since Yappi is so great for multithreaded programs, I used it as my starting point for GreenletProfiler. Yappi's core tracing code is in C, for speed. The C code has a notion of a "context" which is associated with each thread. I added a hook to Yappi that lets me associate contexts with greenlets instead of threads. And voil&agrave;, the profiler understands my script! `foo` and `bar` are correctly measured as two-thirds and one-third of the script's total cost:
  
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/01/GreenletProfiler-costs.png" alt="GreenletProfiler costs" title="GreenletProfiler costs" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="GreenletProfiler-costs.png" alt="GreenletProfiler costs" title="GreenletProfiler costs" />
 
 Unlike Yappi, GreenletProfiler also knows that `foo` calls `sleep` 20 times and `bar` calls `sleep` 10 times:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/01/GreenletProfiler-call-graph.png" alt="GreenletProfiler call graph" title="GreenletProfiler call graph" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="GreenletProfiler-call-graph.png" alt="GreenletProfiler call graph" title="GreenletProfiler call graph" />
 
 Finally, I know which functions to optimize because I have an accurate view of how my script executes.
 

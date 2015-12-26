@@ -23,7 +23,7 @@ summary: Not a fun read, but it tackles a tough job and fulfills its duty with h
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/05/autotools-calcote.png" alt="Autotools calcote" title="Autotools calcote" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="autotools-calcote.png" alt="Autotools calcote" title="Autotools calcote" />
 
 My colleague [Amalia Hawkins](https://twitter.com/starsseldomseen) and I are choosing interns for our project this summer: a new Lua driver for MongoDB. Looking over their resumes I have to chuckle. Kid, you're 20 years old, you're not proficient in C, C++, Java, Javascript, and PHP. Maybe you did some homework in a language and you know some syntax, but it does not make you "proficient." I am proficient in one language: Python. It took me a decade.
 
@@ -41,7 +41,7 @@ We get off to a bumpy start, however. Calcote must begin by listing the parts of
 
 It only gets more disheartening when we come to the data-flow diagrams:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/05/data-flow.png" alt="Data flow" title="Data flow" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="data-flow.png" alt="Data flow" title="Data flow" />
 
 Data can flow in so many directions among the Autotools that the diagrams, although we desperately want them, are almost meaningless: every file depends on all the others, it seems, and the scripts all call each other. The system is so complex you need to read much of the book before the diagrams in Chapter One can make sense. Indeed, I have read the whole book, then reread the first chapter, and I still do not understand it. But the round trip brings a *bit* more clarity, and more hope.
 

@@ -21,7 +21,7 @@ summary: I merged Toro, my library for coordinating asynchronous coroutines, int
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/11/toro.png" alt="Toro" title="toro.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="toro.png" alt="Toro" title="toro.png" border="0"   />
 
 On Tuesday, Ben Darnell released Tornado 4.2, with two new modules: [tornado.locks](http://www.tornadoweb.org/en/stable/locks.html) and [tornado.queues](http://www.tornadoweb.org/en/stable/queues.html). These new modules help you coordinate Tornado's asynchronous coroutines with patterns familiar from multi-threaded programming.
 

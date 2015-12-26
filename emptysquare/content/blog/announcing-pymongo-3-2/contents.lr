@@ -22,7 +22,7 @@ summary: Supports all the new MongoDB 3.2 features.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/12/tree-boa.jpg" alt="Emerald Tree Boa" title="Emerald Tree Boa" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="tree-boa.jpg" alt="Emerald Tree Boa" title="Emerald Tree Boa" />
 
 Our Python team released PyMongo 3.2 today. This time I wasn't involved at all; Bernie Hackett, Anna Herlihy, and Luke Lovett developed this version, with a contribution from Felix Yan.
 

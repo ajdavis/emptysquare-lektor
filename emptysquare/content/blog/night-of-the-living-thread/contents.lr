@@ -33,7 +33,7 @@ if os.fork() == 0:
 ```
 In Unix, only the thread that calls `fork()` is copied to the child process; all other threads are dead. So `t.isAlive()` in the child process should always return False. But *sometimes*, it returns True! It's the....
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/10/night-of-the-living-thread.jpg" alt="Night of the Living Thread" title="Night of the Living Thread" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="night-of-the-living-thread.jpg" alt="Night of the Living Thread" title="Night of the Living Thread" />
 
 How did I discover this horrifying zombie thread? A project I work on, PyMongo, uses a background thread to monitor the state of the database server. If a user initializes PyMongo and then forks, the monitor is absent in the child. PyMongo should notice that the monitor thread's `isAlive` is False, and raise an error:
 
@@ -90,7 +90,7 @@ def _after_fork():
 ```
 This function iterates all the Thread objects in a global dict called `_active`; each is removed and marked as "stopped", except for the current thread. How could this go wrong?
 
-<img style="display:block; margin-left:auto; margin-right:auto; border:1px solid black" src="/blog/media/2013/10/night_of_the_living_dead_3.jpg" alt="Night of the living dead" title="Night of the living dead" />
+<img style="display:block; margin-left:auto; margin-right:auto; border:1px solid black" src="night_of_the_living_dead_3.jpg" alt="Night of the living dead" title="Night of the living dead" />
 
 Well, consider how a thread starts:
 
@@ -112,7 +112,7 @@ class Thread(object):
 
 Do you see the bug now? Perhaps the thread was [reanimated by space rays from Venus](http://en.wikipedia.org/wiki/Night_of_the_living_dead#Plot_summary) and craves the flesh of the living!
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/10/night_of_the_living_dead_4.jpg" alt="Night of the living dead 4" title="Night of the living dead 4" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="night_of_the_living_dead_4.jpg" alt="Night of the living dead 4" title="Night of the living dead 4" />
 
 Or perhaps there's a race condition:
 
@@ -161,4 +161,4 @@ This fix will be included in the next Python 2.7 and 3.3 releases. The zombie th
 
 (Now read the sequels: [Dawn of the Thread](/blog/dawn-of-the-thread/), in which I battle zombie threads in the abandoned tunnels of Python 2.6; and [Day of the Thread](/blog/day-of-the-thread/), a post-apocalyptic thriller in which a lone human survivor tries to get a patch accepted via bugs.python.org.)
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/10/bloodthirsty-lust.jpg" alt="They keep coming back in a bloodthirsty lust for human flesh!" title="They keep coming back in a bloodthirsty lust for human flesh!" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="bloodthirsty-lust.jpg" alt="They keep coming back in a bloodthirsty lust for human flesh!" title="They keep coming back in a bloodthirsty lust for human flesh!" />

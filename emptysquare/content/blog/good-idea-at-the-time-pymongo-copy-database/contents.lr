@@ -23,7 +23,7 @@ summary: Third in a four-part series about choices we regretted in the design of
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/11/road-3.jpg" alt="Road" title="Road" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="road-3.jpg" alt="Road" title="Road" />
 
 *The road to hell is paved with good intentions.*
 
@@ -77,21 +77,21 @@ In the beginning, MongoDB had [a "copydb" command](http://docs.mongodb.org/manua
 
 The initial protocol was simple. The client told MongoDB the source and target database names, and MongoDB made a copy:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/11/copydb.png" alt="copydb" title="copydb" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="copydb.png" alt="copydb" title="copydb" />
 
 You could give the target server a "fromhost" option and it would clone from a remote server, similar to how a replica set member does an initial sync:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/12/copydb-fromhost.png" alt="copydb fromhost" title="copydb fromhost" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="copydb-fromhost.png" alt="copydb fromhost" title="copydb fromhost" />
 
 This is a really useful feature for sysadmins who occasionally copy a database using the mongo shell, but of course it's not a likely use case for application developers. So the [mongo shell has a "db.copyDatabase" helper function](http://docs.mongodb.org/manual/reference/method/db.copyDatabase/), but at the time none of our drivers did.
 
 A year later, in January 2010, a user [wanted to do "copydb" from a remote server with authentication](https://jira.mongodb.org/browse/SERVER-579). Aaron Staple came up with a secure protocol: as long as the client knows the password for the source server, it can instruct the target server to authenticate, without revealing its password to the target server. The client tells the target to call "getnonce" on the source, and the source responds with a [nonce](https://en.wikipedia.org/wiki/Cryptographic_nonce), which the target forwards to the client:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/12/copydbgetnonce.png" alt="copydbgetnonce" title="copydbgetnonce" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="copydbgetnonce.png" alt="copydbgetnonce" title="copydbgetnonce" />
 
 Then the client hashes its password with the nonce, and gives the hashed password back to the target server, allowing the target to authenticate against the source *once*:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/12/copydb-auth.png" alt="copydb with auth" title="copydb with auth" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="copydb-auth.png" alt="copydb with auth" title="copydb with auth" />
 
 There's one important detail (imagine foreboding music now): "copydbgetnonce" and "copydb" must be sent on the same socket. This will be important later.
 
@@ -127,7 +127,7 @@ The breaking point for the PyMongo team came this fall, when MongoDB 2.8 introdu
 
 Our senior security engineer Andreas Nilsson devised a new protocol for copydb with SCRAM-SHA-1, using a SASL conversation. It's more complex than the old protocol:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/12/copydbsaslstart.png" alt="copydbsaslstart" title="copydbsaslstart" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="copydbsaslstart.png" alt="copydbsaslstart" title="copydbsaslstart" />
 
 This accomplishes the same goal as the old copydbgetnonce protocol: it allows the target server to log in to the source server *once*, without the client revealing its password to either server. But instead of two round trips, three are now required. Andreas added the new protocol to the mongo shell. Bernie had already implemented [PyMongo's support for authentication with SCRAM-SHA-1](/blog/pymongo-2-8-rc0/#scram-sha-1-authentication), and he asked me to add it to our "copy_database" helper, too.
 

@@ -22,7 +22,7 @@ summary: Event-loop management, error handling, and coroutines as unittests.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/04/toad-vs-birdo.jpg" alt="Toad vs Birdo" title="Toad vs Birdo" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="toad-vs-birdo.jpg" alt="Toad vs Birdo" title="Toad vs Birdo" />
 
 Async frameworks like Tornado scramble our usual unittest strategies: how can you validate the outcome when you do not know when to expect it? Tornado ships with a `tornado.testing` module that provides two solutions: the `wait` / `stop` pattern, and `gen_test`.
 

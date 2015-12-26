@@ -23,7 +23,7 @@ summary: My async MongoDB driver Motor now passes its test suite running in PyPy
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/08/pypy-logo.png" alt="PyPy Logo" title="pypy-logo.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="pypy-logo.png" alt="PyPy Logo" title="pypy-logo.png" border="0"   />
 
 My async MongoDB driver <a href="/motor/">Motor</a> now passes its test suite running in PyPy 1.9. To celebrate, I've switched my blog from CPython to PyPy!
 

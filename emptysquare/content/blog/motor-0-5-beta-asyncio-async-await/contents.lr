@@ -23,7 +23,7 @@ summary: My async driver for MongoDB now supports asyncio, and allows "async" an
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
 
 Today is a good day: I've published a beta of [Motor](http://motor.readthedocs.org/en/stable/), my async Python driver for MongoDB. This version is the biggest upgrade yet. Help me beta-test it! Install with:
 

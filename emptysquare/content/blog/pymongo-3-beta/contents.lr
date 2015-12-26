@@ -22,7 +22,7 @@ summary: PyMongo 3.0 is conformant, responsive, robust, and modern. Try it!: pip
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/03/adder.png" alt="Adder" title="Adder" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="adder.png" alt="Adder" title="Adder" />
 
 You have no idea how it thrills me to tell you this. We have just shipped PyMongo 3.0 Beta. You need to [read the changelog](http://api.mongodb.org/python/3.0b0/changelog.html) and install it in your dev environment now:
 

@@ -22,7 +22,7 @@ summary: Try it out: "pip install https://github.com/mongodb/mongo-python-driver
 ---
 body:
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/02/Green_leaf_leaves.jpg" alt="Leaf" title="Leaf" />](http://commons.wikimedia.org/wiki/File:Green_leaf_leaves.jpg)
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="Green_leaf_leaves.jpg" alt="Leaf" title="Leaf" />](http://commons.wikimedia.org/wiki/File:Green_leaf_leaves.jpg)
 
 Yesterday afternoon Bernie Hackett and I shipped a release candidate for PyMongo 2.7, with substantial contributions from Amalia Hawkins and Kyle Erf. This version supports new features in the upcoming MongoDB 2.6, and includes major internal improvements in the driver code. We rarely make RCs before releases, but given the scope of changes it seems wise.
 

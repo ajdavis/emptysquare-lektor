@@ -22,7 +22,7 @@ summary: Bugfix releases for the MongoDB C libraries.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/05/SeaSmoke.jpg" alt="Sea Smoke" title="Sea Smoke" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="SeaSmoke.jpg" alt="Sea Smoke" title="Sea Smoke" />
 
 I've released versions 1.1.5 today of libbson and libmongoc.
 

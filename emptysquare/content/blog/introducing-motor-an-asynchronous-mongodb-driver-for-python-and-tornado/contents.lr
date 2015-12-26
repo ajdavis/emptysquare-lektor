@@ -23,7 +23,7 @@ summary:
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/07/dampfmaschinen2-brockhaus.jpg" alt="Dampfmaschinen2 brockhaus" title="Dampfmaschinen2_brockhaus.jpg" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="dampfmaschinen2-brockhaus.jpg" alt="Dampfmaschinen2 brockhaus" title="Dampfmaschinen2_brockhaus.jpg" border="0"   />
 
 Tornado is a popular asynchronous Python web server, and MongoDB a widely used non-relational database. Alas, to connect to MongoDB from a Tornado app requires a tradeoff: You can either use <a href="http://pypi.python.org/pypi/pymongo/">PyMongo</a> and give up the advantages of an async web server, or use <a href="http://pypi.python.org/pypi/asyncmongo/1.2.1">AsyncMongo</a>, which is non-blocking but lacks key features.
 

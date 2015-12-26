@@ -23,7 +23,7 @@ summary: Some thoughts on Mike Bayer's excellent article about asyncio, database
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/03/tulips.png" alt="Tulips" title="Tulips" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="tulips.png" alt="Tulips" title="Tulips" />
 
 In his excellent article a few weeks ago, ["Asynchronous Python and Databases"](http://techspot.zzzeek.org/2015/02/15/asynchronous-python-and-databases/), SQLAlchemy's author Mike Bayer writes:
 

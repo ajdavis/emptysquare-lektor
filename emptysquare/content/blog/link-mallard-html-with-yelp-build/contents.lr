@@ -21,7 +21,7 @@ summary: How to link from pages of one Mallard document to another.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/10/Mallard_Ducks_Drawing.jpg" alt="Mallard Ducks - John James Audubon" title="Mallard Ducks - John James Audubon" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="Mallard_Ducks_Drawing.jpg" alt="Mallard Ducks - John James Audubon" title="Mallard Ducks - John James Audubon" />
 
 From its start, the MongoDB C Driver has been split into two projects: libbson and libmongoc. Each has its own reference manual, each comprising hundreds of pages, written in the [Mallard XML format](http://projectmallard.org/). We use [yelp-build](https://github.com/GNOME/yelp-tools) to convert the Mallard to HTML and put it online. For example, here's the reference page for libmongoc's `mongoc_collection_find`:
 

@@ -22,7 +22,7 @@ summary: A mysterious deadlock with PyMongo and Gevent.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/01/Green_caterpillar.jpg" alt="Green caterpillar" title="Green caterpillar" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="Green_caterpillar.jpg" alt="Green caterpillar" title="Green caterpillar" />
 
 <span style="color:gray">[Source: Andrew Magill](http://commons.wikimedia.org/wiki/File:Green_caterpillar_(1).jpg)</span>
 

@@ -21,7 +21,7 @@ summary: Fixes a few critical bugs discovered in PyMongo 3.0.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/04/pymongo-301-leaf.jpg" alt="Leaf" title="Leaf" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="pymongo-301-leaf.jpg" alt="Leaf" title="Leaf" />
 
 It's my pleasure to announce the release of [PyMongo 3.0.1](https://pypi.python.org/pypi/pymongo/), a bugfix release that addresses issues discovered since PyMongo 3.0 was released a couple weeks ago. The main bugs were related to queries and cursors in complex sharding setups, but there was an unintentional change to the return value of `save`, GridFS file-deletion didn't work properly, passing a hint with a count didn't always work, and there were some obscure bugs and undocumented features.
 

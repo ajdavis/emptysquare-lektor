@@ -23,7 +23,7 @@ summary: How to find the best multicolumn index for a complex query.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/09/beinecke-library.jpg" alt="Beinecke Library, Yale University, 1963" title="Beinecke Library, Yale University, 1963" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="beinecke-library.jpg" alt="Beinecke Library, Yale University, 1963" title="Beinecke Library, Yale University, 1963" border="0"   />
 
 [*Courtesy The Beinecke Library*](http://commons.wikimedia.org/wiki/File:1960s_Yale_5062811384_card_catalog.jpg)
 
@@ -105,7 +105,7 @@ The `explain()` output is now:
 
 Now the cursor type is "BtreeCursor" plus the name of the index I made. "nscanned" fell from 4 to 3, because Mongo used an index to go directly to the documents it needed, skipping the one whose timestamp is out of range.
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/10/range.png" alt="Range" title="range.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="range.png" alt="Range" title="range.png" border="0"   />
 
 For indexed queries, nscanned is the number of *index keys* in the range that Mongo scanned, and nscannedObjects is the number of *documents* it looked at to get to the final result. nscannedObjects includes at least all the documents returned, even if Mongo could tell just by looking at the index that the document was definitely a match. Thus, you can see that nscanned >= nscannedObjects >= n always. For simple queries you want the three numbers to be equal. It means you've created the ideal index and Mongo is using it.
 
@@ -129,7 +129,7 @@ When would nscanned be greater than n? It's when Mongo had to examine some index
 
 Although n has fallen to 2, nscanned and nscannedObjects are still 3. Mongo scanned the timestamp index from 2 to 4, which includes both the signed comments and the cowardly one, and it couldn't filter out the latter until it had examined the document itself.
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/10/eq-range-1.png" alt="Equality Check and Range Query 1" title="eq-range-1.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="eq-range-1.png" alt="Equality Check and Range Query 1" title="eq-range-1.png" border="0"   />
 
 How do I get my ideal query plan back, where nscanned = nscannedObjects = n? I could try a compound index on timestamp and anonymous:
 
@@ -149,7 +149,7 @@ How do I get my ideal query plan back, where nscanned = nscannedObjects = n? I c
 
 This is better: nscannedObjects has dropped from 3 to 2. But nscanned is still 3! Mongo had to scan the range of the index from (timestamp 2, anonymous false) to (timestamp 4, anonymous false), *including* the entry (timestamp 3, anonymous true). When it scanned that middle entry, Mongo saw it pointed to an anonymous comment and skipped it, without inspecting the document itself. Thus the incognito comment is charged against nscanned but not against nscannedObjects, and nscannedObjects is only 2.
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/10/eq-range-2.png" alt="Equality Check and Range Query 2" title="eq-range-2.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="eq-range-2.png" alt="Equality Check and Range Query 2" title="eq-range-2.png" border="0"   />
 
 Can I improve this plan? Can I get nscanned down to 2, also? You probably know this: the order I declared the fields in my compound index was wrong. It shouldn't be "timestamp, anonymous" but "anonymous, timestamp":
 
@@ -173,7 +173,7 @@ db.comments.find({ timestamp: { $gte: 2, $lte: 4 }, anonymous: false }).explain(
 
 Order matters in MongoDB compound indexes, as with any database. If I make an index with "anonymous" first, Mongo can jump straight to the section of the index with signed comments, then do a range-scan from timestamp 2 to 4.
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/10/eq-range-3.png" alt="Equality Check and Range Query 3" title="eq-range-3.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="eq-range-3.png" alt="Equality Check and Range Query 3" title="eq-range-3.png" border="0"   />
 
 So I've shown the first part of my heuristic: equality tests before range filters!
 
@@ -198,7 +198,7 @@ db.comments.find({ timestamp: { $gte: 2, $lte: 4 }, anonymous: false })
 
 All three indexes are relevant, so MongoDB lines them up in an arbitrary order and advances each index one entry in turn:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/10/optimizer.png" alt="Optimizer" title="optimizer.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="optimizer.png" alt="Optimizer" title="optimizer.png" border="0"   />
 
 (I omitted the ratings for brevity; I'm just showing the documents' timestamps and anonymosity.)
 
@@ -280,7 +280,7 @@ I'll use a hint to force Mongo's choice:
 
 The argument to `hint` is the same as `createIndex`. Now nscanned has risen to 3 but scanAndOrder is false. Mongo walks through the "anonymous, rating" index in reverse, getting comments in the correct order, and then checks each document to see if its timestamp is in range.
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/10/eq-range-sort-1.png" alt="Equality Check, Range Query, and Sort 1" title="eq-range-sort-1.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="eq-range-sort-1.png" alt="Equality Check, Range Query, and Sort 1" title="eq-range-sort-1.png" border="0"   />
 
 This is why the optimizer won't choose this index, but prefers to go with the old "anonymous, **timestamp**" index which requires an in-memory sort but has a lower nscanned.
 
@@ -312,7 +312,7 @@ db.comments.find({ timestamp: { $gte: 2, $lte: 4 }, anonymous: false }).sort( { 
 
 This is as good as it gets. Mongo follows a similar plan as before, moonwalking across the "anonymous, rating, timestamp" index so it finds comments in the right order. But now, nscannedObjects is only 2, because Mongo can tell from the index entry alone that the comment with timestamp 1 isn't a match.
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/10/eq-range-sort-2.png" alt="Equality Check, Range Query, and Sort 2" title="eq-range-sort-2.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="eq-range-sort-2.png" alt="Equality Check, Range Query, and Sort 2" title="eq-range-sort-2.png" border="0"   />
 
 If my range filter on timestamp is selective, adding timestamp to the index is worthwhile; if it's not selective then the additional size of the index won't be worth the price.
 

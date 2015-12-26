@@ -23,7 +23,7 @@ summary:
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor" title="motor-musho.png" border="0"   />
 
 **Update:** [Motor is in PyPI now, this is all moot](/blog/motor-officially-released/)
 
@@ -113,5 +113,5 @@ Besides that bug, Motor has 37 TODOs. All are reminders to myself to refactor Mo
 At that point, Bernie and I will decide if Motor is ready to go official, and I'll announce on this blog, and throw a party.
 
 <a href="http://nedroid.com/2009/05/party-cat-full-series/">
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/10/party-cat.png" alt="Party Cat" title="party-cat.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="party-cat.png" alt="Party Cat" title="party-cat.png" border="0"   />
 </a>

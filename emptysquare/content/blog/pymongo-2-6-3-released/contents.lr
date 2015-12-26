@@ -22,7 +22,7 @@ summary: Announcing PyMongo 2.6.3, which fixes some connection-pool bugs and har
 ---
 body:
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/10/grail-tree.jpg" alt="Grail tree" title="Grail tree" />](http://www.flickr.com/photos/emptysquare/4527549354/)
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="grail-tree.jpg" alt="Grail tree" title="Grail tree" />](http://www.flickr.com/photos/emptysquare/4527549354/)
 
 Bernie Hackett and I released [PyMongo 2.6.3](https://pypi.python.org/pypi/pymongo/2.6.3) this afternoon. It fixes some bugs introduced in 2.6.0 when we added major features to PyMongo's connection pool.
 

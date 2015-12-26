@@ -24,7 +24,7 @@ summary: The fourth "black pipe testing" article: testing the MongoDB C Driver w
 ---
 body:
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/09/f-train.jpg" alt="The F Train" title="The F Train" />](https://www.flickr.com/photos/emptysquare/404160108)
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="f-train.jpg" alt="The F Train" title="The F Train" />](https://www.flickr.com/photos/emptysquare/404160108)
 
 This is the fourth article in [my series on "black pipe" testing](/blog/black-pipe-testing-series/). Here I describe testing libmongoc (the MongoDB C Driver) as a black pipe.
 
@@ -46,7 +46,7 @@ Besides the protocol-version test, Christian also used the mock server to valida
 
 In these two tests I saw the two use cases for "black pipe" testing. First, black pipe tests simulate unusual server behavior and network events. Second, in cases where the client's API behavior can appear correct even when there are bugs at the network layer, black pipe tests validate the network-level logic too.
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/10/f-train-2.jpg" alt="F Train" title="F Train" />](https://www.flickr.com/photos/emptysquare/352837037/)
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="f-train-2.jpg" alt="F Train" title="F Train" />](https://www.flickr.com/photos/emptysquare/352837037/)
 
 # Evolution: from C to Python
 
@@ -295,4 +295,4 @@ Next:
 * [Testing MongoDB Failure Scenarios With MockupDB.](/blog/test-mongodb-failures-mockupdb/)
 * [Read the whole series on black pipe testing.](/blog/black-pipe-testing-series/)
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/10/coney-island.jpg" alt="Coney Island / Stillwell Avenue" title="Coney Island / Stillwell Avenue" />](https://www.flickr.com/photos/emptysquare/855064419)
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="coney-island.jpg" alt="Coney Island / Stillwell Avenue" title="Coney Island / Stillwell Avenue" />](https://www.flickr.com/photos/emptysquare/855064419)

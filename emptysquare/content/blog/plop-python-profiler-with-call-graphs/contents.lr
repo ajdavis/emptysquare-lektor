@@ -25,7 +25,7 @@ Tornado's maintainer Ben Darnell released a [Python Low-Overhead Profiler](https
 
 A Plop `Collector` samples the process's call stack periodically (every 10 milliseconds by default) until you call `Collector.stop()`. Plop's profile viewer is a web application built on Tornado and d3.js, which uses a fun force-directed layout to display your process's call graph. You can use the demo scripts from Plop's [repo](https://github.com/bdarnell/plop) to make an example profile:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/03/call-graph.png" alt="Call graph" title="call-graph.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="call-graph.png" alt="Call graph" title="call-graph.png" border="0"   />
 
 Functions are shown as circles, sized according to the number of times they were executed and colored according to filename. Edges connect callers to callees. The visualization nearly freezes Firefox but runs well in Chrome.
 

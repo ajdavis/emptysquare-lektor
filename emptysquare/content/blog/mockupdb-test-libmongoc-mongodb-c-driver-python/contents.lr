@@ -24,7 +24,7 @@ summary: The third "black pipe testing" article: testing libmongoc with MockupDB
 ---
 body:
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/09/circuits-black-and-white.jpg" alt="Circuits black and white" title="Circuits black and white" />](https://www.flickr.com/photos/emptysquare/2532439577)
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="circuits-black-and-white.jpg" alt="Circuits black and white" title="Circuits black and white" />](https://www.flickr.com/photos/emptysquare/2532439577)
 
 This is the third article in my [series on "black pipe" testing](/blog/black-pipe-testing-series/). The series describes how to test networked code, like a MongoDB driver. Such code has two distinct public surfaces: one is its API, and the other is its communication over the network. Treating it as a black box tests just one surface, the API. To test both, we should treat it as a "black pipe" with inputs and outputs at both ends.
 
@@ -119,4 +119,4 @@ Next:
 * [Black Pipe Testing A Connected Application In C](/blog/libmongoc-black-pipe-testing-mock-server/)
 * [Read the whole series on black pipe testing.](/blog/black-pipe-testing-series/)
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/09/circuits.jpg" alt="Circuits" title="Circuits" />](https://www.flickr.com/photos/emptysquare/2533263564)
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="circuits.jpg" alt="Circuits" title="Circuits" />](https://www.flickr.com/photos/emptysquare/2533263564)

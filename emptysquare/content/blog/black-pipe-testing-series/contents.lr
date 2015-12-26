@@ -20,7 +20,7 @@ summary: A series of articles on black-box testing networked applications.
 ---
 body:
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/09/lower-east-side-pipes.jpg" alt="Pipes" title="Pipes" />](https://www.flickr.com/photos/emptysquare/477797865)
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="lower-east-side-pipes.jpg" alt="Pipes" title="Pipes" />](https://www.flickr.com/photos/emptysquare/477797865)
 
 In this series of articles I argue that "black box" testing is insufficient to validate a networked application. Such a program has two ends that take inputs and provide outputs: one is its public API, but the other is its communication over the network. Only by treating it as a black pipe can we test both surfaces.
 

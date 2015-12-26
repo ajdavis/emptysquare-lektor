@@ -23,7 +23,7 @@ summary: No new features. Now supports Python 2 and 3 single-source.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
 
 Today I released Motor 0.3. This version has no new features compared to Motor 0.2.1. Here's what I changed:
 

@@ -21,7 +21,7 @@ summary:
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/11/toro.png" alt="Toro" title="toro.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="toro.png" alt="Toro" title="toro.png" border="0"   />
 
 [Speaking of my package Toro](/blog/pycon-lightning-talk-about-toro/), I've just released version 0.5. Toro provides semaphores, queues, and so on, for advanced control flows with Tornado coroutines. 
 

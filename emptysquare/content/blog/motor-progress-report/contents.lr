@@ -22,7 +22,7 @@ summary:
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor" title="motor-musho.png" border="0"   />
 
 <a href="/motor/">Motor</a>, my async driver for <span style='text-decoration:underline;'>Mo</span>ngoDB and <span style='text-decoration:underline;'>Tor</span>nado, is now compatible with all the same Python versions as Tornado: CPython 2.5, 2.6, 2.7, and 3.2, and PyPy 1.9.
 

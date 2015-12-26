@@ -24,7 +24,7 @@ body:
 
 For a year and a half I've been part of the team maintaining [PyMongo](https://pypi.python.org/pypi/pymongo/), the Python MongoDB driver. It's one of the most widely used Python packages with [1.5 million lifetime downloads](http://pypi-ranking.info/module/pymongo). The code itself is only moderately complex; about 8300 source lines. What makes it a tiny horror to work on is the range of environments we support. Here's our test matrix in Jenkins:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/04/pymongo-jenkins-matrix.png" alt="PyMongo test matrix" title="pymongo-jenkins-matrix.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="pymongo-jenkins-matrix.png" alt="PyMongo test matrix" title="pymongo-jenkins-matrix.png" border="0"   />
 
 That's 72 test configurations. (It looks like more than that, but we don't test Jython and PyPy with C extensions compiled since that currently doesn't make sense.) The dimensions are:
 

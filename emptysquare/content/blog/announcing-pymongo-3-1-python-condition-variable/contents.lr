@@ -22,7 +22,7 @@ summary: PyMongo 3.1 implements performance monitoring, a new GridFS API, and I 
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/11/leaf.jpg" alt="Leaf" title="Leaf" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="leaf.jpg" alt="Leaf" title="Leaf" />
 
 Bernie Hackett, Anna Herlihy, Luke Lovett, and I are pleased to announce the release of PyMongo 3.1. It adds features that conform to two new cross-language driver specs: it implements the [Command Monitoring Spec](https://github.com/mongodb/specifications/blob/master/source/command-monitoring/command-monitoring.rst) to help you measure performance, and it adds a [GridFSBucket class](http://api.mongodb.org/python/3.1/api/gridfs/index.html#gridfs.GridFSBucket) to match our new [GridFS Spec](https://github.com/mongodb/specifications/blob/master/source/gridfs/gridfs-spec.rst).
 

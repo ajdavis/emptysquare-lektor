@@ -24,7 +24,7 @@ summary: Compatible with new MongoDB 3.0 features.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />
 
 I'm delighted to announce that Bernie Hackett released PyMongo 2.8 yesterday, and I released Motor 0.4 today. They support features in the upcoming MongoDB release, [which will be named MongoDB 3.0](http://www.mongodb.com/blog/post/renaming-our-upcoming-release-mongodb-30).
 

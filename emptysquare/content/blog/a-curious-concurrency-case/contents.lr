@@ -130,7 +130,7 @@ The bugfix was obvious. It's much harder to determine exactly how bad the bug wa
 
 In [my simulated pool](https://gist.github.com/ajdavis/4991105) there are 10 sockets. Each thread uses its socket for 1&#8209;20 seconds, sleeps one second, and asks for its socket again. I counted how many sockets were in use each second, and subtracted that from S&nbsp;*&nbsp;total_time to get an inefficiency factor:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/03/percentage-unused-sockets.png" alt="Percentage unused sockets" title="percentage-unused-sockets.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="percentage-unused-sockets.png" alt="Percentage unused sockets" title="percentage-unused-sockets.png" border="0"   />
 
 If N=S=10, threads never wait but there's some fake "inefficiency" due to the 1-second sleep. For larger numbers of threads the sleep time becomes irrelevant (because there's always another thread ready to use the socket), but ``signal`` adds an inefficiency that declines very slowly from 8% as the number of threads increases. A pool that uses ``broadcast``, in contrast, can saturate its sockets if it has more than 30 threads.
 

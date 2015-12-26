@@ -23,7 +23,7 @@ summary: Motor, my async driver for MongoDB and Python Tornado, will be its own 
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor" title="motor-musho.png" border="0"   />
 
 For a long time I've thought that [Motor](/motor/), my non-blocking Python driver for MongoDB and Tornado, ought to be included as a module within the standard [PyMongo](http://pypi.python.org/pypi/pymongo/) package. Everyone both inside and outside 10gen has told me they'd prefer Motor be a separate distribution. Last week, I was suddenly enlightened. I agree!
 

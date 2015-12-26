@@ -22,7 +22,7 @@ summary: What's the best way to get read-your-writes consistency in PyMongo?
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/11/quill.jpg" alt="Quill" title="Quill" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="quill.jpg" alt="Quill" title="Quill" />
 <span style="color:gray">Photo: [Thomas van de Vosse](http://www.flickr.com/photos/appeltaart_/8645069389/)</span>
 
 A PyMongo user asked me a good question today: if you want read-your-writes consistency, is it better to do acknowledged writes with a connection pool (the default), or to do unacknowledged writes over a single socket?

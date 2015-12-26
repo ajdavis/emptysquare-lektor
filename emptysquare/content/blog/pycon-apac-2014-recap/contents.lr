@@ -21,7 +21,7 @@ summary: Taiwanese volunteers put on a warm, friendly conference, and I ate real
 ---
 body:
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/05/ShiLin.jpg" alt="ShiLin" title="ShiLin" />
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="ShiLin.jpg" alt="ShiLin" title="ShiLin" />
 ](http://commons.wikimedia.org/wiki/File:ShiLin.jpg)
 [<span style="color:gray">[Source]</span>](http://commons.wikimedia.org/wiki/File:ShiLin.jpg)
 
@@ -37,7 +37,7 @@ The audience was generally university students or professionals early in their c
 
 In the afternoon I gave my second talk, a new one I wrote this week. I guess people liked my async talk and came back for seconds: we overflowed the room so badly that latecomers could not wedge themselves through the door. I told a story about how a blogger complained that PyMongo was slow, and what tools I used to prove the blogger wrong. Huge laughs, the most fun I've had speaking.
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/05/jesse-pycon-apac.jpg" alt="Jesse pycon apac" title="Jesse pycon apac" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="jesse-pycon-apac.jpg" alt="Jesse pycon apac" title="Jesse pycon apac" />
 [<span style="color:gray">[Source]</span>](https://twitter.com/zakiakhmad/status/468413809204269056)
 
 My colleague Amalia Hawkins delivered her "Narrowing the Gender Gap at Hackathons" talk to general acclaim. Hackathons aren't yet the phenomenon in Asia that they are in the US, so there's a chance to start things right. Amalia's thesis is that focusing on the experience of **all** hackathon newcomers benefits everyone, and narrows the gender gap as a side effect.

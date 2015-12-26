@@ -22,7 +22,7 @@ summary: A concurrency-control pattern that solves some reader-writer problems w
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/05/paper-wasp-closeup.jpg" alt="Paper Wasp" title="paper-wasp-closeup.jpg" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="paper-wasp-closeup.jpg" alt="Paper Wasp" title="paper-wasp-closeup.jpg" border="0"   />
 <a style="color: gray; font-style: italic" href="http://www.mzephotos.com/gallery/insects/paper-wasp.html">&copy; MzePhotos.com, Some Rights Reserved</a>
 
 In recent work on PyMongo, I used a concurrency-control pattern that solves a variety of [reader-writer problem](http://en.wikipedia.org/wiki/Readers-writers_problem) without mutexes. It's similar to the [read-copy-update](http://en.wikipedia.org/wiki/Read-copy-update) technique used extensively in the Linux kernel. I'm dubbing it the Wasp's Nest. Stick with me&mdash;by the end of this post you'll know a neat concurrency pattern, and have a good understanding of how PyMongo handles replica set failovers.
@@ -178,7 +178,7 @@ Since the `rsstate` cannot be modified by another thread, `send_message` knows i
 
 A few summers ago I was on a Zen retreat in a rural house. We had paper wasps building nests under the eaves. The wasps make their paper from a combination of chewed-up plant fiber and saliva. The nest hangs from a single skinny petiole. It's precarious, but it seems to protect the nest from ants who want to crawl in and eat the larvae. The queen [periodically spreads an ant-repellant secretion around the petiole](http://link.springer.com/content/pdf/10.1007%2FBF01253903.pdf); its slenderness conserves her ant-repellant, and concentrates it in a small area.
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/05/wasp-nest-bob-p.jpg" alt="Wasp's Nest in Situ" title="wasp-nest-bob-p.jpg" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="wasp-nest-bob-p.jpg" alt="Wasp's Nest in Situ" title="wasp-nest-bob-p.jpg" border="0"   />
 <span style="color:gray; font-style: italic">[[Source]](http://www.flickr.com/photos/pondapple/6134653740/)</span>
 
 I think of the `RSState` like a wasp's nest: it's an intricate structure hanging off the `MongoReplicaSetClient` by a single attribute, `self.rsstate`. The slenderness of the connection protects `send_message` from race conditions, just as the thin petiole protects the nest from ants.
@@ -252,7 +252,7 @@ This pattern mitigates the connection storm from a heavily-loaded application di
 
 The wasp's nest pattern is a simple and high-performance solution to some varieties of reader-writer problem. Compared to mutexes it's easy to understand, and most importantly it's easy to program correctly. For further reading see [my notes in the source code](https://github.com/mongodb/mongo-python-driver/blob/02b318f9f2cac30c268aa94f2c3d71333409c41f/pymongo/mongo_replica_set_client.py#L109).
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/05/wasps-nest.jpg" alt="Paper wasp and nest" title="wasps-nest.jpg" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="wasps-nest.jpg" alt="Paper wasp and nest" title="wasps-nest.jpg" border="0"   />
 <span style="color:gray; font-style: italic">[[Source]](http://rescuebugblog.typepad.com/rescue_bugblog/2008/10/why-wednesday-1.html)</span>
 
 

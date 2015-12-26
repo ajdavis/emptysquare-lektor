@@ -21,11 +21,11 @@ summary: In NYC, I talked about MongoDB and Python for visualization. Now I'm go
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/06/mongodb-world.jpg" alt="Talking at Mongodb World" title="Talking at Mongodb World" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="mongodb-world.jpg" alt="Talking at Mongodb World" title="Talking at Mongodb World" />
 
 Today I talked to a small audience at MongoDB World in New York City. I described how I made a visualization of global weather data using MongoDB, Python, Monary, and Matplotlib. The visualization looks like this:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/06/weather-matplotlib.jpg" alt="Contour map of global temperature using Matplotlib" title="Contour map of global temperature using Matplotlib" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="weather-matplotlib.jpg" alt="Contour map of global temperature using Matplotlib" title="Contour map of global temperature using Matplotlib" />
 
 My talk was one of a three-part series called "[The Weather of the Century](https://world.mongodb.com/mongodb-world/session/weather-century-part-1-design-overview)". My colleague Randall Hunt gave a schema design talk about weather data, and Andr&eacute; Spiegel, who was the brains behind the whole idea, analyzed the performance of various MongoDB configurations executing various operations on terabytes of data.
 

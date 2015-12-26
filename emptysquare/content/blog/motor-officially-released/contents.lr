@@ -23,7 +23,7 @@ summary: The first release of Motor: my full-featured, non-blocking driver for P
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/09/motor-musho.png" alt="Motor" title="motor-musho.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor" title="motor-musho.png" border="0"   />
 
 It's happened. [Motor 0.1 is in PyPI](https://pypi.python.org/pypi/motor). You can now install it with a simple:
 

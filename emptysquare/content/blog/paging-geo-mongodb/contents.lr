@@ -83,7 +83,7 @@ result = db.cafes.aggregate([{
 ```
 This trick (from my colleague [Asya Kamsky](http://www.kamsky.org/stupid-tricks-with-mongodb.html)) lets me page through geo results, but it gets slower with bigger skip values. I timed it on a collection of 10,000 random locations:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/07/skip-performance.png" alt="Skip performance" title="Skip performance" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="skip-performance.png" alt="Skip performance" title="Skip performance" />
 
 As the `$skip` number grows from zero to 10,000, the duration grows linearly, even though the query always returns 10 results. After all, in order to get those 10 documents, MongoDB must find all the prior documents and pass them through the aggregation pipeline, only to discard them at the `$skip` phase.
 
@@ -132,7 +132,7 @@ result = db.command(
 ```
 The farthest document from the first batch is excluded using a "not in" (`$nin`) query. If several documents are equally far away, I'd exclude all their ids. This technique performs quite well on my random collection:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/07/minDistance-performance.png" alt="MinDistance performance" title="MinDistance performance" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="minDistance-performance.png" alt="MinDistance performance" title="MinDistance performance" />
 
 The first batch performs the same as it did with the aggregation framework, but the final batch takes one tenth the time with `minDistance` as it did with `$skip`: 170ms instead of 1.6 seconds.
 
@@ -144,9 +144,9 @@ Paging with `minDistance` requires some futzy code, compared to the straightforw
 
 The app uses PyMongo, Flask, and MongoDB 2.5.1. To start, enter a location dense with sidewalk caf&eacute;s, like my zipcode "10009". The app asks Google for the coordinates of your location, and shows you the 10 nearest caf&eacute;s:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/07/sidewalk-cafes-table.png" alt="Sidewalk cafes table" title="Sidewalk cafes table" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="sidewalk-cafes-table.png" alt="Sidewalk cafes table" title="Sidewalk cafes table" />
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/07/sidewalk-cafes-screenshot.png" alt="Sidewalk cafes map" title="Sidewalk cafes map" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="sidewalk-cafes-screenshot.png" alt="Sidewalk cafes map" title="Sidewalk cafes map" />
 
 As you click Next, some Javascript asks the server-side application for the next 10 points. The script keeps track of the farthest distance it has seen so far, and passes that distance to the server when it asks for the next batch. You can see the ring of caf&eacute;s move outwards from the center-point as `minDistance` increases.
 

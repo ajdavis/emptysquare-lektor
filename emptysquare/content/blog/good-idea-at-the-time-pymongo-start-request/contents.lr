@@ -24,7 +24,7 @@ summary: First in a four-part series about choices we regretted in the design of
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/11/road-1.jpg" alt="Road" title="Road" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="road-1.jpg" alt="Road" title="Road" />
 
 *The road to hell is paved with good intentions.*
 
@@ -72,7 +72,7 @@ At the time we thought our database's funky protocol was a feature: if you wante
 
 Unacknowledged writes didn't care about network latency, so they could saturate the network's throughput:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/11/no-get_last_error.png" alt="Unacknowledged write" title="Unacknowledged write" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="no-get_last_error.png" alt="Unacknowledged write" title="Unacknowledged write" />
 
 On the other hand, if you wanted acknowledged writes, you could ask after each operation whether it succeeded:
 
@@ -84,7 +84,7 @@ On the other hand, if you wanted acknowledged writes, you could ask after each o
 
 But you'd pay for the latency:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/11/get_last_error.png" alt="Get last error" title="Get last error" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="get_last_error.png" alt="Get last error" title="Get last error" />
 
 We thought this design was great! You, the user, get to choose whether to await acknowledgment, or "fire and forget." We made our first regrettable decision: we set the default to "fire and forget."
 
@@ -115,13 +115,13 @@ threading.Thread(target=function_two).start()
 
 Since there are two threads doing concurrent operations, PyMongo opens two sockets. Sometimes, one thread finishes sending documents on a socket, checks the socket into the connection pool, and checks the *other* socket out of the pool to execute the "count". If that happens, the server might not finish reading the final inserts from the first socket before it responds to the "count" request on the other socket. Thus the count is less than 100:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/11/unacknowledged-inserts.png" alt="Unacknowledged inserts" title="Unacknowledged inserts" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="unacknowledged-inserts.png" alt="Unacknowledged inserts" title="Unacknowledged inserts" />
 
 If the driver did acknowledged writes by default, it would await the server's acknowledgment of the inserts before it ran the "count", so there's no consistency problem.
 
 But the default was unacknowledged, so users would get results that surprised them. In January of 2009, PyMongo's original author Mike Dirolf fixed this problem. He wrote a connection pool that simply allocated a socket per thread. As long as a thread always uses the same socket, it doesn't matter if its writes are acknowledged or not: 
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/11/unacknowledged-inserts-single-socket.png" alt="Unacknowledged inserts single socket" title="Unacknowledged inserts single socket" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="unacknowledged-inserts-single-socket.png" alt="Unacknowledged inserts single socket" title="Unacknowledged inserts single socket" />
 
 The server doesn't read the "count" request from the socket until it's processed all the inserts, so the count is always correct. (Assuming the inserts succeeded.) Problem solved!
 
@@ -176,11 +176,11 @@ class SocketInfo(object):
 
 Piece of cake. We released this code in May 2012, and it was much more efficient. Whereas the previous version of PyMongo's pool tended to close and open sockets frequently:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/04/pymongo-2-1.png" alt="PyMongo 2.1" title="PyMongo 2.1">
+<img style="display:block; margin-left:auto; margin-right:auto;" src="pymongo-2-1.png" alt="PyMongo 2.1" title="PyMongo 2.1"/>
 
 PyMongo 2.2 reclaimed dead threads' sockets for new threads that wanted them:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/04/pymongo-2-2-auto-start-request.png" alt="PyMongo 2.2" title="PyMongo 2.2">
+<img style="display:block; margin-left:auto; margin-right:auto;" src="pymongo-2-2-auto-start-request.png" alt="PyMongo 2.2" title="PyMongo 2.2"/>
 
 I was proud of my achievement. Then all hell broke loose.
 
@@ -247,11 +247,11 @@ In MongoDB 2.6, released this spring, we began to undo an even older decision: t
 
 <!-- Another benefit of the new write commands is scalability in a sharded cluster. With the old protocol, you had to call getLastError on the *same* connection you used for the last write operation. That means every client thread had its own connection to mongos, and mongos made a distinct connection to each shard for each client thread.
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/11/old-sharding.png" alt="Old sharding" title="Old sharding" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="old-sharding.png" alt="Old sharding" title="Old sharding" />
 
 You can see that the number of mongos's outbound connections becomes a bottleneck when you have hundreds of client connections and dozens of shards. You can scale out the number of mongoses to account for this, but it would be better if mongos could multiplex client connections among shard connections:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2014/11/new-sharding.png" alt="New sharding" title="New sharding" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="new-sharding.png" alt="New sharding" title="New sharding" />
 
 MongoDB 2.6's new write commands allow us to do this: mongos need no longer call getLastError on each shard, since write commands don't require a separate getLastError. Therefore it can put a shard connection back in the general connection pool as soon as a particular operation is complete; mongos doesn't need to reserve the connection for the client in case it calls "getLastError". Therefore mongos only needs as many connections to the shards as there are concurrent operations in flight, which is far fewer than one connection per client. -->
 

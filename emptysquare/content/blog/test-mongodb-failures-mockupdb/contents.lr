@@ -24,7 +24,7 @@ summary: Fourth in my "black pipe testing" series. How do you test your MongoDB 
 ---
 body:
 
-[<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/09/york-street-pipes.jpg" alt="York Street pipes" title="York Street pipes" />](https://www.flickr.com/photos/emptysquare/1528243252)
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="york-street-pipes.jpg" alt="York Street pipes" title="York Street pipes" />](https://www.flickr.com/photos/emptysquare/1528243252)
 
 This is the fifth article in [my series on "black pipe" testing](/blog/black-pipe-testing-series/). Traditional black box tests work well if your application takes inputs and returns output through one interface: the API. But connected applications have two interfaces: both the API and the messages they send and receive on the network. I call the validation of both ends a black pipe test.
 

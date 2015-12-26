@@ -22,7 +22,7 @@ summary: Bugfix release of the MongoDB C library.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2015/06/deep-sea.jpg" alt="Deep sea fish" title="Deep sea fish" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="deep-sea.jpg" alt="Deep sea fish" title="Deep sea fish" />
 
 I released libbson and libmongoc 1.1.8 today. The significant change is the defeat of a stubborn crash reported weeks ago. Very rarely, when a `mongoc_client_t` is connected to a replica set while a member is added, and authentication fails, it leaves the client's data structures in an inconsistent state that makes it seg fault later in `mongoc_client_destroy()`.
 

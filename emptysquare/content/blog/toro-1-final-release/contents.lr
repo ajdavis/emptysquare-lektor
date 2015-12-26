@@ -21,7 +21,7 @@ summary: This version includes a new RWLock. Further development of Toro's ideas
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2012/11/toro.png" alt="Toro" title="toro.png" border="0"   />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="toro.png" alt="Toro" title="toro.png" border="0"   />
 
 I just shipped Toro with a new feature contributed by [Alexander Gridnev](https://github.com/alexander-gridnev): a [readers-writer lock, or "RWLock"](http://toro.readthedocs.org/en/stable/classes.html#rwlock). It protects a shared data structure by allowing multiple coroutines to lock it for reads. As soon as a coroutine wants to modify the structure it requests a write-lock and waits for all readers to release their locks. While a writer is waiting, all readers and writers queue. Once the writer releases the lock, readers or the next writer can acquire it.
 

@@ -21,7 +21,7 @@ summary: Pitfalls to avoid when submitting a patch to the core Python team.
 ---
 body:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/10/day-of-the-thread.jpg" alt="Day of the Thread" title="Day of the Thread" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="day-of-the-thread.jpg" alt="Day of the Thread" title="Day of the Thread" />
 
 If you think you&rsquo;ve found a bug in Python, what&rsquo;s next? I'll guide you through the process of submitting a patch, so you can avoid its pitfalls and find the shortest route to becoming a Python contributor!
 
@@ -29,7 +29,7 @@ This is the final post in a three part series. In [Night of the Living Thread](/
 
 The action starts when I [open a bug in the Python bug tracker](http://bugs.python.org/review/18418). The challenge is to make a demonstration of the bug. I need to convince the world that I'm not crazy: the dead really are rising and walking the earth! Luckily I have a short script from [Night of the Living Thread](/blog/night-of-the-living-thread/) that shows the zombification process clearly.
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/10/day-of-the-dead-head.jpg" alt="Day of the Dead" title="Day of the Dead" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="day-of-the-dead-head.jpg" alt="Day of the Dead" title="Day of the Dead" />
 
 Next I have to fix the bug and submit a patch. I'm confused here, since the bug is in Python 2.7 and 3.3: do I submit fixes for both versions? The right thing to do is clone the Python source:
 
@@ -45,15 +45,15 @@ When I upload a patch to the bug tracker, Roundup, it is digested and spit out i
 
 Tragically, a week passes before I *know* he's reviewed my patch. I keep visiting the issue in Roundup expecting to see comments there, but I'm not looking where I should be: there's a little blue link in Roundup that says "review", which leads to Rietveld. That's where I should go to see feedback. Precious time is lost as hordes of zombie threads continue to ravage the landscape.
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/10/day-of-the-dead-street.jpg" alt="Day of the Dead street" title="Day of the Dead street" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="day-of-the-dead-street.jpg" alt="Day of the Dead street" title="Day of the Dead street" />
 
 Even worse, my Gmail account thinks Rietveld's notifications are spam. It turns out that the bug tracker was once breached by spammers and used to send spam in the past, so Gmail is quick to characterize all messages from bugs.python.org as spam. I override Gmail's spam filter with a new filter:
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/10/gmail-python-filter.png" alt="Gmail python filter" title="Gmail python filter" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="gmail-python-filter.png" alt="Gmail python filter" title="Gmail python filter" />
 
 Once I make the changes Charles-Fran&ccedil;ois suggests, I try to re-upload my patch. Clicking "Add Another Patch Set" in Rietveld doesn't work: it shows a page with a TypeError and a traceback. So I follow the instructions to upload a patch using the `upload.py` script from the command line and that throws an exception, too. I can't even cry out for help: [hitting "reply" to add a comment in Rietveld fails](http://psf.upfronthosting.co.za/roundup/meta/issue517). I tremble in fear.
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/10/day-of-the-dead-hands.jpg" alt="Day of the Dead hands" title="Day of the Dead hands" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="day-of-the-dead-hands.jpg" alt="Day of the Dead hands" title="Day of the Dead hands" />
 
 Just when humanity's doom seems inevitable, I find a way out: It turns out I must upload my new patch as an additional attachment to the issue in Roundup. Then Roundup, after some delay, applies it to the code review in Rietveld. Finally, I can address Charles-Fran&ccedil;ois's objections, and he accepts my patch! Roundup informs me when he [applies my changes to the 2.7, 3.3, and default branches](http://bugs.python.org/msg196581).
 
@@ -69,4 +69,4 @@ The code-review process also taught me about [addCleanup()](http://docs.python.o
 
 But the main benefit of contributing to Python is the satisfaction and pride I gain: Python is my favorite language. I love it, and I saved it from zombies. Heroism is its own reward.
 
-<img style="display:block; margin-left:auto; margin-right:auto;" src="/blog/media/2013/10/day-of-the-dead-final.jpg" alt="Day of the Dead final" title="Day of the Dead final" />
+<img style="display:block; margin-left:auto; margin-right:auto;" src="day-of-the-dead-final.jpg" alt="Day of the Dead final" title="Day of the Dead final" />
