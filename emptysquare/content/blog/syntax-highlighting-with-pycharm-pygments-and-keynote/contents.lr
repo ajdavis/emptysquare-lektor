@@ -24,10 +24,10 @@ body:
 I'm prepping talks for a few conferences. I think I've got my workflow
 down for syntax highlighting slides in Keynote on my Mac.
 
-1. "pip install pygments", not in a virtualenv but in your default
+​1. "pip install pygments", not in a virtualenv but in your default
 Python.
 
-2. Make a Bash script like:
+​2. Make a Bash script like:
 
 ```bash
 #!/bin/bash
@@ -39,19 +39,16 @@ Make sure it's chmod'ed executable and on your path. Now you can do
 Keynote. The result is pretty nice; at some point I may make a Pygments
 style optimized for presentations:
 
-![Pygments
-output](/blog/media/2012/06/pygments-output.png "pygments-output.png")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="pygments-output.png" title="Pygments output" />
 
-3. In Keynote, turn off all auto-correction:
+​3. In Keynote, turn off all auto-correction:
 
-![Keynote
-auto-correction](/blog/media/2012/06/keynote-auto-correction.png "keynote-auto-correction.png")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="keynote-auto-correction.png" title="Keynote auto-correction" />
 
-4. Bonus round: PyCharm integration. In PyCharm's preferences, choose
+​4. Bonus round: PyCharm integration. In PyCharm's preferences, choose
 "External Tools," hit the "+", and fill out the dialog like so:
 
-![PyCharm Edit
-Tool](/blog/media/2012/06/pycharm-edit-tool.png "pycharm-edit-tool.png")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="pycharm-edit-tool.png" title="PyCharm Edit Tool" />
 
 You can leave "Open Console" checked while you're getting things
 working.
@@ -61,8 +58,7 @@ search for "pyg" in the filter box, right-click on it, and assign a
 hotkey of your choice to the tool. I chose Command-Y because it was
 bound to some weird function I don't use.
 
-![PyCharm assign
-hotkey](/blog/media/2012/06/pycharm-hotkey.png "pycharm-hotkey.png")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="pycharm-hotkey.png" title="PyCharm assign hotkey" />
 
 Now whenever you're editing a file in PyCharm, you can save it and hit
 Command-Y, then switch to Keynote and paste.

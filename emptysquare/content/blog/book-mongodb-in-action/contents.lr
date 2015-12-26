@@ -21,8 +21,7 @@ summary: My colleague at 10gen Kyle Banker has published his book MongoDB in Act
 ---
 body:
 
-![MongoDB in
-Action](/blog/media/2011/12/mongodb-in-action.png "mongodb-in-action.png")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="mongodb-in-action.png" title="MongoDB in Action" />
 
 My colleague at 10gen Kyle Banker has published his book [MongoDB in
 Action](http://kylebanker.com/blog/2011/12/03/mongodb-in-action-book-now-available/):

@@ -21,7 +21,7 @@ summary: I've used a lot of software development tools since I first taught myse
 body:
 
 I've used a lot of software development tools since I first taught
-myself to program in high school (using Turbo C++ and Windows 3.1 
+myself to program in high school (using Turbo C++ and Windows 3.1 —
 those were the days). Now I use emacs for quick tasks, but I spend most
 of my time in:
 
@@ -43,7 +43,7 @@ with code-coverage charts, and I hear it has a lot of Django integration
 features I've yet to try.
 
 [PyCharm 30-day free trial](http://www.jetbrains.com/pycharm/ "PyCharm")
- you won't look back.
+— you won't look back.
 
 Git Tower
 ---------
@@ -60,6 +60,6 @@ do this constantly. I embark on a multi-hour hackathon, dealing with
 multiple features and bugs, and when everything's working OK, I commit
 my changes in nicely organized sets of chunks.
 
-[Git Tower 30-day trial](http://www.git-tower.com/)  you'll forget all
+[Git Tower 30-day trial](http://www.git-tower.com/) — you'll forget all
 you knew about the git command line, and that won't bother you a bit.
 

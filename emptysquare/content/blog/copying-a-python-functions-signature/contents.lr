@@ -21,8 +21,7 @@ summary: A supplement to functools.wraps.
 ---
 body:
 
-![John Hancock's
-signature](/blog/media/2012/06/john-hancock-sig.png "john-hancock-sig.png")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="john-hancock-sig.png" title="John Hancock's signature" />
 
 Like all Python programmers, I'm writing a minimal blogging platform. In
 my particular case, I'm building my blog using Tornado, MongoDB, and an

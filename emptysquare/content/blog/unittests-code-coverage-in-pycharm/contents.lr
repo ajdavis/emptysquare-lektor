@@ -54,8 +54,7 @@ were not, in two places. First, in your source files themselves, by
 adding a green (exercised) or red (omitted) bar to the left of the
 source lines:
 
-![Source
-coverage](/blog/media/2011/11/source-coverage.png "source-coverage.png")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="source-coverage.png" title="Source coverage" />
 
 You can see here that I started my local Mongo server without IPv6
 support, so the IPv6 unittest was skipped.
@@ -63,8 +62,7 @@ support, so the IPv6 unittest was skipped.
 You can also see test coverage in your Project pane, neatly rolling up
 coverage statistics by file and by directory:
 
-![Code coverage
-rollup](/blog/media/2011/11/coverage-rollup.png "coverage-rollup.png")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="coverage-rollup.png" title="Code coverage rollup" />
 
 If you close the project and re-open it, you'll lose your code-coverage
 display, but you can redisplay it with Tools-\>Show Code Coverage Data.

@@ -78,7 +78,7 @@ quickly as possible, and no other considerations are significant.
 The next time you read about a NoSQL database you might wonder, "What
 about foreign keys, or normalization? What about transactions? Why can't
 I define secondary indexes? Why are range queries prohibited?" (I'm just
-picking some limitations at randomeach system is different.) Consider
+picking some limitations at random—each system is different.) Consider
 who built these new database systems, and what their experience has
 been. The ideas behind NoSQL databases mostly originated at places like
 Google, Amazon, and Yahoo. They build huge systems, and huge systems'

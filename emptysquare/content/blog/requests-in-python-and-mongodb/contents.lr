@@ -258,16 +258,14 @@ PyMongo 2.2 with auto\_start\_request=True acts rather differently (and
 much better). It ramps up to 21 sockets and keeps them open throughout
 the test, reusing them for new threads when old threads die:
 
-![Pymongo 2.2,
-auto\_start\_request=True](/blog/media/2012/04/pymongo-2-2-auto-start-request.png "pymongo-2-2-auto-start-request.png")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="pymongo-2-2-auto-start-request.png" title="Pymongo 2.2, auto\_start\_request=True" />
 
 And finally, with auto\_start\_request=False, PyMongo 2.2 only needs as many
 sockets as there are threads **concurrently** waiting for responses from
 MongoDB. In my test, this tops out at 7 sockets, which stay open until
 the whole pool is deleted, because max\_pool\_size is 10:
 
-![Pymongo 2.2,
-auto\_start\_request=False](/blog/media/2012/04/pymongo-2-2-no-auto-start-request.png "pymongo-2-2-no-auto-start-request.png")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="pymongo-2-2-no-auto-start-request.png" title="Pymongo 2.2, auto\_start\_request=False" />
 
 Conclusion
 ==========

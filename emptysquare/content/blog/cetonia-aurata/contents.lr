@@ -22,8 +22,7 @@ body:
 
 I'd like to share with you this gorgeous photo from Wikipedia:
 
-![Cetonia
-Aurata](/blog/media/2012/04/Cetonia_aurata.jpg "Cetonia_aurata.jpg")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="Cetonia_aurata.jpg" title="Cetonia Aurata" />
 
 [source](http://en.wikipedia.org/wiki/File:Cetonia_aurata_take_off_composition_05172009.jpg)
 

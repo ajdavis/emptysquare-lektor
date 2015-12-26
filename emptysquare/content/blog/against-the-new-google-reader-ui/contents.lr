@@ -27,11 +27,10 @@ With Google Reader's new interface, I can see a list of only 12 new
 articles. I subscribe to 115 blogs, so I need a little more information
 to fit on one screen, thank you very much. The main problem is the ocean
 of white space in which all the controls now float. On my Macbook Pro,
-the actual information I want  the list of new articles  is allotted
+the actual information I want — the list of new articles — is allotted
 only 54% of the browser window:
 
-![Google
-reader](/blog/media/2011/11/google-reader1.png "google-reader.png")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="google-reader1.png" title="Google reader" />
 
 Google seems to be aware that we might want some of our info back on our
 screens; they've published [a FAQ about increasing info density in

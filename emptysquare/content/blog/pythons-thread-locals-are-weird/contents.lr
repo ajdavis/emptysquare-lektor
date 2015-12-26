@@ -71,7 +71,7 @@ What if we remove the `getattr` call? In Old Python, this happens:
         ignored
 
 Without `getattr`, the Weeper isn't deleted until interpreter shutdown.
-The shutdown sequence is complex and hard to predictin this case the
+The shutdown sequence is complex and hard to predict—in this case the
 `thread` module has been set to `None` before the Weeper is deleted, so
 Weeper.\_\_del\_\_ can't do `thread.get_ident()`.
 
@@ -91,8 +91,7 @@ takes a local and finds its `__dict__` for the current thread.
 `_ldict() ` finds and returns the local's `__dict__` for this thread,
 **and** stores it in `self->dict`.
 
-![Old Python's thread-local
-architecture](/blog/media/2012/05/old-python-thread-local-architecture.png "old-python-thread-local-architecture.png")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="old-python-thread-local-architecture.png" title="Old Python's thread-local architecture" />
 
 This architecture has, in my opinion, a bug. Here's the implementation
 of `_ldict()`:
@@ -127,7 +126,7 @@ static PyObject * _ldict(localobject *self)
 }
 
 ```
-I've edited for brevity. There's a few interesting things hereone is
+I've edited for brevity. There's a few interesting things here—one is
 the check for a custom `__init__` method. If this object is a subclass
 of local which overrides `__init__`, then `__init__` is called whenever
 a new thread accesses this local's attributes for the first time.
@@ -136,7 +135,7 @@ But the main thing I'm showing you is the two calls to
 `Py_CLEAR(self->dict)`, which decrements `self->dict`'s refcount. It's
 called when a thread accesses this local's attributes for the first
 time, **or** if this thread is accessing the local's attributes after a
-different thread has accessed themthat is, if `self->dict != ldict`.
+different thread has accessed them—that is, if `self->dict != ldict`.
 
 So now we clearly understand why a thread's locals aren't deleted
 immediately after it dies:
@@ -169,8 +168,7 @@ In New Python, the architecture's a little more complex. Each
 holds a dict mapping weak references of dummies to a per-thread
 `__dict__`.
 
-![New Python's thread-local
-architecture](/blog/media/2012/05/new-python-thread-local-architecture.png "new-python-thread-local-architecture.png")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="new-python-thread-local-architecture.png" title="New Python's thread-local architecture" />
 
 When a thread is dying and its `PyThreadState` is deleted, weakref
 callbacks fire immediately on that thread, removing the thread's

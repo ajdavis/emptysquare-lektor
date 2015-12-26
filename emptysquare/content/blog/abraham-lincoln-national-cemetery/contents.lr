@@ -20,8 +20,7 @@ summary: Photo: A. Jesse Jiryu Davis Abraham Lincoln National Cemetery in Elwood
 ---
 body:
 
-![Abraham Lincoln National
-Cemetery](/blog/media/2011/12/lincoln-cemetery-1.jpg "lincoln-cemetery-1.jpg")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="lincoln-cemetery-1.jpg" title="Abraham Lincoln National Cemetery" />
 
 Photo: A. Jesse Jiryu Davis
 

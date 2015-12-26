@@ -20,8 +20,7 @@ summary: Photo: Andrea Bruce A photo essay by Andrea Bruce for the NY Times, on 
 ---
 body:
 
-![Andrea
-Bruce](/blog/media/2012/02/andrea_bruce.jpg.png "andrea_bruce.jpg.png")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="andrea_bruce.jpg.png" title="Andrea Bruce" />
 
 Photo: [Andrea Bruce](http://www.andreabruce.com/)
 

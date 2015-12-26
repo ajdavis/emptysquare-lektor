@@ -68,7 +68,7 @@ them. There are two great reasons **not** to close sockets explicitly:
 
 1.  In complex code it can be hard to know when the last reference to a
     socket is deleted. CPython knows precisely when the last reference
-    goes awaythat's when it calls `sock_dealloc`.
+    goes away—that's when it calls `sock_dealloc`.
 2.  If you do know when a socket should be closed, it's **still**
     pointless to close it explicitly, because CPython is about to do it
     for you.
@@ -138,7 +138,7 @@ and the 'with' statement," you whine. That has two problems:
 
 Besides manual management, there are two alternatives:
 
-1.  Implement our own manual reference-counting,  la Objective-C, for
+1.  Implement our own manual reference-counting, à la Objective-C, for
     cases where it's hard to know when a resource should be closed. For
     example, we could wrap our sockets in objects that implement
     incref() and decref(), and which close the underlying socket when

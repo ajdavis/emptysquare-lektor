@@ -207,8 +207,8 @@ puritanical loop:
             )
 
 ```
-This is a bit over-complicated for our simple casea call to
-`PuritanicalIOLoop().install()` would sufficebut this will all come in
+This is a bit over-complicated for our simple case—a call to
+`PuritanicalIOLoop().install()` would suffice—but this will all come in
 handy later. In our simple test suite, `setUp()` is only run once, so
 the check for `IOLoop.initialized()` is unnecessary, but you'll need it
 if you run multiple tests. The call to `super()` will be necessary if we
@@ -315,7 +315,7 @@ last function that succeeds or times out stops the IOLoop, so your test
 definitely finishes. The timeout is configurable, either as an argument
 to `assertEventuallyEqual()` or as an environment variable
 `TIMEOUT_SEC`. Setting a very large timeout value in your environment is
-useful for debugging a misbehaving unittestset it to a million seconds
+useful for debugging a misbehaving unittest—set it to a million seconds
 so you don't time out while you're stepping through the code.
 
 (My code's inspired by the Scala world's

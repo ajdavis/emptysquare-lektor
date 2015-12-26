@@ -22,8 +22,7 @@ summary: Photo (C) Parent5446 I'll be recapping last week's talk on Python, Mong
 ---
 body:
 
-![Philadelphia Panorama From
-Camden](/blog/media/2012/02/800px-Philadelphia_Panorama_From_Camden.jpg "800px-Philadelphia_Panorama_From_Camden.JPG")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="800px-Philadelphia_Panorama_From_Camden.jpg" title="Philadelphia Panorama From Camden" />
 [Photo (C)
 Parent5446](http://en.wikipedia.org/wiki/File:Philadelphia_Panorama_From_Camden.JPG)
 

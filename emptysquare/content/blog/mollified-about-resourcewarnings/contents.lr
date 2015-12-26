@@ -39,7 +39,7 @@ callback](http://docs.python.org/library/weakref.html#weakref.ref) to
 close the resource before it's deleted, whenever that happens.
 
 Nick also pointed out that ResourceWarnings are off by default in normal
-Python programsI just saw them all the time because I usually run my
+Python programs—I just saw them all the time because I usually run my
 code in `nosetest`.
 
 [Read our full discussion in the

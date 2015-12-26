@@ -21,8 +21,7 @@ summary: Git is the most powerful and conceptually elegant source code managemen
 ---
 body:
 
-![Version control with
-git](/blog/media/2012/04/version-control-with-git.jpg "version-control-with-git.jpg")
+<img style="display:block; margin-left:auto; margin-right:auto;" src="version-control-with-git.jpg" title="Version control with git" />
 
 Git is the most powerful and conceptually elegant source code management
 system I've used. (Perhaps Mercurial rivals it? I haven't used
@@ -38,7 +37,7 @@ My theory is that Linus Torvalds built the initial git as a set of
 low-level commands for managing versioned data in general, and intended
 higher-level, more convenient SCMs to be built on top of it. Since Linus
 had scratched his own itch, he left the higher-level implementation to
-others, but no one rose to the challenge. Now it's too lategit is the
+others, but no one rose to the challenge. Now it's too late—git is the
 default SCM for open-source projects, and so we're stuck using low-level
 commands, or writing custom scripts for common tasks. (Or you can use
 [Tower](http://www.git-tower.com/), like me.)

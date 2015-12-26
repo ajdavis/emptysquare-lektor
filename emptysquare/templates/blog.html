@@ -7,7 +7,7 @@
     {{ render_blog_post_content(this) }}
     <h1 id="latest-posts">Latest Posts</h1>
     <p><ul class="post-list">
-        {% for child in this.pagination.items.limit(5) -%}
+        {% for child in this.pagination.items -%}
           <li>{{ render_blog_post_summary(child) }}</li>
         {% endfor %}
     </ul></p>
