@@ -20,7 +20,7 @@
     </ul></p>
   {% else %}
     <p><ul class="post-list">
-        {% for child in this.pagination.items.limit(5) -%}
+        {% for child in this.pagination.items -%}
           <li>{{ render_blog_post_summary(child) }}</li>
         {% endfor %}
     </ul></p>
