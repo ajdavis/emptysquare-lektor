@@ -12,11 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Mongo
-Programming
-Python
+categories: Mongo,Programming,Python
 ---
 summary: How to power your Python web application's search with MongoDB
 ---

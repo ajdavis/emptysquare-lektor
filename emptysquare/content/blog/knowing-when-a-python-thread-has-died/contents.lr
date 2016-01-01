@@ -12,10 +12,7 @@ tags:
 
 threading
 ---
-categories:
-
-Programming
-Python
+categories: Programming,Python
 ---
 summary: Sometimes thread.join() isn't enough.
 ---

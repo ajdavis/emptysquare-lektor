@@ -12,11 +12,7 @@ tags:
 
 
 ---
-categories:
-
-C
-Motor
-Programming
+categories: C,Motor,Programming
 ---
 summary: A rewritten mongoc_client_t with parallel server discovery, plus many features and fixes.
 ---

@@ -12,10 +12,7 @@ tags:
 
 
 ---
-categories:
-
-C
-Programming
+categories: C,Programming
 ---
 summary: A rewritten mongoc_client_t with parallel server discovery, plus many features and fixes.
 ---

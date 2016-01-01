@@ -12,12 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Mongo
-Motor
-Programming
-Python
+categories: Mongo,Motor,Programming,Python
 ---
 summary: Motor, my async driver for MongoDB and Python Tornado, will be its own package.
 ---

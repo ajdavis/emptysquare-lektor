@@ -12,9 +12,7 @@ tags:
 
 javascript
 ---
-categories:
-
-Programming
+categories: Programming
 ---
 summary: Fixing an incompatibility between two Javascript libraries for making iOS-like web apps.
 ---

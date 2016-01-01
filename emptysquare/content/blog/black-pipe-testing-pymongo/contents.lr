@@ -13,12 +13,7 @@ tags:
 black-pipe
 testing
 ---
-categories:
-
-C
-Mongo
-Programming
-Python
+categories: C,Mongo,Programming,Python
 ---
 summary: The second "black pipe testing" article: testing PyMongo with MockupDB.
 ---

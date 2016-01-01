@@ -12,10 +12,7 @@ tags:
 
 c
 ---
-categories:
-
-Programming
-Python
+categories: Programming,Python
 ---
 summary: Saves you from refcount bugs and segfaults.
 ---

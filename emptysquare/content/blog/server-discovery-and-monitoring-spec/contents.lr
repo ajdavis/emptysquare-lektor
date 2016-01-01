@@ -12,11 +12,7 @@ tags:
 
 pymongo
 ---
-categories:
-
-Mongo
-Programming
-Python
+categories: Mongo,Programming,Python
 ---
 summary: The new spec defines how MongoDB drivers connect to replica sets and other server topologies.
 ---

@@ -12,12 +12,7 @@ tags:
 
 pypy
 ---
-categories:
-
-Mongo
-Motor
-Programming
-Python
+categories: Mongo,Motor,Programming,Python
 ---
 summary: My async MongoDB driver Motor now passes its test suite running in PyPy 1.9. To celebrate, I've switched my blog from CPython to PyPy! Update: I moved back to CPython 2.7. Although Motor and the rest of my blog's software appears to run [ ... ]
 ---

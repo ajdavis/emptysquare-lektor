@@ -12,10 +12,7 @@ tags:
 
 tornado
 ---
-categories:
-
-Programming
-Python
+categories: Programming,Python
 ---
 summary: How do you start multiple I/O operations with Tornado, and process results in the order they complete?
 ---

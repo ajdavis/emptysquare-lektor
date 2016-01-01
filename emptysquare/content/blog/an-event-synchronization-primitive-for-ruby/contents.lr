@@ -12,9 +12,7 @@ tags:
 
 threading
 ---
-categories:
-
-Programming
+categories: Programming
 ---
 summary: A port of Python's threading.Event synchronization primitive for Ruby
 ---

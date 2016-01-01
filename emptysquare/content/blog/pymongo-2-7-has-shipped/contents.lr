@@ -12,12 +12,7 @@ tags:
 
 pymongo
 ---
-categories:
-
-Mongo
-Motor
-Programming
-Python
+categories: Mongo,Motor,Programming,Python
 ---
 summary: New features, mainly to support MongoDB 2.6.
 ---

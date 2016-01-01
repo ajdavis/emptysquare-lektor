@@ -12,11 +12,7 @@ tags:
 
 pymongo
 ---
-categories:
-
-Mongo
-Programming
-Python
+categories: Mongo,Programming,Python
 ---
 summary: Try it out: "pip install https://github.com/mongodb/mongo-python-driver/archive/2.7rc0.tar.gz"
 ---

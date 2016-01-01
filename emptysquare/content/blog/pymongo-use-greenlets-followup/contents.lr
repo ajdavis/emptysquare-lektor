@@ -13,11 +13,7 @@ tags:
 gevent
 pymongo
 ---
-categories:
-
-Mongo
-Programming
-Python
+categories: Mongo,Programming,Python
 ---
 summary: I wrote in December that we were removing a quirky feature from PyMongo. Here's how my conversation went with a critic.
 ---

@@ -12,10 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Programming
-Python
+categories: Programming,Python
 ---
 summary: I'm prepping talks for a few conferences. I think I've got my workflow down for syntax highlighting slides in Keynote on my Mac. &#8203;1. "pip install pygments", not in a virtualenv but in your default Python. &#8203;2. Make a Bash script [ ... ]
 ---

@@ -12,10 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Programming
-Python
+categories: Programming,Python
 ---
 summary: Last month I griped about ResourceWarnings in Python 3, arguing they're a useless irritation in a language that can clean up resources automatically. Python core developer Nick Coghlan responded in the comments and I understand the [ ... ]
 ---

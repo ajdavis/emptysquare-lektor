@@ -12,10 +12,7 @@ tags:
 
 threading
 ---
-categories:
-
-Programming
-Python
+categories: Programming,Python
 ---
 summary: How to avoid zombie threads in ancient versions of Python.
 ---

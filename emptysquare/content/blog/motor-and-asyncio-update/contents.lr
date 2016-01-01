@@ -12,12 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Mongo
-Motor
-Programming
-Python
+categories: Mongo,Motor,Programming,Python
 ---
 summary: The roadmap for asyncio support, plus "async" and "await" in Python 3.5.
 ---

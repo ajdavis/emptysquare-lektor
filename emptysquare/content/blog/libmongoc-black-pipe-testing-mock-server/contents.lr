@@ -13,12 +13,7 @@ tags:
 black-pipe
 testing
 ---
-categories:
-
-C
-Mongo
-Programming
-Python
+categories: C,Mongo,Programming,Python
 ---
 summary: The fourth "black pipe testing" article: testing the MongoDB C Driver with mock_server_t.
 ---

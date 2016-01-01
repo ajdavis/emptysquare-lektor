@@ -12,10 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Mongo
-Programming
+categories: Mongo,Programming
 ---
 summary: A little-known method for simulating a temporary outage with MongoDB.
 ---

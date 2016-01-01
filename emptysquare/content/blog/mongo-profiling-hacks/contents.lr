@@ -12,10 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Mongo
-Programming
+categories: Mongo,Programming
 ---
 summary: Log the line number of your code that made each MongoDB query.
 ---

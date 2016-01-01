@@ -13,12 +13,7 @@ tags:
 black-pipe
 testing
 ---
-categories:
-
-C
-Mongo
-Programming
-Python
+categories: C,Mongo,Programming,Python
 ---
 summary: The third "black pipe testing" article: testing libmongoc with MockupDB, a wire protocol server written in Python.
 ---

@@ -12,9 +12,7 @@ tags:
 
 tornado
 ---
-categories:
-
-
+categories: 
 ---
 summary: Links to further reading about my "Eventually Correct" talk about testing async Python code with Tornado.
 ---

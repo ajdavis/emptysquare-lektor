@@ -12,11 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Mongo
-Programming
-Python
+categories: Mongo,Programming,Python
 ---
 summary: Cascading failures lead to a tricky bug in PyMongo.
 ---

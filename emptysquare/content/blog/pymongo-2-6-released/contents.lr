@@ -12,10 +12,7 @@ tags:
 
 pymongo
 ---
-categories:
-
-Mongo
-Python
+categories: Mongo,Python
 ---
 summary: Exciting new features, and a breaking change to watch out for, in the new Python driver for MongoDB.
 ---

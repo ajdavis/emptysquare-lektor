@@ -12,10 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Programming
-Python
+categories: Programming,Python
 ---
 summary: An only-somewhat-shitty workflow for writing reST.
 ---

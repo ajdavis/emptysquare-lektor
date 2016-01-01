@@ -12,11 +12,7 @@ tags:
 
 pymongo
 ---
-categories:
-
-Mongo
-Programming
-Python
+categories: Mongo,Programming,Python
 ---
 summary: This is a partial rewrite of the Python driver for MongoDB, our biggest and best release ever.
 ---

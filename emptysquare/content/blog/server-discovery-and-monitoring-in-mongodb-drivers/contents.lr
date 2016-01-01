@@ -12,9 +12,7 @@ tags:
 
 
 ---
-categories:
-
-
+categories: 
 ---
 summary: Our drivers' algorithms to discover and stay connected to your server, replica set, or sharded cluster.
 ---

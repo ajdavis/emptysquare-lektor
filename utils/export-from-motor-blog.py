@@ -64,8 +64,8 @@ def render_post(p, post_dir, f):
     print(p['title'])
 
     p['tags'] = '\n'.join(p.get('tags', []))
-    p['categories'] = '\n'.join(
-        c['name'] for c in p.get('categories', []))
+    categories = [c['name'] for c in p.get('categories', [])]
+    p['categories'] = ','.join(categories)
     p['summary'] = p.get('meta_description', p['summary'])
     p['original'] = urls.sub('/', p['original'])
     p['original'] = imgs.sub(partial(replace_img, post_dir),
@@ -87,9 +87,7 @@ tags:
 
 {tags}
 ---
-categories:
-
-{categories}
+categories: {categories}
 ---
 summary: {summary}
 ---
@@ -97,6 +95,23 @@ body:
 
 {original}
 '''.format(**p).encode('utf-8', errors='ignore'))
+
+    for cat in categories:
+        render_category(cat)
+
+
+def render_category(category_name):
+    category_root_dir = os.path.join(blog_dir, 'category')
+    assert os.path.isdir(category_root_dir)
+    category_path = os.path.join(category_root_dir, category_name.lower())
+    if not os.path.isdir(category_path):
+        os.mkdir(category_path)
+        cat_path = os.path.join(category_path, 'contents.lr')
+        with open(cat_path, 'w') as contents:
+            contents.write('''_model: category
+---
+name: {cat_name}
+'''.format(cat_name=category_name))
 
 
 def render_redirect(p, _, f):

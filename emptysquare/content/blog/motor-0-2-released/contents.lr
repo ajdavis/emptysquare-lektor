@@ -12,12 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Mongo
-Motor
-Programming
-Python
+categories: Mongo,Motor,Programming,Python
 ---
 summary: Motor 0.2 has been released. It's a huge upgrade: ease-of-use improvements, non-blocking DNS, and compatibility with MongoDB 2.6 and PyMongo 2.7.
 ---

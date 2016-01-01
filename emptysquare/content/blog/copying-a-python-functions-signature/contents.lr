@@ -12,10 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Programming
-Python
+categories: Programming,Python
 ---
 summary: A supplement to functools.wraps.
 ---

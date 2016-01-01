@@ -12,12 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Mongo
-Programming
-Python
-C
+categories: Mongo,Programming,Python,C
 ---
 summary: A demo of Mongo Conduction, a server I made that looks like MongoDB and deploys topologies of MongoDB servers for testing.
 ---

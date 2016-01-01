@@ -12,10 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Programming
-Python
+categories: Programming,Python
 ---
 summary: The chapter I wrote with Guido van Rossum about Python async coroutines is available now, as an early access release before publication.
 ---

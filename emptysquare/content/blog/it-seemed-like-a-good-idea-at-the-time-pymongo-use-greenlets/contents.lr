@@ -14,11 +14,7 @@ gevent
 good-idea-at-the-time
 pymongo
 ---
-categories:
-
-Mongo
-Programming
-Python
+categories: Mongo,Programming,Python
 ---
 summary: Second in a four-part series about choices we regretted in the design of PyMongo.
 ---

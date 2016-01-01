@@ -12,12 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Mongo
-Motor
-Programming
-Python
+categories: Mongo,Motor,Programming,Python
 ---
 summary: The first release of Motor: my full-featured, non-blocking driver for Python, Tornado, and MongoDB.
 ---

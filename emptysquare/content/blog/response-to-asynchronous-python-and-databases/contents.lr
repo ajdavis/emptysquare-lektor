@@ -12,12 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Mongo
-Motor
-Programming
-Python
+categories: Mongo,Motor,Programming,Python
 ---
 summary: Some thoughts on Mike Bayer's excellent article about asyncio, database drivers, and performance.
 ---

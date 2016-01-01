@@ -13,12 +13,7 @@ tags:
 motor
 pymongo
 ---
-categories:
-
-Mongo
-Motor
-Programming
-Python
+categories: Mongo,Motor,Programming,Python
 ---
 summary: Compatible with new MongoDB 3.0 features.
 ---

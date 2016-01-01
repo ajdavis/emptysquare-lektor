@@ -12,10 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Programming
-Python
+categories: Programming,Python
 ---
 summary: Git is the most powerful and conceptually elegant source code management system I've used. (Perhaps Mercurial rivals it? I haven't used Mercurial.) But it seems to be in a state of arrested development. Many commands commonly used in [ ... ]
 ---

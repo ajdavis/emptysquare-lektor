@@ -1,5 +1,13 @@
 {% extends "blog-layout.html" %}
+{% from "macros/blog.html" import render_blog_post_summary %}
+{% from "macros/pagination.html" import render_pagination %}
 {% block title %}A. Jesse Jiryu Davis | {{ this.name }}{% endblock %}
 {% block content %}
   <h1>Category: {{ this.name }}</h1>
+  <p><ul class="post-list">
+      {% for child in this.pagination.items -%}
+        <li>{{ render_blog_post_summary(child) }}</li>
+      {% endfor %}
+  </ul></p>
+  {{ render_pagination(this.pagination) }}
 {% endblock %}

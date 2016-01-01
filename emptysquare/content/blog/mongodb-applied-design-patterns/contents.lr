@@ -12,12 +12,7 @@ tags:
 
 best
 ---
-categories:
-
-Mongo
-Programming
-Python
-Review
+categories: Mongo,Programming,Python,Review
 ---
 summary: An excellent new O'Reilly book on MongoDB gives detailed, well-thought-out designs for a range of applications.
 ---

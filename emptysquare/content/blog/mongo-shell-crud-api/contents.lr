@@ -12,10 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Mongo
-Programming
+categories: Mongo,Programming
 ---
 summary: We took a reader's suggestion and updated the shell to match drivers' methods to create, retrieve, update, and delete data.
 ---

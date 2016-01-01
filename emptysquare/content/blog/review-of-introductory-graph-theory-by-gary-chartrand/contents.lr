@@ -12,11 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Programming
-Python
-Review
+categories: Programming,Python,Review
 ---
 summary: If you are a software developer, then from time to time you will have to solve an Interesting Problem in optimization, such as finding the best matches on a dating site, or the right sharding key for a database cluster. As often as not, such [ ... ]
 ---

@@ -12,11 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Mongo
-Programming
-Python
+categories: Mongo,Programming,Python
 ---
 summary: How I fooled myself into thinking I'd made my code eight times faster.
 ---

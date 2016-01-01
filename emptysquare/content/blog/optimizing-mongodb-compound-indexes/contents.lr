@@ -14,10 +14,7 @@ best
 index
 optimization
 ---
-categories:
-
-Mongo
-Programming
+categories: Mongo,Programming
 ---
 summary: How to find the best multicolumn index for a complex query.
 ---

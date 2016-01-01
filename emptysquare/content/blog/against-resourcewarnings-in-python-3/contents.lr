@@ -12,10 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Programming
-Python
+categories: Programming,Python
 ---
 summary: Update: Nick Coghlan has changed my mind, see our comment thread for the explanation. Allow me to grumble. Consider this function from Python 3.2.3's socketmodule.c: /* Deallocate a socket object in response to the last Py_DECREF(). [ ... ]
 ---

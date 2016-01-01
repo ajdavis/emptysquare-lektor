@@ -12,11 +12,7 @@ tags:
 
 best
 ---
-categories:
-
-Mongo
-Programming
-Python
+categories: Mongo,Programming,Python
 ---
 summary: Yet another danger of __del__.
 ---

@@ -12,9 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Mongo
+categories: Mongo
 ---
 summary: Scaling MongoDB is simpler than you think.
 ---

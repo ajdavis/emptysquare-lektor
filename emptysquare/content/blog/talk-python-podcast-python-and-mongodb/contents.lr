@@ -12,13 +12,7 @@ tags:
 
 monary
 ---
-categories:
-
-C
-Mongo
-Motor
-Programming
-Python
+categories: C,Mongo,Motor,Programming,Python
 ---
 summary: Michael Kennedy interviewed me about my career as a Python programmer and how I came to work for MongoDB. We discussed PyMongo, Motor, and Monary.
 ---

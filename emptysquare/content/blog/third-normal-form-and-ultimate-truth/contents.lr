@@ -12,11 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Programming
-Python
-Mongo
+categories: Programming,Python,Mongo
 ---
 summary: I have an opinion: most people learned about relational databases as if RDBMSes were designed to store the ultimate truth about some data. They figured that once the schema had been properly diagrammed and normalized, then they could [ ... ]
 ---

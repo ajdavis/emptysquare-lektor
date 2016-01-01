@@ -12,11 +12,7 @@ tags:
 
 dogfood
 ---
-categories:
-
-Motor
-Programming
-Python
+categories: Motor,Programming,Python
 ---
 summary: If you aren't using your own libraries as you build them, you're skipping an essential test: not mainly for correctness or performance but for usability. (Using your software as you develop it is normally called "eating your own [ ... ]
 ---

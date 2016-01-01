@@ -12,11 +12,7 @@ tags:
 
 tornado
 ---
-categories:
-
-Programming
-Python
-Mongo
+categories: Programming,Python,Mongo
 ---
 summary: Video is now online from my webinar last week about Tornado and MongoDB. Alas, I didn't make the text on my screen big enough to be easily readable in the low-res video we recorded, so it'll be a little fuzzy for you. (Live and learn.) No [ ... ]
 ---

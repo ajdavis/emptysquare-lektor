@@ -12,10 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Programming
-Python
+categories: Programming,Python
 ---
 summary: Anna Herlihy presents a Python-to-machine-code compiler, and I'll live-code an async framework with coroutines!
 ---

@@ -14,11 +14,7 @@ best
 good-idea-at-the-time
 pymongo
 ---
-categories:
-
-Mongo
-Programming
-Python
+categories: Mongo,Programming,Python
 ---
 summary: First in a four-part series about choices we regretted in the design of PyMongo.
 ---

@@ -1,11 +1,19 @@
 {% macro render_pagination(pagination) %}
-  <div class="pagination">
-    {% if pagination.has_prev %}
-      <a href="{{ pagination.prev|url }}">&laquo; Previous</a> |
-    {% endif %}
-    {{ pagination.page }}
-    {% if pagination.has_next %}
-      | <a href="{{ pagination.next|url }}">Next &raquo;</a>
-    {% endif %}
-  </div>
+  {# assume pagination is always newest-first #}
+  <nav class="nav-below">
+    <div class="nav-previous">
+      {% if pagination.has_next %}
+        <a href="{{ pagination.next|url }}"><span class="meta-nav">&larr;&nbsp;</span>Older</a>
+      {% endif %}
+    </div>
+    <div class="nav-current">
+      Page {{ pagination.page }}
+    </div>
+    <div class="nav-next">
+      {% if pagination.has_prev %}
+        <a href="{{ pagination.prev|url }}">Newer<span class="meta-nav">&nbsp;&rarr;</span></a>
+      {% endif %}
+    </div>
+  </nav>
+
 {% endmacro %}

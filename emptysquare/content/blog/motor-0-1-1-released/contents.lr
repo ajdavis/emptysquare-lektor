@@ -12,12 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Mongo
-Motor
-Programming
-Python
+categories: Mongo,Motor,Programming,Python
 ---
 summary: Fixes an incompatibility between Motor and the latest version of PyMongo, by pinning Motor's dependency to PyMongo 2.5.0 exactly.
 ---

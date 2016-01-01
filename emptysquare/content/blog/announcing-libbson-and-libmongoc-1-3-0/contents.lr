@@ -12,11 +12,7 @@ tags:
 
 
 ---
-categories:
-
-C
-Mongo
-Programming
+categories: C,Mongo,Programming
 ---
 summary: Supports MongoDB 3.2.
 ---

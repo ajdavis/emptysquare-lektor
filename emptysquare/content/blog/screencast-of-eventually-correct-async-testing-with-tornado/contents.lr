@@ -12,11 +12,7 @@ tags:
 
 tornado
 ---
-categories:
-
-Motor
-Programming
-Python
+categories: Motor,Programming,Python
 ---
 summary: In video form with closed captions, my talk about testing asynchronous Python code.
 ---

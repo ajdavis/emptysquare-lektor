@@ -12,11 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Mongo
-Programming
-Python
+categories: Mongo,Programming,Python
 ---
 summary: In my excitement about the big changes in PyMongo 2.4, I forgot to mention a smaller one you should watch out for: from now on, if the initial connection to MongoDB fails, PyMongo raises ConnectionFailure instead of AutoReconnect. This is [ ... ]
 ---

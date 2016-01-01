@@ -12,12 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Mongo
-Motor
-Programming
-Python
+categories: Mongo,Motor,Programming,Python
 ---
 summary: My async driver for MongoDB now supports asyncio, and allows "async" and "await" in Python 3.5. Collection.aggregate() is more concise.
 ---

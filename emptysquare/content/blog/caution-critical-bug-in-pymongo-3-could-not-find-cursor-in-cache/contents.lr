@@ -12,11 +12,7 @@ tags:
 
 pymongo
 ---
-categories:
-
-Mongo
-Programming
-Python
+categories: Mongo,Programming,Python
 ---
 summary: If you use multiple mongos servers in a sharded cluster, be cautious upgrading to PyMongo 3, we've just discovered a critical bug.
 ---

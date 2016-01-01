@@ -14,10 +14,7 @@ brubeck
 isolated
 virtualenv
 ---
-categories:
-
-Programming
-Python
+categories: Programming,Python
 ---
 summary: I wanted to install James Dennis's Brubeck web framework, but lately I've become fanatical about installing nothing, nothing, in the system-wide directories. A simple rm -rf brubeck/ should make it like nothing ever happened. So that I [ ... ]
 ---

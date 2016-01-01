@@ -13,10 +13,7 @@ tags:
 gevent
 unittest
 ---
-categories:
-
-Programming
-Python
+categories: Programming,Python
 ---
 summary: 
 ---

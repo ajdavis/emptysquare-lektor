@@ -12,11 +12,7 @@ tags:
 
 pymongo
 ---
-categories:
-
-Mongo
-Programming
-Python
+categories: Mongo,Programming,Python
 ---
 summary: I joyfully announce that we are changing all of 10gen's MongoDB drivers to do "safe writes" by default. In the process we're renaming all the connection classes to MongoClient, so all the drivers now use the same term for the central class. [ ... ]
 ---

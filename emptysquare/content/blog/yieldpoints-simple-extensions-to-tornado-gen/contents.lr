@@ -12,10 +12,7 @@ tags:
 
 tornado
 ---
-categories:
-
-Programming
-Python
+categories: Programming,Python
 ---
 summary: I affectionately introduce YieldPoints, my littlest project yet. It's just some simple extensions to Tornado's gen module. The cutest example of what you can do with YieldPoints is the WaitAny class, which lets you begin multiple [ ... ]
 ---

@@ -12,10 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Mongo
-Programming
+categories: Mongo,Programming
 ---
 summary: This blog has been running on my experimental MongoDB driver, Motor, since June. But in case that wasn't cutting-edge enough, I'm now running it on MongoDB 2.2 release candidate 2. This is what I do for excitement.
 ---

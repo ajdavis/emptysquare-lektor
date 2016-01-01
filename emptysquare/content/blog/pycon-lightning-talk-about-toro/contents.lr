@@ -12,10 +12,7 @@ tags:
 
 video
 ---
-categories:
-
-Programming
-Python
+categories: Programming,Python
 ---
 summary: A 4.5-minute talk on Toro, my package that provides locks and queues to Tornado coroutines.
 ---

@@ -12,10 +12,7 @@ tags:
 
 video
 ---
-categories:
-
-Programming
-Python
+categories: Programming,Python
 ---
 summary: The Open Source Bridge conference recently published this video of me building, in barely 30 minutes, a Python 3 async framework.
 ---

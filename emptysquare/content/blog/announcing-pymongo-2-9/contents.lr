@@ -12,10 +12,7 @@ tags:
 
 pymongo
 ---
-categories:
-
-Programming
-Python
+categories: Programming,Python
 ---
 summary: A compatibility bridge between PyMongo 2 and PyMongo 3 APIs.
 ---

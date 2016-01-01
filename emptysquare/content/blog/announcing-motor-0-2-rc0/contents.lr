@@ -12,12 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Mongo
-Motor
-Programming
-Python
+categories: Mongo,Motor,Programming,Python
 ---
 summary: Motor 0.2 rc0 is a huge change from 0.1, reflecting big improvements in PyMongo, Tornado, and MongoDB itself.
 ---

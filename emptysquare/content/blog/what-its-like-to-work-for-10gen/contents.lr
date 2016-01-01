@@ -12,10 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Mongo
-Programming
+categories: Mongo,Programming
 ---
 summary: Robot battles, concurrency bugs, and loyalty.
 ---

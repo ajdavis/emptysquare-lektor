@@ -12,12 +12,7 @@ tags:
 
 
 ---
-categories:
-
-Mongo
-Programming
-Python
-Zen
+categories: Mongo,Programming,Python,Zen
 ---
 summary: The year in review: Motor, Toro, and asyncio.
 ---

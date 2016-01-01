@@ -12,11 +12,7 @@ tags:
 
 
 ---
-categories:
-
-C
-Mongo
-Programming
+categories: C,Mongo,Programming
 ---
 summary: An SSL bugfix for pooled clients, domain socket fix, El Capitan build guide.
 ---
