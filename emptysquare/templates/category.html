@@ -3,7 +3,7 @@
 {% from "macros/pagination.html" import render_pagination %}
 {% block title %}A. Jesse Jiryu Davis | {{ this.name }}{% endblock %}
 {% block content %}
-  <h1>Category: {{ this.name }}</h1>
+  <header><h1 class="title page-title">Category: {{ this.name }}</h1></header>
   <ul class="post-list">
     {% for child in this.pagination.items -%}
       <li>{{ render_blog_post_summary(child) }}</li>
