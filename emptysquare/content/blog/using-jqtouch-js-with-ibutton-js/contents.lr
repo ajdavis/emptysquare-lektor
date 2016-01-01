@@ -33,7 +33,7 @@ ask about IE.) By default, it renders HTML like this:
 <img style="display:block; margin-left:auto; margin-right:auto;" src="Screen-shot-2011-10-25-at-11.48.18-PM.png" title="" />
 
 &nbsp;Another library,
-[iButton.js](www.givainc.com/labs/ibutton_jquery_plugin.htm), provides
+[iButton.js](http://www.givainc.com/labs/ibutton_jquery_plugin.htm), provides
 similar functionality but has some advantages: it works on all browsers,
 you can easily togglify your checkboxes at runtime, dragging laterally
 across the control with your mouse or fingertip works as expected, and
