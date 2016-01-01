@@ -2,28 +2,21 @@
 {% from "macros/blog.html" import render_blog_head, render_blog_post_content, render_blog_post_summary %}
 {% from "macros/pagination.html" import render_pagination %}
 {% block content %}
-  {{ render_blog_head(site.get('/blog')) }}
-  {% if this.pagination.page == 1 %}
-    {{ render_blog_post_content(this) }}
+  <article class="page">
+    {{ render_blog_head(site.get('/blog')) }}
+    <div class="post-content">{{ this.intro }}</div>
     <h1 id="latest-posts">Latest Posts</h1>
-    <p><ul class="post-list">
-        {% for child in this.pagination.items -%}
-          <li>{{ render_blog_post_summary(child) }}</li>
-        {% endfor %}
-    </ul></p>
-    {{ render_pagination(this.pagination) }}
+    <ul class="post-list">
+      {% for child in blog_posts().limit(5) -%}
+        <li>{{ render_blog_post_summary(child) }}</li>
+      {% endfor %}
+    </ul>
     <h1 id="selected-articles">Selected Articles</h1>
-    <p><ul class="post-list">
-        {% for child in this.children.filter(F.tags.contains('best')) -%}
-          <li>{{ render_blog_post_summary(child) }}</li>
-        {% endfor %}
-    </ul></p>
-  {% else %}
-    <p><ul class="post-list">
-        {% for child in this.pagination.items -%}
-          <li>{{ render_blog_post_summary(child) }}</li>
-        {% endfor %}
-    </ul></p>
-    {{ render_pagination(this.pagination) }}
-  {% endif %}
+    <ul class="post-list">
+      {% for child in this.children.filter(F.tags.contains('best')) -%}
+        <li>{{ render_blog_post_summary(child) }}</li>
+      {% endfor %}
+    </ul>
+    {{ render_blog_post_content(this) }}
+  </article>
 {% endblock %}

@@ -1,0 +1,14 @@
+{% extends "blog-layout.html" %}
+{% from "macros/blog.html" import render_blog_head, render_blog_post_content, render_blog_post_summary %}
+{% from "macros/pagination.html" import render_pagination %}
+{% block title %}All Posts{% endblock %}
+{% block content %}
+  <header>
+    <h1 class="title">All Posts</h1>
+  </header>
+  <ul class="post-list">
+    {% for child in blog_posts() -%}
+      <li>{{ render_blog_post_summary(child) }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

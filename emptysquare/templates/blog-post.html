@@ -2,6 +2,8 @@
 {% from "macros/blog.html" import render_blog_head, render_blog_post_content %}
 {% block title %}{{ this.title }}{% endblock %}
 {% block content %}
-  {{ render_blog_head(this) }}
-  {{ render_blog_post_content(this) }}
+  <article class="{{ this.type or 'page' }}">
+    {{ render_blog_head(this) }}
+    {{ render_blog_post_content(this) }}
+  </article>
 {% endblock %}

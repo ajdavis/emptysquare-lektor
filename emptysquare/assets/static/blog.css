@@ -200,7 +200,7 @@ header {
       color: #343838; }
   .main-nav ul .nav-item, .main-nav ul .nav-divider {
     display: none !important; }
-  .main-nav ul .all-posts-nav-item, .main-nav ul .about-nav-item {
+  .main-nav ul .all-posts-nav-item, .main-nav ul .menu-nav-item {
     display: inline-block !important; }
   .main-nav ul .search-item {
     display: block !important;
@@ -404,7 +404,7 @@ article {
       text-decoration: none; }
       .main-nav ul a:hover {
         color: #2060a0; }
-    .main-nav ul .all-posts-nav-item, .main-nav ul .about-nav-item,
+    .main-nav ul .all-posts-nav-item, .main-nav ul .menu-nav-item,
     .main-nav ul .photography-nav-item, .main-nav ul .feed-nav-item,
     .main-nav ul .category-nav-item, .main-nav ul .search-item,
     .main-nav ul .nav-divider-1 {

@@ -22,9 +22,7 @@
       {{ render_main_nav() }}
     </header>
     <section>
-      <article class="{{ this.type or 'page' }}">
-        {% block content %}{% endblock %}
-      </article>
+      {% block content %}{% endblock %}
     </section>
   </div>
 {% endblock %}
