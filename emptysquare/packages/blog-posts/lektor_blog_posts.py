@@ -14,5 +14,4 @@ class BlogPostsPlugin(Plugin):
     description = u'Just for emptysqua.re: filter pagination of blog posts.'
 
     def on_setup_env(self, **extra):
-        print('BlogPostsPlugin.on_setup_env')
         self.env.jinja_env.globals.update(blog_posts=blog_posts)
