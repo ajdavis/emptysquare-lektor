@@ -1,3 +1,5 @@
 _model: all-posts
 ---
 _template: all-posts.html
+---
+_slug: blog/all-posts
