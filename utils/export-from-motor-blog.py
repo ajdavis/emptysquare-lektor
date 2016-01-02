@@ -7,6 +7,10 @@ from functools import partial
 
 import gridfs
 import pymongo
+import pytz
+
+utc_tz = pytz.timezone('UTC')
+nyc_tz = pytz.timezone('America/New_York')
 
 db = pymongo.MongoClient().motorblog
 gfs = gridfs.GridFS(db)
@@ -60,12 +64,17 @@ def replace_md_img(post_dir, match):
             u'src="{name}" title="{title}" />').format(**locals())
 
 
+def local_dt(dt):
+    return nyc_tz.normalize(utc_tz.localize(dt).astimezone(nyc_tz))
+
+
 def render_post(p, post_dir, f):
     print(p['title'])
 
     p['tags'] = '\n'.join(p.get('tags', []))
     categories = [c['name'] for c in p.get('categories', [])]
     p['categories'] = ','.join(categories)
+    p['pub_date'] = local_dt(p['pub_date'])
     p['summary'] = p.get('meta_description', p['summary'])
     p['original'] = urls.sub('/', p['original'])
     p['original'] = imgs.sub(partial(replace_img, post_dir),
@@ -77,7 +86,7 @@ def render_post(p, post_dir, f):
 ---
 title: {title}
 ---
-pub_date: {pub_date:%Y-%m-%d}
+pub_date: {pub_date:%Y-%m-%d %H:%M:%S}
 ---
 author: {author}
 ---

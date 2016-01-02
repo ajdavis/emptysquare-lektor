@@ -11,10 +11,6 @@ def blog_posts():
     return ctx.record.pagination.items.filter(F._model == 'blog-post' and F.type == 'post')
 
 
-def pub_date(dt):
-    return '%s %s, %s' % (dt.strftime('%b'), dt.day, dt.year)
-
-
 class HTML(object):
     def __init__(self, html):
         self.html = html
@@ -38,7 +34,4 @@ class BlogPostsPlugin(Plugin):
 
     def on_setup_env(self, **extra):
         self.env.types['motor_blog_markdown'] = MotorBlogMarkdownType
-
-        jinja_env = self.env.jinja_env
-        jinja_env.globals['blog_posts'] = blog_posts
-        jinja_env.filters['pub_date'] = pub_date
+        self.env.jinja_env.globals['blog_posts'] = blog_posts
