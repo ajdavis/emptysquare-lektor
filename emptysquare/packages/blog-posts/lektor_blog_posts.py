@@ -5,8 +5,8 @@ from lektor.pluginsystem import Plugin
 
 
 def blog_posts():
-    pad = get_ctx().pad
-    return pad.get('blog').pagination.items.filter(F._model == 'blog-post')
+    ctx = get_ctx()
+    return ctx.record.pagination.items.filter(F._model == 'blog-post' and F.type == 'post')
 
 
 class BlogPostsPlugin(Plugin):

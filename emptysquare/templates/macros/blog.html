@@ -2,11 +2,11 @@
   <nav class="main-nav">
     <ul>
       {% for url, title in [
-                ('/blog/all-posts/', 'All Posts'),
-                ('/blog/feed/', 'Feed'),
-                ('/blog/about/', 'About'),
-                ('/photography/', 'Photography'),
-            ] %}
+        ('/blog/all-posts/', 'All Posts'),
+        ('/blog/feed/', 'Feed'),
+        ('/blog/about/', 'About'),
+        ('/photography/', 'Photography'),
+      ] %}
       <li class="nav-item menu-nav-item"><a href="{{ url }}">{{ title|escape }}</a>
       </li>{% endfor %}
       <li class="nav-item nav-divider nav-divider-1">Categories:</li>{% for category in site.query('blog/category/') %}

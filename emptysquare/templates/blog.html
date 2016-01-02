@@ -1,13 +1,14 @@
 {% extends "blog-layout.html" %}
 {% from "macros/blog.html" import render_blog_head, render_blog_post_content, render_blog_post_summary %}
-{% from "macros/pagination.html" import render_pagination %}
 {% block content %}
   <article class="page">
     {{ render_blog_head(site.get('/blog')) }}
     <div class="post-content">{{ this.intro }}</div>
     <h1 id="latest-posts">Latest Posts</h1>
+    {% set children = this.children.filter(F.model == 'blog-post' and
+                                           F.type == 'post').limit(10) %}
     <ul class="post-list">
-      {% for child in blog_posts().limit(5) -%}
+      {% for child in children %}
         <li>{{ render_blog_post_summary(child) }}</li>
       {% endfor %}
     </ul>
