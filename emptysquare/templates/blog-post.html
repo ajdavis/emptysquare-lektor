@@ -1,9 +1,20 @@
 {% extends "blog-layout.html" %}
-{% from "macros/blog.html" import render_blog_head, render_blog_post_content %}
+{% from "macros/blog.html" import render_blog_post_content %}
 {% block title %}{{ this.title }}{% endblock %}
 {% block content %}
   <article class="{{ this.type or 'page' }}">
-    {{ render_blog_head(this) }}
+    <header>
+      {% if this.type == 'post' %}
+        <div class="post-meta">
+          <time class="post-time">{{ this.pub_date|pub_date }}</time>
+          <span class="byline">
+            <span class="sep">&nbsp;&mdash;&nbsp;</span>
+            <span class="author">{{ site.get('blog').title }}</span>
+          </span>
+        </div>
+      {% endif %}
+      <h1 class="title"><a href="{{ this|url }}">{{ this.title }}</a></h1>
+    </header>
     {{ render_blog_post_content(this) }}
   </article>
 {% endblock %}

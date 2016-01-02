@@ -33,14 +33,6 @@
 {% endmacro %}
 
 
-{% macro render_blog_head(record) %}
-  <header>
-    <h1 class="title"><a href="{{ record|url }}">{{ record.title }}</a>
-    </h1>
-  </header>
-{% endmacro %}
-
-
 {% macro render_blog_post_content(post) %}
   <div class="post-content">{{ post.body }}</div>
 {% endmacro %}
