@@ -8,7 +8,8 @@ import markdown  # This is "Python Markdown": pip install markdown
 
 def blog_posts():
     ctx = get_ctx()
-    return ctx.record.pagination.items.filter(F._model == 'blog-post' and F.type == 'post')
+    return ctx.record.pagination.items.filter(F._model == 'blog-post' and
+                                              F.type == 'post')
 
 
 class HTML(object):
