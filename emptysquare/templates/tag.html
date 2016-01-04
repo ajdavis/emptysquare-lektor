@@ -1,0 +1,11 @@
+{% extends "blog-layout.html" %}
+{% from "macros/blog.html" import render_blog_post_summary %}
+{% block title %}A. Jesse Jiryu Davis | {{ this.tag|title }}{% endblock %}
+{% block content %}
+  <header><h1 class="title page-title">Tag: {{ this.tag|title }}</h1></header>
+  <ul class="post-list">
+    {% for item in this.items -%}
+      <li>{{ render_blog_post_summary(item) }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
