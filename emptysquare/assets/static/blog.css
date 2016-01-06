@@ -499,12 +499,18 @@ article {
     display: block !important; }
 
   .nav-previous, .nav-next, .nav-current {
-    width: 32%;
+    width: 45%;
     color: inherit;
     font-size: 18px;
     line-height: 21px;
     font-weight: bold;
+    text-align: left;
     margin-bottom: 1em; }
+
+  .nav-with-current .nav-previous,
+  .nav-with-current .nav-next,
+  .nav-with-current .nav-current {
+    width: 32%; }
 
   .nav-previous a, .nav-next a {
     box-shadow: none;

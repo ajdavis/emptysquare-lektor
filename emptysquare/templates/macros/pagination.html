@@ -1,7 +1,7 @@
 {% macro render_pagination(pagination) %}
   {% if pagination.pages > 1 %}
     {# assume pagination is always newest-first #}
-    <nav class="nav-below">
+    <nav class="nav-below nav-with-current">
       <div class="nav-previous">
         {% if pagination.has_next %}
           <a href="{{ pagination.next|url }}"><span class="meta-nav">&larr;&nbsp;</span>Older</a>
