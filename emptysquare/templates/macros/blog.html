@@ -33,6 +33,24 @@
 {% endmacro %}
 
 
+{% macro render_nav_bottom(record) %}
+  <nav class="nav-below">
+    <div class="nav-previous">
+      {% set older = next_child(record) %}
+      {% if older %}
+        <a href="{{ older|url }}"><span class="meta-nav">&larr;&nbsp;</span>{{ older.title }}</a>
+      {% endif %}
+    </div>
+    <div class="nav-next">
+      {% set newer = prev_child(record) %}
+      {% if newer %}
+        <a href="{{ newer|url }}">{{ newer.title }}<span class="meta-nav">&nbsp;&rarr;</span></a>
+      {% endif %}
+    </div>
+  </nav>
+{% endmacro %}
+
+
 {% macro render_blog_post_content(post) %}
   <div class="post-content">{{ post.body }}</div>
 {% endmacro %}
