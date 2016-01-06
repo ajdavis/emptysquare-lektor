@@ -4,3 +4,4 @@ url = https://emptysqua.re
 
 [packages]
 lektor-disqus-comments = 0.2
+lektor-google-analytics = 0.1.3
