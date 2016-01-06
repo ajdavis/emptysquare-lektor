@@ -102,27 +102,6 @@ def get_path_segments(str):
     return pieces
 
 
-def _children(parent, with_pagination):
-    if with_pagination and parent.supports_pagination:
-        return list(parent.pagination.items)
-    else:
-        return list(parent.children)
-
-
-def prev_child(record, with_pagination=True):
-    children = _children(record.parent, with_pagination)
-    index = children.index(record)
-    if index > 0:
-        return children[index - 1]
-
-
-def next_child(record, with_pagination=True):
-    children = _children(record.parent, with_pagination)
-    index = children.index(record)
-    if index + 1 < len(children):
-        return children[index + 1]
-
-
 class BlogPostsPlugin(Plugin):
     name = u'blog-posts'
     description = u'Lektor customization just for emptysqua.re.'
@@ -130,8 +109,6 @@ class BlogPostsPlugin(Plugin):
     def on_setup_env(self, **extra):
         self.env.types['motor_blog_markdown'] = MotorBlogMarkdownType
         self.env.jinja_env.globals['blog_posts'] = blog_posts
-        self.env.jinja_env.globals['prev_child'] = prev_child
-        self.env.jinja_env.globals['next_child'] = next_child
         self.env.add_build_program(TagPage, TagPageBuildProgram)
 
         blog_path = self.get_blog_path()
