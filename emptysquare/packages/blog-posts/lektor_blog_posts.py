@@ -138,6 +138,10 @@ class BlogPostsPlugin(Plugin):
             if source.path != blog_path:
                 return
 
+            if getattr(source, 'page_num'):
+                # The record is the second or later page of a pagination.
+                return
+
             blog = source
             for tag in self.get_all_tags(blog):
                 yield TagPage(blog, self, tag)
