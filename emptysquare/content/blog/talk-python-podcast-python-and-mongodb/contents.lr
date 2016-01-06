@@ -16,6 +16,8 @@ categories: C,Mongo,Motor,Programming,Python
 ---
 summary: Michael Kennedy interviewed me about my career as a Python programmer and how I came to work for MongoDB. We discussed PyMongo, Motor, and Monary.
 ---
+legacy_id: 552430575393741c7644c3dd
+---
 body:
 
 I was honored to be [Michael Kennedy's guest for the second episode of his new podcast](http://www.talkpythontome.com/episodes/show/2/python-and-mongodb). We talked about my career as a Python programmer and how I came to work for MongoDB. We discussed [PyMongo](http://api.mongodb.org/python/current/), [Motor](http://motor.readthedocs.org/), and [Monary](https://bitbucket.org/djcbeach/monary/wiki/Home).

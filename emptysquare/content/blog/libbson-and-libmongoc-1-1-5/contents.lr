@@ -16,6 +16,8 @@ categories: C,Mongo,Programming
 ---
 summary: Bugfix releases for the MongoDB C libraries.
 ---
+legacy_id: 555278f15393741c76457303
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="SeaSmoke.jpg" alt="Sea Smoke" title="Sea Smoke" />

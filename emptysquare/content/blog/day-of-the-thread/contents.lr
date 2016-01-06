@@ -16,6 +16,8 @@ categories: Programming,Python
 ---
 summary: Pitfalls to avoid when submitting a patch to the core Python team.
 ---
+legacy_id: 5272b1065393740368ee7116
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="day-of-the-thread.jpg" alt="Day of the Thread" title="Day of the Thread" />

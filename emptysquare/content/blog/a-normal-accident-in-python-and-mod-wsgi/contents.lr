@@ -16,6 +16,8 @@ categories: Mongo,Programming,Python
 ---
 summary: Cascading failures lead to a tricky bug in PyMongo.
 ---
+legacy_id: 543c12a95393740962fcb63b
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="Three_Mile_Island_nuclear_power_plant.jpg" alt="Three Mile Island nuclear power plant" title="Three Mile Island nuclear power plant" />

@@ -16,6 +16,8 @@ categories: Programming
 ---
 summary: A port of Python's threading.Event synchronization primitive for Ruby
 ---
+legacy_id: 51167f1d5393747dd209a86d
+---
 body:
 
 I helped some Ruby friends implement a rendezvous (aka a [barrier](http://en.wikipedia.org/wiki/Barrier_%28computer_science%29)). I'm accustomed to using an [Event](http://docs.python.org/2/library/threading.html#threading.Event) to implement a rendezvous in Python but Ruby doesn't have Events, only Mutexes and ConditionVariables. That's fine, Python's Event is implemented in terms of a mutex and a condition, so it's easy to make an Event in Ruby:

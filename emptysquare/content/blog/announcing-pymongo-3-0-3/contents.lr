@@ -16,6 +16,8 @@ categories: Mongo,Programming,Python
 ---
 summary: A minor bugfix release.
 ---
+legacy_id: 5593f3a95393741c65d32a70
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="tree-python.jpg" alt="Tree python" title="Tree python" />

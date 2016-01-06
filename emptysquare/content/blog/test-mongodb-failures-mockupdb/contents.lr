@@ -17,6 +17,8 @@ categories: C,Mongo,Programming,Python
 ---
 summary: Fourth in my "black pipe testing" series. How do you test your MongoDB application's reaction to database failures, hangs, and disconnects?
 ---
+legacy_id: 55fa49075393742358c9c237
+---
 body:
 
 [<img style="display:block; margin-left:auto; margin-right:auto;" src="york-street-pipes.jpg" alt="York Street pipes" title="York Street pipes" />](https://www.flickr.com/photos/emptysquare/1528243252)

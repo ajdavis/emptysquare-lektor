@@ -16,6 +16,8 @@ categories: Programming,Python
 ---
 summary: Last month I griped about ResourceWarnings in Python 3, arguing they're a useless irritation in a language that can clean up resources automatically. Python core developer Nick Coghlan responded in the comments and I understand the [ ... ]
 ---
+legacy_id: 580 http://emptysquare.net/blog/?p=580
+---
 body:
 
 Last month [I griped about ResourceWarnings in Python

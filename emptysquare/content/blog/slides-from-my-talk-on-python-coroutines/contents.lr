@@ -16,6 +16,8 @@ categories: Programming,Python
 ---
 summary: My NYC Python Meetup talk on coroutines in Tornado and Tulip.
 ---
+legacy_id: 516e089a53937474bbee3ff7
+---
 body:
 
 Here's the slides from tonight's NYC Python Meetup talk on coroutines in Tornado and Tulip. The slides are a bit inscrutable on their own&mdash;it's my style to just show code, then talk a lot to explain the code. Still, if you were there tonight you may find these useful.

@@ -16,6 +16,8 @@ categories: Programming,Python
 ---
 summary: I affectionately introduce YieldPoints, my littlest project yet. It's just some simple extensions to Tornado's gen module. The cutest example of what you can do with YieldPoints is the WaitAny class, which lets you begin multiple [ ... ]
 ---
+legacy_id: 50c27e815393745f98527db0
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="yield.png" alt="YieldPoints" title="yield.png" border="0"   />

@@ -16,6 +16,8 @@ categories: Mongo,Programming,Python
 ---
 summary: Workarounds for a common irritation using Python and MongoDB.
 ---
+legacy_id: 54ee3da05393740964f73d0b
+---
 body:
 
 *Or,* "Why does my query work in the shell but not PyMongo?"

@@ -16,6 +16,8 @@ categories: Mongo,Programming,Python
 ---
 summary: PyMongo 2.2's connection pooling.
 ---
+legacy_id: 472 http://emptysquare.net/blog/?p=472
+---
 body:
 
 If you use [PyMongo](https://github.com/mongodb/mongo-python-driver),

@@ -17,6 +17,8 @@ categories: C,Mongo,Programming,Python
 ---
 summary: The second "black pipe testing" article: testing PyMongo with MockupDB.
 ---
+legacy_id: 55fa418c539374235671f40e
+---
 body:
 
 [<img style="display:block; margin-left:auto; margin-right:auto;" src="pipe.jpg" alt="Pipe" title="Pipe" />](https://www.flickr.com/photos/emptysquare/2227062653)

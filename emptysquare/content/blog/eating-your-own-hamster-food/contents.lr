@@ -16,6 +16,8 @@ categories: Motor,Programming,Python
 ---
 summary: If you aren't using your own libraries as you build them, you're skipping an essential test: not mainly for correctness or performance but for usability. (Using your software as you develop it is normally called "eating your own [ ... ]
 ---
+legacy_id: 506a056553937470b7d8ec08
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="hamster-food.jpg" alt="Hamster Food" title="hamster-food.jpg" border="0"   />

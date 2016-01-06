@@ -16,6 +16,8 @@ categories: Mongo,Motor,Programming,Python
 ---
 summary: Motor, my async driver for MongoDB and Python Tornado, will be its own package.
 ---
+legacy_id: 51020bc55393747de89b6614
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor" title="motor-musho.png" border="0"   />

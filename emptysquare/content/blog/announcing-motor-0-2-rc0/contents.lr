@@ -16,6 +16,8 @@ categories: Mongo,Motor,Programming,Python
 ---
 summary: Motor 0.2 rc0 is a huge change from 0.1, reflecting big improvements in PyMongo, Tornado, and MongoDB itself.
 ---
+legacy_id: 533f58dc53937441561c1131
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor" title="motor-musho.png" border="0"   />

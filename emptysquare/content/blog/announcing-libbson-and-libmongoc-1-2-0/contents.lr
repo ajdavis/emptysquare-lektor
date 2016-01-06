@@ -16,6 +16,8 @@ categories: C,Programming
 ---
 summary: A rewritten mongoc_client_t with parallel server discovery, plus many features and fixes.
 ---
+legacy_id: 561d637b539374099687eea2
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="sea.jpg" alt="Sea" title="Sea" />

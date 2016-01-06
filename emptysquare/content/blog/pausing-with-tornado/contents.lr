@@ -16,6 +16,8 @@ categories: Programming,Python
 ---
 summary: Throwing this in my blog so I don't forget again. The way to sleep for a certain period of time using tornado.gen is: import tornado.web from tornado.ioloop import IOLoop from tornado import gen class [ ... ]
 ---
+legacy_id: 430 http://emptysquare.net/blog/?p=430
+---
 body:
 
 Throwing this in my blog so I don't forget again. The way to sleep for a

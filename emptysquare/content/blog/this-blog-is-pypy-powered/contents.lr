@@ -16,6 +16,8 @@ categories: Mongo,Motor,Programming,Python
 ---
 summary: My async MongoDB driver Motor now passes its test suite running in PyPy 1.9. To celebrate, I've switched my blog from CPython to PyPy! Update: I moved back to CPython 2.7. Although Motor and the rest of my blog's software appears to run [ ... ]
 ---
+legacy_id: 503fbe105393740a96e9f26d
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="pypy-logo.png" alt="PyPy Logo" title="pypy-logo.png" border="0"   />

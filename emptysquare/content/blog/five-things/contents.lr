@@ -16,6 +16,8 @@ categories: Mongo
 ---
 summary: Scaling MongoDB is simpler than you think.
 ---
+legacy_id: 52dc38935393742de813e627
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="king-tree.jpg" alt="King Tree" title="King Tree" />

@@ -16,6 +16,8 @@ categories: Mongo,Python
 ---
 summary: Exciting new features, and a breaking change to watch out for, in the new Python driver for MongoDB.
 ---
+legacy_id: 520eee0f5393741a577037ab
+---
 body:
 
 It's my pleasure to announce that Bernie Hackett and I have released [PyMongo 2.6](https://pypi.python.org/pypi/pymongo/), the successor to PyMongo 2.5.2, with new features and bugfixes.

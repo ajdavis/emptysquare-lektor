@@ -16,6 +16,8 @@ categories: Mongo,Programming,Python
 ---
 summary: A mysterious deadlock with PyMongo and Gevent.
 ---
+legacy_id: 52d76ee55393742deae448a4
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="Green_caterpillar.jpg" alt="Green caterpillar" title="Green caterpillar" />

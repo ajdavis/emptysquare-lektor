@@ -16,6 +16,8 @@ categories: Motor,Programming,Python
 ---
 summary: Event-loop management, error handling, and coroutines as unittests.
 ---
+legacy_id: 5526a9645393741c70651f95
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="toad-vs-birdo.jpg" alt="Toad vs Birdo" title="Toad vs Birdo" />

@@ -16,6 +16,8 @@ categories: Mongo,Motor,Programming,Python
 ---
 summary: One critical bugfix.
 ---
+legacy_id: 554e0d3f5393741c64c21709
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />

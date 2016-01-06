@@ -17,6 +17,8 @@ categories: Programming,Python
 ---
 summary: My PyCon 2015 talk about testing asynchronous code with Tornado's included AsyncTestCase.
 ---
+legacy_id: 552b367b5393741c7644e76e
+---
 body:
 
 Async frameworks like Tornado scramble our usual unittest strategies: how can you validate the outcome when you do not know when to expect it? Here's my PyCon 2015 talk about Tornado's testing module. You can also [read my article on the topic](/blog/eventually-correct-async-testing-tornado/) or see [a screencast which I closed-captioned](/blog/screencast-of-eventually-correct-async-testing-with-tornado/).

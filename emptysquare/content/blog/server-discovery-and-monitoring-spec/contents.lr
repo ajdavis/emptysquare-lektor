@@ -16,6 +16,8 @@ categories: Mongo,Programming,Python
 ---
 summary: The new spec defines how MongoDB drivers connect to replica sets and other server topologies.
 ---
+legacy_id: 541a452953937409602a1e70
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="discovery-2001.jpg" alt="Spacecraft Discovery from 2001: A Space Odyssey" title="Spacecraft Discovery from 2001: A Space Odyssey" />

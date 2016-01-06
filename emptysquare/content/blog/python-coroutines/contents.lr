@@ -16,6 +16,8 @@ categories: Programming,Python
 ---
 summary: David Beazley's Curious Course on Coroutines and Concurrency in Python is the best coroutine tutorial I've seen. It makes an essential distinction between generators, from which you pull data, like this: def squares(): for i in [ ... ]
 ---
+legacy_id: 72 http://emptysquare.net/blog/?p=72
+---
 body:
 
 David Beazley's [Curious Course on Coroutines and

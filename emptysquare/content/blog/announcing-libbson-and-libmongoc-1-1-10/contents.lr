@@ -16,6 +16,8 @@ categories: C,Mongo,Programming
 ---
 summary: Three bugfixes in the MongoDB C library.
 ---
+legacy_id: 55af704a5393741c7066d53d
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="coastline.jpg" alt="Coastline" title="Coastline" />

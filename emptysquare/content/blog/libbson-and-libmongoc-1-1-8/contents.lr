@@ -16,6 +16,8 @@ categories: C,Mongo,Programming
 ---
 summary: Bugfix release of the MongoDB C library.
 ---
+legacy_id: 5586755a5393741c764615f2
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="deep-sea.jpg" alt="Deep sea fish" title="Deep sea fish" />

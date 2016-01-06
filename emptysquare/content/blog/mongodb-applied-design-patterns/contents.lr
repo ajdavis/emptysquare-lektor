@@ -16,6 +16,8 @@ categories: Mongo,Programming,Python,Review
 ---
 summary: An excellent new O'Reilly book on MongoDB gives detailed, well-thought-out designs for a range of applications.
 ---
+legacy_id: 5151f6435393742deda6b6c5
+---
 body:
 
 There's a lot of bad advice out there regarding MongoDB. [As I wrote in my last review](/blog/building-node-applications-mongodb-backbone/), even smart sources can encourage risky methods. Soon, I hope, there will be as much good MongoDB instruction from experts outside 10gen as there is good third-party SQL instruction. For now, know that you can trust Rick Copeland.

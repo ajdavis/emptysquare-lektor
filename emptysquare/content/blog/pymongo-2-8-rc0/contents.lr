@@ -16,6 +16,8 @@ categories: Mongo,Programming,Python
 ---
 summary: Compatible with new MongoDB 2.8 features, and deprecates some features that will be removed in PyMongo 3.0.
 ---
+legacy_id: 5463d228539374096b6aeafd
+---
 body:
 
 [<img style="display:block; margin-left:auto; margin-right:auto;" src="Morelia_spilota_variegata_MNHN.jpg" alt="Morelia spilota variegata" title="Morelia spilota variegata" />

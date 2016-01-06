@@ -17,6 +17,8 @@ categories: C,Mongo,Programming,Python
 ---
 summary: Traditional "black box" testing can't fully validate MongoDB clients and other connected applications. Here's a convenient way to test the whole program.
 ---
+legacy_id: 55fa3cb65393742358c9c1f1
+---
 body:
 
 [<img style="display:block; margin-left:auto; margin-right:auto;" src="lower-east-side-pipes.jpg" alt="Pipes" title="Pipes" />](https://www.flickr.com/photos/emptysquare/477797865)

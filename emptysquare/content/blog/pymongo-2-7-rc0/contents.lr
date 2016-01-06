@@ -16,6 +16,8 @@ categories: Mongo,Programming,Python
 ---
 summary: Try it out: "pip install https://github.com/mongodb/mongo-python-driver/archive/2.7rc0.tar.gz"
 ---
+legacy_id: 52ffc52c5393747fe3c1d9c9
+---
 body:
 
 [<img style="display:block; margin-left:auto; margin-right:auto;" src="Green_leaf_leaves.jpg" alt="Leaf" title="Leaf" />](http://commons.wikimedia.org/wiki/File:Green_leaf_leaves.jpg)

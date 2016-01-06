@@ -17,6 +17,8 @@ categories: C,Mongo,Programming,Python
 ---
 summary: The third "black pipe testing" article: testing libmongoc with MockupDB, a wire protocol server written in Python.
 ---
+legacy_id: 55fa44e553937423598cfac8
+---
 body:
 
 [<img style="display:block; margin-left:auto; margin-right:auto;" src="circuits-black-and-white.jpg" alt="Circuits black and white" title="Circuits black and white" />](https://www.flickr.com/photos/emptysquare/2532439577)

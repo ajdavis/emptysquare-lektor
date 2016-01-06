@@ -18,6 +18,8 @@ categories: Mongo,Programming
 ---
 summary: How to find the best multicolumn index for a complex query.
 ---
+legacy_id: 505e42f55393747b3cb3c153
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="beinecke-library.jpg" alt="Beinecke Library, Yale University, 1963" title="Beinecke Library, Yale University, 1963" border="0"   />

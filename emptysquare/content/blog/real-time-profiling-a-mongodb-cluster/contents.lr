@@ -16,6 +16,8 @@ categories: Mongo,Programming
 ---
 summary: Let's experiment with queries and commands in a sharded cluster. We'll learn how shard keys and read preferences determine where your operations are run.
 ---
+legacy_id: 51bf5c6e5393747680ca1ba1
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="blue-shards.jpg" alt="Blue shards" title="Blue shards" border="0"   />

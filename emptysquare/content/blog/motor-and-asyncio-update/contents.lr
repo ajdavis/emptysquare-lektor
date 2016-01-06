@@ -16,6 +16,8 @@ categories: Mongo,Motor,Programming,Python
 ---
 summary: The roadmap for asyncio support, plus "async" and "await" in Python 3.5.
 ---
+legacy_id: 55c031ce5393741c65d3ac8b
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />

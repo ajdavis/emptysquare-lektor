@@ -16,6 +16,8 @@ categories:
 ---
 summary: Links to further reading about my "Weather of the Century" talk. Visualizing weather data using Python, MongoDB, and other open source tools.
 ---
+legacy_id: 54d18dd45393740964f6e4b9
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="weather-matplotlib.jpg" alt="Contour map of global temperature using Matplotlib" title="Contour map of global temperature using Matplotlib" />

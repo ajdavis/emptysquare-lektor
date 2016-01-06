@@ -16,6 +16,8 @@ categories: Mongo,Motor,Programming,Python
 ---
 summary: This version is compatible with Python 2.6 through 3.5, and it can use either Tornado or asyncio as its async framework.
 ---
+legacy_id: 565c5ce21e31ec1d4936a7bb
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />

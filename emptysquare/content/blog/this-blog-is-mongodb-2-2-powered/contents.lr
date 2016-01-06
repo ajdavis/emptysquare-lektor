@@ -16,6 +16,8 @@ categories: Mongo,Programming
 ---
 summary: This blog has been running on my experimental MongoDB driver, Motor, since June. But in case that wasn't cutting-edge enough, I'm now running it on MongoDB 2.2 release candidate 2. This is what I do for excitement.
 ---
+legacy_id: 503c3bce53937447f5000000
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="mongo-22.png" alt="Mongo DB 2.2 rc2" title="mongo-22.png" border="0"   />

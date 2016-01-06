@@ -16,6 +16,8 @@ categories: Mongo,Motor,Programming,Python
 ---
 summary: The first release of Motor: my full-featured, non-blocking driver for Python, Tornado, and MongoDB.
 ---
+legacy_id: 51379a405393741a1404f58b
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor" title="motor-musho.png" border="0"   />

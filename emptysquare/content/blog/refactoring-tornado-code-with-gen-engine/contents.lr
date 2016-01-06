@@ -16,6 +16,8 @@ categories: Mongo,Motor,Programming,Python
 ---
 summary: 
 ---
+legacy_id: 4ffd1f2f5393742d5b000001
+---
 body:
 
 Sometimes writing callback-style asynchronous code with <a href="http://www.tornadoweb.org/">Tornado</a> is a pain. But the real hurt comes when you want to refactor your async code into reusable subroutines. Tornado's <a href="http://www.tornadoweb.org/documentation/gen.html">gen</a> module makes refactoring easy, but you need to learn a few tricks first.

@@ -16,6 +16,8 @@ categories: Programming,Python
 ---
 summary: I merged Toro, my library for coordinating asynchronous coroutines, into Tornado 4.2.
 ---
+legacy_id: 5567366b5393741c65d2b636
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="toro.png" alt="Toro" title="toro.png" border="0"   />

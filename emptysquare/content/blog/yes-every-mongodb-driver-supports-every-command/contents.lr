@@ -16,6 +16,8 @@ categories: Mongo,Motor,Programming,Python
 ---
 summary: 
 ---
+legacy_id: 50cf9b1c5393745f960f20d0
+---
 body:
 
 This post is in response to a persistent form of question I receive about MongoDB drivers: "Does driver X support feature Y?" The answer is nearly always "yes," but you can't know that unless you understand MongoDB commands.

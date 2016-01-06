@@ -16,6 +16,8 @@ categories: Programming,Mongo
 ---
 summary: My colleague at 10gen Kyle Banker has published his book MongoDB in Action: MongoDB in Action is a comprehensive guide to MongoDB for application developers. The book begins by explaining what makes MongoDB unique and describing its [ ... ]
 ---
+legacy_id: 227 http://emptysquare.net/blog/?p=227
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="mongodb-in-action.png" title="MongoDB in Action" />

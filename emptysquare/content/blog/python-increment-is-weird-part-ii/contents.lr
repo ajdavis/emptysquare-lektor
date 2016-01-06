@@ -16,6 +16,8 @@ categories: Programming,Python
 ---
 summary: I wrote the other day about two things I think are weird about Python's += operator. In the comments, famed Twisted hacker Jean-Paul Calderone showed me something far, far weirder. This post is a record of me playing around and trying to [ ... ]
 ---
+legacy_id: 50e46ccb53937451d2fe28b2
+---
 body:
 
 I wrote the other day about two things I think are weird about Python's `+=` operator. [In the comments](/blog/python-increment-is-weird/#comment-752873234), famed Twisted hacker Jean-Paul Calderone showed me something far, far weirder. This post is a record of me playing around and trying to understand it.

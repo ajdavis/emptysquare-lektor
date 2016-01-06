@@ -16,6 +16,8 @@ categories: Mongo,Programming
 ---
 summary: Robot battles, concurrency bugs, and loyalty.
 ---
+legacy_id: 512500be5393747ddd768993
+---
 body:
 
 My colleague Kristina Chodorow wrote a post [on working at 10gen](http://www.kchodorow.com/blog/2011/10/18/on-working-at-10gen/) with which I was a bit obsessed when I applied for a gig here in late 2011. Recently I've had an eventful couple weeks: I went to Miami, won a robot battle, and helped the Ruby driver team fix some bugs. Seems like a good time to add to the "Working at 10gen" genre.

@@ -16,6 +16,8 @@ categories: Programming,Python
 ---
 summary: Fixes a few critical bugs discovered in PyMongo 3.0.
 ---
+legacy_id: 5536bc955393741c76451331
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="pymongo-301-leaf.jpg" alt="Leaf" title="Leaf" />

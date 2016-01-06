@@ -16,6 +16,8 @@ categories: Mongo,Programming
 ---
 summary: We took a reader's suggestion and updated the shell to match drivers' methods to create, retrieve, update, and delete data.
 ---
+legacy_id: 55e213605393741c706776b2
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="leaf-on-water.jpg" alt="Leaf on water" title="Leaf on water" />

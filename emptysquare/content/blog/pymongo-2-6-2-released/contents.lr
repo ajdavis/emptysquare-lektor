@@ -16,6 +16,8 @@ categories: Mongo,Programming,Python
 ---
 summary: Yesterday we released PyMongo 2.6.2, which fixes a bug when max_pool_size is None.
 ---
+legacy_id: 522b4f475393741a66f6f481
+---
 body:
 
 Bernie Hackett and I released [PyMongo 2.6.2](https://pypi.python.org/pypi/pymongo/2.6.2) yesterday. We fixed [a bug](https://jira.mongodb.org/browse/PYTHON-566) when `max_pool_size` is `None`.

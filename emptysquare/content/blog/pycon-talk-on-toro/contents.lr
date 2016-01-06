@@ -16,6 +16,8 @@ categories: Programming,Python
 ---
 summary: Toro is my package with locks, events, conditions, semaphores, and queues for Tornado coroutines.
 ---
+legacy_id: 5144be505393742dec1c6078
+---
 body:
 
 Here's the 8 slides for my 4&frac12;-minute talk on [Toro](http://toro.readthedocs.org/) this morning. Toro is a package I wrote last year that provides objects something like locks, events, conditions, semaphores, and queues for Tornado coroutines.

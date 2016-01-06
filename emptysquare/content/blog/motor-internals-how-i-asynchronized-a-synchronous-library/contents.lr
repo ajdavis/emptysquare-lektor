@@ -16,6 +16,8 @@ categories: Mongo,Motor,Programming,Python
 ---
 summary: How and why I wrote Motor, my asynchronous driver for MongoDB and Tornado.
 ---
+legacy_id: 4ffb8e715393742d5b000000
+---
 body:
 
 I'm going to explain why and how I wrote <a href="/motor/">Motor</a>, my asynchronous driver for MongoDB and Tornado. I hope I can justify my ways to you.

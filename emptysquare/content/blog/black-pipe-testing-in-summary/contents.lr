@@ -16,6 +16,8 @@ categories: C,Mongo,Programming,Python
 ---
 summary: Black pipe testing does not replace other kinds of tests, but there are two scenarios where it shines.
 ---
+legacy_id: 565d0ffc1e31ec1d48845680
+---
 body:
 
 [<img style="display:block; margin-left:auto; margin-right:auto;" src="rainy-montreal_2644619595_o.jpg" alt="Pipe in Montreal" title="Pipe in Montreal" />](https://www.flickr.com/photos/emptysquare/2644619595/)

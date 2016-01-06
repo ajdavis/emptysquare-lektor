@@ -16,6 +16,8 @@ categories: Mongo,Programming,Python
 ---
 summary: Yesterday we released PyMongo 2.6.1, which fixes a memory leak in insert().
 ---
+legacy_id: 5227821e5393741a58ccfdf6
+---
 body:
 
 <a href="http://www.flickr.com/photos/usnavy/7684409578/"><img style="display:block; margin-left:auto; margin-right:auto;" src="leak.jpg" alt="Leak" title="Leak" /></a>

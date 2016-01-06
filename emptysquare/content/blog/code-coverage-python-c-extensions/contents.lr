@@ -16,6 +16,8 @@ categories: Programming,Python
 ---
 summary: How to measure code coverage in your Python C extension modules.
 ---
+legacy_id: 530eb0f8539374095e323d47
+---
 body:
 
 You probably know how to find Python code that isn't exercised by your tests. Install [coverage](http://nedbatchelder.com/code/coverage/) and run:

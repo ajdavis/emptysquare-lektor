@@ -16,6 +16,8 @@ categories: C,Mongo,Programming
 ---
 summary: MongoDB 3.2 features, many fixes and improvements in GridFS, better findAndModify API.
 ---
+legacy_id: 564cfc771e31ec1d5090b5f8
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="morecambe-bay.jpg" alt="Morecambe Bay" title="Morecambe Bay" />

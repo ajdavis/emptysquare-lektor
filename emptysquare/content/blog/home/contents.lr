@@ -16,6 +16,8 @@ categories:
 ---
 summary: A. Jesse Jiryu Davis's blog on Python, Tornado, MongoDB, Zen, and photography.
 ---
+legacy_id: 539dca4a5393740a0a1cd247
+---
 body:
 
 I'm a staff engineer at [MongoDB](http://mongodb.com) in New York City. I wrote [Motor, the async MongoDB Python driver](http://motor.readthedocs.org/), and I'm the lead developer of the [MongoDB C Driver](http://api.mongodb.org/c/current/) and a member of the [PyMongo](http://api.mongodb.org/python/current/) team. I contribute to [asyncio](https://docs.python.org/3/library/asyncio.html) and [Tornado](http://www.tornadoweb.org/). I study at the [International Center for Photography](http://icp.edu/school) and practice at the [Village Zendo](http://villagezendo.org/). You can [read more about me](/blog/about/).

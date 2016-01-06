@@ -16,6 +16,8 @@ categories: Mongo,Motor,Programming,Python
 ---
 summary: Fixes an infinite loop and memory leak.
 ---
+legacy_id: 543083145393740961f61a1e
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />

@@ -16,6 +16,8 @@ categories: Mongo,Motor,Programming,Python
 ---
 summary: Some pretty charts about relative Python version usages from Donald Stufft.
 ---
+legacy_id: 554a8f6d5393741c64c20acf
+---
 body:
 
 After PyCon last month, Python packaging saint Donald Stufft [generously tweeted](https://twitter.com/dstufft/status/589596259071221762):

@@ -16,6 +16,8 @@ categories: C,Programming
 ---
 summary: Further improvements to the MongoDB C Driver since the first 1.2.0 beta.
 ---
+legacy_id: 55e8b5aa5393741c64c3f4ff
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="sea-clive-varley.jpg" alt="Sea, by Clive Varley" title="Sea, by Clive Varley" />

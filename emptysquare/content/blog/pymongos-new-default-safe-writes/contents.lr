@@ -16,6 +16,8 @@ categories: Mongo,Programming,Python
 ---
 summary: I joyfully announce that we are changing all of 10gen's MongoDB drivers to do "safe writes" by default. In the process we're renaming all the connection classes to MongoClient, so all the drivers now use the same term for the central class. [ ... ]
 ---
+legacy_id: 50b4d3f75393744a41fe2c70
+---
 body:
 
 I joyfully announce that we are [changing all of 10gen's MongoDB drivers](http://blog.mongodb.org/post/36666163412/introducing-mongoclient) to do "safe writes" by default. In the process we're renaming all the connection classes to MongoClient, so all the drivers now use the same term for the central class.

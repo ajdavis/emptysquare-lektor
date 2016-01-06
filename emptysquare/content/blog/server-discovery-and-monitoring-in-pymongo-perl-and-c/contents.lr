@@ -17,6 +17,8 @@ categories: C,Mongo,Programming,Python
 ---
 summary: Our drivers' algorithms to discover and stay connected to your server, replica set, or sharded cluster.
 ---
+legacy_id: 555bf8965393741c65d2965d
+---
 body:
 
 *(Cross-posted from the MongoDB Blog.)*

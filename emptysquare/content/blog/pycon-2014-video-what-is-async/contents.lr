@@ -16,6 +16,8 @@ categories: Programming,Python
 ---
 summary: My talk about Python's asyncio library, and async frameworks in general.
 ---
+legacy_id: 534a8fd5539374415153d680
+---
 body:
 
 Here's my talk on Python's asyncio library, and async frameworks in general, from Montr&eacute;al on April 11.

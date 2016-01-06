@@ -16,6 +16,8 @@ categories: Mongo,Programming
 ---
 summary: A subtle performance bug in the MongoDB Ruby driver's connection pool.
 ---
+legacy_id: 5133b83353937431d6bf0c88
+---
 body:
 
 Last month, the team in charge of 10gen's Ruby driver for MongoDB ran into a few concurrency bugs, reported by a customer running the driver in JRuby with a large number of threads and connections. I've barely written a line of Ruby in my life, but [I jumped in to help for a week](/blog/what-its-like-to-work-for-10gen/) anyway.

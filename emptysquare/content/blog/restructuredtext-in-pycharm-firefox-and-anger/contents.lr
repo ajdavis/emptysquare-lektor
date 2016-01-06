@@ -16,6 +16,8 @@ categories: Programming,Python
 ---
 summary: An only-somewhat-shitty workflow for writing reST.
 ---
+legacy_id: 5165808353937474b99b1857
+---
 body:
 
 I spend a lot of time writing Python package documentation in reST. Nevertheless, I find reST's markup permanently unlearnable, so I format docs by trial and error: I type a few backticks and colons and angle-brackets and random crap, `sphinx-build` the docs as HTML, and see if they look okay. 

@@ -16,6 +16,8 @@ categories: Mongo,Motor,Programming,Python
 ---
 summary: Motor 0.2 has been released. It's a huge upgrade: ease-of-use improvements, non-blocking DNS, and compatibility with MongoDB 2.6 and PyMongo 2.7.
 ---
+legacy_id: 534713cc53937441477c4b63
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />

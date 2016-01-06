@@ -81,6 +81,11 @@ def render_post(p, post_dir, f):
                              p['original'])
     p['original'] = md_imgs.sub(partial(replace_md_img, post_dir),
                                 p['original'])
+    if 'wordpress_id' in p:
+        p['legacy_id'] = (
+            "{0} http://emptysquare.net/blog/?p={0}".format(p['wordpress_id']))
+    else:
+        p['legacy_id'] = str(p['_id'])
 
     f.write(u'''_model: blog-post
 ---
@@ -99,6 +104,8 @@ tags:
 categories: {categories}
 ---
 summary: {summary}
+---
+legacy_id: {legacy_id}
 ---
 body:
 

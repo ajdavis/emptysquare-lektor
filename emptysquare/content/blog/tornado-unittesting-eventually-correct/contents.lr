@@ -16,6 +16,8 @@ categories: Programming,Python
 ---
 summary: Photo: Tim Green I'm a fan of Tornado, one of the major async web frameworks for Python, but unittesting async code is a total pain. I'm going to review what the problem is, look at some klutzy solutions, and propose a better way. If you don't [ ... ]
 ---
+legacy_id: 276 http://emptysquare.net/blog/?p=276
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="sundial.jpg" title="Time was, time is" />

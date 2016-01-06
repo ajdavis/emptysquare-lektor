@@ -16,6 +16,8 @@ categories: Programming,Python
 ---
 summary: This version includes a new RWLock. Further development of Toro's ideas continues in Tornado itself.
 ---
+legacy_id: 55e5cd3b5393741c7067811a
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="toro.png" alt="Toro" title="toro.png" border="0"   />

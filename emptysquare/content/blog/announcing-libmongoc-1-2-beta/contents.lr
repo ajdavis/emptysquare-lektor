@@ -16,6 +16,8 @@ categories: C,Motor,Programming
 ---
 summary: A rewritten mongoc_client_t with parallel server discovery, plus many features and fixes.
 ---
+legacy_id: 55c678ae5393741c7646d108
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="sea-splash.jpg" alt="Sea splash" title="Sea splash" />

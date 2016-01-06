@@ -16,6 +16,8 @@ categories: Mongo,Programming,Python
 ---
 summary: This is a partial rewrite of the Python driver for MongoDB, our biggest and best release ever.
 ---
+legacy_id: 552481ce5393741c65d1b65b
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="leaf.jpg" alt="Leaf" title="Leaf" />

@@ -16,6 +16,8 @@ categories: Mongo,Motor,Programming,Python
 ---
 summary: Fixes a bug when GridFSHandler is combined with a timezone-aware MotorClient.
 ---
+legacy_id: 53bc41ed5393745d31c3f83e
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />

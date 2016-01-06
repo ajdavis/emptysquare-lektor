@@ -16,6 +16,8 @@ categories: Mongo,Motor,Programming,Python
 ---
 summary: How can you port a complex application from blocking to non-blocking style without rewriting all your code at once?
 ---
+legacy_id: 524209a953937432431e813c
+---
 body:
 
 [<img style="display:block; margin-left:auto; margin-right:auto;" src="F5_tornado_Elie_Manitoba_2007.jpg" alt="Tornado" title="Tornado" />

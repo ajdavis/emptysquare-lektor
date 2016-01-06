@@ -16,6 +16,8 @@ categories: Mongo,Motor,Programming,Python
 ---
 summary: No new features. Now supports Python 2 and 3 single-source.
 ---
+legacy_id: 539fa1715393747ddf851684
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />

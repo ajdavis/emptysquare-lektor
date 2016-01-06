@@ -16,6 +16,8 @@ categories: Mongo,Programming
 ---
 summary: A little-known method for simulating a temporary outage with MongoDB.
 ---
+legacy_id: 532b9397539374726c12b367
+---
 body:
 
 Someone asked on Twitter today for a way to trigger a connection failure between MongoDB and the client. This would be terribly useful when you're testing your application's handling of network hiccups.

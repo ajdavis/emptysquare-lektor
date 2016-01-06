@@ -16,6 +16,8 @@ categories: Mongo,Programming,Python
 ---
 summary: Announcing PyMongo 2.6.3, which fixes some connection-pool bugs and hardens the BSON parser.
 ---
+legacy_id: 525842d65393740368ee2727
+---
 body:
 
 [<img style="display:block; margin-left:auto; margin-right:auto;" src="grail-tree.jpg" alt="Grail tree" title="Grail tree" />](http://www.flickr.com/photos/emptysquare/4527549354/)

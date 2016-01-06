@@ -16,6 +16,8 @@ categories: Programming
 ---
 summary: My gig, 10gen, sponsored the The New York C++ Developers meetup tonight. Roman Shtylman presented a just-the-facts primer on writing C++ extensions for Node.js. The use cases were: if you need to spawn threads, if you need to interface [ ... ]
 ---
+legacy_id: 207 http://emptysquare.net/blog/?p=207
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="nodejs-light.png" title="Node.js" />

@@ -16,6 +16,8 @@ categories: Mongo,Programming,Python
 ---
 summary: What's the best way to get read-your-writes consistency in PyMongo?
 ---
+legacy_id: 528a797653937479d528989c
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="quill.jpg" alt="Quill" title="Quill" />

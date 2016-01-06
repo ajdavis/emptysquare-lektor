@@ -16,6 +16,8 @@ categories: Mongo,Programming,Python
 ---
 summary: Changes in PyMongo, the MongoDB Python driver
 ---
+legacy_id: 5101497e5393747ddd768988
+---
 body:
 
 Yesterday we released [PyMongo 2.4.2](http://pypi.python.org/pypi/pymongo/2.4.2), the latest version of 10gen's Python driver for MongoDB. You can see [the whole list of nine bugs](https://jira.mongodb.org/secure/IssueNavigator.jspa?reset=true&mode=hide&jqlQuery=fixVersion+%3D+%222.4.2%22+AND+project+%3D+PYTHON) fixed. Here are some highlights:

@@ -16,6 +16,8 @@ categories: Programming,Python
 ---
 summary: A fun series about a race condition I fixed in Python's threading implementation.
 ---
+legacy_id: 525d892b539374035f7ebf09
+---
 body:
 
 What should this Python code print?:

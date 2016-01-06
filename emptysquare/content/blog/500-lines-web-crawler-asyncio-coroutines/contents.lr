@@ -16,6 +16,8 @@ categories: Programming,Python
 ---
 summary: The chapter I wrote with Guido van Rossum about Python async coroutines is available now, as an early access release before publication.
 ---
+legacy_id: 55f735dd5393741c64c42227
+---
 body:
 
 [<img style="display:block; margin-left:auto; margin-right:auto;" src="habitat-montreal.jpg" alt="Habitat Montr&eacute;al" title="Habitat Montr&eacute;al" />](https://www.flickr.com/photos/emptysquare/2645433948/in/photolist-52Lxm9-52LtHb-52FF5c-52KSB5-wKtf8)

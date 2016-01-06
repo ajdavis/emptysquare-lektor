@@ -16,6 +16,8 @@ categories: Programming,Python
 ---
 summary: The Little Book of Semaphores is a free PDF. Whenever I write code to synchronize multiple threads, I always think, "There must be some method to this." I've been warned by the popular adage, "Any non-trivial multithreaded program has [ ... ]
 ---
+legacy_id: 521 http://emptysquare.net/blog/?p=521
+---
 body:
 
 [The Little Book of

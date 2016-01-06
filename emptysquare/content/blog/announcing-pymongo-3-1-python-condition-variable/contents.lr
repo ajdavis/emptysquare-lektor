@@ -16,6 +16,8 @@ categories: Mongo,Programming,Python
 ---
 summary: PyMongo 3.1 implements performance monitoring, a new GridFS API, and I worked around a flaw that consumes your idle CPU.
 ---
+legacy_id: 5636490b539374098f4a0197
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="leaf.jpg" alt="Leaf" title="Leaf" />

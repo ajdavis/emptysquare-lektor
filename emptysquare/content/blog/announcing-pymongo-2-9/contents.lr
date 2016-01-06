@@ -16,6 +16,8 @@ categories: Programming,Python
 ---
 summary: A compatibility bridge between PyMongo 2 and PyMongo 3 APIs.
 ---
+legacy_id: 5613f2485393742358ca4629
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="Boelen_Python.jpg" alt="Boelen Python" title="Boelen Python" />

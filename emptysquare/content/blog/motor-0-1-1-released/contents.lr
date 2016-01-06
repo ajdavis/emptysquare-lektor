@@ -16,6 +16,8 @@ categories: Mongo,Motor,Programming,Python
 ---
 summary: Fixes an incompatibility between Motor and the latest version of PyMongo, by pinning Motor's dependency to PyMongo 2.5.0 exactly.
 ---
+legacy_id: 51c86f1253937473788cbc8a
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor" title="Motor" border="0"   />

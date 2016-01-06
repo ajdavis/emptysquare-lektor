@@ -16,6 +16,8 @@ categories:
 ---
 summary: Our drivers' algorithms to discover and stay connected to your server, replica set, or sharded cluster.
 ---
+legacy_id: 555bf5e25393741c65d29645
+---
 body:
 
 Beginning in 2015, all our official drivers strive to implement the same algorithm to discover and stay connected to your standalone server, replica set, or sharded cluster.

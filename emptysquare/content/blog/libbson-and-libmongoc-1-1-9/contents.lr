@@ -16,6 +16,8 @@ categories: C,Mongo,Programming
 ---
 summary: Urgent bugfix release of the MongoDB C library.
 ---
+legacy_id: 5590ca145393741c70667e2c
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="sea-black-and-white-flight-sky.jpg" alt="Sea black and white flight sky" title="Sea black and white flight sky" />

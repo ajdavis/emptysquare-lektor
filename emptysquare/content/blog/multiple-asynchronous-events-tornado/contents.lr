@@ -16,6 +16,8 @@ categories: Programming,Python
 ---
 summary: How do you start multiple I/O operations with Tornado, and process results in the order they complete?
 ---
+legacy_id: 531b58f653937434fc699388
+---
 body:
 
 Recently I saw a question on Stack Overflow about waiting for multiple events with a Tornado coroutine, until *one* of the events completes. The inquirer wanted to do something like this:

@@ -16,6 +16,8 @@ categories: C,Mongo,Programming
 ---
 summary: An SSL bugfix for pooled clients, domain socket fix, El Capitan build guide.
 ---
+legacy_id: 5632c4535393740991facb3c
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="miami-haze.jpg" alt="Miami Haze, by Dan DeChiaro" title="Miami Haze, by Dan DeChiaro" />

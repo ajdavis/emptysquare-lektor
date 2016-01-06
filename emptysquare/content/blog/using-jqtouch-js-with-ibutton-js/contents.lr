@@ -16,6 +16,8 @@ categories: Programming
 ---
 summary: Fixing an incompatibility between two Javascript libraries for making iOS-like web apps.
 ---
+legacy_id: 41 http://emptysquare.net/blog/?p=41
+---
 body:
 
 [jQTouch](http://www.jqtouch.com/) is a jQuery-based Javascript library

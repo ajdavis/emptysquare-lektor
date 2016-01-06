@@ -16,6 +16,8 @@ categories: Mongo,Programming,Python
 ---
 summary: Bugfix release for PyMongo 2.8.
 ---
+legacy_id: 5550ff285393741c65d25dd4
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="vines.jpg" alt="Vines" title="Vines" />

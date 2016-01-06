@@ -17,6 +17,8 @@ categories: Mongo,Motor,Programming,Python
 ---
 summary: Compatible with new MongoDB 3.0 features.
 ---
+legacy_id: 54cac1c05393740964f6c464
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />

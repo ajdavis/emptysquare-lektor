@@ -16,6 +16,8 @@ categories: Mongo,Programming,Python
 ---
 summary: If you use multiple mongos servers in a sharded cluster, be cautious upgrading to PyMongo 3, we've just discovered a critical bug.
 ---
+legacy_id: 552ed95a5393741c7644f817
+---
 body:
 
 If you use multiple mongos servers in a sharded cluster, be cautious upgrading to PyMongo 3. We've just discovered [a critical bug](https://jira.mongodb.org/browse/PYTHON-898) related to our new mongos load-balancing feature.

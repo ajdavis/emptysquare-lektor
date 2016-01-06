@@ -17,6 +17,8 @@ categories: Mongo,Programming,Review
 ---
 summary: The O'Reilly book on cutting-edge web development encourages some bad habits but also demonstrates a lot of useful, elegant patterns.
 ---
+legacy_id: 514ddacb5393742deda6b6c2
+---
 body:
 
 Mike Wilson's O'Reilly book from December 2012 introduces some hip web development techniques by building a book-long example of a social networking app. Besides introducing MongoDB, Backbone, and Node, he shows the beauty and remarkable concision of [Jade](http://jade-lang.com/), [Require.js](http://requirejs.org/), and [Mongoose](http://mongoosejs.com/). He demonstrates good patterns for organizing your code in an application of substantial complexity, covers a lot of ground in few pages, and concludes with an unusually feature-complete chat-server example that weaves together all the layers of the stack. Wilson has some dangerous habits readers shouldn't emulate, but on balance his book teaches well.

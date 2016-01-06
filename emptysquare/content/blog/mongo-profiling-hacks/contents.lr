@@ -16,6 +16,8 @@ categories: Mongo,Programming
 ---
 summary: Log the line number of your code that made each MongoDB query.
 ---
+legacy_id: 174 http://emptysquare.net/blog/?p=174
+---
 body:
 
 Two interesting things about MongoDB.

@@ -16,6 +16,8 @@ categories: Programming,Python,Mongo
 ---
 summary: I rewrote PyMongo's connection pool over the last few months. Among the concurrency issues I had to nail down was, if a thread is resetting the connection pool as another thread is using the pool, how do I keep them from stepping on each [ ... ]
 ---
+legacy_id: 494 http://emptysquare.net/blog/?p=494
+---
 body:
 
 I [rewrote PyMongo's connection

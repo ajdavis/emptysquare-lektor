@@ -17,6 +17,8 @@ categories: Mongo,Programming,Python
 ---
 summary: If you use mod_wsgi, or you're the author of a Python C extension, it's time for you to learn how they interact.
 ---
+legacy_id: 523cefc75393741a66f71344
+---
 body:
 
 For the next release of PyMongo, Bernie Hackett and I have updated PyMongo's C extensions to be more compatible with `mod_wsgi`, and improved PyMongo's docs about `mod_wsgi`. In the process I had to buckle down and finally grasp the relationship between `mod_wsgi` and C extensions. The only way I could master it was to experiment. Enjoy the fruits of my research.

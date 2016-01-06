@@ -16,6 +16,8 @@ categories: Programming,Python
 ---
 summary: One minor bug fixed in Toro, my package of semaphores, locks, and queues for Tornado coroutines.
 ---
+legacy_id: 53bca2fb5393745d31c3f8b7
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="toro.png" alt="Toro" title="toro.png" border="0"   />

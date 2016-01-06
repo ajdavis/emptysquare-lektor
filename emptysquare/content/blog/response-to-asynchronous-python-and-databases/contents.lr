@@ -16,6 +16,8 @@ categories: Mongo,Motor,Programming,Python
 ---
 summary: Some thoughts on Mike Bayer's excellent article about asyncio, database drivers, and performance.
 ---
+legacy_id: 550e28c55393741c65d16a26
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="tulips.png" alt="Tulips" title="Tulips" />

@@ -16,6 +16,8 @@ categories: Mongo,Motor,Programming,Python
 ---
 summary: Fixes a socket leak in "copy_database" that has been present since Motor 0.2.
 ---
+legacy_id: 53c433935393741fc69c6917
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor" title="motor-musho.png" border="0" />

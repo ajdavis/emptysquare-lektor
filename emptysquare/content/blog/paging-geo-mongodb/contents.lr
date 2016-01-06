@@ -16,6 +16,8 @@ categories: Mongo,Programming,Python
 ---
 summary: I implemented a new option for geo queries, "minDistance." I'll show you an example app that uses minDistance to quickly page through results.
 ---
+legacy_id: 51ea67c253937416939ee927
+---
 body:
 
 The latest development release of MongoDB includes a new `minDistance` option for geospatial queries. This is exciting because it lets you page through geospatial results very efficiently, and because it's the first feature I've contributed to the database itself. I'll measure how `minDistance` performs and show you an example app.

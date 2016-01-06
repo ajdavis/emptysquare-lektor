@@ -17,6 +17,8 @@ categories: Mongo,Programming,Python
 ---
 summary: Third in a four-part series about choices we regretted in the design of PyMongo.
 ---
+legacy_id: 547a7c6b53937409607d9310
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="road-3.jpg" alt="Road" title="Road" />

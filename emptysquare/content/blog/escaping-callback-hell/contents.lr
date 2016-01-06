@@ -16,6 +16,8 @@ categories: Mongo,Motor,Programming,Python
 ---
 summary: MongoDB's asynchronous interface will require no callbacks in the next release.
 ---
+legacy_id: 52efeb405393747fe3c1cada
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="orpheus.jpg" alt="Orpheus, Antonio Canova" title="Orpheus, Antonio Canova" />

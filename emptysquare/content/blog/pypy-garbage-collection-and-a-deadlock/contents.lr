@@ -16,6 +16,8 @@ categories: Mongo,Programming,Python
 ---
 summary: Yet another danger of __del__.
 ---
+legacy_id: 548a1a695393740964aee92c
+---
 body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="ouroboros.jpg" alt="Ouroboros" title="Ouroboros" />
