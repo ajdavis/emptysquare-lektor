@@ -34,6 +34,8 @@
       {%- endfor %}
     {% endif %}
   </footer>
-  {{ render_nav_bottom(this) }}
+  {% if this.type == 'post' %}
+    {{ render_nav_bottom(this) }}
+  {% endif %}
   {{ render_disqus_comments(identifier=this.legacy_id or this.path) }}
 {% endblock %}
