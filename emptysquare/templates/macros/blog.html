@@ -36,13 +36,13 @@
 {% macro render_nav_bottom(record) %}
   <nav class="nav-below">
     <div class="nav-previous">
-      {% set older = record.next_item %}
+      {% set older = record.get_next_sibling() %}
       {% if older %}
         <a href="{{ older|url }}"><span class="meta-nav">&larr;&nbsp;</span>{{ older.title }}</a>
       {% endif %}
     </div>
     <div class="nav-next">
-      {% set newer = record.prev_item %}
+      {% set newer = record.get_prev_sibling() %}
       {% if newer %}
         <a href="{{ newer|url }}">{{ newer.title }}<span class="meta-nav">&nbsp;&rarr;</span></a>
       {% endif %}
