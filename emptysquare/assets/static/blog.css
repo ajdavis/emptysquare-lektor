@@ -55,6 +55,15 @@
   margin: 0;
   padding: 0; }
 
+.emptysquare-google-search * {
+  -moz-box-sizing:content-box;
+  -webkit-box-sizing:content-box;
+  box-sizing:content-box; }
+
+.gcsc-branding {
+  display: none;
+}
+
 input, textarea, button, select {
   margin: 0;
   font-size: 100%;
