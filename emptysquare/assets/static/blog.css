@@ -99,6 +99,7 @@ img {
   max-width: 100%; }
 
 h1, h2, h3, h4, h5 {
+  clear: both;
   margin: 2em 0 1em; }
   h1 > a, h2 > a, h3 > a, h4 > a, h5 > a {
     text-decoration: none;
@@ -307,12 +308,24 @@ article {
     margin: 0 0 0.5em; }
     .post-list .summary-title:hover, .post-list .excerpt:hover {
       text-decoration: underline; }
+  .post-list li {
+    margin-bottom: 2em;
+    clear: both; }
   .post-list .summary-title {
+    clear: both;
     font-size: 18px;
     line-height: 21px;
     font-weight: bold;
     color: #343838; }
+  .post-list img.thumbnail {
+    display: inline-block;
+    float: left;
+    margin: 0.25em 0.75em 1em 0;
+    border: 1px solid #343838; }
   .post-list .excerpt {
+    display: inline-block;
+    float: left;
+    max-width: 490px;
     margin-bottom: 2em;
     color: #343838; }
 
