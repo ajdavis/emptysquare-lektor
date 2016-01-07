@@ -1,0 +1,33 @@
+_model: blog-post
+---
+title: Search
+---
+pub_date: 2016-01-08 07:00:00
+---
+author: 
+---
+type: page
+---
+tags:
+
+
+---
+categories: 
+---
+body:
+
+<div class="emptysquare-google-search">
+<script>
+  (function() {
+    var cx = '013219485737217459495:grvmo3rs62o';
+    var gcse = document.createElement('script');
+    gcse.type = 'text/javascript';
+    gcse.async = true;
+    gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//cse.google.com/cse.js?cx=' + cx;
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(gcse, s);
+  })();
+</script>
+<gcse:search></gcse:search>
+</div>
