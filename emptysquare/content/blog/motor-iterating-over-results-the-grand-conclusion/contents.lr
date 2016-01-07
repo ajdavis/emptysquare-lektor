@@ -30,7 +30,7 @@ Last week [I asked for your help improving Motor's iteration API](/blog/motor-it
 
 # next_object
 
-After getting some inspiration from Ben Darnell on the Tornado list, I added to MotorCursor a [`fetch_next`](/motor/pymongo/api/motor/motor_cursor.html#motor.MotorCursor.fetch_next) attribute. You yield `fetch_next` from a Tornado coroutine, and if it sends back `True`, then `next_object` is guaranteed to have a document for you. So iterating over a MotorCursor is now quite nice:
+After getting some inspiration from Ben Darnell on the Tornado list, I added to MotorCursor a [`fetch_next`](http://motor.readthedocs.org/en/stable/api/motor_cursor.html#motor.MotorCursor.fetch_next) attribute. You yield `fetch_next` from a Tornado coroutine, and if it sends back `True`, then `next_object` is guaranteed to have a document for you. So iterating over a MotorCursor is now quite nice:
 
 ```python
 @gen.engine
@@ -58,7 +58,7 @@ document = yield motor.Op(cursor.next_object)
 
 # to_list
 
-Shane Spencer on the Tornado list insisted I should add a `length` argument to `MotorCursor.to_list` so you could say, "Get me a certain number of documents from the result set." I finally saw he was right, so [I've added the option](/motor/pymongo/api/motor/motor_cursor.html#motor.MotorCursor.to_list).
+Shane Spencer on the Tornado list insisted I should add a `length` argument to `MotorCursor.to_list` so you could say, "Get me a certain number of documents from the result set." I finally saw he was right, so [I've added the option](http://motor.readthedocs.org/en/stable/api/motor_cursor.html#motor.MotorCursor.to_list).
 
 ```python
 @gen.engine
@@ -72,7 +72,7 @@ def f():
 
 (Thanks to [Andrew Downing for suggesting this loop style](/blog/motor-iterating-over-results/#comment-710590108), apparently it's called a "Yourdon loop.")
 
-This is a nice addition for chunking up your documents and not holding too much in memory. Note that the actual number of documents fetched per batch is controlled by [`batch_size`](/motor/pymongo/api/motor/motor_cursor.html#motor.MotorCursor.batch_size), **not** by the `length` argument. But you can prevent your program from downloading all the batches at once if you pass a `length`. (I hope that makes sense.)
+This is a nice addition for chunking up your documents and not holding too much in memory. Note that the actual number of documents fetched per batch is controlled by [`batch_size`](http://motor.readthedocs.org/en/stable/api/motor_cursor.html#motor.MotorCursor.batch_size), **not** by the `length` argument. But you can prevent your program from downloading all the batches at once if you pass a `length`. (I hope that makes sense.)
 
 **Migration:** If you ever called `to_list` with an explicit callback as a positional argument, like this:
 
@@ -96,7 +96,7 @@ Most Motor methods require you to pass the callback as a keyword argument, anywa
 
 # each
 
-[`MotorCursor.each`](/motor/pymongo/api/motor/motor_cursor.html#motor.MotorCursor.each) hasn't changed. It continues to be a pretty useless method, in my opinion, but it keeps Motor close to [the MongoDB Node.js Driver's API](http://mongodb.github.com/node-mongodb-native/markdown-docs/queries.html#cursors) so I'm not going to remove it.
+[`MotorCursor.each`](http://motor.readthedocs.org/en/stable/api/motor_cursor.html#motor.MotorCursor.each) hasn't changed. It continues to be a pretty useless method, in my opinion, but it keeps Motor close to [the MongoDB Node.js Driver's API](http://mongodb.github.com/node-mongodb-native/markdown-docs/queries.html#cursors) so I'm not going to remove it.
 
 # In Conclusion
 

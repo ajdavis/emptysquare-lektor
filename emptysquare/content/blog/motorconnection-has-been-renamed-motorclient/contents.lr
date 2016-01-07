@@ -29,6 +29,6 @@ Last month [I wrote about](/blog/pymongos-new-default-safe-writes/) PyMongo rena
 # Migration
 
 1. Obviously, anywhere you refer to `MotorConnection` or `MotorReplicaSetConnection`, replace it with `MotorClient` or `MotorReplicaSetClient`.
-2. More subtly, if you use the `sync_connection` method, that's changed to [`sync_client`](/motor/pymongo/api/motor/motor_client.html#motor.MotorClient.sync_client).
+2. More subtly, if you use the `sync_connection` method, that's changed to [`sync_client`](http://motor.readthedocs.org/en/stable/api/motor_client.html#motor.MotorClient.sync_client).
 
 I've updated this blog to run on the latest version of Motor, [you can see the commit here](https://github.com/ajdavis/motor-blog/commit/0c91d721a2bdb108cbf9c629542c9a8c0579bd02).

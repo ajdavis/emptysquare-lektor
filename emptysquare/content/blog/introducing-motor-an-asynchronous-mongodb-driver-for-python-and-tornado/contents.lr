@@ -24,7 +24,7 @@ body:
 
 Tornado is a popular asynchronous Python web server, and MongoDB a widely used non-relational database. Alas, to connect to MongoDB from a Tornado app requires a tradeoff: You can either use <a href="http://pypi.python.org/pypi/pymongo/">PyMongo</a> and give up the advantages of an async web server, or use <a href="http://pypi.python.org/pypi/asyncmongo/1.2.1">AsyncMongo</a>, which is non-blocking but lacks key features.
 
-I decided to fill the gap by writing a new async driver called Motor (for "MOngo + TORnado"), and it's reached the public alpha stage. Please try it out and tell me what you think. I'll maintain a homepage for it <a href="/motor/">here</a>, including <a href="/motor/pymongo/api/motor/index.html">basic documentation</a>.
+I decided to fill the gap by writing a new async driver called Motor (for "MOngo + TORnado"), and it's reached the public alpha stage. Please try it out and tell me what you think. I'll maintain a homepage for it <a href="http://motor.readthedocs.org/">here</a>.
 
 # Status
 

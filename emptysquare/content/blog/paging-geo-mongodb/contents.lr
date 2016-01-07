@@ -136,9 +136,9 @@ The first batch performs the same as it did with the aggregation framework, but 
 
 # An Example App
 
-Paging with `minDistance` requires some futzy code, compared to the straightforward aggregation technique. To work out the kinks, I made an example app with my sidewalk-caf&eacute; data. You can play with it here:
+Paging with `minDistance` requires some futzy code, compared to the straightforward aggregation technique. To work out the kinks, I made an example app with my sidewalk-caf&eacute; data. The code is here:
 
-<a href="/geopaging" target="_blank">/geopaging</a>
+[https://github.com/ajdavis/geo-paging-example](https://github.com/ajdavis/geo-paging-example)
 
 The app uses PyMongo, Flask, and MongoDB 2.5.1. To start, enter a location dense with sidewalk caf&eacute;s, like my zipcode "10009". The app asks Google for the coordinates of your location, and shows you the 10 nearest caf&eacute;s:
 
