@@ -41,8 +41,8 @@ You can read more about the Server Discovery And Monitoring Spec at these links:
 * [A summary of the spec.](/server-discovery-and-monitoring-summary.html)
 * [The Server Discovery And Monitoring Spec.](/server-discovery-and-monitoring.html)
 * [The spec source, including the YAML test files.](https://github.com/mongodb/specifications/tree/master/source/server-discovery-and-monitoring)
-* [PyMongo's test runner.](https://github.com/mongodb/mongo-python-driver/blob/3.0-dev/test/test_discovery_and_monitoring.py)
-* [PyMongo's core implementation of the spec.](https://github.com/mongodb/mongo-python-driver/blob/3.0-dev/pymongo/topology_description.py)
+* [PyMongo's test runner.](https://github.com/mongodb/mongo-python-driver/blob/3.0/test/test_discovery_and_monitoring.py)
+* [PyMongo's core implementation of the spec.](https://github.com/mongodb/mongo-python-driver/blob/3.0/pymongo/topology_description.py)
 
 We have more work to do. For one thing, the Server Discovery And Monitoring Spec only describes how the client gathers information about your server topology&mdash;it does not describe which servers the client uses for operations. [My Read Preferences Spec](/blog/reading-from-mongodb-replica-sets-with-pymongo/) only partly answers this second question. My colleague David Golden is writing an improved and expanded version of Read Preferences, which will be called the Server Selection Spec. Once that spec is complete, we'll have a standard algorithm for all drivers that answers questions like, "Which replica set member does the driver use for a query? What about an aggregation? Which mongos does it use for an insert?" It'll include tests of the same formality and rigor as the Server Discovery And Monitoring Spec does.
 

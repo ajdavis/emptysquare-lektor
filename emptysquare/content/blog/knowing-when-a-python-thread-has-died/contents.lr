@@ -25,7 +25,7 @@ body:
 
 A few months ago I had to solve a problem in PyMongo that is harder than it seems: how do you register for notifications when the current thread has died?
 
-The circumstances are these: when you call [`start_request`](http://api.mongodb.org/python/current/examples/requests.html) in PyMongo, it gets a socket from its pool and assigns the socket to the current thread. We need some way to know when the current thread dies so we can reclaim the socket and return it to the socket pool for future use, rather than wastefully allowing it to be closed.
+The circumstances are these: when you call [`start_request`](http://api.mongodb.org/python/2.8/examples/requests.html) in PyMongo, it gets a socket from its pool and assigns the socket to the current thread. We need some way to know when the current thread dies so we can reclaim the socket and return it to the socket pool for future use, rather than wastefully allowing it to be closed.
 
 PyMongo can assume nothing about what kind of thread this is: It could've been started from the `threading` module, or the more primitive `thread` module, or it could've been started outside Python entirely, in C, as when PyMongo is running under mod_wsgi.
 
@@ -76,7 +76,7 @@ The callback only fires if the weakref outlives the vigil, so I keep the weakref
 
 Let's step through this. When a thread calls `watch()`, the only strong reference to the vigil is a thread-local. When a thread dies its locals are cleaned up, the vigil is dereferenced, and `_on_death` runs. `_on_death` cleans up `_refs` and then voil&agrave;, it runs the original callback.
 
-When exactly is the vigil deleted? This is a subtle point, as the sages among you know. First, PyPy uses occasional [mark and sweep garbage collection](http://doc.pypy.org/en/latest/garbage_collection.html#minimark-gc) instead of reference-counting, so the vigil isn't deleted until some time after the thread dies. In unittests, I force the issue with `gc.collect()`.
+When exactly is the vigil deleted? This is a subtle point, as the sages among you know. First, PyPy uses occasional [mark and sweep garbage collection](http://doc.pypy.org/en/latest/gc_info.html) instead of reference-counting, so the vigil isn't deleted until some time after the thread dies. In unittests, I force the issue with `gc.collect()`.
 
 Second, there's a [bug in CPython 2.6](http://bugs.python.org/issue1868) and earlier, fixed by Antoine Pitrou in CPython 2.7.1, where thread locals aren't cleaned up until the thread dies *and* some other thread accesses the local. I [wrote about this in detail](/blog/pythons-thread-locals-are-weird/) last year when I was struggling with it. `gc.collect()` won't help in this case.
 

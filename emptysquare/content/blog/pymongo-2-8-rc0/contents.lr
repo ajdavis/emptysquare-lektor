@@ -109,7 +109,7 @@ In some network setups, users need to [set the SO_KEEPALIVE flag](http://www.tld
 
 # Deprecation warnings
 
-Soon we'll release a PyMongo 3.0 that removes many obsolete features from PyMongo and gives you a cleaner, safer, faster new API. But we want to make the upgrade as smooth as possible for you. To begin with, I [documented our compatibility policy](http://api.mongodb.org/python/current/compatibility-policy.html). I explained how to test your code to make sure you use no deprecated features of PyMongo.
+Soon we'll release a PyMongo 3.0 that removes many obsolete features from PyMongo and gives you a cleaner, safer, faster new API. But we want to make the upgrade as smooth as possible for you. To begin with, I [documented our compatibility policy](http://api.mongodb.org/python/2.8/compatibility-policy.html). I explained how to test your code to make sure you use no deprecated features of PyMongo.
 
 Second, I deprecated some features that will be removed in PyMongo 3.0:
 

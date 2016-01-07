@@ -58,7 +58,7 @@ def each(document, error):
 collection.find().each(callback=each)
 ```
 
-Python's generators allow us to do [inline callbacks with `tornado.gen`](http://www.tornadoweb.org/documentation/gen.html), which makes up for the lack of anonymous functions. `each` doesn't work with the generator style, though, so I don't think many people will use `each`.
+Python's generators allow us to do [inline callbacks with `tornado.gen`](http://www.tornadoweb.org/en/latest/gen.html), which makes up for the lack of anonymous functions. `each` doesn't work with the generator style, though, so I don't think many people will use `each`.
 
 # next_object
 

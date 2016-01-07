@@ -59,7 +59,7 @@ client = MongoClient(waitQueueTimeoutMS=100)
 A thread that waits more than 100ms (in this example) for a connection throws an exception. Use this option if it is more
 important to bound the duration of operations during a load spike than it is to complete every operation.
 
-All this intricate work on the connection pool was generously contributed by [Justin Patrin](http://www.reversefold.com/blog/), a developer at Idle Games.
+All this intricate work on the connection pool was generously contributed by [Justin Patrin](https://twitter.com/papercrane), a developer at Idle Games.
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="justin-patrin.jpg" alt="Justin Patrin" title="Justin Patrin" />
 

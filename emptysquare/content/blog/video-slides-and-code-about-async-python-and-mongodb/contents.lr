@@ -38,7 +38,7 @@ same demo app three times:
     fork](https://github.com/bitly/asyncmongo/pull/39) to support
     tailable cursors.
 -   Once with AsyncMongo and [Tornado's generator
-    interface](http://www.tornadoweb.org/documentation/gen.html).
+    interface](http://www.tornadoweb.org/en/latest/gen.html).
 -   And finally, using the [official
     PyMongo](https://github.com/mongodb/mongo-python-driver/), which
     reveals the tragic consequences of long-running MongoDB queries

@@ -147,7 +147,7 @@ Lock](http://wiki.python.org/moin/GlobalInterpreterLock) and
 program, releasing the GIL makes it very likely that another thread
 which is waiting for the GIL will immediately acquire it.
 (Notwithstanding [David Beazley's talk on the
-GIL](http://blip.tv/carlfk/mindblowing-python-gil-2243379)—he
+GIL](http://pyvideo.org/video/588/mindblowing-python-gil)&mdash;he
 demonstrates that CPU-bound and IO-bound threads competing for the GIL
 on a multicore system interrupt each other too **rarely**, but in this
 case I'm only dealing with IO-bound threads.)

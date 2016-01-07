@@ -35,7 +35,7 @@ how to write even pithier unittests.
 Late last year Tornado gained the "gen" module, which allows you to
 write async code in a synchronous-looking style by making your request
 handler into a generator. [Go look at the Tornado documentation for the
-gen module.](http://www.tornadoweb.org/documentation/gen.html)
+gen module.](http://www.tornadoweb.org/en/latest/gen.html)
 
 I've extended that idea to unittest methods by making a test decorator
 called `async_test_engine`. Let's look at the classic way of testing

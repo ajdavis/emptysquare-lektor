@@ -22,7 +22,7 @@ body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="yield.png" alt="YieldPoints" title="yield.png" border="0"   />
 
-I affectionately introduce YieldPoints, my littlest project yet. It's just some simple extensions to [Tornado's gen module](http://www.tornadoweb.org/documentation/gen.html).
+I affectionately introduce YieldPoints, my littlest project yet. It's just some simple extensions to [Tornado's gen module](http://www.tornadoweb.org/en/latest/gen.html).
 
 The cutest example of what you can do with YieldPoints is the WaitAny class, which lets you begin multiple asynchronous tasks and handle their results in the order they complete:
 

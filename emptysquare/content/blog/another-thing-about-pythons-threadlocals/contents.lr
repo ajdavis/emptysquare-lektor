@@ -24,7 +24,7 @@ body:
 
 As the maintainer of the connection pool for PyMongo, the official MongoDB driver for Python, I've gotten far more intimate knowledge of Python threads than I'd ever wanted.
 
-One of the challenges I face is: if the connection pool assigns a socket to a thread and the thread dies, how do we reclaim the socket for the general pool? I thought I nailed it last year, using a weakref callback to a threadlocal, but there's a bug in that method. [Justin Patrin](http://www.reversefold.com/) of Idle Games discovered it while testing a PyMongo contribution he's making. I'm going to describe the bug, its impact, the cause, and the fix. I'll conclude by kvetching about supporting archaic versions of Python.
+One of the challenges I face is: if the connection pool assigns a socket to a thread and the thread dies, how do we reclaim the socket for the general pool? I thought I nailed it last year, using a weakref callback to a threadlocal, but there's a bug in that method. [Justin Patrin](https://twitter.com/papercrane) of Idle Games discovered it while testing a PyMongo contribution he's making. I'm going to describe the bug, its impact, the cause, and the fix. I'll conclude by kvetching about supporting archaic versions of Python.
 
 # The Bug
 
@@ -73,7 +73,7 @@ The bug is: In Python 2.7.0 and older, `ncallbacks` is sometimes a few callbacks
 
 # Its Impact
 
-I found that an application running Python 2.7.0 or older, if it creates and destroys very large numbers of threads continuously for a long time, and if each thread calls [`end_request`](http://api.mongodb.org/python/current/examples/requests.html) at least once and `start_request` more times than `end_request`, will occasionally leave a socket tied to a dead thread. These sockets will eventually exceed the process's ulimit or MongoDB's.
+I found that an application running Python 2.7.0 or older, if it creates and destroys very large numbers of threads continuously for a long time, and if each thread calls [`end_request`](http://api.mongodb.org/python/2.8/examples/requests.html) at least once and `start_request` more times than `end_request`, will occasionally leave a socket tied to a dead thread. These sockets will eventually exceed the process's ulimit or MongoDB's.
 
 This application pattern would be as weird and unusual as it sounds, which is why no one's complained of the bug.
 
