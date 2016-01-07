@@ -38,6 +38,7 @@ body{margin:0px; padding:0px; background:#000;}
 </head>
 <body>
 <div id="top-nav">
+  <a href="/">Home</a>
   {% for g in this.parent.children %}
     {% set klass = "nav-current" if g == this %}
     <a href="{{ g|url }}" class="{{ klass }}">{{ g.title }}</a>
