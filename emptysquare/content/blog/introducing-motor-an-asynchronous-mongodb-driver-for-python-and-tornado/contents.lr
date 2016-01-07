@@ -121,7 +121,7 @@ application.listen(8888)
 tornado.ioloop.IOLoop.instance().start()
 ```
 
-Other examples are <a href="https://github.com/ajdavis/WindyCityDB/">Chirp</a>, a Twitter-like demo app, and <a href="https://github.com/ajdavis/motor-blog">Motor-Blog</a>, which runs this site.
+A full example is <a href="https://github.com/ajdavis/motor-blog">Motor-Blog</a>, a basic blog engine.
 
 # Support
 

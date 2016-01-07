@@ -80,7 +80,7 @@ def test_stuff(self):
 
 [Full code in this gist](https://gist.github.com/2230276).&nbsp;This is the
 style of testing [shown in the docs for Tornado's testing
-module](http://www.tornadoweb.org/documentation/testing.html).
+module](http://www.tornadoweb.org/en/latest/testing.html).
 
 Tornado Testing With Generators
 ===============================

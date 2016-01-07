@@ -105,7 +105,7 @@ The second step is to pause the greenlet whenever it would block. I wrote a `Mot
 
 Eventually, IOStream's `read_bytes` call completes and executes the callback, which (7) resumes the paused greenlet. That greenlet then completes PyMongo's processing, parsing the server's response and so on, until PyMongo's original `find_one` returns. Motor gets a result or an exception from PyMongo's `find_one` and (8) schedules your callback on the IOLoop.
 
-(The real code is a little more complicated, <a href="https://github.com/ajdavis/mongo-python-driver/blob/motor/motor/__init__.py#L74">gory details here</a>.)
+(The real code is a little more complicated, <a href="https://github.com/mongodb/motor/blob/0.5/motor/frameworks/tornado.py#L288">gory details here</a>.)
 
 If you're a visual learner, here's the same sequence of events diagrammed:
 
