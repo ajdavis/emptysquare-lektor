@@ -103,16 +103,11 @@ def get_photoset(uname, slug, target_dir, json_flickr, sets):
 
     sys.stdout.write('\n')
 
-    image_titles = '\n'.join(p['title'] for p in photos['photo'])
-
     with open(os.path.join(target_dir, 'contents.lr'), 'w') as f:
         f.write('''_model: gallery
 ---
 title: {title}
----
-image_titles:
-
-{image_titles}'''.format(title=set_name, image_titles=image_titles))
+'''.format(title=set_name))
 
 
 def main():

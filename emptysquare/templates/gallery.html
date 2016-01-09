@@ -46,7 +46,7 @@ body{margin:0px; padding:0px; background:#000;}
 </div>
 {% set width = 1440 %}
 {% set firstimg = this.attachments.images|first %}
-<div id="bg"><a href="#" class="nextImageBtn" title="next"></a><a href="#" class="prevImageBtn" title="previous"></a><img src="{{ firstimg.thumbnail(width)|url }}" width="{{ width }}" title="{{ this.image_titles[0] }}" id="bgimg" /></div>
+<div id="bg"><a href="#" class="nextImageBtn" title="next"></a><a href="#" class="prevImageBtn" title="previous"></a><img src="{{ firstimg.thumbnail(width)|url }}" width="{{ width }}" id="bgimg" /></div>
 <div id="preloader"><img src="/malihu-jquery-image-gallery/ajax-loader_dark.gif" width="32" height="32" /></div>
 <div id="img_title"></div>
 <div id="thumbnails_wrapper">
@@ -57,7 +57,7 @@ body{margin:0px; padding:0px; background:#000;}
         <div class="content">
           <div>
             <a href="{{ img.thumbnail(width)|url }}">
-              <img src="{{ img.thumbnail(220)|url }}" title="{{ this.image_titles[loop.index0] }}" class="thumb" />
+              <img src="{{ img.thumbnail(220)|url }}" class="thumb" />
             </a>
           </div>
         </div>
