@@ -331,6 +331,7 @@ article {
     color: #343838; }
 
 .nav-below {
+  clear: both;
   margin-top: 2em; }
 
 .nav-below, .nav-below a {
