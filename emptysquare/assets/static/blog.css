@@ -325,7 +325,8 @@ article {
   .post-list .excerpt {
     display: inline-block;
     float: left;
-    max-width: 490px;
+    max-width: 430px;
+    margin-top: 0.2em;
     margin-bottom: 2em;
     color: #343838; }
 

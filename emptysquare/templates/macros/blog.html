@@ -78,7 +78,7 @@
   <a href="{{ post|url }}" class="summary-title">{{ post.title }}</a>
   <a href="{{ post|url }}">
       {% set i = post.attachments.images|first %}
-      {% if i %}<img class="thumbnail" width="60px" src="{{ i.thumbnail(60)|url }}">{% endif %}
+      {% if i %}<img class="thumbnail" width="120px" src="{{ i.thumbnail(120)|url }}">{% endif %}
       <span class="excerpt">{{ post.summary }}</span>
   </a>
 {% endmacro %}
