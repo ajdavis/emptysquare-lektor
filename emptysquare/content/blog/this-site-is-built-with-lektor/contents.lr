@@ -2,7 +2,7 @@ _model: blog-post
 ---
 title: This Site Is Built With Lektor
 ---
-_discoverable: no
+_discoverable: yes
 ---
 body:
 
@@ -12,7 +12,7 @@ In the last week I've ported this blog and my [photo portfolio](/photography) to
 
 In the beginning, I blogged on WordPress. WordPress is a wonder of the world. It [powers a quarter of the web](http://venturebeat.com/2015/11/08/wordpress-now-powers-25-of-the-web/). The [WordPress developers have figured out how to auto-update their millions of users](http://opensourcebridge.org/sessions/1419) (please follow that link, the story is fascinating), and this auto-updating makes it a remarkably secure and robust platform. But I'm somehow not smart enough to make WordPress fast.
 
-For the last few years the site has run my homegrown Python blog platform, [Motor-Blog](https://github.com/ajdavis/motor-blog). In Motor-Blog I painstakingly implemented the features I needed and wrote a script to export my articles from WordPress to a MongoDB collection. I wouldn't give up what I learned. As I wrote in [Eating Your Own Hamster Food](../eating-your-own-hamster-food/), it was an invaluable experience to write my own blog software on top of MongoDB, Tornado, and my async Python driver.
+For the last few years the site has run my homegrown Python blog platform, [Motor-Blog](https://github.com/ajdavis/motor-blog). In Motor-Blog I painstakingly implemented the features I needed. It was a tremendous investment, but I wouldn't give up what I learned. As I wrote in [Eating Your Own Hamster Food](../eating-your-own-hamster-food/), it was an invaluable experience to write my own blog software on top of MongoDB, Tornado, and my async Python driver.
 
 Motor-Blog is a hotrod: I built it in my garage, it lacks basic features, and it's fast and overpowered and expensive. I ran it on four Tornado processes, connected to a MongoDB instance, load-balanced by NGinx, all running on one big Rackspace box. That's a pricey way to run a simple website. And, continuing the hotrod analogy, I was the only one who knew how it worked. I liked tinkering with it on weekends, but it was an absurd vehicle just to drive to the grocery store.
 
