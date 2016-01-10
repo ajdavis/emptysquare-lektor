@@ -109,42 +109,6 @@ class BlogPostsPlugin(Plugin):
     def on_setup_env(self, **extra):
         self.env.types['motor_blog_markdown'] = MotorBlogMarkdownType
         self.env.jinja_env.globals['blog_posts'] = blog_posts
-        self.env.add_build_program(TagPage, TagPageBuildProgram)
-
-        blog_path = self.get_blog_path()
-
-        @self.env.urlresolver
-        def tag_resolver(node, url_path):
-            # url_path is a list of segments.
-            if node.path != blog_path or not url_path:
-                return
-
-            blog = node
-            tag_path_root = get_path_segments(self.get_tag_path_root())
-            if url_path[:len(tag_path_root)] != tag_path_root:
-                return
-            
-            tag_segments = url_path[len(tag_path_root):]
-            if len(tag_segments) != 1:
-                return
-            
-            tag = tag_segments[0]
-            page = TagPage(blog, self, tag)
-            if page.items:
-                return page
-
-        @self.env.generator
-        def generate_tag_pages(source):
-            if source.path != blog_path:
-                return
-
-            if getattr(source, 'page_num'):
-                # The record is the second or later page of a pagination.
-                return
-
-            blog = source
-            for tag in self.get_all_tags(blog):
-                yield TagPage(blog, self, tag)
 
     def get_blog_path(self):
         return self.get_config().get('blog_path', '/blog')
