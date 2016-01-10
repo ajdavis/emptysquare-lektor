@@ -1,15 +1,7 @@
 # -*- coding: utf-8 -*-
-from lektor.context import get_ctx
-from lektor.db import F
 from lektor.pluginsystem import Plugin
 from lektor.types import Type
 import markdown  # This is "Python Markdown": pip install markdown
-
-
-def blog_posts():
-    ctx = get_ctx()
-    return ctx.record.pagination.items.filter(F._model == 'blog-post' and
-                                              F.type == 'post')
 
 
 class HTML(object):
@@ -35,7 +27,6 @@ class BlogPostsPlugin(Plugin):
 
     def on_setup_env(self, **extra):
         self.env.types['motor_blog_markdown'] = MotorBlogMarkdownType
-        self.env.jinja_env.globals['blog_posts'] = blog_posts
 
     def get_blog_path(self):
         return self.get_config().get('blog_path', '/blog')

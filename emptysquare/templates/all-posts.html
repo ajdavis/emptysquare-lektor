@@ -7,7 +7,7 @@
     <h1 class="title">All Posts</h1>
   </header>
   <ul class="post-list">
-    {% for child in blog_posts() -%}
+    {% for child in this.pagination.items -%}
       <li>{{ render_blog_post_summary(child) }}</li>
     {% endfor %}
   </ul>
