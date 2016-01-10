@@ -5,6 +5,7 @@ url = http://emptysqua.re
 [packages]
 lektor-disqus-comments = 0.2
 lektor-google-analytics = 0.1.3
+lektor-atom = 0.1
 
 [servers.ghpages]
 target = ghpages://ajdavis/ajdavis.github.io
