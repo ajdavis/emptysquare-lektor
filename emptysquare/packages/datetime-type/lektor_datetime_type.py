@@ -7,11 +7,19 @@ from lektor.types import Type
 
 class DatetimeType(Type):
     def value_from_raw(self, raw):
-        return datetime.strptime(raw.value, '%Y-%m-%d %H:%M:%S')
+        if raw.value is None:
+            return raw.missing_value('Missing date')
+        try:
+            return datetime.strptime(raw.value, '%Y-%m-%d %H:%M:%S')
+        except ValueError:
+            return raw.bad_value('Bad datetime format')
 
 
 def strftime_filter(dt, fmt='%B %-d, %Y'):
-    return dt.strftime(fmt)
+    if isinstance(dt, datetime):
+        return dt.strftime(fmt)
+
+    return ''
 
 
 class DatetimeTypePlugin(Plugin):
