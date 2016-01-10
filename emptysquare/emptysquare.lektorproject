@@ -8,4 +8,4 @@ lektor-google-analytics = 0.1.3
 lektor-atom = 0.1
 
 [servers.ghpages]
-target = ghpages://ajdavis/ajdavis.github.io
+target = ghpages://ajdavis/ajdavis.github.io?cname=emptysqua.re
