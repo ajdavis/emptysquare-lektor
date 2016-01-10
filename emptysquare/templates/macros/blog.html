@@ -19,13 +19,13 @@
 {% macro render_main_nav() %}
   <nav class="main-nav">
     <ul>
-      {% for url, title in [
+      {% for source_path, title in [
         ('/blog/all-posts/', 'All Posts'),
-        ('/blog/feed/', 'Feed'),
+        ('/blog@atom/main', 'Feed'),
         ('/blog/about/', 'About'),
         ('/photography/', 'Photography'),
       ] %}
-      <li class="nav-item menu-nav-item"><a href="{{ url }}">{{ title|escape }}</a>
+      <li class="nav-item menu-nav-item"><a href="{{ source_path|url }}">{{ title|escape }}</a>
       </li>{% endfor %}
       <li class="nav-item nav-divider nav-divider-1">Categories:</li>{% for category in site.query('blog/category/') %}
       <li class="nav-item category-nav-item"><a href="{{ category|url }}" title="{{ 'View all posts filed under ' + category.name }}">{{ category.name|escape }}</a>
