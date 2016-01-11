@@ -1,10 +1,11 @@
 {% extends "blog-layout.html" %}
 {% from "macros/blog.html" import render_blog_post_summary %}
 {% from "macros/pagination.html" import render_pagination %}
-{% block title %}All Posts{% endblock %}
+{% set t = "All " ~ this.type|title ~ "s" %}
+{% block title %}{{ t }}{% endblock %}
 {% block content %}
   <header>
-    <h1 class="title">All Posts</h1>
+    <h1 class="title">{{ t }}</h1>
   </header>
   <ul class="post-list">
     {% for child in this.pagination.items -%}
