@@ -22,7 +22,7 @@
       {% set comma = joiner(", ") %}
       Categories:
       {% for c in this.categories -%}
-        {{ comma() }}<a href="../category/{{ c.lower() }}" title="All posts in {{ c }}">{{ c }}</a>
+        {{ comma() }}<a href="{{ ('../category/' ~ c.lower())|url }}" title="All posts in {{ c }}">{{ c }}</a>
       {%- endfor %}
     {% endif %}
     {% if this.tags %}
@@ -30,7 +30,7 @@
       {% set comma = joiner(", ") %}
       Tags:
       {% for t in this.tags -%}
-        {{ comma() }}<a href="../tag/{{ t.lower() }}" title="All posts tagged {{ t }}">{{ t }}</a>
+        {{ comma() }}<a href="{{ ('/blog@tag/' ~ t.lower())|url }}" title="All posts tagged {{ t }}">{{ t }}</a>
       {%- endfor %}
     {% endif %}
   </footer>
