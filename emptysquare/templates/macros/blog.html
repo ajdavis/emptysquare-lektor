@@ -27,7 +27,7 @@
       ] %}
       <li class="nav-item menu-nav-item"><a href="{{ source_path|url }}">{{ title|escape }}</a>
       </li>{% endfor %}
-      <li class="nav-item nav-divider nav-divider-1">Categories:</li>{% for category in site.query('blog/category/') %}
+      <li class="nav-item nav-divider nav-divider-1">Categories:</li>{% for category in site.query('category') %}
       <li class="nav-item category-nav-item"><a href="{{ category|url }}" title="{{ 'View all posts filed under ' + category.name }}">{{ category.name|escape }}</a>
       </li>{% endfor %}
       <li class="nav-item nav-divider nav-divider-2">&nbsp;</li>
