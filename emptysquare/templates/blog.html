@@ -13,7 +13,7 @@
       {% for child in children %}
         <li>{{ render_blog_post_summary(child) }}</li>
       {% endfor %}
-      <li><br><a href="/blog/all-posts/" class="summary-title">... More Posts</a></li>
+      <li><br><a href="{{ '/all-posts@2'|url }}" class="summary-title">... More Posts</a></li>
     </ul>
     <h1 id="selected-articles">Selected Articles</h1>
     <ul class="post-list">
