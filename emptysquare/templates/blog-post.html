@@ -2,7 +2,7 @@
 {% from "macros/blog.html" import render_blog_post_content, render_nav_bottom %}
 {% block title %}{{ this.title }}{% endblock %}
 {% block content %}
-  <article class="{{ this.type or 'page' }}">
+  <article class="{{ this.type }}">
     <header>
       {% if this.type == 'post' %}
         <div class="post-meta">
