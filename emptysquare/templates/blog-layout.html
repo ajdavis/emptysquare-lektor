@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 {% from "macros/blog.html" import render_main_nav %}
 {% block extrahead %}
-<meta name="description" content="A. Jesse Jiryu Davis's blog on C, Python, Tornado, asyncio, MongoDB, Zen, and photography">
+<meta name="description" content="{{ this.summary }}">
 <meta name="generator" content="Lektor">
-<meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="title">
-<meta name="twitter:description" content="meta_description">
+<meta name="twitter:description" content="{{ this.summary }}">
 <meta name="twitter:creator" content="@jessejiryudavis">
 <meta name="twitter:domain" content="emptysqua.re">
 {% endblock %}
