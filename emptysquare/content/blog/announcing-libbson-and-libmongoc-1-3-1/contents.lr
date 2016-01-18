@@ -1,0 +1,59 @@
+_model: blog-post
+---
+title: Announcing libbson and libmongoc 1.3.1
+---
+pub_date: 2016-01-18 15:09:01
+---
+author: 
+---
+type: post
+---
+tags:
+
+
+---
+categories: C,Mongo,Programming
+---
+summary: Fixes some build failures and bugs since 1.3.0.
+---
+body:
+
+![Deep sea](Deep_sea.png)
+
+I'm pleased to announce version 1.3.1 of libbson and libmongoc, the libraries constituting the MongoDB C Driver. This is a run-of-the-mill bugfix release for you, unless you use GridFS with write concern, read concern, or read preference&mdash;in that case read carefully before upgrading.
+
+# libbson
+
+* `bson_strnlen` is off by one on Windows.
+* `BSON_HAVE_STRNLEN` config check used incorrectly.
+* Incompatibility with older CMake versions.
+* Wrong-sized allocation in `bson_json_reader_new`.
+
+# libmongoc
+
+* `mongoc_client_get_gridfs` now copies the client's read preferences, read concern, and write concern to the newly created `mongoc_gridfs_t`. Before this fix, GridFS operations were always executed with the default config: data was read from the primary, with the read concern level "local", and written with write concern "acknowledged". Now, if you have configured any of these options on the `mongoc_client_t`, they are respected by the `mongoc_gridfs_t`.
+* CMakeLists.txt now includes and installs the pkg-config files.
+
+# Links
+
+ * [libbson-1.3.1.tar.gz](https://github.com/mongodb/libbson/releases/download/1.3.1/libbson-1.3.1.tar.gz)
+ * [libmongoc-1.3.1.tar.gz](https://github.com/mongodb/mongo-c-driver/releases/download/1.3.1/mongo-c-driver-1.3.1.tar.gz)
+ * [All bugs fixed in 1.3.1](https://jira.mongodb.org/issues/?jql=project%20%3D%20CDRIVER%20AND%20fixVersion%20%3D%201.3.1%20ORDER%20BY%20due%20ASC%2C%20priority%20DESC%2C%20created%20ASC)
+ * [Documentation for libmongoc](http://api.mongodb.org/c/1.3.1/)
+
+Thanks to everyone who contributed to this release.
+
+* A. Jesse Jiryu Davis
+* Hannes Magnusson
+* Christopher Wang
+* Jean-Bernard Jansen
+* Jeremy Mikola
+* Jeroen Ooms
+* Alex Bishop
+
+Peace,  
+&nbsp;&nbsp;&mdash;A. Jesse Jiryu Davis
+
+***
+
+[Image: Wikipedia](https://commons.wikimedia.org/wiki/File:Deep_sea.jpg)
