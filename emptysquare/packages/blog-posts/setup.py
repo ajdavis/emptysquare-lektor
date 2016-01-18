@@ -11,6 +11,9 @@ setup(
     entry_points={
         'lektor.plugins': [
             'blog-posts = lektor_blog_posts:BlogPostsPlugin',
+        ],
+        'console_scripts': [
+            'blog=lektor_blog_posts:cli',
         ]
     }
 )
