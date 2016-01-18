@@ -42,15 +42,6 @@
 {% endmacro %}
 
 
-{% macro render_category_nav(active=none) %}
-  <ul>
-  {% for category in site.query('/categories') %}
-    <li><a href="{{ category|url }}">{{ category.name }}</a>
-  {% endfor %}
-  </ul>
-{% endmacro %}
-
-
 {% macro render_nav_bottom(record) %}
   <nav class="nav-below">
     <div class="nav-previous">
