@@ -75,10 +75,10 @@ def list_what(ctx, what):
                                 else '')
 
                 if draft['_discoverable']:
-                    print 'Warning: discoverable'
+                    print '\tWARNING: DISCOVERABLE!'
 
                 if draft['pub_date']:
-                    print 'Warning: pub_date'
+                    print '\tWARNING: PUB_DATE!'
 
     elif what == 'tags':
         for tag in sorted(pad.query('blog').distinct('tags')):
