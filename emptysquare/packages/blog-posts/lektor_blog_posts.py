@@ -13,7 +13,6 @@ from lektor.pluginsystem import Plugin
 from lektor.types import Type
 import markdown  # This is "Python Markdown": pip install markdown
 
-
 version = pkg_resources.get_distribution('lektor-blog-posts').version
 
 
@@ -90,8 +89,9 @@ def list_what(ctx, what):
 @cli.command('new')
 @click.argument('what', type=click.Choice(['draft']))
 @click.argument('where', type=click.Path())
+@click.argument('images', type=click.Path(), required=False)
 @pass_context
-def new(ctx, what, where):
+def new(ctx, what, where, images):
     if what == 'draft':
         project_dir = os.path.dirname(ctx.get_project().project_path)
         path = os.path.join(project_dir, 'content', where)
@@ -100,6 +100,30 @@ def new(ctx, what, where):
 
         os.makedirs(path)
         contents_path = os.path.join(path, 'contents.lr')
+
+        if images:
+            filenames = []
+
+            for filename in os.listdir(images):
+                ext = os.path.splitext(filename)[-1]
+                if ext.lower() not in ('.png', '.jpg', '.jpeg'):
+                    continue
+
+                print(filename)
+                filenames.append(filename)
+
+                source_path = os.path.join(images, filename)
+                target_path = os.path.join(path, filename)
+                subprocess.check_call(
+                    ['convert', source_path, '-resize', '1200',
+                     '-quality', '80', target_path])
+
+            images_markdown = '\n\n***\n\n'.join(
+                "![](%s)" % fn for fn in filenames)
+
+        else:
+            images_markdown = ''
+
         with open(contents_path, 'w+') as f:
             f.write("""_model: blog-post
 ---
@@ -120,8 +144,8 @@ summary:
 ---
 body:
 
-
-""")
+%s
+""" % images_markdown)
         print contents_path
         subprocess.call(['open', contents_path])
     else:
