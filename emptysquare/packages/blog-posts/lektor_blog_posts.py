@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
+
+import datetime
 import os
 import pkg_resources
+import re
 import subprocess
 
 import click
@@ -123,3 +126,30 @@ body:
         subprocess.call(['open', contents_path])
     else:
         raise NotImplementedError(what)
+
+
+@cli.command('publish')
+@click.argument('where', type=click.Path())
+@pass_context
+def new(ctx, where):
+    pad = ctx.get_env().new_pad()
+    post = pad.get('blog/' + where)
+    if not post:
+        click.BadParameter('"%s" does not exist!' % where)
+
+    if post['pub_date'] and post['_discoverable']:
+        click.BadParameter('"%s" already published!' % where)
+
+    contents = post.contents.as_text()
+    if not post['pub_date']:
+        contents = """pub_date: %s
+---
+%s""" % (datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), contents)
+
+    if not post['_discoverable']:
+        pat = re.compile(r'^_discoverable:\s*(no|false)$', re.MULTILINE)
+        assert 1 == len(pat.findall(contents))
+        contents = pat.sub('_discoverable = yes', contents)
+
+    with open(post.source_filename, 'w') as f:
+        f.write(contents)
