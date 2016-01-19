@@ -3,12 +3,11 @@
 {% block extrahead %}
 <meta name="description" content="{{ this.summary }}">
 <meta name="generator" content="Lektor">
-<meta name="twitter:title" content="title">
+<meta name="twitter:title" content="{{ this.title }}">
 <meta name="twitter:description" content="{{ this.summary }}">
 <meta name="twitter:creator" content="@jessejiryudavis">
 <meta name="twitter:domain" content="emptysqua.re">
 {% endblock %}
-{% block title %}{{ this.title }}{% endblock %}
 {% block body %}
   {% for i in range(1, 7) %}
     <div class="{{ 'backgroundplaceholder%s' % i }}"></div>
