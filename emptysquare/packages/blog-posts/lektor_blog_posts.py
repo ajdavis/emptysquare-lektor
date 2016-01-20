@@ -93,7 +93,7 @@ def list_what(ctx, what):
 @pass_context
 def new(ctx, what, where, images):
     if what == 'draft':
-        project_dir = os.path.dirname(ctx.get_project().project_path)
+        project_dir = ctx.get_project().tree
         path = os.path.join(project_dir, 'content', where)
         if os.path.exists(path):
             click.BadParameter("%s already exists!" % path)
