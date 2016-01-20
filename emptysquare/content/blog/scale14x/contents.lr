@@ -1,0 +1,27 @@
+_model: blog-post
+---
+title: SCALE14x
+---
+type: post
+---
+categories: 
+
+Python
+---
+pub_date: 2016-01-20 16:24:36
+---
+summary: I'll live-code a Python 3 async coroutine framework this Sunday in Pasadena, at the SCALE14x conference.
+---
+body:
+
+![](la-central-library.jpg)
+
+I'm presenting "How Do Python Coroutines Work?" this Sunday at SCALE14x, the 14th Southern California Linux Expo. See me in Ballroom C at 1:30pm. In less than an hour, I'll live-code a simple non-blocking HTTP client in Python 3, using callbacks and an event loop. Not only that, but I'll replace the ugly callbacks with beautiful coroutines, which are just as efficient but much cleaner to code with. Come to my talk and learn how async and coroutines work from the ground up.
+
+If you aren't at the conference, [see the video Open Source Bridge made of this talk last year](https://www.youtube.com/watch?v=GSk0tIjDT10).
+
+This is my first time at SCALE! I hope to meet some Linux wizards. They are the sort of people I need to know now that I'm mainly a C programmer. I am bartering my Python expertise for Linux and C knowledge.
+
+***
+
+[Image: LA Central Library](https://www.flickr.com/photos/army_arch/2746877403)
