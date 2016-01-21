@@ -63,7 +63,7 @@ def cli(ctx, project=None):
                 type=click.Choice(['posts', 'drafts', 'tags']),
                 default='posts')
 @pass_context
-def list_what(ctx, one, what):
+def blog_list(ctx, one, what):
     pad = ctx.get_env().new_pad()
 
     if what == 'tags':
@@ -105,7 +105,7 @@ def list_what(ctx, one, what):
 @click.argument('where', type=click.Path())
 @click.argument('images', type=click.Path(), required=False)
 @pass_context
-def new(ctx, what, where, images):
+def blog_new(ctx, what, where, images):
     if what == 'draft':
         project_dir = ctx.get_project().tree
         path = os.path.join(project_dir, 'content', 'blog', where)
@@ -174,7 +174,7 @@ body:
 @cli.command('publish')
 @click.argument('where', type=click.Path())
 @pass_context
-def publish(ctx, where):
+def blog_publish(ctx, where):
     pad = ctx.get_env().new_pad()
     post = pad.get('blog/' + where)
     if not post:
@@ -202,7 +202,7 @@ def publish(ctx, where):
 @click.option('--charm', is_flag=True)
 @click.argument('where', type=click.Path())
 @pass_context
-def open(ctx, charm, where):
+def blog_open(ctx, charm, where):
     pad = ctx.get_env().new_pad()
     post = pad.get('blog/' + where)
     if not post:
@@ -215,7 +215,7 @@ def open(ctx, charm, where):
 @cli.command('preview')
 @click.argument('where', type=click.Path())
 @pass_context
-def preview(ctx, where):
+def blog_preview(ctx, where):
     import webbrowser
 
     pad = ctx.get_env().new_pad()
