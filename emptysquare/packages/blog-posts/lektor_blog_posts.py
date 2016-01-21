@@ -58,32 +58,46 @@ def cli(ctx, project=None):
 
 
 @cli.command('list')
-@click.argument('what', type=click.Choice(['drafts', 'tags']))
+@click.option('-1', '--one', is_flag=True, default=False)
+@click.argument('what',
+                type=click.Choice(['posts', 'drafts', 'tags']),
+                default='posts')
 @pass_context
-def list_what(ctx, what):
+def list_what(ctx, one, what):
     pad = ctx.get_env().new_pad()
 
-    if what == 'drafts':
-        q = pad.query('blog').include_undiscoverable(True)
-        for draft in q.filter(F._model == 'blog-post'):
-            pub_date = draft['pub_date'] if 'pub_date' in draft else None
-
-            if not pub_date or not draft['_discoverable']:
-                print '%s%s' % (str(draft.path.ljust(40)),
-                                ' "%s"' % draft['title'] if draft['title']
-                                else '')
-
-                if draft['_discoverable']:
-                    print '\tWARNING: DISCOVERABLE!'
-
-                if draft['pub_date']:
-                    print '\tWARNING: PUB_DATE!'
-
-    elif what == 'tags':
+    if what == 'tags':
         for tag in sorted(pad.query('blog').distinct('tags')):
             print tag
+
     else:
-        raise NotImplementedError(what)
+        q = pad.query('blog').include_undiscoverable(True)
+        q = q.filter(F._model == 'blog-post')
+
+        for post in q:
+            pub_date = post['pub_date'] if 'pub_date' in post else None
+
+            is_draft = not pub_date or not post['_discoverable']
+            draft_str = ' (draft)' if is_draft else ''
+
+            path = post.path
+            if path.startswith('/blog/'):
+                path = path[len('/blog/'):]
+
+            title = ' "%s"' % post['title'] if post['title'] else ''
+            if what == 'drafts' and not is_draft:
+                continue
+
+            if one:
+                print path
+            else:
+                print u''.join((str(path.ljust(40)), title, draft_str))
+
+                if is_draft and post['_discoverable']:
+                    print '\tWARNING: DISCOVERABLE!'
+
+                if is_draft and post['pub_date']:
+                    print '\tWARNING: PUB_DATE!'
 
 
 @cli.command('new')
@@ -94,17 +108,22 @@ def list_what(ctx, what):
 def new(ctx, what, where, images):
     if what == 'draft':
         project_dir = ctx.get_project().tree
-        path = os.path.join(project_dir, 'content', where)
+        path = os.path.join(project_dir, 'content', 'blog', where)
         if os.path.exists(path):
-            click.BadParameter("%s already exists!" % path)
+            raise click.BadParameter("%s already exists!" % path)
 
         os.makedirs(path)
         contents_path = os.path.join(path, 'contents.lr')
 
         if images:
-            filenames = []
+            if os.path.isdir(images):
+                filenames = os.listdir(images)
+            elif os.path.isfile(images):
+                filenames = [images]
+            else:
+                raise click.BadParameter('"%s" does not exist!' % images)
 
-            for filename in os.listdir(images):
+            for filename in filenames:
                 ext = os.path.splitext(filename)[-1]
                 if ext.lower() not in ('.png', '.jpg', '.jpeg'):
                     continue
@@ -155,14 +174,14 @@ body:
 @cli.command('publish')
 @click.argument('where', type=click.Path())
 @pass_context
-def new(ctx, where):
+def publish(ctx, where):
     pad = ctx.get_env().new_pad()
     post = pad.get('blog/' + where)
     if not post:
-        click.BadParameter('"%s" does not exist!' % where)
+        raise click.BadParameter('"%s" does not exist!' % where)
 
     if post['pub_date'] and post['_discoverable']:
-        click.BadParameter('"%s" already published!' % where)
+        raise click.BadParameter('"%s" already published!' % where)
 
     contents = post.contents.as_text()
     if not post['pub_date']:
@@ -177,3 +196,31 @@ def new(ctx, where):
 
     with open(post.source_filename, 'w') as f:
         f.write(contents)
+
+
+@cli.command('open')
+@click.option('--charm', is_flag=True)
+@click.argument('where', type=click.Path())
+@pass_context
+def open(ctx, charm, where):
+    pad = ctx.get_env().new_pad()
+    post = pad.get('blog/' + where)
+    if not post:
+        raise click.BadParameter('"%s" does not exist!' % where)
+
+    program = 'charm' if charm else 'open'
+    subprocess.call([program, post.source_filename])
+
+
+@cli.command('preview')
+@click.argument('where', type=click.Path())
+@pass_context
+def preview(ctx, where):
+    import webbrowser
+
+    pad = ctx.get_env().new_pad()
+    post = pad.get('blog/' + where)
+    if not post:
+        raise click.BadParameter('"%s" does not exist!' % where)
+
+    webbrowser.open("http://localhost:5000" + post.url_path)
