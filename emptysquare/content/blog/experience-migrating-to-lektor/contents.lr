@@ -81,6 +81,8 @@ Worse, I couldn't use my domain "emptysqua.re" with HTTPS on GitHub Pages, and t
 
 After enduring GitHub Pages with clenched teeth for a week, I redeployed to [surge.sh](https://surge.sh). The Surge interface's minimalism is so bold it's shocking. For example, I kept looking on the Surge website for a place to sign up, until I realized: it's *all* on the command line, including entering my credit card number. Once I overcame my false assumptions, moving my site to Surge took an hour or less, including SSL configuration.
 
+**Update:** A problem with Surge is that it [re-uploads my entire site from my laptop each time I deploy](https://github.com/sintaxi/surge/issues/119). That's simple and effective for small sites. But I have 400 articles, all illustrated, so my site weighs almost a gigabyte. The breaking point came to me yesterday when I was trying to publish a blog post from an airplane and found it was impossible to stay online long enough to complete the upload. I switched to [Netlify](https://www.netlify.com/) today and it seems great.
+
 ***
 
 [Image: Medieval writing desk](https://commons.wikimedia.org/wiki/File:Medieval_writing_desk.jpg)
