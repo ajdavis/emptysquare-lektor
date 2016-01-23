@@ -12,7 +12,11 @@ tags:
 
 pymongo
 ---
-categories: Mongo,Programming,Python
+categories:
+
+Mongo
+Programming
+Python
 ---
 summary: Bugfix release for PyMongo 2.8.
 ---

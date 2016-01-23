@@ -12,7 +12,10 @@ tags:
 
 
 ---
-categories: Programming,Python
+categories:
+
+Programming
+Python
 ---
 summary: My PyGotham 2015 talk. Not just a magic trick: see how simply a coroutine framework can be implemented, and gain a deep understanding of this new idiom.
 ---

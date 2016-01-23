@@ -12,7 +12,11 @@ tags:
 
 
 ---
-categories: C,Mongo,Programming
+categories:
+
+C
+Mongo
+Programming
 ---
 summary: A fix for hidden secondaries, and an improvement to the build system.
 ---

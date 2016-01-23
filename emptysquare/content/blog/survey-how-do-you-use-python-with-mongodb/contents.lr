@@ -12,7 +12,11 @@ tags:
 
 pymongo
 ---
-categories: Mongo,Programming,Python
+categories:
+
+Mongo
+Programming
+Python
 ---
 summary: Do you care about Python 3? Async? NumPy? Take this quick survey on what packages and versions you use, it would help me http://svy.mk/1Mt4UdY
 ---

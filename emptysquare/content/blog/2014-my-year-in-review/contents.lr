@@ -12,7 +12,12 @@ tags:
 
 
 ---
-categories: Mongo,Motor,Python,Zen
+categories:
+
+Mongo
+Motor
+Python
+Zen
 ---
 summary: A year crammed with Python and Zen, and looking forward to another one.
 ---

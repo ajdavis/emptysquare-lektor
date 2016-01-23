@@ -12,7 +12,12 @@ tags:
 
 
 ---
-categories: C,Mongo,Programming,Python
+categories:
+
+C
+Mongo
+Programming
+Python
 ---
 summary: We'll speak about driver spec compliance, and I'll do a talk on asyncio coroutines.
 ---

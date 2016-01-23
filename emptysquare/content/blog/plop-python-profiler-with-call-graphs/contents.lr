@@ -12,7 +12,10 @@ tags:
 
 tornado
 ---
-categories: Programming,Python
+categories:
+
+Programming
+Python
 ---
 summary: Ben Darnell's Plop project promises a low profiling impact on running systems, and shows pretty call graphs.
 ---

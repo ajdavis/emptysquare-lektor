@@ -12,7 +12,12 @@ tags:
 
 gridfs
 ---
-categories: Mongo,Motor,Programming,Python
+categories:
+
+Mongo
+Motor
+Programming
+Python
 ---
 summary: Two big updates to Motor, my non-blocking driver for MongoDB and Tornado. First, my friend Musho Rodney Alan Greenblat made a logo. Motor may or may not be ready for prime time, but it looks ready. Second, I implemented GridFS. GridFS is a [ ... ]
 ---

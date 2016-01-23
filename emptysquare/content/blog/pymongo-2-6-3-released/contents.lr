@@ -12,7 +12,11 @@ tags:
 
 
 ---
-categories: Mongo,Programming,Python
+categories:
+
+Mongo
+Programming
+Python
 ---
 summary: Announcing PyMongo 2.6.3, which fixes some connection-pool bugs and hardens the BSON parser.
 ---

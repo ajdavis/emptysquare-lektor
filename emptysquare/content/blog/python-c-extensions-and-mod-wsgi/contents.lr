@@ -13,7 +13,11 @@ tags:
 best
 mod_wsgi
 ---
-categories: Mongo,Programming,Python
+categories:
+
+Mongo
+Programming
+Python
 ---
 summary: If you use mod_wsgi, or you're the author of a Python C extension, it's time for you to learn how they interact.
 ---

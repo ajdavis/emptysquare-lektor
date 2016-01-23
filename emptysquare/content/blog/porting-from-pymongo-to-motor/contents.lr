@@ -12,7 +12,12 @@ tags:
 
 
 ---
-categories: Mongo,Motor,Programming,Python
+categories:
+
+Mongo
+Motor
+Programming
+Python
 ---
 summary: How can you port a complex application from blocking to non-blocking style without rewriting all your code at once?
 ---

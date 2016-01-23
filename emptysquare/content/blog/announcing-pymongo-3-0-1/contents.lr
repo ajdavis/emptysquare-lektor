@@ -12,7 +12,10 @@ tags:
 
 pymongo
 ---
-categories: Programming,Python
+categories:
+
+Programming
+Python
 ---
 summary: Fixes a few critical bugs discovered in PyMongo 3.0.
 ---

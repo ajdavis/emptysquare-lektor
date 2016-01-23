@@ -12,7 +12,10 @@ tags:
 
 threading
 ---
-categories: Programming,Python
+categories:
+
+Programming
+Python
 ---
 summary: A fun series about a race condition I fixed in Python's threading implementation.
 ---

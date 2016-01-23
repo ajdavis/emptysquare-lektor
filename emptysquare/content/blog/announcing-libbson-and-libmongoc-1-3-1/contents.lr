@@ -12,7 +12,11 @@ tags:
 
 
 ---
-categories: C,Mongo,Programming
+categories:
+
+C
+Mongo
+Programming
 ---
 summary: Fixes some build failures and bugs since 1.3.0.
 ---

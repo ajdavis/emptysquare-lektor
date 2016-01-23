@@ -12,7 +12,10 @@ tags:
 
 
 ---
-categories: C,Programming
+categories:
+
+C
+Programming
 ---
 summary: How to link from pages of one Mallard document to another.
 ---

@@ -12,7 +12,10 @@ tags:
 
 
 ---
-categories: Mongo,Programming
+categories:
+
+Mongo
+Programming
 ---
 summary: Let's experiment with queries and commands in a sharded cluster. We'll learn how shard keys and read preferences determine where your operations are run.
 ---

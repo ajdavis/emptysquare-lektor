@@ -12,7 +12,11 @@ tags:
 
 
 ---
-categories: Mongo,Programming,Python
+categories:
+
+Mongo
+Programming
+Python
 ---
 summary: PyMongo 2.2's connection pooling.
 ---

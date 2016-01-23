@@ -12,7 +12,10 @@ tags:
 
 
 ---
-categories: C,Programming
+categories:
+
+C
+Programming
 ---
 summary: Further improvements to the MongoDB C Driver since the first 1.2.0 beta.
 ---

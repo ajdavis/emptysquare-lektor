@@ -12,7 +12,12 @@ tags:
 
 getaddrinfo
 ---
-categories: C,Mongo,Programming,Python
+categories:
+
+C
+Mongo
+Programming
+Python
 ---
 summary: On Mac, multiprocessing plus multithreading can easily lead you to hang your process.
 ---

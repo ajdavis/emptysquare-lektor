@@ -12,7 +12,11 @@ tags:
 
 
 ---
-categories: Mongo,Programming,Python
+categories:
+
+Mongo
+Programming
+Python
 ---
 summary: I'll be at the Nashville MongoDB User Group and PyTennessee next week.
 ---

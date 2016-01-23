@@ -13,7 +13,11 @@ tags:
 backbone
 node
 ---
-categories: Mongo,Programming,Review
+categories:
+
+Mongo
+Programming
+Review
 ---
 summary: The O'Reilly book on cutting-edge web development encourages some bad habits but also demonstrates a lot of useful, elegant patterns.
 ---

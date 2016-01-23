@@ -12,7 +12,10 @@ tags:
 
 conference-tips
 ---
-categories: Programming,Python
+categories:
+
+Programming
+Python
 ---
 summary: A talk about software doesn't have to be a tour de force. It's just the campfire we gather around so we can be together.
 ---

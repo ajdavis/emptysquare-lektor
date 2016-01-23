@@ -12,7 +12,11 @@ tags:
 
 
 ---
-categories: Mongo,Programming,Python
+categories:
+
+Mongo
+Programming
+Python
 ---
 summary: Yesterday we released PyMongo 2.6.2, which fixes a bug when max_pool_size is None.
 ---

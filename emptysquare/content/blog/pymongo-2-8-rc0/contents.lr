@@ -12,7 +12,11 @@ tags:
 
 pymongo
 ---
-categories: Mongo,Programming,Python
+categories:
+
+Mongo
+Programming
+Python
 ---
 summary: Compatible with new MongoDB 2.8 features, and deprecates some features that will be removed in PyMongo 3.0.
 ---

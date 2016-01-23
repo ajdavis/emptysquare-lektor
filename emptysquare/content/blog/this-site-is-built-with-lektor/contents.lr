@@ -30,4 +30,7 @@ tags: lektor
 ---
 pub_date: 2016-01-10 13:48:20
 ---
-categories: Python, Programming
+categories:
+
+Python
+ Programming

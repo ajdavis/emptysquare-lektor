@@ -12,7 +12,11 @@ tags:
 
 
 ---
-categories: Mongo,Programming,Python
+categories:
+
+Mongo
+Programming
+Python
 ---
 summary: A mysterious deadlock with PyMongo and Gevent.
 ---

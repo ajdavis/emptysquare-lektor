@@ -13,7 +13,12 @@ tags:
 black-pipe
 testing
 ---
-categories: C,Mongo,Programming,Python
+categories:
+
+C
+Mongo
+Programming
+Python
 ---
 summary: Traditional "black box" testing can't fully validate MongoDB clients and other connected applications. Here's a convenient way to test the whole program.
 ---

@@ -12,7 +12,11 @@ tags:
 
 pymongo
 ---
-categories: Mongo,Programming,Python
+categories:
+
+Mongo
+Programming
+Python
 ---
 summary: PyMongo 3.1 implements performance monitoring, a new GridFS API, and I worked around a flaw that consumes your idle CPU.
 ---

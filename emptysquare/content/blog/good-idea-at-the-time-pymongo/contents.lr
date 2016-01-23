@@ -13,7 +13,9 @@ tags:
 good-idea-at-the-time
 pymongo
 ---
-categories: 
+categories:
+
+
 ---
 summary: A four-part series about choices we regretted in the design of PyMongo.
 ---

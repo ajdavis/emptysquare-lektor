@@ -12,7 +12,12 @@ tags:
 
 tornado
 ---
-categories: Mongo,Motor,Programming,Python
+categories:
+
+Mongo
+Motor
+Programming
+Python
 ---
 summary: Asynchronous Python is more flexible than blocking code, but you need to follow a few rules.
 ---

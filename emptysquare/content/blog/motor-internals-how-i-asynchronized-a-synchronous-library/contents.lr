@@ -12,7 +12,12 @@ tags:
 
 
 ---
-categories: Mongo,Motor,Programming,Python
+categories:
+
+Mongo
+Motor
+Programming
+Python
 ---
 summary: How and why I wrote Motor, my asynchronous driver for MongoDB and Tornado.
 ---

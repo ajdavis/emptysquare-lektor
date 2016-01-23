@@ -12,7 +12,12 @@ tags:
 
 python3
 ---
-categories: Mongo,Motor,Programming,Python
+categories:
+
+Mongo
+Motor
+Programming
+Python
 ---
 summary: I used to hate Python 3's ResourceWarnings, until one saved my tuchus.
 ---

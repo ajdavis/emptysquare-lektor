@@ -12,7 +12,10 @@ tags:
 
 threading
 ---
-categories: Programming,Python
+categories:
+
+Programming
+Python
 ---
 summary: Pitfalls to avoid when submitting a patch to the core Python team.
 ---

@@ -12,7 +12,10 @@ tags:
 
 lektor
 ---
-categories: Programming, Python
+categories:
+
+Programming
+ Python
 ---
 summary: What I learned porting my blog to Armin Ronacher's new static site generator.
 ---

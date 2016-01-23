@@ -12,7 +12,11 @@ tags:
 
 
 ---
-categories: Mongo,Programming,Python
+categories:
+
+Mongo
+Programming
+Python
 ---
 summary: This Thursday in NYC I'm talking about Python, MongoDB, and asynchronous web frameworks at a meetup called For the Love of Python: Wine tasting, Red velvet cupcakes, and Tech Talks. The talk is a work in progress. To be strictly accurate, I [ ... ]
 ---

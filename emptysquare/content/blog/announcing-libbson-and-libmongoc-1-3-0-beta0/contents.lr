@@ -12,7 +12,11 @@ tags:
 
 
 ---
-categories: C,Mongo,Programming
+categories:
+
+C
+Mongo
+Programming
 ---
 summary: MongoDB 3.2 features, many fixes and improvements in GridFS, better findAndModify API.
 ---

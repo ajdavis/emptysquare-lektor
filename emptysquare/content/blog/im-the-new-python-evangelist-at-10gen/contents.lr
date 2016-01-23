@@ -12,7 +12,9 @@ tags:
 
 
 ---
-categories: Programming
+categories:
+
+Programming
 ---
 summary: Photo: Russell Lee Today's my first day at 10gen, working on the Python driver for MongoDB. I have a lot of ideas about what to do next, but we shall see what the next few months bring. My first priorities are to improve testing for pymongo, [ ... ]
 ---

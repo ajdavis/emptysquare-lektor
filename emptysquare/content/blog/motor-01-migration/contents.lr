@@ -12,7 +12,12 @@ tags:
 
 
 ---
-categories: Mongo,Motor,Programming,Python
+categories:
+
+Mongo
+Motor
+Programming
+Python
 ---
 summary: If you've been using Motor prior to the 0.1 release, here's how to upgrade.
 ---

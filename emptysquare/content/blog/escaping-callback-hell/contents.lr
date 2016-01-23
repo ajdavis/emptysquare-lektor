@@ -12,7 +12,12 @@ tags:
 
 tornado
 ---
-categories: Mongo,Motor,Programming,Python
+categories:
+
+Mongo
+Motor
+Programming
+Python
 ---
 summary: MongoDB's asynchronous interface will require no callbacks in the next release.
 ---

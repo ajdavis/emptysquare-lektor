@@ -12,7 +12,10 @@ tags:
 
 
 ---
-categories: Programming,Mongo
+categories:
+
+Programming
+Mongo
 ---
 summary: Friend and colleague Dan has a nice post on ensuring consistency in MongoDB by maintaining a version number in your documents.
 ---

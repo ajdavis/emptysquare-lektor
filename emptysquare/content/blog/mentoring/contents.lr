@@ -12,7 +12,11 @@ tags:
 
 best
 ---
-categories: Mongo,Programming,Python
+categories:
+
+Mongo
+Programming
+Python
 ---
 summary: I've failed as a mentor, and succeeded. Here are the warning signs I watch for, and the steps I take to design a mentorship for success.
 ---

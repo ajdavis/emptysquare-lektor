@@ -12,7 +12,11 @@ tags:
 
 
 ---
-categories: Mongo,Programming,Python
+categories:
+
+Mongo
+Programming
+Python
 ---
 summary: I'm speaking at the Python Meetup and the MongoDB User Group in Austin, TX this week.
 ---

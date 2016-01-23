@@ -12,7 +12,12 @@ tags:
 
 
 ---
-categories: Mongo,Motor,Programming,Python
+categories:
+
+Mongo
+Motor
+Programming
+Python
 ---
 summary: Big changes are coming in the next release of my async MongoDB driver.
 ---

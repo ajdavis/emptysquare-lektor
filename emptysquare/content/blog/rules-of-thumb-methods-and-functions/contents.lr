@@ -12,7 +12,10 @@ tags:
 
 
 ---
-categories: Programming,Python
+categories:
+
+Programming
+Python
 ---
 summary: How I stay sane when designing an object-oriented architecture.
 ---

@@ -12,7 +12,10 @@ tags:
 
 ruby
 ---
-categories: Mongo,Programming
+categories:
+
+Mongo
+Programming
 ---
 summary: A subtle performance bug in the MongoDB Ruby driver's connection pool.
 ---

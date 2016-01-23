@@ -12,7 +12,10 @@ tags:
 
 
 ---
-categories: Mongo,Programming
+categories:
+
+Mongo
+Programming
 ---
 summary: In NYC, I talked about MongoDB and Python for visualization. Now I'm going to Portland OR to talk about writing.
 ---

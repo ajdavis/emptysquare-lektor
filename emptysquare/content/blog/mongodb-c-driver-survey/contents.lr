@@ -12,7 +12,11 @@ tags:
 
 
 ---
-categories: C,Mongo,Programming
+categories:
+
+C
+Mongo
+Programming
 ---
 summary: If you use MongoDB from a C application, what features do you care about? ARM support? More example code? FreeBSD? Take our survey and let us know.
 ---

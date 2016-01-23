@@ -12,7 +12,12 @@ tags:
 
 black-pipe
 ---
-categories: C,Mongo,Programming,Python
+categories:
+
+C
+Mongo
+Programming
+Python
 ---
 summary: Black pipe testing does not replace other kinds of tests, but there are two scenarios where it shines.
 ---

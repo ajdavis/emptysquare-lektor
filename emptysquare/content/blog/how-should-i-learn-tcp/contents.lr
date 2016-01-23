@@ -12,7 +12,10 @@ tags:
 
 
 ---
-categories: Programming,Python
+categories:
+
+Programming
+Python
 ---
 summary: As a maintainer of a database driver, I need to understand TCP a thousand times more deeply than I do now. I want to know about windows and Nagle and keep-alive and every little detail. What's the best book or online course?
 ---

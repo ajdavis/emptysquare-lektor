@@ -12,7 +12,10 @@ tags:
 
 c
 ---
-categories: Programming,Python
+categories:
+
+Programming
+Python
 ---
 summary: How to measure code coverage in your Python C extension modules.
 ---

@@ -12,7 +12,10 @@ tags:
 
 conference-tips
 ---
-categories: Programming,Python
+categories:
+
+Programming
+Python
 ---
 summary: Advice on submitting to CFPs at software conferences.
 ---

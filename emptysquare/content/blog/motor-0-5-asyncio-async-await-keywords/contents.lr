@@ -12,7 +12,12 @@ tags:
 
 
 ---
-categories: Mongo,Motor,Programming,Python
+categories:
+
+Mongo
+Motor
+Programming
+Python
 ---
 summary: This version is compatible with Python 2.6 through 3.5, and it can use either Tornado or asyncio as its async framework.
 ---

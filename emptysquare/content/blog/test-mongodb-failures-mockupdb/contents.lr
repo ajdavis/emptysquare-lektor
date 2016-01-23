@@ -13,7 +13,12 @@ tags:
 black-pipe
 testing
 ---
-categories: C,Mongo,Programming,Python
+categories:
+
+C
+Mongo
+Programming
+Python
 ---
 summary: Fourth in my "black pipe testing" series. How do you test your MongoDB application's reaction to database failures, hangs, and disconnects?
 ---

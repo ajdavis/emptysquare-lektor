@@ -12,7 +12,10 @@ tags:
 
 
 ---
-categories: Mongo,Programming
+categories:
+
+Mongo
+Programming
 ---
 summary: We renamed ourselves from 10gen to MongoDB Inc. today. Same great company. You should work with me here.
 ---

@@ -12,7 +12,11 @@ tags:
 
 
 ---
-categories: Mongo,Programming,Python
+categories:
+
+Mongo
+Programming
+Python
 ---
 summary: Links to more info about my presentation at MongoDB Boston, about MongoDB, Python, and visualization.
 ---

@@ -12,7 +12,9 @@ tags:
 
 
 ---
-categories: Programming
+categories:
+
+Programming
 ---
 summary: My gig, 10gen, sponsored the The New York C++ Developers meetup tonight. Roman Shtylman presented a just-the-facts primer on writing C++ extensions for Node.js. The use cases were: if you need to spawn threads, if you need to interface [ ... ]
 ---

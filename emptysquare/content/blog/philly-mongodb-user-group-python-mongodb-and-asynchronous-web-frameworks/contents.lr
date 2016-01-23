@@ -12,7 +12,11 @@ tags:
 
 
 ---
-categories: Programming,Python,Mongo
+categories:
+
+Programming
+Python
+Mongo
 ---
 summary: Photo (C) Parent5446 I'll be recapping last week's talk on Python, MongoDB, and Asynchronous Web Frameworks this Thursday at 7pm, in Philadelphia, at the Philly MongoDB User Group's inaugural meetup. We'll be at the Devnuts office, at [ ... ]
 ---

@@ -12,7 +12,10 @@ tags:
 
 tornado
 ---
-categories: Programming,Python
+categories:
+
+Programming
+Python
 ---
 summary: One minor bug fixed in Toro, my package of semaphores, locks, and queues for Tornado coroutines.
 ---

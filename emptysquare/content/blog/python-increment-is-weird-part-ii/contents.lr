@@ -12,7 +12,10 @@ tags:
 
 
 ---
-categories: Programming,Python
+categories:
+
+Programming
+Python
 ---
 summary: I wrote the other day about two things I think are weird about Python's += operator. In the comments, famed Twisted hacker Jean-Paul Calderone showed me something far, far weirder. This post is a record of me playing around and trying to [ ... ]
 ---

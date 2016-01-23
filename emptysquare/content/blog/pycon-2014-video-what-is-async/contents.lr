@@ -12,7 +12,10 @@ tags:
 
 video
 ---
-categories: Programming,Python
+categories:
+
+Programming
+Python
 ---
 summary: My talk about Python's asyncio library, and async frameworks in general.
 ---

@@ -12,7 +12,10 @@ tags:
 
 tornado
 ---
-categories: Programming,Python
+categories:
+
+Programming
+Python
 ---
 summary: This version includes a new RWLock. Further development of Toro's ideas continues in Tornado itself.
 ---

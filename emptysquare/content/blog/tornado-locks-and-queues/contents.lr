@@ -12,7 +12,10 @@ tags:
 
 tornado
 ---
-categories: Programming,Python
+categories:
+
+Programming
+Python
 ---
 summary: I merged Toro, my library for coordinating asynchronous coroutines, into Tornado 4.2.
 ---

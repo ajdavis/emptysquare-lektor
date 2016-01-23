@@ -12,7 +12,11 @@ tags:
 
 tornado
 ---
-categories: Motor,Programming,Python
+categories:
+
+Motor
+Programming
+Python
 ---
 summary: Event-loop management, error handling, and coroutines as unittests.
 ---

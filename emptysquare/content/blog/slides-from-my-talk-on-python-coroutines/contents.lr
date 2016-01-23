@@ -12,7 +12,10 @@ tags:
 
 tornado
 ---
-categories: Programming,Python
+categories:
+
+Programming
+Python
 ---
 summary: My NYC Python Meetup talk on coroutines in Tornado and Tulip.
 ---
