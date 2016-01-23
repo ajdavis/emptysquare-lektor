@@ -17,3 +17,4 @@
 /motor  https://motor.rtfd.org/
 /server-discovery-and-monitoring-summary.html https://github.com/mongodb/specifications/tree/master/source/server-discovery-and-monitoring
 /server-discovery-and-monitoring.html https://github.com/mongodb/specifications/tree/master/source/server-discovery-and-monitoring
+/blog/tag/:tag/page/:page/ /blog/tag/:tag/
