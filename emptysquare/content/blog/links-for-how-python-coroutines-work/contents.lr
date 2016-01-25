@@ -24,13 +24,13 @@ body:
 
 <img style="display:block; margin-left:auto; margin-right:auto;" src="python.png" alt="Python" title="Python" />
 
-At [Open Source Bridge](http://opensourcebridge.org/sessions/1582) and [PyGotham](https://pygotham.org/2015/talks/162/how-do-python-coroutines/) in 2015, I demonstrated that you can code a Python 3 async framework in about a half hour. I start the demo by writing a callback-based async framework, built on non-blocking sockets and a simple event loop. Then I adapt the framework to use generator-based coroutines, which are cleaner than callbacks but still more efficient than threads for async I/O.
+At [Open Source Bridge](http://opensourcebridge.org/sessions/1582) and [PyGotham](https://pygotham.org/2015/talks/162/how-do-python-coroutines/) in 2015, and [at SCALE14x](https://www.socallinuxexpo.org/scale/14x/presentations/how-do-python-coroutines-work), I demonstrated that you can code a Python 3 async framework in under an hour. I start the demo by writing a callback-based async framework, built on non-blocking sockets and a simple event loop. Then I adapt the framework to use generator-based coroutines, which are cleaner than callbacks but still more efficient than threads for async I/O.
 
 <iframe width="640" height="360" src="https://www.youtube.com/embed/GSk0tIjDT10?rel=0" frameborder="0" allowfullscreen></iframe>
 
 ***
 
-**[Here's the code I demonstrated.](https://github.com/ajdavis/osbridge-2015)**
+**[Here's the code I demonstrated.](https://github.com/ajdavis/coroutines-demo)**
 
 The material for this demo is adapted from [a chapter I wrote with Guido van
 Rossum for an upcoming book](https://github.com/aosabook/500lines/blob/master/crawler/crawler.markdown) in the Architecture of Open Source Applications
