@@ -68,8 +68,11 @@
 {% macro render_blog_post_summary(post) -%}
   <a href="{{ post|url }}" class="summary-title">{{ post.title }}</a>
   <a href="{{ post|url }}">
-      {% set i = post.attachments.images|first %}
-      {% if i %}<img class="thumbnail" width="120px" src="{{ i.thumbnail(120)|url }}">{% endif %}
+      {% set img = post.attachments.images|first %}
+      {% if img %}
+        {% set t = img.thumbnail(120) %}
+        <img class="thumbnail" width="{{ t.width }}" height="{{ t.height }}" src="{{ t|url }}">
+      {% endif %}
       <span class="excerpt">{{ post.summary }}</span>
   </a>
 {% endmacro %}
