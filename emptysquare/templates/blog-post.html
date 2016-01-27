@@ -5,7 +5,9 @@
     <header>
       {% if this.type == 'post' %}
         <div class="post-meta">
-          <time class="post-time">{{ this.pub_date|strftime }}</time>
+          <time class="post-time">
+            {{ this.pub_date|datetimeformat if this.pub_date else 'Draft' }}
+          </time>
           <span class="byline">
             <span class="sep">&nbsp;&mdash;&nbsp;</span>
             <span class="author">{{ site.get('blog').title }}</span>
