@@ -1,10 +1,12 @@
+pub_date: 2016-01-26 21:40:28
+---
 _model: blog-post
 ---
 title: Milkweed
 ---
 pub_date:
 ---
-_discoverable: no
+_discoverable = yes
 ---
 type: post
 ---
@@ -15,7 +17,7 @@ categories:
 
 Photography
 ---
-summary:
+summary: Photos of milkweed from the Village Zendo's summer meditation retreat.
 ---
 body:
 
