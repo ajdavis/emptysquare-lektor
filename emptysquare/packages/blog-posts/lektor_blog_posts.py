@@ -78,7 +78,7 @@ def blog_list(ctx, one, what):
             pub_date = post['pub_date'] if 'pub_date' in post else None
 
             is_draft = not pub_date or not post['_discoverable']
-            draft_str = ' (draft)' if is_draft else ''
+            draft_str = ' (draft)' if is_draft and what != 'drafts' else ''
 
             path = post.path
             if path.startswith('/blog/'):
@@ -182,6 +182,12 @@ def blog_publish(ctx, where):
 
     if post['pub_date'] and post['_discoverable']:
         raise click.BadParameter('"%s" already published!' % where)
+
+    if not post['summary']:
+        raise click.BadParameter('"%s" missing summary!' % where)
+
+    if not post['title']:
+        raise click.BadParameter('"%s" missing title!' % where)
 
     contents = post.contents.as_text()
     if not post['pub_date']:
