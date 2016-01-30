@@ -60,7 +60,7 @@ def cli(ctx, project=None):
 @cli.command('list')
 @click.option('-1', '--one', is_flag=True, default=False)
 @click.argument('what',
-                type=click.Choice(['posts', 'drafts', 'tags']),
+                type=click.Choice(['posts', 'drafts', 'tags', 'categories']),
                 default='posts')
 @pass_context
 def blog_list(ctx, one, what):
@@ -69,6 +69,10 @@ def blog_list(ctx, one, what):
     if what == 'tags':
         for tag in sorted(pad.query('blog').distinct('tags')):
             print tag
+
+    elif what == 'categories':
+        for cat in sorted(pad.query('category').distinct('name')):
+            print cat
 
     else:
         q = pad.query('blog').include_undiscoverable(True)
