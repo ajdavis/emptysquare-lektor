@@ -2,6 +2,8 @@
 
 import datetime
 import os
+from collections import defaultdict, OrderedDict
+
 import pkg_resources
 import re
 import subprocess
@@ -175,6 +177,60 @@ body:
         raise NotImplementedError(what)
 
 
+class NetlifyHeaders(object):
+    def __init__(self, pad):
+        self.path = os.path.join(pad.asset_root.source_filename, '_headers')
+        self.url_map = defaultdict(OrderedDict)
+        self.open()
+
+    def open(self):
+        if not os.path.exists(self.path):
+            return
+
+        f = open(self.path)
+
+        # Parse it. See https://www.netlify.com/docs/headers-and-basic-auth
+        current_url_headers = None
+
+        for line in f.readlines():
+            if line.lstrip().startswith('#'):
+                # Comment.
+                continue
+            elif line.lstrip() == line:
+                # Does not start with whitespace: new URL pattern.
+                url_pattern = line.rstrip()
+                current_url_headers = self.url_map[url_pattern]
+            else:
+                # Starts with whitespace.
+                if current_url_headers is not None:
+                    name, value = line.split(':', 1)
+                    current_url_headers[name.strip()] = value.strip()
+
+        f.close()
+
+    def protect(self, record, username, password):
+        headers = self.url_map[record.url_path]
+        creds = headers['Basic-Auth'].split() if 'Basic-Auth' in headers else []
+        cred = '%s:%s' % (username, password)
+        if cred not in creds:
+            creds.append(cred)
+            self.url_map[record.url_path]['Basic-Auth'] = ' '.join(creds)
+
+    def unprotect(self, record):
+        self.url_map[record.url_path].pop('Basic-Auth', None)
+
+    def save(self):
+        with open(self.path, 'w') as f:
+            for url_pattern, headers in self.url_map.items():
+                f.write(url_pattern + '\n')
+                f.write('\n'.join('  %s: %s' % (name, value)
+                                  for name, value in headers.items()))
+
+                f.write('\n')
+
+            f.truncate()
+
+
 @cli.command('publish')
 @click.argument('where', type=click.Path())
 @pass_context
@@ -221,6 +277,10 @@ def blog_publish(ctx, where):
     with open(post.source_filename, 'w') as f:
         f.write(contents)
 
+    headers = NetlifyHeaders(pad)
+    headers.unprotect(post)
+    headers.save()
+
 
 @cli.command('open')
 @click.option('--charm', is_flag=True)
@@ -248,3 +308,22 @@ def blog_preview(ctx, where):
         raise click.BadParameter('"%s" does not exist!' % where)
 
     webbrowser.open("http://localhost:5000" + post.url_path)
+
+
+@cli.command('protect')
+@click.argument('where', type=click.Path())
+@click.argument('username')
+@click.argument('password')
+@pass_context
+def blog_protect(ctx, where, username, password):
+    pad = ctx.get_env().new_pad()
+    post = pad.get('blog/' + where)
+    if not post:
+        raise click.BadParameter('"%s" does not exist!' % where)
+
+    if post['pub_date'] and post['_discoverable']:
+        raise click.BadParameter('"%s" already published!' % where)
+
+    headers = NetlifyHeaders(pad)
+    headers.protect(post, username, password)
+    headers.save()
