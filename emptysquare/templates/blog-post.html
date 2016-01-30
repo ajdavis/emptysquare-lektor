@@ -6,7 +6,7 @@
       {% if this.type == 'post' %}
         <div class="post-meta">
           <time class="post-time">
-            {{ this.pub_date|datetimeformat if this.pub_date else 'Draft' }}
+            {{ this.pub_date|datetimeformat('MMMM d, y') if this.pub_date else 'Draft' }}
           </time>
           <span class="byline">
             <span class="sep">&nbsp;&mdash;&nbsp;</span>
