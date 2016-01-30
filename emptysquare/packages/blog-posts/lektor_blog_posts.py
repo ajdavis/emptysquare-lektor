@@ -190,8 +190,22 @@ def blog_publish(ctx, where):
     if not post['summary']:
         raise click.BadParameter('"%s" missing summary!' % where)
 
+    summary_len = len(post['summary'])
+    if summary_len > 150:
+        raise click.BadParameter('"%s" summary is too long: %d' %
+                                 (where, summary_len))
+
     if not post['title']:
         raise click.BadParameter('"%s" missing title!' % where)
+
+    if not post['categories']:
+        raise click.BadParameter('"%s" no categories!' % where)
+
+    extra_categories = (set(post['categories']) -
+                        pad.query('category').distinct('name'))
+    if extra_categories:
+        raise click.BadParameter('"%s" bad categories: %s' %
+                                 (where, ', '.join(extra_categories)))
 
     contents = post.contents.as_text()
     if not post['pub_date']:
