@@ -1,10 +1,12 @@
+pub_date: 2016-01-27 22:45:14
+---
 _model: blog-post
 ---
-title:
+title: Kitchen
 ---
 pub_date:
 ---
-_discoverable: no
+_discoverable = yes
 ---
 type: post
 ---
@@ -15,13 +17,13 @@ villagezendo
 categories:
 
 Zen
- Photography
+Photography
 ---
-summary: Kitchen work, during the Village Zendo's summer meditation retreat.
+summary: The tenzo and her crew, during the Village Zendo's summer meditation retreat.
 ---
 body:
 
-August 20, 2015. Kitchen work during the Village Zendo's summer meditation retreat.
+August 20, 2015. The [tenzo](https://en.wikipedia.org/wiki/Tenzo) and her crew, during the Village Zendo's summer meditation retreat.
 
 ***
 
