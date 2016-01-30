@@ -8,6 +8,9 @@
     <link rel="shortcut icon" href="{{ '/static/favicon.gif'|url }}">
     <link rel="alternate" type="application/rss+xml" title="emptysqua.re - Feed" href="https://feeds.feedburner.com/emptysquare">
     <meta name="author" content="A. Jesse Jiryu Davis">
+    {% if not this._discoverable %}
+      <meta name="robots" content="noindex">
+    {% endif %}
   </head>
   <body class="{{ this.body_class }}">
     {% block body %}{% endblock %}
