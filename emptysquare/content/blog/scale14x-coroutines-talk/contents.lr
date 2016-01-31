@@ -16,8 +16,6 @@ Programming
 ---
 _discoverable = yes
 ---
-pub_date:
----
 summary: Video of my SCALE14x live-coding demo, in which I implement a Python 3 async framework.
 ---
 body:

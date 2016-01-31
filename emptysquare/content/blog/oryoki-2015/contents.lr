@@ -4,8 +4,6 @@ _model: blog-post
 ---
 title: Oryoki
 ---
-pub_date:
----
 _discoverable = yes
 ---
 type: post

@@ -4,8 +4,6 @@ _model: blog-post
 ---
 title: Kitchen
 ---
-pub_date:
----
 _discoverable = yes
 ---
 type: post
