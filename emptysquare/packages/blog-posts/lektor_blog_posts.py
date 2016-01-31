@@ -272,7 +272,7 @@ def blog_publish(ctx, where):
     if not post['_discoverable']:
         pat = re.compile(r'^_discoverable:\s*(no|false)$', re.MULTILINE)
         assert 1 == len(pat.findall(contents))
-        contents = pat.sub('_discoverable = yes', contents)
+        contents = pat.sub('_discoverable: yes', contents)
 
     with open(post.source_filename, 'w') as f:
         f.write(contents)
