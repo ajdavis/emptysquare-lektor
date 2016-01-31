@@ -7,8 +7,7 @@
     </header>
     <div class="post-content">{{ this.intro }}</div>
     <h1 id="latest-posts">Latest Posts</h1>
-    {% set children = this.children.filter(F.model == 'blog-post' and
-                                           F.type == 'post').limit(10) %}
+    {% set children = this.pagination.items.limit(10) %}
     <ul class="post-list">
       {% for child in children %}
         <li>{{ render_blog_post_summary(child) }}</li>
