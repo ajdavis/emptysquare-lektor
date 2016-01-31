@@ -1,6 +1,6 @@
 _model: blog-post
 ---
-title: How To Break Your Python Web-Scraper With getaddrinfo()
+title: How To Hobble Your Python Web-Scraper With getaddrinfo()
 ---
 type: post
 ---
@@ -14,8 +14,6 @@ Python
 Mongo
 Programming
 Motor
----
-pub_date:
 ---
 summary: I discover that contention for the getaddrinfo lock on Mac makes it appear that connecting to localhost times out.
 ---
@@ -33,23 +31,27 @@ Al wrote:
 
 > Each feed has a variable number of articles (average 10?). So it should launch around 5000+ "concurrent" requests to insert into the database. I put concurrent in quotes because it's sending the insert requests as the downloads come in so it really shouldn't be that many requests per second. I understand PyMongo should be able to do at least 20k-30k plus?
 
-He's right. And yet, Motor threw connection timeouts every time he ran his script. What was going wrong with Motor?
+He's right. And yet, **Motor threw connection timeouts** every time he ran his script. What was going wrong with Motor?
 
 # Three Clues
 
-The first clue was, Motor made its initial connection to MongoDB without trouble, but while Al's script downloaded feeds and inserted links into the database, Motor began throwing connection timeouts. Since Motor was already connected to MongoDB, and since MongoDB was running on the same machine as his code, it seemed it must be a Motor bug.
+It was a Saturday afternoon when I saw Al's message to the mailing list; I wanted to leave it until Monday, but I couldn't stand the anxiety. What if my driver was buggy?
+
+In Al's message I saw three clues. The first clue was, Motor made its initial connection to MongoDB without trouble, but while the script downloaded feeds and inserted links into the database, Motor began throwing timeouts. Since Motor was already connected to MongoDB, and since MongoDB was running on the same machine as his code, it seemed it must be a Motor bug.
 
 > I feel like what I'm trying to accomplish really shouldn't be this hard.
 
 Al's code also threw connection errors from `aiohttp`, but this was less surprising than Motor's errors, since it was fetching from remote servers. Still, I noted this as a possible second clue.
 
-And there was a third clue: If Al turned his script's concurrency down from 500 feeds to 150 or less, Motor stopped timing out. Why?
+The third clue was this: If Al turned his script's concurrency down from 500 feeds to 150 or less, Motor stopped timing out. Why?
 
 # Investigation
 
-I ran Al's script on my Mac and reproduced the Motor errors. With some print statements and PyCharm, I determined that Motor occasionally expands its connection pool in order to increase its "insert" concurrency. That's when the errors occur.
+On Sunday, I ran Al's script on my Mac and reproduced the Motor errors. This was a relief, of course. A reproducible bug is a tractable one.
 
-Reviewing my connection-pool tests, I verified that Motor can expand its connection pool under normal circumstances. So `aiohttp` must be interfering with Motor somehow.
+With some print statements and PyCharm, I determined that Motor occasionally expands its connection pool in order to increase its "insert" concurrency. That's when the errors happen.
+
+I reviewed my connection-pool tests and verified that Motor can expand its connection pool under normal circumstances. So `aiohttp` must be fighting with Motor somehow.
 
 I tracked down the location of the timeout to this line in the `asyncio` event loop, where it begins a DNS lookup on its thread pool:
 
@@ -75,28 +77,28 @@ if self._default_executor:
           q.unfinished_tasks)
 ```
 
-There were hundreds of unfinished tasks! Why were these lookups getting so backed up? I tried increasing the thread pool size, from the `asyncio` default of 5, to 50, to 500....but the timeouts happened just the same.
+There were hundreds of unfinished tasks! Why were these lookups getting clogged? I tried increasing the thread pool size, from the `asyncio` default of 5, to 50, to 500....but the timeouts happened just the same.
 
 # Eureka
 
-I thought about the problem as I made dinner, I thought about it as I fell asleep, I thought about it while I was walking to the subway the next morning in December's unseasonable warmth.
+I thought about the problem as I made dinner, I thought about it as I fell asleep, I thought about it while I was walking to the subway Monday morning in December's unseasonable warmth.
  
 I recalled a PyMongo investigation where [Anna Herlihy and I had explored CPython's getaddrinfo lock](/blog/getaddrinfo-deadlock/): On Mac, Python only allows one `getaddrinfo` call at a time. I was climbing the stairs out of the Times Square station near the office when I figured it out: Al's script was queueing on that `getaddrinfo` lock!
 
 # Diagnosis
 
-When Motor opens a new connection to the MongoDB server, it starts a 20-second timer, then calls `create_connection` with the server address. If hundreds of other `getaddrinfo` calls are already enqueued, then Motor's call can spend more than 20 seconds waiting in the queue for the `getaddrinfo` lock. It doesn't matter that looking up "localhost" is near-instant: we need the lock first. It appears as if Motor can't connect to MongoDB, when in fact it simply couldn't acquire the `getaddrinfo` lock in time.
+When Motor opens a new connection to the MongoDB server, it starts a 20-second timer, then calls `create_connection` with the server address. If hundreds of other `getaddrinfo` calls are already enqueued, then Motor's call can spend more than 20 seconds waiting in line for the `getaddrinfo` lock. It doesn't matter that looking up "localhost" is near-instant: we need the lock first. It appears as if Motor can't connect to MongoDB, when in fact it simply couldn't get the `getaddrinfo` lock in time.
 
 My theory explains the first clue: that Motor's initial connection succeeds. 
 In the case of Al's script, specifically, Motor opens its first connection before `aiohttp` begins its hundreds of lookups, so there's no queue on the lock yet.
 
 Then `aiohttp` starts 500 calls to `getaddrinfo` for the 500 feeds' domains. As feeds are fetched it inserts them into MongoDB.
 
-There comes a moment when the script begins an insert while another insert is in progress. When this happens, Motor tries to open a new MongoDB connection to start the second insert concurrently. That's when things go wrong: since `aiohttp` has hundreds of `getaddrinfo` calls still in progress, Motor's new connection gets enqueued, waiting for the lock so it can resolve "localhost" again. After 20 seconds it gives up. Meanwhile, dozens of other Motor connections have queued behind this one, and as they reach their 20-second timeouts they fail too.
+There comes a moment when the script begins an insert while another insert is in progress. When this happens, Motor tries to open a new MongoDB connection to start the second insert concurrently. That's when things go wrong: since `aiohttp` has hundreds of `getaddrinfo` calls still in progress, Motor's new connection gets enqueued, waiting for the lock so it can resolve "localhost" again. After 20 seconds it gives up. Meanwhile, dozens of other Motor connections have piled up behind this one, and as they reach their 20-second timeouts they fail too.
 
 Motor's not the only one suffering, of course. The `aiohttp` coroutines are all waiting in line, too. So my theory explained the second clue: the `aiohttp` errors were also caused by queueing on the `getaddrinfo` lock.
 
-What about the third clue? Why does turning concurrency down to 150 fix the problem? My theory explains that, too. The first 150 hostnames in Al's list of feeds can all be resolved in under 20 seconds. When Motor opens a connection it is certainly slow, but it doesn't time out.
+What about the third clue? Why does turning concurrency down to 150 fix the problem? My theory explains that, too. The first 150 hostnames in Al's list of feeds can all be resolved in under 20 seconds total. When Motor opens a connection it is certainly slow, but it doesn't time out.
 
 # Verification
 
