@@ -45,14 +45,15 @@
 {% macro render_nav_bottom(record) %}
   <nav class="nav-below">
     <div class="nav-previous">
-      {% set older = record.get_next_sibling() %}
-      {% if older.sibling %}
+      {% set siblings = record.get_siblings() %}
+      {% set older = siblings.next_page %}
+      {% set newer = siblings.prev_page %}
+      {% if older %}
         <a href="{{ older|url }}"><span class="meta-nav">&larr;&nbsp;</span>{{ older.title }}</a>
       {% endif %}
     </div>
     <div class="nav-next">
-      {% set newer = record.get_prev_sibling() %}
-      {% if newer.sibling %}
+      {% if newer %}
         <a href="{{ newer|url }}">{{ newer.title }}<span class="meta-nav">&nbsp;&rarr;</span></a>
       {% endif %}
     </div>
