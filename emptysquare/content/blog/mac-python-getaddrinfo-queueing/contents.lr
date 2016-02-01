@@ -1,8 +1,12 @@
+pub_date: 2016-01-31 22:54:39
+---
 _model: blog-post
 ---
 title: How To Hobble Your Python Web-Scraper With getaddrinfo()
 ---
 type: post
+---
+_discoverable: yes
 ---
 tags:
 
@@ -21,7 +25,7 @@ body:
 
 ![](medieval.jpg)
 
-This is the second article in what seems destined to be a four-part series about Python's `getaddrinfo` on Mac. Here, I discover that contention for the `getaddrinfo` lock makes it appear that connecting to localhost times out.
+This is the second article in what seems destined to be [a four-part series about Python's `getaddrinfo` on Mac](/blog/getaddrinfo-on-macosx). Here, I discover that contention for the `getaddrinfo` lock makes connecting to localhost appear to time out.
 
 # Network Timeouts From asyncio
 
@@ -44,6 +48,8 @@ In Al's message I saw three clues. The first clue was, Motor made its initial co
 Al's code also threw connection errors from `aiohttp`, but this was less surprising than Motor's errors, since it was fetching from remote servers. Still, I noted this as a possible second clue.
 
 The third clue was this: If Al turned his script's concurrency down from 500 feeds to 150 or less, Motor stopped timing out. Why?
+
+![](lunardo-fero-1.jpg)
 
 # Investigation
 
@@ -79,6 +85,8 @@ if self._default_executor:
 
 There were hundreds of unfinished tasks! Why were these lookups getting clogged? I tried increasing the thread pool size, from the `asyncio` default of 5, to 50, to 500....but the timeouts happened just the same.
 
+![](lunardo-fero-3.jpg)
+
 # Eureka
 
 I thought about the problem as I made dinner, I thought about it as I fell asleep, I thought about it while I was walking to the subway Monday morning in December's unseasonable warmth.
@@ -100,6 +108,8 @@ Motor's not the only one suffering, of course. The `aiohttp` coroutines are all 
 
 What about the third clue? Why does turning concurrency down to 150 fix the problem? My theory explains that, too. The first 150 hostnames in Al's list of feeds can all be resolved in under 20 seconds total. When Motor opens a connection it is certainly slow, but it doesn't time out.
 
+<p style="text-align: center"><img src="lunardo-fero-5.jpg" style="max-width: 300px; margin:auto"></p>
+
 # Verification
 
 An explanatory theory is good, but experimental evidence is even better. I designed three tests for my hypothesis.
@@ -109,6 +119,8 @@ First, I tried Al's script on Linux. The Python interpreter doesn't lock around 
 Second, on my Mac, I tried setting Motor's maximum pool size to 1. This prevented Motor from trying to open more connections after the script began the feed-fetcher, so Motor never got stuck in line behind the fetcher. Capping the pool size at 1 didn't cost any performance in this application, since the script spent so little time writing to MongoDB compared to the time it spent fetching and parsing feeds.
 
 For my third experiment, I patched the `asyncio` event loop to always resolve "localhost" to "127.0.0.1", skipping the `getaddrinfo` call. This also worked as I expected.
+
+![](lunardo-fero-2.jpg)
 
 # Solution
 
@@ -125,7 +137,14 @@ Which solution did I choose? Stay tuned for the next installment!
 
 ***
 
-Links:
+**Links:**
 
 1. [The original bug report on the MongoDB User Group list.](https://groups.google.com/d/topic/mongodb-user/2oK6C3BrVKI/discussion)
 2. [Python's getaddrinfo lock.](https://hg.python.org/cpython/file/d2b8354e87f5/Modules/socketmodule.c#l185)
+3. [The full series on getaddrinfo on Mac](/blog/getaddrinfo-on-macosx/)
+
+***
+
+Images: Lunardo Fero, embroidery designs, Italy circa 1559. From *Fashion and Virtue: Textile Patterns and the Print Revolution 1520&ndash;1620*, by Femke Speelberg.
+
+<p style="text-align: center"><img src="lunardo-fero-4.jpg" style="max-width: 300px; margin:auto"></p>
