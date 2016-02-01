@@ -131,7 +131,7 @@ I wrote back to Al Johri with my findings. His response made my day:
 I wish bug investigations always turned out this well.
 
 But still&mdash;all I'd done was diagnose the problem. How should I solve it? 
-Motor could cache lookups, or treat "localhost" specially. Or `asyncio` could make one of those changes instead of Motor. Or perhaps the `asyncio` method `create_connection` should take a connection timeout argument, since `asyncio` can tell the difference between a slow call to `getaddrinfo` and a genuine connection timeout
+Motor could cache lookups, or treat "localhost" specially. Or `asyncio` could make one of those changes instead of Motor. Or perhaps the `asyncio` method `create_connection` should take a connection timeout argument, since `asyncio` can tell the difference between a slow call to `getaddrinfo` and a genuine connection timeout.
 
 Which solution did I choose? Stay tuned for the next installment!
 
