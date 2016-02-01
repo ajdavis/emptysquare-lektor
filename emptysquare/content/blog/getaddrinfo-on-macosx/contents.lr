@@ -1,0 +1,34 @@
+_model: blog-post
+---
+title: getaddrinfo on Mac OS X
+---
+type: page
+---
+tags:
+
+getaddrinfo
+---
+categories:
+
+C
+Python
+Programming
+Mongo
+---
+summary: Investigating getaddrinfo in C and Python on Mac OS X.
+---
+body:
+
+![](parasole.jpg)
+
+In 2015 and 2016 I plunged deep into an investigation of `getaddrinfo` on Mac OS X.
+
+* [How To Deadlock Your Python With `getaddrinfo`](/blog/getaddrinfo-deadlock/)
+* [How To Hobble Your Python Web-Scraper With `getaddrinfo`](/blog/mac-python-getaddrinfo-queueing/)
+* Fixing `getaddrinfo` on `asyncio`
+* Good news! `getaddrinfo` is thread-safe.
+
+***
+
+Image: Isabella Cantanea Parasole, Italian 1565&ndash;1625, embroidery design. From *Fashion and Virtue: Textile Patterns and the Print Revolution 1520&ndash;1620*, by Femke Speelberg.
+
