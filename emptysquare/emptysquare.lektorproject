@@ -1,6 +1,7 @@
 [project]
 name = A. Jesse Jiryu Davis
 url = http://emptysqua.re
+included_assets = _redirects, _headers
 
 [packages]
 lektor-disqus-comments = 0.2
