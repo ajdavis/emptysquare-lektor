@@ -43,7 +43,7 @@ If you're logged into multiple Google accounts, as I always am, you can specify 
 https://mail.google.com/mail/u/?authuser=jesse@emptysquare.net&view=cm
 ```
 
-I've set this up with the [Alfred](https://www.alfredapp.com/) Mac app. When I open Alfred and type "esq" it brings me to a compose-message window:
+You could just bookmark this in your browser, but I've gone a step further. I set this up with the [Alfred](https://www.alfredapp.com/) app for Mac, so when I open Alfred and type "esq" it brings me to a compose-message window:
 
 ![](alfred-compose-message.gif)
 
