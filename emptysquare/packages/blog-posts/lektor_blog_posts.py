@@ -9,6 +9,7 @@ import re
 import subprocess
 
 import click
+from jinja2 import Undefined
 from lektor.cli import pass_context
 from lektor.db import F
 from lektor.pluginsystem import Plugin
@@ -35,12 +36,32 @@ class MotorBlogMarkdownType(Type):
             'toc']))
 
 
+def post_thumbnail(blog_post):
+    if not blog_post or not blog_post.attachments.images:
+        return
+
+    if not isinstance(blog_post['thumbnail'], Undefined):
+        fn = blog_post['thumbnail']
+        for img in blog_post.attachments.images:
+            if img.attachment_filename.split('/')[-1] == fn:
+                thumb = img
+                break
+        else:
+            raise RuntimeError("Post '%s' names absent thumbnail '%s'" % (
+                blog_post['_id'], fn))
+    else:
+        thumb = blog_post.attachments.images.all()[0]
+
+    return thumb.thumbnail(120)
+
+
 class BlogPostsPlugin(Plugin):
     name = u'blog-posts'
     description = u'Lektor customization just for emptysqua.re.'
 
     def on_setup_env(self, **extra):
         self.env.types['motor_blog_markdown'] = MotorBlogMarkdownType
+        self.env.jinja_env.filters['post_thumbnail'] = post_thumbnail
 
     def get_blog_path(self):
         return self.get_config().get('blog_path', '/blog')
