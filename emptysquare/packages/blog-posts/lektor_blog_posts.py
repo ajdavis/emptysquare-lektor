@@ -203,6 +203,8 @@ class NetlifyHeaders(object):
             else:
                 # Starts with whitespace.
                 if current_url_headers is not None:
+                    if not line.strip():
+                        continue
                     name, value = line.split(':', 1)
                     current_url_headers[name.strip()] = value.strip()
 
@@ -222,6 +224,10 @@ class NetlifyHeaders(object):
     def save(self):
         with open(self.path, 'w') as f:
             for url_pattern, headers in self.url_map.items():
+                # Article was unprotected or otherwise has no headers.
+                if not headers:
+                    continue
+
                 f.write(url_pattern + '\n')
                 f.write('\n'.join('  %s: %s' % (name, value)
                                   for name, value in headers.items()))
