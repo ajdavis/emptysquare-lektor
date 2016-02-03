@@ -1,0 +1,60 @@
+pub_date: 2016-02-03 15:42:37
+---
+_model: blog-post
+---
+title: How To Send An Email Without Checking Your Inbox
+---
+type: post
+---
+tags:
+
+---
+categories:
+
+Uncategorized
+---
+_discoverable: yes
+---
+pub_date:
+---
+summary: Go straight to GMail's "compose" window without being distracted by your incoming messages.
+---
+body:
+
+![](stationery.jpg)
+
+This year I'm experimenting with a number of anti-distraction techniques. One is the latest fad, Pomodoro, in which I set a 25-minute timer to do one task, and one task only. Another is, I've dethroned GMail from its pinned tab in my browser. The idea is to choose more consciously when to check my email, instead of always having it open.
+
+But what if my current task requires *sending* an email? If I open GMail, by default I see my inbox, and I risk being tempted by some juicy new subject line and forgetting what I intended to focus on.
+
+I've found a way to send an email without seeing my inbox. This URL goes straight to a GMail compose-message window:
+
+```
+https://mail.google.com/mail/u/?view=cm
+```
+
+(I suppose that "cm" stands for "compose message".)
+
+If you're logged into multiple Google accounts, as I always am, you can specify one with "authuser":
+
+```
+https://mail.google.com/mail/u/?authuser=jesse@emptysquare.net&view=cm
+```
+
+I've set this up with the [Alfred](https://www.alfredapp.com/) Mac app. When I open Alfred and type "esq" it brings me to a compose-message window:
+
+![](alfred-compose-message.gif)
+
+To create the workflow, I used Alfred's standard template "open custom URL", and set the URL to this:
+
+```
+https://mail.google.com/mail/u/?authuser=jesse@emptysquare.net&view=cm&to={query}
+```
+
+Now I can type "esq" to start writing a message or, if I know the email address, I can type "esq ADDRESS".
+
+Wish me luck. I'm going to try to stick to my Pomodoro technique for a while, and I hope the ability to send messages without seeing my inbox will help me focus.
+
+***
+
+*[Image: Tony Johannot, 1843.](http://www.oldbookillustrations.com/illustrations/stationery/)*
