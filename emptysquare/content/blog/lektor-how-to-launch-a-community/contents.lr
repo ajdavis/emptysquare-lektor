@@ -1,0 +1,75 @@
+_model: blog-post
+---
+title: How To Launch An Open Source Community
+---
+type: post
+---
+tags:
+
+lektor
+---
+categories:
+
+Programming
+Python---
+summary:
+---
+_discoverable: no
+---
+body:
+
+ it insanely satisfying to contribute to lektor
+
+
+mitsuhiko 16:31
+want to bring the same experience to flask and other projects now
+trying to restructure the projects
+
+ajdavis 16:31
+i'm learning a lot about what makes a successful project by watching how you're managing this launch
+
+mitsuhiko 16:32
+I'm learnin myself
+I think i set up Lektor better for this sort of stuff than the other projects of mine. It's relies a lot less on me I think.
+
+ajdavis 16:33
+why does it rely less on you? is it because the plugin system is better in lektor?
+
+mitsuhiko 16:34
+Mostly resources. It's all on github, the only thing i provide is SSL cert and a server to deploy to. But even travis does that
+All other projects have too much stuff that's not in the community hand yet
+in Lektor i can give people access after vetting and it will probably develop in a good trajectory
+especially also because i try to keep the bug tracker reasonable in a sense at least
+my other projects managed to accumulate too much unstructured stuff over the years and too much custom code running somewhere
+and no github org structure, nothing
+so. want to clean that up
+
+
+
+
+@mitsuhiko py3 support planned?
+
+mitsuhiko 23:37
+@ptm-tm if people contribute patches
+i'm improving the test coverage so that this would go easier
+but yeah, with people contributing something there i don't think this will happen
+
+ptm-tm 23:40
+ it's very pity
+
+mitsuhiko 23:40
+what do you mean?
+
+ptm-tm 23:48
+Oh, that's just my bugs. I just do not like py2 or I simply dont know how to cook it . at the moment I choose to do what the weblog.I am testing a Nikolas and lector.
+
+mitsuhiko 23:48
+You're welcome to contribute the python 3 support and maintain it
+
+ptm-tm 23:52
+thank you, but i'm not prof. programmer. i'm simple engineer... programming it is my hobby
+
+mitsuhiko 23:55
+It's an open source project
+Things only love if there are people that want things to move
+I learned it the hard way. I'm only going to support things I'm using. Burns me out otherwise
