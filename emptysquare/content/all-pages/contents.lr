@@ -1,7 +1,0 @@
-_model: all-posts
----
-_template: all-posts.html
----
-type: page
----
-_slug: blog/all-pages
