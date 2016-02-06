@@ -6,7 +6,7 @@
     <title>{% block title %}{{ this.title }}{% endblock %}</title>{% block extrahead %}{% endblock %}
     <link rel="stylesheet" href="{{ '/static/blog.css'|url }}">
     <link rel="shortcut icon" href="{{ '/static/favicon.gif'|url }}">
-    <link rel="alternate" type="application/rss+xml" title="emptysqua.re - Feed" href="https://feeds.feedburner.com/emptysquare">
+    <link rel="alternate" type="application/atom+xml" title="emptysqua.re - Feed" href="{{ '/blog@atom/main'|url(external=True) }}">
     <meta name="author" content="A. Jesse Jiryu Davis">
     {% if not this._discoverable %}
       <meta name="robots" content="noindex">

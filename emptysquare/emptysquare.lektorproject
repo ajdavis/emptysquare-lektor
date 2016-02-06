@@ -1,6 +1,6 @@
 [project]
 name = A. Jesse Jiryu Davis
-url = http://emptysqua.re
+url = https://emptysqua.re
 included_assets = _redirects, _headers
 
 [packages]
