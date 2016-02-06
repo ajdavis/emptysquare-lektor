@@ -16,7 +16,7 @@
     </ul>
     <h1 id="selected-articles">Selected Articles</h1>
     <ul class="post-list">
-      {% for child in this.children.filter(F.tags.contains('best')) -%}
+      {% for child in this.pagination.items.filter(F.tags.contains('best')) -%}
         <li>{{ render_blog_post_summary(child) }}</li>
       {% endfor %}
     </ul>

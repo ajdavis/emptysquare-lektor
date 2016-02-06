@@ -16,6 +16,11 @@ from lektor.pluginsystem import Plugin
 from lektor.types import Type
 import markdown  # This is "Python Markdown": pip install markdown
 
+try:
+    from pync import Notifier
+except ImportError:
+    Notifier = None
+
 version = pkg_resources.get_distribution('lektor-blog-posts').version
 
 
@@ -63,8 +68,13 @@ class BlogPostsPlugin(Plugin):
         self.env.types['motor_blog_markdown'] = MotorBlogMarkdownType
         self.env.jinja_env.filters['post_thumbnail'] = post_thumbnail
 
+    def on_after_build_all(self, builder, **extra):
+        if Notifier:
+            Notifier.notify("Build complete", title="Lektor")
+
     def get_blog_path(self):
         return self.get_config().get('blog_path', '/blog')
+
 
 
 @click.group()
