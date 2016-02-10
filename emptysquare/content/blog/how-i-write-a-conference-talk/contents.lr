@@ -1,0 +1,246 @@
+pub_date: 2016-02-10 12:23:37
+---
+_model: blog-post
+---
+title: Put Off Making Slides: 8 Steps To Writing Your PyCon Talk
+---
+type: post
+---
+tags:
+
+conference-tips
+---
+categories:
+
+Programming
+Python
+---
+_discoverable: yes
+---
+pub_date:
+---
+summary: Choose an inspiring call to action, outline a compelling structure, and get a speaking coach.
+---
+body:
+
+![Jennie Baines addressing a rally of Suffragettes at Trafalgar Square,
+1908](jennie-baines.jpg)
+
+<span style="color: gray">*Jennie Baines didn't take questions at the
+end.*</span>
+
+PyCon accepted my talk "Write an Excellent Programming Blog". If you got
+in, too, congratulations! Now we have to write our talks.
+
+[TOC]
+
+Plan your time.
+===============
+
+Plan to begin your talk late, and not to take questions.
+
+This is not the consensus approach to conference talks, so I'll argue
+for it in detail when we get to your actual delivery of the talk, in a
+future article. Briefly: The beginning and end are the most important
+parts of your talk. You ruin the beginning by starting before people are
+ready to listen, and you ruin the end, as often as not, by wincing
+through a couple bad questions and finishing on a low note.
+
+Better to start a few minutes late, when the audience is ready and
+waiting for you. At the end, go out with a bang.
+
+Now that you've decided when you'll begin and end, you know your *real
+slot*. I have a putative half hour slot at PyCon, so I'll write my talk
+as if I have 25 minutes.
+
+Inspire.
+========
+
+Every great talk contains an element of inspiration, I believe, and a
+call to action. Even though most PyCon talks are technical&mdash;they explain
+how something works, or how to do something&mdash;you must still inspire us
+somehow. "Go try this yourself" is a good call to action for almost any
+technical talk, but "stop doing this wrong and start doing it right", or
+"do more of this" can also work. If it's a non-technical talk, you might
+call on us to "be generous" or "nurture our community" or "advance in
+your career".
+
+![](joan-of-arc.jpg)
+
+<span style="color: gray">*Organized her talk around a call to
+action.*</span>
+
+So decide on a call to action. (I put mine in the title: "Write an
+Excellent Programming Blog".) Then, determine how to motivate us to
+respond to your call to action. What is the outcome if we do? Will we
+have more fun, be better programmers, be better humans? I may spend more
+than half my talk on motivation, rather than on how-to. After all, a
+conference talk is a poor vehicle for teaching technical details, but
+it's pretty good for inspiring people.
+
+Once you have a call to action, build a talk whose purpose is to explain
+why your call to action matters, and inspires your audience to respond
+to it.
+
+Outline.
+========
+
+If your proposal was thorough enough to be accepted by PyCon, great: you
+have already outlined your talk! It's a good first draft. Now revise it.
+
+But some conferences' Calls For Proposals are barely two text boxes. (I
+think these CFPs are a disservice to everyone.) If this is all you've
+done, go back to [my tips for writing a
+proposal](/blog/seven-tips-for-pycon/) and plan your talk to a PyCon
+level of rigor. Outline your talk the same as you outline an essay:
+decide if you are making an argument, or a telling story, or explaining
+a how-to. Brainstorm as many ideas as you can, then choose the best and
+arrange them to make an impact.
+
+![](advice-hostess-1200.jpg)
+
+<span style="color: gray">*Finished his talk with a great
+kicker.*</span>
+
+How do you arrange the talk? Same as an article, I think:
+
+-   **Lede:** Begin with a shocking, enticing statement. Say the moon is
+    made of cheese, pull a rabbit from a hat&mdash;whatever's necessary to get
+    the crowd interested.
+-   **Nutgraf:** Here, you summarize your talk. But for the sake of all
+    that's holy please omit the typical "agenda" slide. Tell us your
+    idea, in a few snappy sentences.
+-   **Body:** This is what you think of as your "actual talk." If it's
+    an argument, back your opinion with reason and evidence. If it's a
+    story, tell it. If it's a how-to, instruct us.
+-   **Kicker:** A surprising twist, a rousing conclusion, a call
+    to action. Inspire us to storm the barricades! Speakers prepare this
+    part the least, but it matters most. If you want to be remembered,
+    it's easy: just finish your talk with a great kicker.
+
+Notice what's missing? Introducing yourself. Those opening moments are
+key, and "who am I" just wastes them. I might say only "I'm a Python and
+C programmer at MongoDB" and leave it at that, or not introduce myself
+at all. The audience doesn't want to know who I am, they want to hear my
+idea!
+
+![](canrobert-1200.jpg)
+
+<span style="color: gray">*No one cared how he earned his
+medals.*</span>
+
+Rehearse immediately.
+=====================
+
+Before your outline is close to finished, start rehearsing it. Stand up
+and say stuff to the walls. Discover what you really know and care
+about, by listening to the parts of your talk that flow freely. (This is
+not my original thought: I know that I have read this on someone else's
+blog but I can't find it.) If you spend too much time outlining before
+you begin talking to the walls, your outline becomes a prison for your
+real passion.
+
+![](pass-solitude.jpg)
+
+<span style="color: gray">*Obsessed over his outline.*</span>
+
+I know you've sat through boring talks. The speaker wanted to be there,
+originally&mdash;where did that passion go? It might have got imprisoned
+during the outlining phase.
+
+Make room for new insights.
+===========================
+
+So don't let this happen to you! Extemporize to the walls, rehearse in
+your head while you ride the subway, do research, and think more about
+your topic. What is it that drives you to risk your dignity on stage at
+a conference? It's doubtless evolved since you proposed your talk; after
+all, you wrote the proposal months ago.
+
+What is the thought have **now** that's so exciting you can't contain
+it? Once you're certain of the answer, then you can finish your outline.
+
+Put off making slides.
+======================
+
+Besides outlines, slides are the other enemy of your actual talk. For
+me, slides and outlines are dangerous in different ways: outlining
+curdles my thinking before it's ready, whereas slides are a way to
+procrastinate the task of thinking at all.
+
+![Painter Felix Ziem sitting at his
+easel](Felix_Ziem_dans_son_atelier.jpg)
+
+<span style="color: gray">*Worked on his slides so long he never wrote
+his talk.*</span>
+
+It's not your fine slide art that will move the audience, it's the
+clarity and passion of your thinking. Try to rely only on a rough
+outline as long as possible while rehearsing your talk. It leaves you
+free to rearrange your talk, or overhaul it to reflect a new insight. If
+you have a week left before the conference and you haven't finished your
+slides, don't worry&mdash;it might be better that way, it forces you to keep
+them simple.
+
+Just make sure that you've finished thinking by then!
+
+Rehearse with friends.
+======================
+
+You'll know if you really care about your talk, and if you really mean
+it, when you deliver it face-to-face with friends. Your friends don't
+have to be tough critics: you'll just get that icky dead feeling if
+you're giving a rote speech to someone close. Use that feeling. Go back
+and find where you left your passion, and pick it up again.
+
+I'll trade rehearsals with my friends like Anna Herlihy and Amy Hanlon
+before PyCon this spring. They've spoken at conferences and they know my
+subjects, my audience, and me&mdash;they'll point out how I can improve.
+
+![](private-conversation.jpg)
+
+<span style="color: gray">*Spent the soirée rehearsing their PyCon talks
+for each other.*</span>
+
+Get a coach.
+============
+
+Friends help, but a professional speaking coach takes you to a different
+level. My friend and coach Melissa Collom helps me craft my argument and
+delivery ([and she can help you with
+yours](http://melissacollom.com/coaching/)&mdash;shameless plug). She's an
+opera singer, so she can teach me to command a stage and use my voice,
+but she's also got a knack for structuring a story or an opinion. In
+my sessions with her I don't just refine the talk I'm prepping now; I
+learn techniques for future talks, and for any kind of persuasive
+speaking. Besides, working with her is a lot more fun than rehearsing to
+the walls.
+
+Excel.
+======
+
+Your talk doesn't have to be great. I think that most software
+conferences, unfortunately, set a low bar. PyCon's standards are higher,
+but still&mdash;you won't be sent away for being dull.
+
+But what if you **want** to give a great talk? It won't happen
+automatically. You have to think hard, discover the idea that you really
+care about, and write an inspiring talk that motivates us to respond to
+your call to action. And then, prepare as you would for any performance,
+like singing or ballet: get a coach. Plan, train, and practice.
+
+I'm looking forward to your talk!
+
+------------------------------------------------------------------------
+
+Images:
+
+-   Jennie Baines addressing a rally of Suffragettes at Trafalgar
+    Square, 1908. Topical Press Agency.
+-   Joan d'Arc. Fortunino Matania.
+-   Illustration from "The Social Ladder". Charles Dana Gibson.
+-   François Certain Canrobert, from "Histoire de la révolution
+    de 1870-71". Achille Gilbert.
+-   Illustration from "The Hunting of the Snark". Peter Newell.
+-   Félix Ziem at his easel. Dornac.
+-   "Les débardeurs". Paul Gavarni.
