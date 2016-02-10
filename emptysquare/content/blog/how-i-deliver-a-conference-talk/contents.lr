@@ -1,6 +1,6 @@
 _model: blog-post
 ---
-title:
+title: How I Deliver A Conference Talk
 ---
 type: post
 ---
@@ -17,5 +17,26 @@ summary:
 ---
 body:
 
+Expect to start your talk a few minutes late. You'll make up the time at the end by not taking questions.
 
-https://twitter.com/Khanoisseur/status/556881894366003200
+Why start late? When I first spoke at PyCon, I began by standing at the podium. The nice session runner gave me a water bottle, the A/V guy wired me up, and then they left me to stand and sweat at the lectern, staring at the audience. It was unbearable. The moment my laptop said it was time, I began.
+
+It turns out that starting on time is a terrible idea. For the first five minutes, the bulk of the audience was still arriving, climbing over each other's knees to get to inner seats, rummaging in their laptop bags. Worse, it biased the audience to sit in the back: they want to sit in the back anyway, but they especially don't want to travel to the front while I'm talking. This isolates me on the stage, beyond a moat of empty front rows.
+
+Melissa says "Broadway Start" is 7 minutes late.
+
+Shift balance of power, wait for the audience to want you to start, instead of forcing them to start before they're ready
+
+if you're given the option to introduce yourself, don't take it. force the poor session runner to be the Bad Cop and make everyone shut up. additionally, this means you are never on stage unless the audience is paying attention to you.
+
+make an entrance, don't just stand there until start time.
+
+when you are on stage, the audience is paying attention to you. stage-manage the talk so that this is never violated.
+
+![](oslo-davis-time-for-just-one.jpeg)
+
+*[Oslo Davis](http://oslodavis.com/)*
+
+we feel obliged to take questions, as if we were a politician with a duty to the public, or an academic who must defend her results. but at a conference we are neither of those people: we're entertainers putting on a show. the q & a is a bad show, and no matter how well the talk went, it will be ruined, more often than not, by the cringeful q & a.
+
+melissa: not doing q & a in public encourages people to connect with you in private. and melissa again, if you must do q & a, have a final slide and rehearse a second finale.
