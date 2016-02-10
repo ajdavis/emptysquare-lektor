@@ -2,6 +2,7 @@
 
 import datetime
 import os
+import webbrowser
 from collections import defaultdict, OrderedDict
 
 import pkg_resources
@@ -75,6 +76,10 @@ class BlogPostsPlugin(Plugin):
     def get_blog_path(self):
         return self.get_config().get('blog_path', '/blog')
 
+
+def write(path, contents):
+    with open(path, 'w') as f:
+        f.write(contents.encode('utf-8'))
 
 
 @click.group()
@@ -180,8 +185,7 @@ def blog_new(ctx, what, where, images):
         else:
             images_markdown = ''
 
-        with open(contents_path, 'w+') as f:
-            f.write("""_model: blog-post
+        write(contents_path, """_model: blog-post
 ---
 title:
 ---
@@ -202,6 +206,7 @@ body:
 
 %s
 """ % images_markdown)
+
         print contents_path
         subprocess.call(['open', contents_path])
     else:
@@ -311,9 +316,7 @@ def blog_publish(ctx, where):
         assert 1 == len(pat.findall(contents))
         contents = pat.sub('_discoverable: yes', contents)
 
-    with open(post.source_filename, 'w') as f:
-        f.write(contents)
-
+    write(post.source_filename, contents)
     headers = NetlifyHeaders(pad)
     headers.unprotect(post)
     headers.save()
@@ -364,3 +367,18 @@ def blog_protect(ctx, where, username, password):
     headers = NetlifyHeaders(pad)
     headers.protect(post, username, password)
     headers.save()
+
+
+@cli.command('visit')
+@click.argument('where', type=click.Path())
+@pass_context
+def blog_visit(ctx, where):
+    pad = ctx.get_env().new_pad()
+    post = pad.get('blog/' + where)
+    if not post:
+        raise click.BadParameter('"%s" does not exist!' % where)
+
+    if post['pub_date'] and post['_discoverable']:
+        raise click.BadParameter('"%s" already published!' % where)
+
+    webbrowser.open(pad.make_url(post.url_path, external=True))
