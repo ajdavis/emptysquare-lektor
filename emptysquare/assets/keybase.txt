@@ -1,0 +1,68 @@
+==================================================================
+https://keybase.io/emptysquare
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://emptysqua.re
+  * I am emptysquare (https://keybase.io/emptysquare) on keybase.
+  * I have a public key with fingerprint CE64 8B04 2AB7 5255 2950  1E2E D148 3770 858F F12A
+
+To do so, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "eldest_kid": "0101a4d927d152a90a34cd92d1c99a5dc1dd90d8df36248a15cb54af8d1f0d600f120a",
+            "fingerprint": "ce648b042ab7525529501e2ed1483770858ff12a",
+            "host": "keybase.io",
+            "key_id": "d1483770858ff12a",
+            "kid": "0101a4d927d152a90a34cd92d1c99a5dc1dd90d8df36248a15cb54af8d1f0d600f120a",
+            "uid": "3aa6afe620ab2f01bfd9a7ff436f1919",
+            "username": "emptysquare"
+        },
+        "service": {
+            "hostname": "emptysqua.re",
+            "protocol": "https:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1455207910,
+    "expire_in": 157680000,
+    "prev": "7adc08629689ed6f59a18fae692c18c8bdcd0362ce8f883ffc2a1f94cb9e93db",
+    "seqno": 31,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.0.49
+Comment: https://keybase.io/crypto
+
+yMIkAnicrVJbSFRBGD5bGrWQFfUQIUbHwIe2mDm3ndkeApOkoogerKTY5pyZ0eNl
+z7p71FQqkHJJgpAIsTLJiB4iMyozulBZpIUXNBKTSIosNLpZRJTYHKmX6LF5Geb/
+v++b7//478+dKfl96P2bjBlTwzW+x3dPlEo5N6+OVsmmQyvkUJVcyKYvVkRZ3A0X
+2lQOyQACSDSKlSCFukIwIKpmiSeFFsZEpxakFAOKKFcNRUME6papa4QjCjmgBgAc
+KoDIAZnbkTwWi8bsiCtkLWZoyASaQsygrui6gnUAmcIo1JAaDAKkIy6YHjHfiXsM
+Yc4kcbbKdkRNPMLT9v6B/8++S6flVEIMwpkhaqbCATQ5xSTIuaYaHGKIPWCcxSKk
+mAk0K466FfGSUhJj8t6ALBpltsW8bL1h/gatEqiAHI05rmM5RaKT77rReMhjuhVR
+D1rOzPBvkbBpR6iIUjDKWCxuOxE5BAXScm1PFWoiSxDEEARktidqx1jY9hB60EBA
+HO8fViYkg4RaABkKNhBm1OA6JhBxwgysWBBZyKQWBSIaiyGOkMq5pRDIsWaZmGGV
+mrI3VknEkUMqFD5JntCM23kR4pZ6Q9+7szNJ8vmlWckzvB2T/HPm/9m8YX229PDI
+54PbavftMA/1Lbz+orKmtW3yWVHm7iRp7t3bp3yJ+vysfaOBzp1oV+bhI5Np2sb6
+Bb2ZLZXkS3XGosCa8TPtKaOnu/YkD/X3dizb31ceODdvPC337aYG50bhyPD7oa25
+nwqs1dHXHa+ajjYmItW9F+sG89Ka67LXXc5K7548ufdKYsO3azVTx/wrk2q/dk8t
+rUnVxp5/2tzm9Kd25rSuqd0+cGuoJb3nQcnZdKkxBQ60Tfw8vngwVO77PtKz4tFy
+ZXUHSOQ77Ue7Hi7MrsgCT9Y3St1rPy4/9+ESaPCDA3VPk6LyluazN0taWseSX27q
+uXB+7Idd8OBjqpl4lzKxRG36BRyzTZw=
+=rJqz
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/emptysquare
+
+==================================================================
