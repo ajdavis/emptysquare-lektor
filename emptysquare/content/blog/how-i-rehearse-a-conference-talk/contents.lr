@@ -1,35 +1,70 @@
+pub_date: 2016-02-28 23:31:00
+---
 _model: blog-post
 ---
-title:
+title: Performance, Persuasion, Structure: What A Speaking Coach Did For My PyCon Talk
 ---
 type: post
 ---
 tags:
 
+conference-tips
 ---
 categories:
+
+Programming
+Python
 ---
-_discoverable: no
+_discoverable: yes
 ---
 pub_date:
 ---
-summary:
+summary: I'm rehearsing my talk alone, for friends, and for a professional speaking coach. Guess which is most productive?
 ---
 body:
 
+![Emmeline Pankhurst](Emmeline-Pankhurst-011.jpg)
 
-Plan to begin your talk late, and not to take questions.
+In the months leading to PyCon, I'm refining my talk three ways: rehearsing it alone, rehearsing it for friends, and rehearsing it for a professional speaking coach. Guess which is the most productive?
 
-This is not the consensus approach to conference talks, so I'll argue for it in detail when we get to your actual delivery of the talk, in a future article. Briefly: The beginning and end are the most important parts of your talk. You ruin the beginning by starting before people are ready to listen, and you ruin the end, as often as not, by wincing through a couple bad questions and finishing on a low note.
+Yesterday I did a [session with Melissa Collom](http://melissacollom.com/coaching/), who is both a friend and professional coach. She advised me on my performance, persuasion, and structure. **We made my talk twice as good**; here's how:
 
-Better to start a few minutes late, when the audience is ready and waiting for you. At the end, go out with a bang.
+# Performance
 
-Now that you've decided when you'll begin and end, you know your *real slot*. I have a putative half hour slot to deliver my talk, so I'll rehearse it as if I have 25 minutes. This leaves time for:
+I favor a low-pitched, even speaking voice on stage. I do this in order to project confidence, but Melissa advised me to change it up a bit. She noticed that in conversation, when I get excited my voice jumps to a higher register for a few words. This musical quirk of my speaking catches the listener's attention, and she assured me it doesn't undermine the confidence I'm trying to convey. I can work this idiosyncracy into my rehearsals and *plan* to deploy it for emphasis during my PyCon talk.
 
-* A few minutes to start late.
-* A minute to go off script at some point in the middle, if I want.
-* Another minute, because a live talk is slower than rehearsal.
+She pointed out some other places to vary my voice. My talk will be about "Writing An Excellent Program Blog", and near the start I'll read you a tiny example of a story, like:
 
-Rehearsals are deceptively speedy: you can mumble through your talking points and finish under time, and think, "My talk fits the slot." But it'll take time to state your ideas fully when you're really in the moment, and speaking to an audience is one of the great in-the-moment experiences of our lives.
+> "I'm going to tell you a story about Foo, how it taught me Bar, and led to Baz. First this happened, then that happened. And that's the story of Foo."
 
-At any rate, rehearsing the talk for a shorter slot puts the risk where it belongs: no one minds if I end early, but running late is ugly.
+It adds variety to my speaking if I really *tell* this micro-story like a fairy tale, with the sing-song voice like we use with children. I'll even start with "Once upon a time."
+
+Without noticing, I began my rehearsal with my arms crossed and my head down. I was nervous and took a defensive posture, even though there were just two of us in the room. Melissa coached me to practice standing with my arms at my sides, completely neutral. "Practice while you're waiting in line at a caf&eacute;. It won't feel natural, but it is. It's the foundation for the postures you use on stage."
+
+**Tics.** We all have vocal tics. I've gotten rid of the "tsk" sound I used to make between each sentence, but Melissa pointed out that now I say "so" each time I go to the next slide. So...that's the newest tic to train myself out of.
+
+# Architecture
+
+I want to cram so much into my half-hour slot. We cut it down to the ideas I care about most, and built efficient transitions from one to the next.
+
+For example: my talk names five kinds of articles. Instead of saying for each, "This is the Nth of the 5 kinds of articles," I can just put the numbers on my slides and save seconds.
+
+In the middle of my talk I have long quotes from Glyph's essay, ["Unyielding"](https://glyph.twistedmatrix.com/2014/02/unyielding.html), and Patrick McKenzie's ["Making Your Writing Work Harder For You"](https://training.kalzumeus.com/newsletters/archive/content-marketing-strategy). I love these quotes so much they were hard to part with, but we found that it's more effective to paraphrase them.
+
+And finally, the talk has always had a weak section, where I say that I'm sorry because I don't know how you can improve your writing. This feels awful, since I intend to talk about excellent writing. Miraculously, we turned the weak section into a strong one, partly because Melissa told me to stop saying sorry, partly because we discovered that I have three firm ideas about improving your writing skill.
+
+# Rhetoric
+
+In rehearsal, I related to the audience inconsistently: sometimes I seemed to address my peers, sometimes my juniors, sometimes people more expert than me. We decided that my manner is warmest when I relate to the audience as respected peers throughout the talk&mdash;they're my fellow PyCon attendees, after all, but on stage I can get nervous and haughty if I let myself. I could use a little more warmth.
+
+We also distinguished exactly why you'll come to my talk: you're an expert in your field and you write about it already, but you want to write more and better. With the audience clearly distinguished like this, I can focus just on the ideas that matter to you.
+
+Melissa heard a handful of key words: "clarify", "specialist", "valuable", "connection". She told me an actor's trick: "Practice taking a breath and focusing on these words, one at a time. It creates a mental resonance for each one." When I give my talk, the training will kick in and I'll naturally emphasize these words, focusing your attention on them.
+
+My talk has some funny bits, but they're spaced too far apart. My style is very dry. There's nothing wrong with that, but a few more sly jokes, or maybe some moments of abject silliness, will help tremendously.
+
+More info: [Melissa Collom: "Speaking Effectively: What An Opera Singer Can Teach You About Presentation And Presence."](http://melissacollom.com/coaching/)
+
+***
+
+<span style="color: gray">Image: Emmeline Pankhurst</span>
