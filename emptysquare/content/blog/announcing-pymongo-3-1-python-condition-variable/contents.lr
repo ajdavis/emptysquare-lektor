@@ -32,7 +32,7 @@ A few of our users reported that PyMongo 3 used five or ten percent of their CPU
 
 # A Reasonable Tradeoff?
 
-PyMongo 3 has new server discovery and monitoring logic which requires one background thread to monitor each server driver is connected to. These monitors wake every 10 seconds or, when PyMongo is actively searching for a server, every half-second. This architecture has big performance advantages over PyMongo 2's&mdash;it's faster at discovering servers, and more performant and responsive if you have a large replica set, or if your replica set's topology changes, or if some members are down or slow to respond. ([More info here.](/blog/announcing-pymongo-3/#responsiveness))
+PyMongo 3 has new server discovery and monitoring logic which requires one background thread to monitor each server the driver is connected to. These monitors wake every 10 seconds or, when PyMongo is actively searching for a server, every half-second. This architecture has big performance advantages over PyMongo 2's&mdash;it's faster at discovering servers, and more performant and responsive if you have a large replica set, or if your replica set's topology changes, or if some members are down or slow to respond. ([More info here.](/blog/announcing-pymongo-3/#responsiveness))
 
 So, I expected PyMongo 3 to cost a bit of idle CPU, because its threads wake every 10 seconds to check the servers; this is intended to cost a tiny bit of memory and load in exchange for big wins in performance and reliability. But our users reported, and I confirmed, that the cost was much more than I'd guessed.
 

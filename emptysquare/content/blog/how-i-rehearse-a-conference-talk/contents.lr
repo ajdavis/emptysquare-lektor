@@ -17,8 +17,6 @@ Python
 ---
 _discoverable: yes
 ---
-pub_date:
----
 summary: I'm rehearsing my talk alone, for friends, and for a professional speaking coach. Guess which is most productive?
 ---
 body:
@@ -27,13 +25,13 @@ body:
 
 In the months leading to PyCon, I'm refining my talk three ways: rehearsing it alone, rehearsing it for friends, and rehearsing it for a professional speaking coach. Guess which is the most productive?
 
-Yesterday I did a [session with Melissa Collom](http://melissacollom.com/coaching/), who is both a friend and professional coach. She advised me on my performance, persuasion, and structure. **We made my talk twice as good**; here's how:
+Yesterday I did a session with Melissa Collom, an opera singer, speaking coach, and friend. She advised me on my performance, persuasion, and structure. **We made my talk twice as good**, [I bet she could help with your talk, too](http://melissacollom.com/coaching/).
 
 # Performance
 
 I favor a low-pitched, even speaking voice on stage. I do this in order to project confidence, but Melissa advised me to change it up a bit. She noticed that in conversation, when I get excited my voice jumps to a higher register for a few words. This musical quirk of my speaking catches the listener's attention, and she assured me it doesn't undermine the confidence I'm trying to convey. I can work this idiosyncracy into my rehearsals and *plan* to deploy it for emphasis during my PyCon talk.
 
-She pointed out some other places to vary my voice. My talk will be about "Writing An Excellent Program Blog", and near the start I'll read you a tiny example of a story, like:
+She pointed out some other places to vary my voice. My talk will be about "Writing An Excellent Programming Blog", and near the start I'll read you a tiny example of a story, like:
 
 > "I'm going to tell you a story about Foo, how it taught me Bar, and led to Baz. First this happened, then that happened. And that's the story of Foo."
 
@@ -59,7 +57,7 @@ In rehearsal, I related to the audience inconsistently: sometimes I seemed to ad
 
 We also distinguished exactly why you'll come to my talk: you're an expert in your field and you write about it already, but you want to write more and better. With the audience clearly distinguished like this, I can focus just on the ideas that matter to you.
 
-Melissa heard a handful of key words: "clarify", "specialist", "valuable", "connection". She told me an actor's trick: "Practice taking a breath and focusing on these words, one at a time. It creates a mental resonance for each one." When I give my talk, the training will kick in and I'll naturally emphasize these words, focusing your attention on them.
+Melissa heard a handful of key words: "clarify", "specialist", "valuable", "connection". She told me an actor's trick: "Practice taking a breath and focusing on one of these words at a time. It creates a mental resonance for each one." When I give my talk, the training will kick in and I'll naturally emphasize these words, focusing your attention on them.
 
 My talk has some funny bits, but they're spaced too far apart. My style is very dry. There's nothing wrong with that, but a few more sly jokes, or maybe some moments of abject silliness, will help tremendously.
 

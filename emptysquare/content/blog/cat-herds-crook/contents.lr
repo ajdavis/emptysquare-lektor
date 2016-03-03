@@ -1,0 +1,30 @@
+pub_date: 2016-03-03 11:27:59
+---
+_model: blog-post
+---
+title: Cat-Herd's Crook published in the MongoDB Engineering Journal
+---
+type: post
+---
+tags:
+
+---
+categories:
+
+Programming
+Mongo
+Python
+---
+_discoverable: yes
+---
+summary: Samantha Ritter and I wrote up our technique for enforcing MongoDB driver specifications in ten programming languages
+---
+body:
+
+![Jesse and Samantha drawn as cats](cats-samantha-jesse.jpg)
+
+At MongoDB we write database drivers in ten programming languages. We try to make them all behave the same, but inevitably they vary. How can we herd all these cats along the same path? For years we failed, and each false start left us more discouraged. But now we're on track to standardize all our drivers. Samantha Ritter and I gave a talk about this at [Open Source Bridge last year](https://youtu.be/OBjU_xYtPmA).
+
+This morning, it's my delight to announce that our article on the subject is the first publication of the MongoDB Engineering Journal.
+
+[**Cat-Herd's Crook in the MongoDB Engineering Journal**](https://engineering.mongodb.com/post/cat-herds-crook/)

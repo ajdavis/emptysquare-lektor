@@ -98,7 +98,8 @@ def cli(ctx, project=None):
 @cli.command('list')
 @click.option('-1', '--one', is_flag=True, default=False)
 @click.argument('what',
-                type=click.Choice(['posts', 'drafts', 'tags', 'categories']),
+                type=click.Choice(['posts', 'drafts', 'tags', 'categories',
+                                   'quick']),
                 default='posts')
 @pass_context
 def blog_list(ctx, one, what):
@@ -111,6 +112,16 @@ def blog_list(ctx, one, what):
     elif what == 'categories':
         for cat in sorted(pad.query('category').distinct('name')):
             print cat
+
+    elif what == 'quick':
+        # Faster than a Lektor query.
+        project_dir = ctx.get_project().tree
+        blog_dir = os.path.join(project_dir, 'content', 'blog')
+        for name in os.listdir(blog_dir):
+            path = os.path.join(blog_dir, name)
+            if (os.path.isdir(path) and
+                    os.path.isfile(os.path.join(path, 'contents.lr'))):
+                print name
 
     else:
         q = pad.query('blog').include_undiscoverable(True)

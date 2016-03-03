@@ -4,11 +4,11 @@ title: A. Jesse Jiryu Davis
 ---
 author: A. Jesse Jiryu Davis
 ---
-summary: A. Jesse Jiryu Davis's blog on Python, Tornado, MongoDB, Zen, and photography.
+summary: A. Jesse Jiryu Davis's blog on Tornado, asyncio, MongoDB, Zen, and photography.
 ---
 intro:
 
-I'm a staff engineer at [MongoDB](http://mongodb.com) in New York City. I wrote [Motor, the async MongoDB Python driver](http://motor.readthedocs.org/), and I'm the lead developer of the [MongoDB C Driver](http://api.mongodb.org/c/current/) and a member of the [PyMongo](http://api.mongodb.org/python/current/) team. I contribute to [asyncio](https://docs.python.org/3/library/asyncio.html) and [Tornado](http://www.tornadoweb.org/). I study at the [International Center for Photography](http://icp.edu/school) and practice at the [Village Zendo](http://villagezendo.org/). You can [read more about me](/blog/about/).
+I'm a staff engineer at [MongoDB](http://mongodb.com) in New York City. I wrote [Motor, the async MongoDB Python driver](http://motor.readthedocs.org/), and I'm the lead developer of the [MongoDB C Driver](http://api.mongodb.org/c/current/). I contribute to [PyMongo](http://api.mongodb.org/python/current/), [asyncio](https://docs.python.org/3/library/asyncio.html), [Python](http://python.org) and [Tornado](http://www.tornadoweb.org/). I study at the [International Center for Photography](http://icp.edu/school) and practice at the [Village Zendo](http://villagezendo.org/). You can [read more about me](/blog/about/).
 ---
 body:
 

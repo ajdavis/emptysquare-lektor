@@ -35,9 +35,10 @@ Here's my [speaking schedule](/blog/speaking-schedule/).
 
 ## Contributions:
 
-* [A queue implementation](https://code.google.com/p/tulip/source/detail?r=f83dba559f89) included in `asyncio`, also known as Tulip, Guido van Rossum's asynchronous I/O framework for the Python 3.4 standard library.
+* [The queue implementation](https://docs.python.org/3/library/asyncio-queue.html) and [an optimization to getaddrinfo](https://github.com/python/asyncio/commit/39c135baf73762830148236da622787052efba19) in `asyncio` in the Python standard library.
 * [Locks and queues](http://www.tornadoweb.org/en/stable/releases/v4.2.0.html#new-modules-tornado-locks-and-tornado-queues) for the Python Tornado async framework.
-* [A bugfix to threading](http://bugs.python.org/issue18418) in the Python standard library.
+* [A bugfix to Python's threading module](http://bugs.python.org/issue18418).
+* [Concurrent getaddrinfo](http://bugs.python.org/issue25924) in Python on BSD.
 
 ## Writing:
 
