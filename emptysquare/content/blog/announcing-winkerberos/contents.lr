@@ -1,0 +1,54 @@
+pub_date: 2016-02-26 04:46:29
+---
+_model: blog-post
+---
+title: Announcing WinKerberos
+---
+type: post
+---
+categories:
+
+Python
+Mongo
+Programming
+---
+_discoverable: yes
+---
+pub_date:
+---
+summary: My colleague Bernie Hackett just released WinKerberos, a Windows native library for Kerberos authentication in Python.
+---
+body:
+
+![Kerberos](kerberos.jpg)
+
+My colleague Bernie Hackett has published a new Python extension module called [WinKerberos](https://github.com/mongodb-labs/winkerberos). It provides native Kerberos support to Python applications on Windows. It's a drop-in replacement for the popular [PyKerberos](https://pypi.python.org/pypi/pykerberos) package, but it uses Microsoft's own Kerberos implementation, the Security Support Provider Interface (SSPI), and supports some Windows specific options.
+
+# Motivation
+
+A number of MongoDB customers have requested support for GSSAPI authentication with PyMongo on Windows, so they can use Kerberos with Python and MongoDB.
+
+Why not PyKerberos? PyKerberos works great on Unix, and PyMongo uses PyKerberos there. But it doesn't give us access to Microsoft's SSPI on Windows. If you want to use PyKerberos on Windows you could first install the MIT Kerberos library, but this is a finicky setup and we've had trouble proving that PyKerberos even works this way. Better to use SSPI, the standard way to do Kerberos on Windows. 
+
+But how can we use SSPI in Python? The existing kerberos-sspi is a nice library to do this, but [a segfault that we reported](https://github.com/may-day/kerberos-sspi/issues/1) prevents us from using it in PyMongo. Besides, we need some features it lacks, like the ability to authenticate as a different user than the process owner.
+
+# Advantages
+
+Bernie decided to write a new Python extension in pure C to work around the segfault. The package he made has some additional advantages over kerberos-sspi:
+
+- Authenticating as a different user than the process owner
+- Tiny library, no dependencies, whereas kerberos-sspi depends on the giant pywin32
+
+# Try It!
+
+We haven't published to PyPI yet. We need you to try it out first. Please, if you're using Kerberos in Python on Windows, give our new WinKerberos package a try and let us know&mdash;tweet at me [@jessejiryudavis](https://twitter.com/jessejiryudavis) or [open an issue on GitHub](https://github.com/mongodb-labs/winkerberos/issues) and tell us if it works for you or not.
+
+We'll make you precompiled binaries (wheels) when we release on PyPI.
+
+Link:
+
+* [github.com/mongodb-labs/winkerberos](https://github.com/mongodb-labs/winkerberos)
+
+***
+
+[<span style="color: gray">Image: Pearson Scott Foresman</span>](https://commons.wikimedia.org/wiki/File:Cerberus_(PSF).jpg)
