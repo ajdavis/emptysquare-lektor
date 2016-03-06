@@ -318,9 +318,17 @@ def blog_publish(ctx, where):
 
     contents = post.contents.as_text()
     if not post['pub_date']:
-        contents = """pub_date: %s
+        pub_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        if 'pub_date' in contents:
+            # There is a pub_date line, it's just not a valid datetime.
+            pat = re.compile(r'^pub_date:.*?$', re.MULTILINE)
+            assert 1 == len(pat.findall(contents)), "Couldn't set pub_date"
+            contents = pat.sub('pub_date: ' + pub_date, contents)
+        else:
+            # No pub_date line at all.
+            contents = """pub_date: %s
 ---
-%s""" % (datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), contents)
+%s""" % (pub_date, contents)
 
     if not post['_discoverable']:
         pat = re.compile(r'^_discoverable:\s*(no|false)$', re.MULTILINE)
