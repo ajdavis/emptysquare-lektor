@@ -1,0 +1,138 @@
+_model: blog-post
+---
+title: Announcing Motor 0.6
+---
+type: post
+---
+tags:
+
+---
+categories:
+
+Programming
+Mongo
+Python
+Motor
+---
+_discoverable: no
+---
+pub_date:
+---
+summary: A bugfix release, and an entertaining problem from a change in asyncio coroutines.
+---
+body:
+
+![Electric motor logo by Musho Rodney Alan Greenblat](motor-musho.png)
+
+Motor is the asynchronous Python driver for MongoDB. It is compatible with Tornado and asyncio.
+
+This is just a patch release with [six bugfixes](https://jira.mongodb.org/issues/?jql=fixVersion%20%3D%200.6%20AND%20project%20%3D%20MOTOR), but some fixes required tiny API changes that
+might affect you, so I'm bumping the version from 0.5 to 0.6, instead of to 0.5.1. Read below for the changes&mdash;if you make it to the bottom you'll learn about an abstruse asyncio optimization in Python 3.5.1!
+
+# `motor_asyncio` and `motor_tornado` submodules
+
+These modules have been moved from:
+
+  - `motor_asyncio.py`
+  - `motor_tornado.py`
+
+To:
+
+  - `motor_asyncio/__init__.py`
+  - `motor_tornado/__init__.py`
+
+Motor had to make this change in order to omit the `motor_asyncio` submodule
+entirely and avoid a spurious `SyntaxError` being printed when installing in
+Python 2. The change should be invisible to application code. Thanks to Jordi Soucheiron for the report.
+
+# Database and collection names with leading underscores
+
+A database or collection whose name starts with an underscore can no longer be
+accessed as a property:
+
+```py
+# Now raises AttributeError.
+db = MotorClient()._mydatabase
+collection = db._mycollection
+subcollection = collection._subcollection
+```
+
+Such databases and collections can still be accessed dict-style:
+
+```py
+# Continues to work the same as previous Motor versions.
+db = MotorClient()['_mydatabase']
+collection = db['_mycollection']
+```
+
+To ensure a "sub-collection" with a name that includes an underscore is
+accessible, Motor collections now allow dict-style access, the same as Motor
+clients and databases always have:
+
+```py
+# New in Motor 0.6
+subcollection = collection['_subcollection']    
+```
+
+These changes solve problems with iPython code completion and the Python 3
+`ABC` abstract base class. Thanks to [TechBK](https://github.com/TechBK) and Andrew Svetlov for reporting and diagnosing the bug.
+
+# Change to asyncio coroutines
+
+There is also a pure bugfix with no API consequences, but it's interesting enough that I wrote it up.
+
+Motor's internals mostly use callbacks and greenlets. Just one rarely-used function, [`stream_to_handler`](http://motor.readthedocs.org/en/stable/api/gridfs.html#motor.motor_tornado.MotorGridOut.stream_to_handler), is a generator-based coroutine. This coroutine needs a framework-agnostic way to resolve a Future into a value:
+
+```py3
+result = yield self._framework.yieldable(some_future)
+```
+
+Motor's utility `yieldable()` abstracts differences between Tornado and asyncio, so the coroutine works with either framework. If the framework is asyncio, then `yieldable` does some footwork to avoid the need for `yield from` in Motor:
+
+```py3
+def yieldable(future):
+    return next(iter(future))
+```
+
+So `yieldable` gets the Future started, then just returns it to be yielded up the coroutine chain. When the coroutine is resumed with a call to `coro.send(value)`, that becomes the value of the yield expression.
+
+This wouldn't work if Motor's coroutine called another coroutine with multiple yields. But in Motor's narrow use case, I overcome the need for `yield from` with asyncio, so I can write code that works equally well with Tornado.
+
+Recently, Yury Selivanov [optimized how asyncio coroutines resolve Futures to values](https://github.com/python/asyncio/pull/289). When an asyncio coroutine pauses:
+
+```py3
+result = yield from some_future
+```
+
+... it stops within `Future.__iter__` at the `yield` statement:
+
+```py3
+class Future:
+    def __iter__(self):
+        if not self.done():
+            # Tell Task to wait for completion.
+            yield self
+        # Resume coroutine with the result.
+        return self.result()
+```
+
+The Task class later resumes the coroutine with a value like this:
+
+```py3
+class Task:
+    def step(self, value):
+        self.coro.send(value)
+```
+
+Yury noticed that, when the coroutine resumes, the actual result comes directly from the Future, when it returns `self.result()`. That means it doesn't matter what value Task passes with `send(value)`!  Not only does the value not matter, but CPython chooses a faster code path when it executes `send(None)` instead. So he updated asyncio to do that, and the optimization was released with Python 3.4.4 and 3.5.1.
+
+Everybody was happy but me. I retested Motor this weekend and found that Yury's change broke my `yieldable` trick. Now `stream_to_handler`, and any other Motor function I write from now on that resolves a Future to a value, must resolve it in two steps:
+
+```py3
+while written < self.length:
+    f = self._framework.yieldable(self.read(self.chunk_size))
+    yield f
+    chunk = f.result()
+```
+
+This is a minor bug since Motor's sole coroutine, `stream_to_handler`, isn't really useful with asyncio until I finish [some larger feature work](https://jira.mongodb.org/browse/MOTOR-92). But the diagnosis was a scenic trip. And I learned that the [demo I did at some conferences this year live-coding a coroutine framework](/blog/scale14x-coroutines-talk/) is now subtly outdated. If I present it again I'll code it the way the newest asyncio works.
