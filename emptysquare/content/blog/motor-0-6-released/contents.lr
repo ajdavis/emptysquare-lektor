@@ -135,4 +135,4 @@ while written < self.length:
     chunk = f.result()
 ```
 
-This is a minor bug since Motor's sole coroutine, `stream_to_handler`, isn't really useful with asyncio until I finish [some larger feature work](https://jira.mongodb.org/browse/MOTOR-92). But the diagnosis was a scenic trip. And I learned that the [demo I did at some conferences this year live-coding a coroutine framework](/blog/scale14x-coroutines-talk/) is now subtly outdated. If I present it again I'll code it the way the newest asyncio works.
+This is a minor bug since Motor's sole coroutine, `stream_to_handler`, isn't really useful with asyncio until I finish [some larger feature work](https://jira.mongodb.org/browse/MOTOR-92). But the diagnosis was a scenic trip.
