@@ -19,6 +19,8 @@ _discoverable: yes
 ---
 pub_date: 2016-03-13 22:28:40
 ---
+thumbnail: kay-petre.jpg
+---
 summary: Why connection timeouts are unfair with asyncio on Mac, and how we fixed it.
 ---
 body:
