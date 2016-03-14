@@ -27,7 +27,7 @@ In 2015 and 2016 I plunged deep into an investigation of `getaddrinfo` on Mac OS
 
 * [How To Deadlock Your Python With `getaddrinfo`](/blog/getaddrinfo-deadlock/)
 * [How To Hobble Your Python Web-Scraper With `getaddrinfo`](/blog/mac-python-getaddrinfo-queueing/)
-* Fixing `getaddrinfo` on `asyncio`
+* [How To Play Foul With `getaddrinfo`](/blog/asyncio-getaddrinfo-short-circuit/)
 * Good news! `getaddrinfo` is thread-safe.
 
 ***

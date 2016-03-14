@@ -1,0 +1,145 @@
+_model: blog-post
+---
+title: How To Play Foul With getaddrinfo()
+---
+type: post
+---
+tags:
+
+getaddrinfo
+---
+categories:
+
+Python
+Mongo
+Programming
+Motor
+---
+_discoverable: yes
+---
+pub_date: 2016-03-13 22:28:40
+---
+summary: Why connection timeouts are unfair with asyncio on Mac, and how we fixed it.
+---
+body:
+
+![A team competing in the 1912 Monte Carlo Rally](Russo-balt_s24-55_ralli_monte-karlo_1.jpg)
+
+I'm the referee for a road rally. You have to drive from New York to San Francisco in 48 hours, but&mdash;here's the catch&mdash;I'm going to start my stopwatch *before* you can look at the map. Worse, there are hundreds of other drivers who need the map, and only one driver can use it at a time. If you're unlucky, you could spend the whole 48 hours waiting in line.
+
+Sound fair? Not to me. But this was how my library, Motor, worked with asyncio. In this article, [the third of my four-part series about Python's `getaddrinfo` on Mac](/blog/getaddrinfo-on-macosx), I'll tell you how Guido van Rossum, Yury Selivanov, and I fixed asyncio so it could referee a fair race.
+
+# An Unfair Stopwatch
+
+Motor is my async Python driver for MongoDB. Back in December, a data scientist at the Washington Post reported that on his Mac, Motor timed out trying to connect to MongoDB, even if MongoDB was running on the local machine. The cause is this: his script had begun to download hundreds of remote feeds, and each of those downloads required a DNS lookup. On Mac OS X, Python only permits one call to `getaddrinfo` at a time.
+
+It's like my unfair road rally: Motor starts a 20-second timer, then calls asyncio's `create_connection`. Now asyncio needs to the `getaddrinfo` lock, but there are hundreds of tasks in line ahead of it. By the time it gets the lock, resolves "localhost" and starts to open a socket, the timeout has ended and Motor cancels the task.
+
+![Marcel Renault during the 1903 Paris–Madrid race](Marcel_Renault_1903.jpg)
+
+# Fixing The Rules
+
+I proposed three solutions to the asyncio team, none perfect. Guido responded with two more:
+
+* **Modify asyncio** so if you pass it something that looks like a numerical address it skips calling `getaddrinfo`.
+
+The idea here is for Motor to run `getaddrinfo` itself. Then it starts the timer and passes the IP address to asyncio. Now the race is fair: Motor only counts how long asyncio spends actually connecting.
+
+Guido's other idea seemed daunting:
+
+* **Do the research** to prove that `getaddrinfo` on OS X is thread-safe and submit a patch that avoids the `getaddrinfo` lock on those versions of OS X.
+
+I decided to leave the archeological research for another day when I was feeling more Indiana Jonesy. I could modify asyncio right away.
+
+![Luigi Fagioli competing in the 1928 Targo Florio race](Luigi_Fagioli_at_the_1928_Targa_Florio.jpg)
+
+# Fixing The Rules Isn't Simple
+
+Guido's initial proposal sounded easy enough. If Motor has resolved a host to the IP address "1.2.3.4", and executes this:
+
+```py3
+yield from loop.create_connection(Protocol, '1.2.3.4', 80)
+```
+
+... then asyncio should see that "1.2.3.4" is already an IP address, and **skip the `getaddrinfo` call**. Instead, asyncio should choose the proper address family, socket type, protocol, and so on, as if it had called `getaddrinfo`, but without ever waiting in line.
+
+It would be as if your co-pilot showed up with a route already planned. You wouldn't get in line to use the map; you'd jump in your rally car and start driving.
+
+I set off to write some Python 3 code that recognizes an IP address and constructs a fake `getaddrinfo` response. A useful module called `ipaddress` was added to the standard library in Python 3.3, so implementing recognition went swimmingly:
+
+```py3 hl_lines="5"
+try:
+    addr = ipaddress.IPv4Address(host)
+except ValueError:
+    try:
+        addr = ipaddress.IPv6Address(host.partition('%')[0])
+    except ValueError:
+        # Host isn't an IP address, can't skip getaddrinfo.
+        return None
+```
+
+That `partition` call is needed to remove the IP address's [zone index](https://en.wikipedia.org/wiki/IPv6_address#Link-local_addresses_and_zone_indices) if it has one. For example the IPv6 address for "localhost" might be "fe80::1%lo0", which specifies the "loopback 0" interface. **Yury, Guido, and I had never heard of zone indexes before**, but we figured it out and carried on.
+
+Recognizing an IP address isn't enough, because converting a host name to an IP address isn't all that `getaddrinfo` does. What about the other parameters: family, socket type, protocol, flags? Each of these inputs to `getaddrinfo` influences its return value. I needed to reproduce this logic accurately in pure Python, without getting in line to use the actual `getaddrinfo` call.
+
+Consider how `getaddrinfo` infers the protocol from the socket type: `SOCK_STREAM` implies TCP, `SOCK_DGRAM` implies UDP. So I tried the obvious code:
+
+```py3
+if socket_type == SOCK_STREAM:
+    proto = IPPROTO_TCP
+elif socket_type == SOCK_DGRAM:
+    proto = IPPROTO_UDP
+```
+
+But on Linux, and Linux only, the socket type is a bitmask that can be combined with the flags `SOCK_NONBLOCK` and `SOCK_CLOEXEC`. So the check `socket_type == SOCK_STREAM` is wrong on Linux. I had to test a bitwise "and" instead:
+
+```py3
+if socket_type & SOCK_STREAM:
+    proto = IPPROTO_TCP
+elif socket_type & SOCK_DGRAM:
+    proto = IPPROTO_UDP
+```
+
+Again and again, I thought I had finished, but the socket-programming API has innumerable corners and platform differences. Although Guido's idea was simple&mdash;teach asyncio to recognize an already-resolved IP address and simulate a `getaddrinfo` response&mdash;it required 15 revisions before I'd straightened out the kinks and satisfied Yury and Guido.
+
+On the 16th revision, we merged. The fix will ship with Python 3.4.5, 3.5.2, and 3.6.0.
+
+I wrote, 
+
+> This has certainly been educational.
+
+Yury replied,
+
+> For me too. :)
+
+***
+
+![Rally driver Kay Petre in 1937](kay-petre.jpg)
+
+# This Is Not The End
+
+So I gave you a way to skip the line. If you planned your route beforehand, you can get right in your car and start driving.
+
+And yet: as you peel out from the starting line and accelerate toward San Francisco, you feel a pang. You glance in the rearview mirror and see all those other drivers, the ones who didn't come prepared, waiting in line to use the map. Wasn't there some better way? Couldn't they all just...share the map?
+
+They can. Stay tuned for the final installment of this series about Python's `getaddrinfo` on Mac.
+
+***
+
+Links:
+
+* [The asyncio pull request to allow skipping `getaddrinfo`](https://github.com/python/asyncio/pull/302).
+* [Mailing list discussion with the asyncio team](https://groups.google.com/forum/#!topic/python-tulip/-SFI8kkQEj4/discussion).
+* [The Motor bug report](https://jira.mongodb.org/browse/MOTOR-100).
+* [This four-part series about `getaddrinfo` on Mac](/blog/getaddrinfo-on-macosx/).
+
+![Mrs Gordon Simpson and Joan Richmond smoke cigarettes in their rally car, 1934](gordon-simpson-joan-richmond.jpg)
+
+Images:
+
+* [1912 Monte Carlo Rally team](https://en.wikipedia.org/wiki/Rallying#/media/File:Russo-balt_s24-55_ralli_monte-karlo_1.jpg)
+* [Marcel Renault during the 1903 Paris–Madrid race](https://en.wikipedia.org/wiki/Rallying#/media/File:Marcel_Renault_1903.jpg)
+* [Luigi Fagioli competing in the 1928 Targo Florio race](https://en.wikipedia.org/wiki/Targa_Florio)
+* [Rally driver Kay Petre in 1937](http://silodrome.com/lady-racing-drivers-brooklands/)
+* [Mrs Gordon Simpson and Joan Richmond smoke cigarettes in their rally car, 1934](http://silodrome.com/lady-racing-drivers-brooklands/)
+
