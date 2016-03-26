@@ -388,7 +388,4 @@ def blog_visit(ctx, where):
     if not post:
         raise click.BadParameter('"%s" does not exist!' % where)
 
-    if post['pub_date'] and post['_discoverable']:
-        raise click.BadParameter('"%s" already published!' % where)
-
     webbrowser.open(pad.make_url(post.url_path, external=True))
