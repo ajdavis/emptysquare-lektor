@@ -169,6 +169,7 @@ def blog_new(ctx, what, where, images):
         contents_path = os.path.join(path, 'contents.lr')
 
         if images:
+            images = os.path.normpath(os.path.expanduser(images))
             if os.path.isdir(images):
                 filenames = os.listdir(images)
             elif os.path.isfile(images):
@@ -176,14 +177,15 @@ def blog_new(ctx, what, where, images):
             else:
                 raise click.BadParameter('"%s" does not exist!' % images)
 
+            image_filenames = []
             for filename in filenames:
                 ext = os.path.splitext(filename)[-1]
                 if ext.lower() not in ('.png', '.jpg', '.jpeg'):
                     continue
 
                 print(filename)
-                filenames.append(filename)
 
+                image_filenames.append(filename)
                 source_path = os.path.join(images, filename)
                 target_path = os.path.join(path, filename)
                 subprocess.check_call(
@@ -191,7 +193,7 @@ def blog_new(ctx, what, where, images):
                      '-quality', '80', target_path])
 
             images_markdown = '\n\n***\n\n'.join(
-                "![](%s)" % fn for fn in filenames)
+                "![](%s)" % fn for fn in image_filenames)
 
         else:
             images_markdown = ''
