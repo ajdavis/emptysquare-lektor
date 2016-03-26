@@ -29,7 +29,7 @@ body:
 
 I'm the referee for a road rally. You have to drive from New York to San Francisco in 48 hours, but&mdash;here's the catch&mdash;I'm going to start my stopwatch *before* you can look at the map. Worse, there are hundreds of other drivers who need the map, and only one driver can use it at a time. If you're unlucky, you could spend the whole 48 hours waiting in line.
 
-Sound fair? Not to me. But this was how my library, Motor, worked with asyncio. In this article, [the third of my four-part series about Python's `getaddrinfo` on Mac](/blog/getaddrinfo-on-macosx), I'll tell you how Guido van Rossum, Yury Selivanov, and I fixed asyncio so it could referee a fair race.
+Sound fair? Not to me. But this was how my library, Motor, worked with asyncio. In this article, [the third of my four-part series about Python's `getaddrinfo` on Mac](/blog/getaddrinfo-on-macosx/), I'll tell you how Guido van Rossum, Yury Selivanov, and I fixed asyncio so it could referee a fair race.
 
 # An Unfair Stopwatch
 
