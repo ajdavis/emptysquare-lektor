@@ -1,0 +1,56 @@
+_model: blog-post
+---
+title: Announcing libbson and libmongoc 1.2.4 and 1.3.4
+---
+type: post
+---
+tags:
+
+---
+categories:
+
+C
+Programming
+Mongo
+---
+_discoverable: yes
+---
+pub_date: 2016-03-14 23:21:32
+---
+summary: Security vulnerability when a client reconnects with SSL.
+---
+body:
+
+![](still-here-rawscan.jpg)
+
+I'm pleased to announce versions 1.2.4 and 1.3.4 of libbson and libmongoc, the libraries
+constituting the MongoDB C Driver.
+
+## libbson
+
+The new versions of libbson have no changes; they're released to keep pace with libmongoc.
+
+## libmongoc
+
+The MongoDB C Driver releases fix a security vulnerability: when a `mongoc_client_t` uses SSL and is disconnected, it failed to re-verify the server certificate after reconnecting. This flaw affects single clients, not pooled ones.
+
+Version 1.3.4 is the latest release and is recommended for all users. 1.2.4 is released only for users on the 1.2.x line who want an upgrade with minimal changes.
+
+## Links:
+
+* [libbson-1.2.4.tar.gz](https://github.com/mongodb/libbson/releases/download/1.2.4/libbson-1.2.4.tar.gz)
+* [libmongoc-1.2.4.tar.gz](https://github.com/mongodb/mongo-c-driver/releases/download/1.2.4/mongo-c-driver-1.2.4.tar.gz)
+* [libbson-1.3.4.tar.gz](https://github.com/mongodb/libbson/releases/download/1.3.4/libbson-1.3.4.tar.gz)
+* [libmongoc-1.3.4.tar.gz](https://github.com/mongodb/mongo-c-driver/releases/download/1.3.4/mongo-c-driver-1.3.4.tar.gz)
+* [All bugs fixed in 1.3.4](https://jira.mongodb.org/issues/?jql=project%20%3D%20CDRIVER%20AND%20fixVersion%20%3D%201.3.4%20ORDER%20BY%20due%20ASC%2C%20priority%20DESC%2C%20created%20ASC)
+* [Documentation](https://api.mongodb.org/c/)
+
+Thanks to everyone who contributed to this release.
+
+<ul><li>A. Jesse Jiryu Davis<li>Hannes Magnusson<li>Remi Collet</ul>
+Peace,  
+&nbsp;&nbsp;&mdash; A. Jesse Jiryu Davis
+
+***
+
+[<span style="color: gray">Image: Henry Justice Ford, 1890</span>](http://www.oldbookillustrations.com/illustrations/still-here/)
