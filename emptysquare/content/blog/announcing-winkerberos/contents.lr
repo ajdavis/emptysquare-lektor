@@ -43,11 +43,13 @@ Bernie decided to write a new Python extension in pure C to work around the segf
 
 We haven't published to PyPI yet. We need you to try it out first. Please, if you're using Kerberos in Python on Windows, give our new WinKerberos package a try and let us know&mdash;tweet at me [@jessejiryudavis](https://twitter.com/jessejiryudavis) or [open an issue on GitHub](https://github.com/mongodb-labs/winkerberos/issues) and tell us if it works for you or not.
 
-We'll make you precompiled binaries (wheels) when we release on PyPI.
-
 Link:
 
 * [github.com/mongodb-labs/winkerberos](https://github.com/mongodb-labs/winkerberos)
+
+**Update:** Bernie released to PyPI on March 28, 2016:
+
+* [WinKerberos on PyPI](https://pypi.python.org/pypi/winkerberos)
 
 ***
 
