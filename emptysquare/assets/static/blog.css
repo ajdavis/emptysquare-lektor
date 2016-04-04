@@ -578,17 +578,7 @@ article {
 
   .post-content li, .post-content p {
     font-size: 17px;
-    line-height: 26px; }
-  .post-content img {
-    transform: scale(1,1);
-    transition: 0.1s;
-    cursor: pointer; }
-  .post-content img:hover {
-    position: relative;
-    transform: scale(1.03, 1.03);
-    transition: 0.2s;
-    box-shadow: 5px 5px 15px -5px gray;
-    border: 1px solid gray; } }
+    line-height: 26px; } }
 @media screen and (min-width: 840px) {
   .backgroundplaceholder1 {
     content: ' ';

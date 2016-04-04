@@ -303,3 +303,20 @@
 }
 
 /*# sourceMappingURL=lightbox.css.map */
+
+/* Added by Jesse */
+@media screen and (min-width: 1200px) {
+    .post-content img {
+        transform: scale(1, 1);
+        transition: 0.1s;
+        cursor: pointer;
+    }
+
+    .post-content img:hover {
+        position: relative;
+        transform: scale(1.03, 1.03);
+        transition: 0.2s;
+        box-shadow: 5px 5px 15px -5px gray;
+        border: 1px solid gray;
+    }
+}
