@@ -39,18 +39,9 @@
     {{ render_nav_bottom(this) }}
     {{ render_disqus_comments(identifier=this.legacy_id or this.path) }}
   {% endif %}
-  <link rel="stylesheet" href="{{ '/static/lightbox.min.css'|url }}">
-  <script src="{{ '/static/js/lightbox.min.js'|url }}" type="text/javascript"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      var imgs = document.querySelectorAll("div.post-content img");
-      for (var i = 0; i < imgs.length; i++) {
-        imgs[i].setAttribute('data-jslghtbx', '');
-        imgs[i].setAttribute('data-jslghtbx-group', 'group');
-      }
-
-      var lightbox = new Lightbox();
-      lightbox.load({dimensions: false, maxImgSize: .98});
-    });
-  </script>
+  {%  if this.enable_lightbox %}
+    <link rel="stylesheet" href="{{ '/static/lightbox.css'|url }}">
+    <script src="{{ '/static/js/lightbox.min.js'|url }}" type="text/javascript"></script>
+    <script src="{{ '/static/js/lightbox.emptysquare.js'|url }}" type="text/javascript"></script>
+  {%  endif %}
 {% endblock %}
