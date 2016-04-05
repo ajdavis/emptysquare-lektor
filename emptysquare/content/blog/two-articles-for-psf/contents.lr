@@ -1,0 +1,30 @@
+_model: blog-post
+---
+title: My First Two Articles For The PSF
+---
+type: post
+---
+tags:
+
+psf
+---
+categories:
+
+Python
+Programming
+---
+_discoverable: yes
+---
+pub_date: 2016-04-05 16:24:24
+---
+summary: I've started blogging for the Python Software Foundation.
+---
+body:
+
+![Python Software Foundation logo: two intertwined snakes](python-software-foundation.png)
+
+I'm delighted to tell you, I've started writing on the Python Software Foundation's blog. The PSF's communications head Diana Clarke asked me last month if I could blog for them, to share duties with their inveterate writer Mary Ann Sushinsky.
+
+So far, [I've talked with Damien George and Nicholas Tollervey about the effort to port Python to the new micro:bit](http://pyfound.blogspot.com/2016/03/genuinely-nice-chap-damien-george.html), a tiny computer the BBC is distributing to a million school children in the UK. And [I interviewed data scientist Jackie Kazil and PSF vice-chair Lynn Root about Jackie's career](http://pyfound.blogspot.com/2016/04/auctioneer-jackie-kazil.html) and her leadership of the PyLadies annual charity auction.
+
+I don't plan to cross-post every time I publish on the PSF blog. I just wanted you to know how much fun I'm having, talking with prominent Python folk and keeping the community up to date about the PSF.
