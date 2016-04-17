@@ -178,14 +178,18 @@ def blog_new(ctx, what, where, images):
                 source_path = os.path.join(images, filename)
                 target_path = os.path.join(path, filename)
                 subprocess.check_call(
-                    ['convert', source_path, '-resize', '1200',
-                     '-quality', '80', target_path])
+                    ['convert', source_path, '-resize', '2400',
+                     '-quality', '50', target_path])
 
             images_markdown = '\n\n***\n\n'.join(
                 "![](%s)" % fn for fn in image_filenames)
+            lightbox = """enable_lightbox: true
+---
+"""
 
         else:
             images_markdown = ''
+            lightbox = ''
 
         write(contents_path, """_model: blog-post
 ---
@@ -204,10 +208,10 @@ pub_date:
 ---
 summary:
 ---
-body:
+%sbody:
 
 %s
-""" % images_markdown)
+""" % (lightbox, images_markdown))
 
         print contents_path
         subprocess.call(['open', contents_path])
