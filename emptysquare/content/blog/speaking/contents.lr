@@ -34,10 +34,6 @@ I regularly speak at the Village Zendo about Zen Buddhism. You can:
 
 # Upcoming Technical Talks
 
-## "Code" Podcast
-
-* Discussion of async Python.
-
 ## PyCon, Portland, May 30–June 1.
 
 * ["Write an Excellent Programming Blog."](/blog/write-an-excellent-programming-blog/)
@@ -48,9 +44,13 @@ I regularly speak at the Village Zendo about Zen Buddhism. You can:
 
 # Highlights from the past:
 
+## "Code" Podcast
+
+* [Discussion of event loops and coroutines](https://soundcloud.com/podcastcode/3-concurrency-event-loop-coroutines), with Saúl Ibarra Corretgé and Andrey Salomatin.
+
 ## Emerging Technologies in the Enterprise, Philadelphia, April 4 2016.
 
-* "March to Triumph as a Mentor."
+* ["March to Triumph as a Mentor."](/blog/mentoring/)
 
 ## SoCal Linux Expo, Los Angeles, January 2016.
 
