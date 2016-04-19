@@ -183,6 +183,11 @@ def blog_new(ctx, what, where, images):
 
             images_markdown = '\n\n***\n\n'.join(
                 "![](%s)" % fn for fn in image_filenames)
+
+            images_markdown += """
+***
+<span style="color: gray">Images &copy; A. Jesse Jiryu Davis</span>"""
+
             lightbox = """enable_lightbox: true
 ---
 """
