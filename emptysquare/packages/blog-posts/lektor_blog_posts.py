@@ -355,6 +355,13 @@ def blog_open(ctx, charm, where):
     subprocess.call([program, post.source_filename])
 
 
+@cli.command('reveal')
+@click.argument('where', type=click.Path())
+@pass_context
+def blog_reveal(ctx, where):
+    subprocess.call(['open', os.path.join('content/blog', where)])
+
+
 @cli.command('preview')
 @click.argument('where', type=click.Path())
 @pass_context
