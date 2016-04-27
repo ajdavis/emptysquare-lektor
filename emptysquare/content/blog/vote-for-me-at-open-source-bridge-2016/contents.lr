@@ -1,0 +1,53 @@
+_model: blog-post
+---
+title: Please! Vote For Me At Open Source Bridge
+---
+type: post
+---
+thumbnail: open-source-bridge-1.jpg
+---
+tags:
+
+---
+categories:
+
+Programming
+Python
+---
+_discoverable: yes
+---
+pub_date: 2016-04-26 22:07:56
+---
+summary: If you like my talk proposals, give me a boost.
+---
+body:
+
+![](open-source-bridge-1.jpg)
+
+I love Open Source Bridge so much that I couldn't restrain myself: I submitted four talks. But I'm not embarrassed. My love for this conference must proclaim itself abundantly. So help me get accepted! Please add stars and comments to the four talks I proposed.
+
+**[Step 1: Sign in.](http://opensourcebridge.org/sign_in)** It's easy, you can sign in with Twitter or GitHub.
+
+**[Step 2: Vote for my talks!](http://opensourcebridge.org/users/1321/proposals)**
+
+[<img style="display:block; margin-left:auto; margin-right:auto;" src="click-here.png" alt="Add star" title="Add star" />](http://opensourcebridge.org/proposals/1731)
+
+Here's all my talks this year. If you like one, I hope you give it a star.
+
+**[Open Source Fan Service](http://opensourcebridge.org/proposals/1731).**
+
+If your project is lucky enough to have ardent fans, that's great news. But what do you do when fans submit bad patches? You hurt their feelings when you reject their patches, but you hurt your project if you accept them. You can get out of this bind! Give your fans other ways to be recognized. Showcase their plugins in your project’s wiki, or rewrite their patches while giving them credit, or feature their related projects on your site.
+
+**[Black Pipe Testing, or "@#$! Up Your App by Impersonating a Database"](http://opensourcebridge.org/proposals/1732)**
+
+A “black box” test sends input to your program and tests the output. But a networked application has I/O at two ends: the API and the network. A black box test can’t validate it, especially its error-handling. But a “black pipe” test can! Such a test talks to your code over the network at the same time as it tests the API. I’ll present a handy library for Black Pipe tests of MongoDB apps and advise you when to use it. I want you to write a library like it for your favorite DB, so we can all test our programs better!
+
+**[Python Performance Profiling: The Guts And The Glory](http://opensourcebridge.org/proposals/1850)**
+
+Your Python program is too slow, and you need to optimize it. Where do you start? With the right tools, you can optimize your code where it counts. With the Python profiler “Yappi” we’ll learn how to find the maximum performance wins with minimum effort.
+
+**[Dodge Disasters and March to Triumph as a Mentor](http://opensourcebridge.org/proposals/1768)**
+
+You can set yourself up for triumph as a mentor, by getting the prerequisites in place before your apprentice even arrives. You need to be a technical expert in what your apprentice is working on, the guiding visionary must be present, you need small clear goals, and you and your apprentice must be sympatico.
+
+If you're a senior engineer, you must learn to mentor new hires. Besides, great mentors are critical to the careers of women and minorities in tech. The good news is, there's a method you can apply. Learn from me and march to mentorship triumph.
