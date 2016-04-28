@@ -42,7 +42,7 @@ class MotorBlogMarkdownType(Type):
             'toc']))
 
 
-def post_thumbnail(blog_post):
+def featured_img(blog_post):
     if not blog_post or not blog_post.attachments.images:
         return
 
@@ -50,15 +50,18 @@ def post_thumbnail(blog_post):
         fn = blog_post['thumbnail']
         for img in blog_post.attachments.images:
             if img.attachment_filename.split('/')[-1] == fn:
-                thumb = img
-                break
+                return img
         else:
             raise RuntimeError("Post '%s' names absent thumbnail '%s'" % (
                 blog_post['_id'], fn))
     else:
-        thumb = blog_post.attachments.images.all()[0]
+        return blog_post.attachments.images.all()[0]
 
-    return thumb.thumbnail(120)
+
+def post_thumbnail(blog_post):
+    feat = featured_img(blog_post)
+    if feat:
+        return feat.thumbnail(120)
 
 
 class BlogPostsPlugin(Plugin):
@@ -67,6 +70,7 @@ class BlogPostsPlugin(Plugin):
 
     def on_setup_env(self, **extra):
         self.env.types['motor_blog_markdown'] = MotorBlogMarkdownType
+        self.env.jinja_env.filters['featured_img'] = featured_img
         self.env.jinja_env.filters['post_thumbnail'] = post_thumbnail
 
     def on_after_build_all(self, builder, **extra):

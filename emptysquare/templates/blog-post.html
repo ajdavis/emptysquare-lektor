@@ -1,5 +1,15 @@
 {% extends "blog-layout.html" %}
 {% from "macros/blog.html" import render_blog_post_content, render_nav_bottom %}
+
+{% block extrahead %}
+  <meta name="twitter:card" content="summary_large_image">
+  {% set t = this|featured_img %}
+  {% if t %}
+    <meta name="twitter:image" content="{{ t|url(external=True) }}">
+  {% endif %}
+  {{ super() }}
+{% endblock %}
+
 {% block content %}
   <article class="{{ this.type }}">
     <header>
