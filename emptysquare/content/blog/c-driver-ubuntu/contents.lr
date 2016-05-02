@@ -1,0 +1,49 @@
+_model: blog-post
+---
+title: Ubuntu 16.04 Includes The MongoDB C Driver
+---
+type: post
+---
+tags:
+
+packaging
+---
+categories:
+
+Programming
+Mongo
+C
+---
+_discoverable: yes
+---
+pub_date: 2016-05-02 13:42:05
+---
+summary: Installing the driver on Xenial is as easy as "apt-get install libmongoc-1.0-0".
+---
+body:
+
+![Debian and Ubuntu logos](debian-ubuntu.png)
+
+I've been working with an expert Debian developer, Roberto Sanchez, to package libbson and libmongoc for Debian. Our efforts paid off: the MongoDB C Driver is now included in Debian Unstable and in Ubuntu 16.04 Xenial Xerus. If you run Xenial, get the driver as easily as:
+
+```
+apt-get install libmongoc-1.0-0
+```
+
+Roberto's patience and passion to teach me about Debian packaging has made it a joy for me.
+
+***
+
+If you're on a RedHat-like system, you're in luck. Remi Collet maintains excellent RPMs for the C Driver. Commands to enable Remi's repository and install libmongoc depend on your exact system. For example, on CentOS 6:
+
+```
+$ yum install http://rpms.remirepo.net/enterprise/remi-release-6.rpm
+$ yum install yum-utils
+$ yum-config-manager --enable remi
+$ yum update
+$ yum install mongo-c-driver
+```
+
+The [Configuration Wizard for Remi's RPM Repository](http://rpms.remirepo.net/wizard/) generates detailed instructions for your system.
+
+As always, to get a specific version of the C Driver or to control how it's compiled, follow [the installation instructions in our manual](https://api.mongodb.org/c/current/installing.html).
