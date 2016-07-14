@@ -417,3 +417,10 @@ def blog_visit(ctx, where):
         raise click.BadParameter('"%s" does not exist!' % where)
 
     webbrowser.open(pad.make_url(post.url_path, external=True))
+
+
+@cli.command('path')
+@click.argument('where', type=click.Path())
+@pass_context
+def blog_path(ctx, where):
+    print os.path.join('content/blog', where)
