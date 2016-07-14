@@ -1,0 +1,28 @@
+_model: blog-post
+---
+title: Resilient MongoDB Applications
+---
+type: page
+---
+tags:
+
+mongodbworld
+---
+categories:
+---
+_discoverable: yes
+---
+pub_date: 2016-06-23 12:56:57
+---
+summary: Links for my MongoDB World talk, "Smart Strategies for Resilient MongoDB Applications"
+---
+body:
+
+![Image description: a man with deep circles of fatigue beneath his eyes, smiling.](ian-happy.png)
+
+Links to more information about my MongoDB World talk, "Smart Strategies for Resilient MongoDB Applications".
+
+* [A screencast of this talk, with captions.](https://www.youtube.com/watch?v=QKpwx6bQnIM)
+* [The Server Discovery and Monitoring Spec](https://emptysqua.re/blog/server-discovery-and-monitoring-in-pymongo-perl-and-c/) describes how MongoDB drivers react to network errors and detect failovers.
+* [Black Pipe Testing](https://bit.ly/black-pipe) validates your networked application is resilient and correct.
+* The MongoDB Manual describes a [two-phase commit method](https://docs.mongodb.com/manual/tutorial/perform-two-phase-commits/).

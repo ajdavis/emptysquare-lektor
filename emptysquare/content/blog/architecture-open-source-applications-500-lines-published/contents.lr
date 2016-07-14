@@ -1,0 +1,31 @@
+_model: blog-post
+---
+title: "500 Lines or Less" Published Today
+---
+type: post
+---
+tags:
+
+---
+categories:
+
+Python
+---
+_discoverable: yes
+---
+pub_date: 2016-07-12 15:32:56
+---
+summary: Experienced programmers solve interesting problems, in this new book in the "Architecture of Open Source Applications" series.
+---
+body:
+
+![Paperback book with title "500 Lines or Less: Experienced programmers solve interesting problems"](500-lines-paperback.jpg)
+
+In this new book in the *Architecture of Open Source Applications* series, experienced programmers solve interesting problems in 500 lines of example code or less. Guido van Rossum and I contributed a chapter titled "A Web Crawler With asyncio Coroutines"; we demonstrate the bones of a Python 3 async framework and show how to use it for concurrent network programming.
+
+The editor Michael DiBernardo, with AOSA general editor Amy Brown, have released each chapter as an online preview over the last year. Now the book is complete. Buy it on paper or PDF; proceeds go to Amnesty International, the preeminent justice and human rights organization:
+
+<div style="text-align: center; margin-bottom: 40px">
+<a href="http://aosabook.org/en/buy.html#fh" style="font-weight: bold; font-size: large">Buy "500 Lines or Less"</a>
+</div>
+

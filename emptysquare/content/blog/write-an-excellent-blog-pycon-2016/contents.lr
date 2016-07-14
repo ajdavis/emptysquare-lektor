@@ -1,0 +1,33 @@
+_model: blog-post
+---
+title: "Write An Excellent Programming Blog" at PyCon 2016
+---
+type: post
+---
+tags:
+
+---
+categories:
+
+Programming
+Python
+---
+_discoverable: yes
+---
+pub_date: 2016-06-02 08:30:33
+---
+summary: Video of my talk at PyCon 2016 in Portland. I talked about writing about programming.
+---
+body:
+
+Video of my talk at PyCon 2016 in Portland. I talked about writing about programming.
+
+<iframe width="600" height="350" src="https://www.youtube.com/embed/eHXq-IzlGUE?rel=0" frameborder="0" allowfullscreen></iframe>
+
+***
+
+Voluminous related information, including a written version of this material, a screencast that I captioned, and links to further reading:
+
+**[The "Write an Excellent Programming Blog" Page](/blog/the-write-an-excellent-programming-blog-page)**
+---
+thumbnail: speaking-pycon-2016.jpg

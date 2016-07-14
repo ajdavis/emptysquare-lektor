@@ -1,0 +1,55 @@
+thumbnail: trailway-coffee-shop.jpg
+---
+_model: blog-post
+---
+title: My Two Talks at Open Source Bridge
+---
+type: post
+---
+tags:
+
+opensourcebridge
+---
+categories:
+
+Programming
+---
+_discoverable: yes
+---
+pub_date: 2016-06-08 09:54:04
+---
+summary: I'll speak about testing networked applications, and about mentoring young coders.
+---
+body:
+
+![Description: 1930s postcard, drawing of old-fashioned roadside cafe. The sign says "Trailway Coffee Shop: Fountain Lunches Dinners." In the background is a forested hill with blue sky.](trailway-coffee-shop.jpg)
+
+My two favorite talks at Open Source Bridge this year aren't mine: they're [my friends talks about accessibility, and about a parallel testing system written in Go](/blog/my-two-favorite-talks-at-open-source-bridge-2016).
+
+Nevertheless, I'm excited about the talks I'm going to give. I hope to see you there: **[Register for Open Source Bridge, June 21-24.](https://www.eventbrite.com/e/open-source-bridge-2016-registration-22759978709)**
+
+***
+
+## [Black Pipe Testing, or "@#$! Up Your App by Impersonating a Database"](http://opensourcebridge.org/proposals/1732)
+
+![Description: A man in tie, sweater, and hardhat is standing in the mouth of a huge pipe. He smiles into the camera, and reaches his arm up so his fingers just touch the top of the pipe, several feet above his head. The pipe is lying on the grass in a construction site. Behind him is a canal.](pipe.jpg)
+
+A “black box” test sends input to your program and tests the output. But a networked application has I/O at two ends: the API and the network. A black box test can’t validate it, especially its error-handling. But a “black pipe” test can! Such a test talks to your code over the network at the same time as it tests the API. I’ll present a handy library for Black Pipe tests of MongoDB apps and advise you when to use it. I want you to write a library like it for your favorite DB, so we can all test our programs better!
+
+## [Dodge Disasters and March to Triumph as a Mentor](http://opensourcebridge.org/proposals/1768)
+
+![Description: a young man listens to an older, bearded man with white hair, who gestures as he speaks. Both wear white ancient Greek robes. The drawing is flat and stylized in a manner reminiscent of ancient Greek painting. The image is signed "Fabisch".](mentor.jpg)
+
+You can set yourself up for triumph as a mentor, by getting the prerequisites in place before your apprentice even arrives. You need to be a technical expert in what your apprentice is working on, the guiding visionary must be present, you need small clear goals, and you and your apprentice must be sympatico.
+
+If you're a senior engineer, you must learn to mentor new hires. Besides, great mentors are critical to the careers of women and minorities in tech. The good news is, there's a method you can apply. Learn from me and march to mentorship triumph.
+
+![Description: uncropped version of the "Trailway Coffee Shop" postcard. The top portion of the image is the same as the first image in this article. Below in cursive is written "Central Oregons Most Popular Family Restaurant", Hiway 20 & Bond, Bend, Oregon. Open 24 Hours a Day. Below that, a colorful landscape: green pines and deciduous trees with golden leaves, on a green river slope. In the background is a wide river, a snow-capped mountain, and blue sky.](trailway-coffee-shop-full.jpg)
+
+***
+
+Images:
+
+* Trailway Coffee Shop, &quot;Central Oregon's most popular family restaurant&quot;, Hiway 20 &amp; Bond, Bend, Oregon. [1930s postcard courtesy Boston Public Library.](https://www.flickr.com/photos/boston_public_library/)
+* Cooling pipe for Saturn V rocket test system. [NASA, 1963.](https://www.flickr.com/photos/nasacommons/4861093477/)
+* Mentor and Telemachus. [Pablo E. Fabisch, illustration for "Aventuras de Telémaco", 1699.](https://commons.wikimedia.org/wiki/File:Telemachus_and_Mentor1.JPG)

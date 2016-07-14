@@ -1,0 +1,173 @@
+_model: blog-post
+---
+thumbnail: hard-drive.jpg
+---
+title: I Saw You Fall So I'm Helping
+---
+type: post
+---
+tags:
+
+dharmatalk
+---
+categories:
+
+Zen
+Programming
+---
+_discoverable: yes
+---
+pub_date: 2016-05-25 09:10:15
+---
+summary: Women have been excluded from the software industry for decades, but we can change this. A talk I gave at the Village Zendo on May 22, 2016.
+---
+body:
+
+Women have been systematically excluded from computer programming for decades. But it wasn't this way in the past, and it doesn't need to be in the future. The software industry, it seems, is waking up overnight to how unfairly we've treated women and minorities, and we're beginning to take action to fix it. A talk I gave at the Village Zendo on May 22, 2016.
+
+<iframe style="border: none; margin-bottom:30px" src="//html5-player.libsyn.com/embed/episode/id/4390009/height/340/width/600/theme/legacy/autoplay/yes/autonext/no/thumbnail/yes/preload/no/no_addthis/no/direction/backward/no-cache/true/" height="340" width="600" scrolling="no"  allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+
+*** 
+
+A koan from *The Hidden Lamp*:
+
+> One day, Layman Pang and his daughter, Lingzhao, were out selling bamboo baskets. Coming down off a bridge, Layman Pang stumbled and fell.
+> 
+> When Lingzhao saw this, she ran to her father's side and threw herself to the ground.
+> 
+> "What are you doing?" cried Pang.
+> 
+> "I saw you fall so I'm helping," replied Lingzhao.
+> 
+> "Luckily no one was looking," remarked Layman Pang.
+
+It's funny, right? And very wise. "I saw you fall so I'm helping." If you're passionate about justice and you want to do something to help, I think this is a great koan. This contains a lot of wisdom about how to help.
+
+I'm a computer programmer, I work in an industry that's infamous for young white male privilege. But it wasn't always this way. It's actually a discipline invented by women.
+
+The first computer programmer was an Englishwoman named Ada Lovelace. She was an aristocrat, the daughter of Lord Byron, and recognized from her teen years for her math talent. She was assisting an inventor named Charles Babbage. Babbage had an idea for a mechanical computer called the Analytical Engine, made out of tens of thousands of bronze and steel parts, mostly gears. It would weigh several tons. Babbage claimed it would be able to multiply two large numbers together in only 3 minutes! Besides arithmetic, it would've had the functions of a real computer: "if / then" statements, iteration, it could've looped until a condition was true. But it's never been built.
+
+![Ada Lovelace](lovelace.jpg)
+
+In 1842 Lovelace wrote the definitive description of the proposed machine, and her notes include a program she wrote&mdash;the first computer program. Her program calculates a mathematical sequence called the Bernoulli Sequence. [You can see it to this day](https://commons.wikimedia.org/wiki/File:Diagram_for_the_computation_of_Bernoulli_numbers.jpg). She wrote it out with quill, but it's shockingly modern. She uses terms like "data", "working variables" and "result variables", "operations"&mdash;this is all in 1842!
+
+She also had the insight that computers could do more than math. They might compose music, for example:
+
+> The Analytical Engine might act upon other things besides numbers. Supposing, for instance, that the fundamental relations of pitched sounds in the science of harmony and of musical composition were susceptible of such expression, the engine might compose elaborate and scientific pieces of music of any degree of complexity or extent.
+
+So Ada Lovelace was the first computer programmer, a hundred years before it was possible to actually run a program.
+
+***
+
+The kind of programming Lovelace pioneered would be called "machine language" today: she programmed the computer directly in its native language, the language it can execute. But that's not how we write programs today. Programmers use programming languages, which are compiled to machine language, by a computer program called a "compiler". Programming languages are designed to make it reasonably easy for humans to express computer algorithms, and once they're compiled to machine language they're possible for a computer to run.
+
+This idea, of a computer program that compiles a human-writable programming language into a machine-executable language, this too was invented by a woman. Her name was Grace Hopper, a woman working for the US Navy in the 1950s. She was one of the longest-serving and highest ranking women in US military history.
+
+![Admiral Grace Hopper](Grace-Hopper.jpg)
+
+Unlike Ada Lovelace, Grace Hopper had computer hardware available. In 1952 she got the first compiler working. She said,
+
+> Nobody believed that. I had a running compiler and nobody would touch it. They told me computers could only do arithmetic.
+
+But Hopper was right, of course, and her idea is the foundation of the software industry.
+
+***
+
+Computer programming was invented by women, and as it expanded into a major industry, women were reasonably well-represented at first. In 1984 in the US, 37% of bachelor's degrees in computer science went to women. It's not equal, women earned barely a third of these degrees, but it was at least similar to other science and technology fields. In retrospect the 80s appear like a golden age for women in computing.
+
+Because then, something happened.
+
+![Chart showing that proportion of women in computer science fell after 1984, while proportion women in med school, law school, and physical sciences continued to grow](chart.png)
+
+[<span style="color:gray">Chart source</span>](https://thesocietypages.org/socimages/2015/01/10/chart-of-the-week-what-happened-to-women-in-computer-science/)
+
+Women's portion of CS degrees dropped from 37% in the 80s to only 12% in this decade. Women’s share of undergraduate degrees is lower in computing than in any other science and technology field. Why?
+
+One theory is that as computers became household items, they were marketed to boys, in magazines boys read, with photos of boys using them. In addition, the computer programmer was transformed from a niche specialty to a household stereotype, the nerdy white male. That discouraged anyone who was not a white male from joining that culture. Additionally, I think, towards the late 1980s people like Bill Gates demonstrated that computer programming was an avenue to wealth and power, so white men did what we do when we have access to wealth and power: we ensured that people unlike us were excluded, so they wouldn't compete with us.
+
+Then in the early Aughts, Silicon Valley startups became the dominant culture within the larger software industry. Not only were computer programmers overwhelmingly white and male, but they were also young. They created a fraternity-like, immature atmosphere that gave license to the worst sexist and biased behaviors.
+
+The result of this is that women dropped to as little as 10 or 15% of leading companies' technical staff. Senior programmers were even more lopsidedly male. [The National Center for Women in Tech says 56% of women leave tech mid-career](https://www.ncwit.org/resources/women-it-facts-infographic-2015-update), double men's rate.
+
+***
+
+Growing up and becoming a programmer myself, I knew that most programmers were men, but it didn't much occur to me that there was a cause. I started my Computer Science degree in 1997 and I noticed there weren't many women, but I figured that since I was a lifelong feminist, that was good enough. 
+
+I think a lot of us felt that way. Liberal white men felt we'd done our job by being liberals. There wasn't anything we could do about the gender imbalance, and that was okay because we'd already done enough by not being biased. We didn't even know about the activists raising awareness about injustice and their efforts to fix it.
+
+The history of why that changed hasn't yet been written. We're right in the middle of it. It's exciting, it feels like overnight the software industry has awakened and everyone is talking about feminist issues. Everyone is talking about racism and other axes of oppression.
+
+I've been trying to figure out why that is. It seems like there was a watershed year in late 2008 and 2009, when suddenly everyone recognized we have a problem with diversity and with inclusion.
+
+In late 2008 a Silicon Valley newspaper, the San Jose Mercury Sun, along with CNN, sued the top Silicon Valley firms to release their diversity statistics, with a mix of success and failure. Most companies didn't voluntarily report. The numbers that we did see were pretty horrifying. Between 10 and 15% of programmers were women, and the numbers for minorities are worse: 3% Hispanic, 1% black.
+
+So we knew we had a problem with diversity, and the next year there were a series of sexist incidents at conferences, back to back, that showed we were not only homogenous, but we were also exclusive. We'd created a hostile and biased culture.
+
+At a San Francisco conference a programmer gave a talk called "Perform Like a Porn Star" where he said his database would make your application perform well, and his opening slide was a photo of a woman's ass. If you go to [the Geek Feminism Wiki you can read a whole list of these sexist incidents](http://geekfeminism.wikia.com/wiki/Timeline_of_incidents), I won't disgust you with any more of them. The point is, having a bunch of them close together and well-publicized woke us to the need to transform our culture if we were going to welcome women and minorities and treat them fairly.
+
+We recognized that Layman Pang has fallen down. Lingzhao's first step is to see that he's fallen and to run over and want to help. What can we do? What works?
+
+***
+
+Well there's a new book I'm reading, ["What Works" by Iris Bohnet](http://www.hup.harvard.edu/catalog.php?isbn=9780674089037). The subtitle is "Gender Equality by Design."
+
+<div style="text-align: center">
+<img alt="Cover of What Works: Gender Equality by Design by Iris Bohnet" src="bohnet.jpg">
+</div>
+
+She examines whether "diversity trainings" work, and there's bad news. In the studies she reviews, they might actually be counterproductive. One study suggests that managers who've just taken a gender bias workshop are more likely to discriminate against a woman candidate in an interview. It might be they feel taking the workshop gives them moral license to indulge their bias, like you deserve a piece of chocolate after you exercise. Or it might be that a superficial workshop just focuses managers' attention on gender differences without uprooting their biased attitudes.
+
+You have to take studies with a grain of salt. I'm convinced that workshops like the ones Tiffany Taylor Smith gave at the Zendo are useful. It depends on who takes them and how they're presented.
+
+[Another failure just last year was IBM's "Hack a Hairdryer" campaign](http://www.fiercecio.com/story/good-intentions-dont-count-much-ibms-hairdryer-campaign-aimed-women/2015-12-08). IBM wanted to attract girls to the technology industry so they released a video that showed girls using pastel-colored hairdryers for novel functions. A girl invents a ping-pong ball cannon that's powered by a hairdryer, or a musical instrument like a pipe organ. This is supposed to show that invention can be girly, too.
+
+This was particularly sad because IBM has been one of the best tech companies at recruiting and promoting women. To their credit, when a bunch of people pointed out how condescending this campaign was, they deleted the video and apologized.
+
+I think what these failures share is a lack of intimacy. They're both just quick fixes, without enough wisdom, and that can lead to serious missteps. It's as if Lingzhao had just walked over to Layman Pang and said, "Get up, what's your problem?" This is "someone looking". But that's not what Lingzhao did, she threw herself down to the ground next to him. She got dirty, she devoted her whole body to being down there with him, in order to help.
+
+That's what we call "upaya", or "skillful means", which is speaking in the proper context. It's taking into account who's speaking and listening, in what time and place, in order to make an effective message that acknowledges the full situation. That's how a Bodhisattva speaks.
+
+***
+
+What *does* work? In the last few years we've seen techniques applied that really do make a difference.
+
+Conference codes of conduct work. We say out loud what's unacceptable, so the next time someone shows a slide that says "perform like a porn star," everybody knows that will get you banned. An incredibly hard-working and effective activist named Valerie Aurora wrote a code of conduct in 2011 that's been adapted widely by software conferences. Right-thinking people won't speak at conferences or sponsor them if there's no code of conduct that bans harassment and sexual content in talks.
+
+**Outreach** works. There are dozens of outreach programs for women and girls, like Women Who Code, PyLadies, Black Girls Code, Geek Girls, Girls Who Code, and many others, all founded within the last few years by women.
+
+Outreach to women to speak at conferences has also been effective. The main conference in my specialty is called PyCon, speaking there is a highlight of one's career. There are thousands of people at the conference, and thousands more watch recordings of the talks after. But as late as 2011 only one percent of speakers were women. A prominent organizer named Jessica McKellar asked women who'd proven themselves as speakers at other conferences to propose PyCon talks. This isn't affirmative action, it doesn't change the selection process, it's merely telling women who might not have thought of it that they deserve to be heard at PyCon and they should submit a talk. 
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Hello from your <a href="https://twitter.com/pycon">@PyCon</a> Diversity Outreach Chair. % PyCon talks by women: (2011: 1%), (2012: 7%), (2013: 15%), (2014: 33%). Outreach works.</p>&mdash; Jessica McKellar (@jessicamckellar) <a href="https://twitter.com/jessicamckellar/status/413009020522221568">December 17, 2013</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+**Mentorship and sponsorship** work! In Iris Bohnet's book I read that women have a hard time finding mentors, since the sort of senior people who could mentor them are mostly men, and men are less willing and able to mentor women. Additionally, one study suggests that when women do have mentors, those mentors act more as friends and less as sponsors. That is, they don't act as advocates for the women they mentor getting raises and promotions and other opportunities that would advance their careers. So filling this gap is, in my mind, the most effective thing men like me can do to close the gender gap, and other diversity gaps.
+
+There've been three women who were starting out as professional programmers at my company MongoDB, whom I've made an investment in mentoring. I encouraged them to speak at software conferences, helped them write strong proposals and then construct an effective presentation. In all cases their talks were accepted, they gave excellent presentations, and by speaking at these conferences they were recognized for their accomplishments, when they otherwise might have been overlooked.
+
+It's an investment that keeps paying off. One of my protegées, Samantha, [gave a talk at a Portland conference last year](https://www.youtube.com/watch?v=OBjU_xYtPmA), and she's now coached another young woman in our company to get a talk accepted at the same conference this year. So the effects ripple out, the investment compounds. And another woman I've been mentoring, named Anna, has [now spoken at a data conference](https://www.youtube.com/watch?v=E70AO8r5sMs), a [New York Python conference](https://www.youtube.com/watch?v=_HdfEqSqI2M), and a Tel Aviv Python conference, [as a result of my early encouragement and guidance](https://emptysqua.re/blog/the-best-way-to-thank-your-mentor/). Indeed, she's going to speak at PyCon next week, the most prestigious conference in our specialty. It's an incredible accomplishment for a young programmer, and it means she'll get the recognition she deserves.
+
+**Ally Skills** work. Something that I and privileged people like me have awakened to, is that it's not enough to not be biased. That's just being neutral, it's not enough. Be an ally instead! But being an ally requires being skillful&mdash;it's the same insight Buddhists apply to all ethical behavior. Wisdom and compassion may be innate, but we're not innately able to express these qualities effectively. Rather, these are skills we learn and practice. Same with being an ally to women and minorities&mdash;you need to practice your skills.
+
+The good news is, there's training. Valerie Aurora created an Ally Skills Workshop which I took a few months ago, along with my girlfriend Keishin. Valerie leads the group through a series of scenarios in which we witness and recognize a microaggression, and we learn quick and effective ways to intervene as an ally.
+
+One example: Let's say you're in a meeting and a woman with a disability proposes an idea, and everyone ignores her. A minute later, a person in a position of privilege, let's say a white man, proposes the same idea and everyone listens and applauds this man's great idea. What do you do?
+
+In the workshop we brainstormed an effective response for an ally. I could say, "Oh, I heard Sarah propose that idea a minute ago. Sarah, is there more you wanted to say about your idea?" This draws fire to *me*, I'm the one being rude and interrupting to point out that this was Sarah's idea originally. My privilege protects me. Then I refocus attention on the person who was overlooked, and return the stage to her. This is a general principle that's effective in many situations for an ally. But it doesn't come naturally: in order to be quick and precise enough, we need to practice the skill.
+
+***
+
+Talking about being an ally, it brings us to other axes of diversity besides gender. As far as I can see, in this sudden awakening we're having productive conversations about discrimination against gays, racial minorities, people with mental illness, transgender people, and people with disabilities. At any given progressive company or conference you'll see discussions of these axes of oppression, and maybe even specific accommodations to ensure that members of these underrepresented groups are treated fairly.
+
+Much less so are we seeing an awakening to agism. I think we've so effectively excluded older programmers that we don't even notice their absence. Neither are we talking about class, about people who didn't have access to the fancy educations most people who grow up to be programmers have.
+
+We're not talking about justice for Asian Americans, either. Although they make up something like 30% of the computer industry workforce, their percentage in leadership is far lower. There's a glass ceiling. It seems we're happy to take advantage of their labor but less interested in their leadership. That is so uncomfortable to acknowledge that it's very rarely discussed.
+
+***
+
+Nevertheless, there's a promising awakening to social justice and diversity. Compared to all the companies that refused to release their diversity stats in 2008, many top companies [have now published them](http://opendiversitydata.org/). And in my own company MongoDB, we're waking up. We've gone from being a group of people who want to welcome everyone, and mourn our lack of diversity, to a group that talks about the causes of exclusion and commits to figuring out what to do about it. And it's such a gift to me, to be here when this general enlightenment is *beginning*. This moment when we go from bemoaning injustice to actually doing something to fix it.
+
+***
+
+If this talk reminds you of your culture, your sangha, your company, what I want to tell you is, don't despair. I really mean it. Don't despair. Watching national politics on the news you see a lot of bad shit, and it's much too big for you and me to have any effect on. You can become super discouraged.
+
+But if you concentrate on what's right next to you, *who* is right next to you, the one who's fallen down, then you can make a difference. Don't worry who's looking. Just commit your whole body to throwing yourself down to the dirt and helping.

@@ -1,0 +1,28 @@
+_model: blog-post
+---
+title: "Smart Strategies for Resilient MongoDB Applications", The Screencast
+---
+type: post
+---
+tags:
+
+mongodbworld
+---
+categories:
+
+Mongo
+Programming
+---
+_discoverable: yes
+---
+pub_date: 2016-06-29 13:56:40
+---
+summary: If you want a simple, reliable method for programming a MongoDB application, watch this.
+---
+body:
+
+I recorded a screencast of my MongoDB World 2016 talk. It's about handling network exceptions and other errors in a correct and resilient fashion. If you want a simple, reliable method for programming a MongoDB application, watch this:
+
+<iframe width="560" height="420" src="https://www.youtube.com/embed/QKpwx6bQnIM?rel=0" frameborder="0" allowfullscreen></iframe>
+---
+thumbnail: bomb.png

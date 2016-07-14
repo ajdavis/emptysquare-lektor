@@ -1,0 +1,112 @@
+_model: blog-post
+---
+title: 72% Of The People I Follow On Twitter Are Men
+---
+type: post
+---
+tags:
+
+---
+categories:
+
+Programming
+Python
+---
+_discoverable: yes
+---
+pub_date: 2016-06-23 22:44:47
+---
+summary: Know your number: use my app to estimate the gender distribution of your friends on Twitter.
+---
+body:
+
+![Description: Black and white photo. A boy stands behind a very large abacus that fills the image. He looks up at the ball he is moving on one of the abacus's wires, above his eye-level. Behind him are two schoolchildren and a chalkboard with indistinct writing and diagrams.](abacus.jpg)
+
+At least, that's my estimate. Twitter does not ask users their gender, so [I have written a program that guesses](https://www.proporti.onl/) based on their names. Among those who follow me, the distribution is even worse: 83% are men. None are gender-nonbinary as far as I can tell.
+
+The way to fix the first number is not mysterious: I should notice and seek more women experts tweeting about my interests, and follow them.
+
+The second number, on the other hand, I can merely influence, but I intend to improve it as well. My network on Twitter should represent of the software industry's diverse future, not its unfair present.
+
+***
+
+# How Did I Measure It?
+
+I set out to estimate the gender distribution of the people I follow&mdash;my "friends" in Twitter's jargon&mdash;and found it surprisingly hard. [Twitter analytics](https://analytics.twitter.com) readily shows me the converse, an estimate of my followers' gender:
+
+![Description: Chart titled, "Your current follower audience size is 1,455". A tall bar on the left is labeled, "Male, 83%". A short bar on the right is labeled "Female, 17%".](twitter-analytics.png)
+
+So, Twitter analytics divides my followers' accounts among male, female, and unknown, and tells me the ratio of the first two groups. (Gender-nonbinary folk are absent here&mdash;they're lumped in with the Twitter accounts  of organizations, and those whose gender is simply *unknown*.) But Twitter doesn't tell me the ratio of my friends. [That which is measured improves](http://english.stackexchange.com/questions/14952/that-which-is-measured-improves), so I searched for a service that would measure this number for me, and found [FollowerWonk](https://moz.com/followerwonk/).
+
+FollowerWonk guesses my friends are 71% men. Is this a good guess? For the sake of validation, I compare FollowerWonk's estimate of my *followers* to Twitter's estimate:
+
+<table class="table table-striped" style="margin:auto; width: 450px; margin-bottom: 20px">
+<tr><td colspan=3 align=center style="font-weight: bold">Twitter analytics</td></tr><tr><td>&nbsp;</th><td>men</td><td>women</td></tr>
+      
+      <tr><td style="font-weight: bold">Followers</td><td>83%</td>
+        <td>17%</td>
+      </tr>
+      
+<tr><td colspan=3 align=center style="font-weight: bold">FollowerWonk</td></tr><tr><td>&nbsp;</th><td>men</td><td>women</td></tr>
+      
+      <tr><td style="font-weight: bold">Followers</td><td>81%</td>
+        <td>19%</td>
+      </tr>
+
+      <tr><td style="font-weight: bold">Friends I follow</td>
+        <td>72%</td>
+        <td>28%</td>
+      </tr>
+      
+    </tbody></table>
+
+My followers show up 81% male here, close to the Twitter analytics number. So far so good. If FollowerWonk and Twitter agree on the gender ratio of my followers, that suggests FollowerWonk's estimate of the people I follow (which Twitter doesn't analyze) is reasonably good. With it, I can make a habit of measuring my numbers, and improve them.
+
+At $30 a month, however, checking my friends' gender distribution with FollowerWonk is a pricey habit. I don't need all its features anyhow. Can I solve *only* the gender-distribution problem economically?
+
+Since FollowerWonk's numbers seem reasonable, I tried to reproduce them. Using Python and [some nice Philadelphians' Twitter API wrapper](https://github.com/bear/python-twitter/graphs/contributors), I began downloading the profiles of all my friends and followers. I immediately found that Twitter's rate limits are miserly, so I randomly sampled only a subset of users instead.
+
+I wrote a rudimentary program that searches for a pronoun announcement in each of my friends' profiles. For example, a profile description that includes "she/her" probably belongs to a woman, a description with "they/them" is probably nonbinary. But most don't state their pronouns: for these, the best gender-correlated information is the "name" field: for example, @gvanrossum's name field is "Guido van Rossum", and the first name "Guido" suggests that @gvanrossum is male. Where pronouns were not announced, I decided to use first names to estimate my numbers.
+
+My script passes parts of each name to the [SexMachine](https://pypi.python.org/pypi/SexMachine/) library to guess gender. SexMachine has predictable downfalls, like mistaking "Brooklyn Zen Center" for a woman named "Brooklyn", but its estimates are as good as FollowerWonk's and Twitter's: 
+
+<table class="table table-striped" style="margin:auto; width: 450px; margin-bottom: 20px">
+      <thead style="font-weight: bold"><tr><th>&nbsp;</th><th>nonbinary</th><th>men</th><th>women</th><th>no gender,<br>unknown</th></tr></thead>
+      <tbody><tr><td style="font-weight: bold">Friends I follow</td><td>1</td><td>168</td><td>66</td><td>173</td></tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>0%</td>
+        <td>72%</td>
+        <td>28%</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr><td style="font-weight: bold">Followers</td><td>0</td><td>459</td><td>108</td><td>433</td></tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>0%</td>
+        <td>81%</td>
+        <td>19%</td>
+        <td>&nbsp;</td>
+      </tr>
+      
+    </tbody></table>
+
+(Based on all 408 friends and a sample of 1000 followers.)
+
+# Know Your Number
+
+I want you to check your Twitter network's gender distribution, too. So I've deployed "Proportional" to PythonAnywhere's handy service for $10 a month:
+
+<div style="text-align: center; margin-bottom: 20px">
+<a style="font-weight: bold; font-size: large" href="https://www.proporti.onl/">www.proporti<span style="opacity: 0.5; color: gray">.</span>onl</a>
+</div>
+
+The application may rate-limit you or otherwise fail, so use it gently. [The code is on GitHub](https://github.com/ajdavis/twitter-gender-distribution). It includes a command-line tool, as well.
+
+Who is represented in your network on Twitter? Are you speaking and listening to the same unfairly distributed group who have been talking about software for the last few decades, or does your network look like the software industry of the future? Let's know our numbers and improve them.
+
+***
+
+[<span style="color: gray">Image: Cyclopedia of Photography 1975.</span>](https://www.flickr.com/photos/35168673@N03/3793255026)
+---
+thumbnail: abacus.jpg

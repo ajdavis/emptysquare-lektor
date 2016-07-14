@@ -288,7 +288,7 @@ while True:
             time.sleep(5)
         except pymongo.errors.DuplicateKeyError:
             # It worked the first time
-            pass
+            break
     else:
         raise Exception("Couldn't write!")
 ```

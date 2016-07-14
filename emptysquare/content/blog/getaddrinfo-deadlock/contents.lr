@@ -223,7 +223,7 @@ We shipped this fix with PyMongo 3.1 in November.
 
 ***
 
-Next time: the `getaddrinfo` lock strikes again, and I spend a week patching asyncio in the Python standard library.
+Next time: the `getaddrinfo` lock strikes again, [causing spurious timeouts when connecting to localhost](/blog/mac-python-getaddrinfo-queueing/).
 
 References:
 

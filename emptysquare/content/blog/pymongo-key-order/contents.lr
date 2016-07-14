@@ -70,9 +70,9 @@ collection, configured to use `SON` instead of dict. In [PyMongo 3.0](/blog/pymo
 
 ```pycon
 >>> from bson import CodecOptions, SON
->>> opts = CodecOptions(as_class=SON)
+>>> opts = CodecOptions(document_class=SON)
 >>> opts
-CodecOptions(as_class=<class 'bson.son.SON'>,
+CodecOptions(document_class=<class 'bson.son.SON'>,
              tz_aware=False,
              uuid_representation=PYTHON_LEGACY)
 >>> collection_son = collection.with_options(codec_options=opts)

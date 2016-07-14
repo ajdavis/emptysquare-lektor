@@ -1,21 +1,98 @@
+thumbnail: oregon-con-center.jpg
+---
 _model: blog-post
 ---
-title:
+title: Captioning Myself And 6 Other Ways I'll Prepare In The 24 Hours Before I Speak At Pycon
 ---
 type: post
 ---
 tags:
 
+conference-tips
 ---
 categories:
+
+Python
+Programming
 ---
-_discoverable: no
+_discoverable: yes
 ---
-pub_date:
+pub_date: 2016-05-26 13:34:15
 ---
-summary:
+summary: How I prepare the night and morning before I give a technical presenting.
 ---
 body:
 
+[![](oregon-con-center.jpg)](https://en.wikipedia.org/wiki/File:Oregon_Convention_Center_Dusk_1_(edit).jpg)
 
-http://blog.sashalaundy.com/blog/2015/02/23/how-i-prep-in-the-24-hours-before-a-conference-talk/
+At 1:10pm Pacific Time this Wednesday, I'll be in Portland, sitting in a lecture room at PyCon, judging the right moment to walk on stage and start [my talk](https://us.pycon.org/2016/schedule/presentation/1668/). I have a regimen for the 24 hours before that primes me to give you the best talk I can.
+
+[This whole series of articles about conference speaking](https://emptysqua.re/blog/tag/conference-tips/) is inspired by my friend Sasha Laundy's [24 hours checklist](http://blog.sashalaundy.com/blog/2015/02/23/how-i-prep-in-the-24-hours-before-a-conference-talk/), which is the definitive guide for public speakers. I'll add a few more tips for you to choose among, particularly my method to ensure my talk is accessible to Deaf people.
+
+***
+
+[TOC]
+
+# Marketing
+
+Most of my audience will be there because they saw my talk on the schedule and like the topic. Still, it won't hurt to compose a few tweets advertising my talk, before nervousness robs me of wit, and schedule them for the night and morning before my talk. (I need to remember to set Buffer to PDT so it tweets at the right time in Portland.)
+
+# Landing Page
+
+I'll make a page on my site with links to further study. I've collected links about my topic during the months when I wrote my proposal and outlined my talk, so I'll assemble those into a landing page on my site.
+
+(Next week when PyCon publishes the video of my talk, I can link to it from this page for future visitors.)
+
+To show you an example: I made a landing page for the talk I gave last year titled "Eventually Correct", about testing asynchronous applications. I had used Super Mario Bros. as a gimmicky analogy in the talk, so I continued the theme on [the landing page](https://emptysqua.re/blog/eventually-correct-links/) with more Super Mario stuff, as well as links to my code and related libraries.
+
+![Screen capture of Super Mario Bros. 2, with Toady character leaping over a miniboss named Birdo](https://emptysqua.re/blog/eventually-correct-links/toad-vs-birdo.jpg)
+
+Unlike a blog post, a "page" on my site is not automatically linked from my home page, so publishing it won't spoil my talk. Once it's online, I make a memorable shortlink to it. (Last year's was "bit.ly/eventually-correct".) I'll add this link to my last slide, and I'll also schedule a tweet with the link at 1:40pm, towards the ending of my speaking slot.
+
+# Rehearse
+
+I'll rehearse a couple times in the final 24 hours, of course.
+
+It's natural to practice my talk sitting down and staring at my slides on a laptop, but my speaking coach exhorts me not to. On stage, I'll stand *in front of* the big screen holding [a remote clicker](http://www.kensington.com/us/us/4492/k33374usa/presenter-remote-red-laser-presenter), looking at the audience, and only occasionally glance at the Keynote presenter view on my laptop. Ideally I'll have my deck largely memorized by Tuesday, so I'll rehearse standing up, looking out the window of my Airbnb apartment, using the clicker.
+
+# Record
+
+My slides will be done by Tuesday night and my performance well-rehearsed. It'll be a good time to record the talk. On Mac, iShowU HD is an easy way to capture my slides and voice. Since I won't see my speaker notes in Keynote while I record, I'll use my iPad to read them.
+
+If I severely screw up in the middle of the talk I can edit it in post-production, but I won't worry about small flubs. I'm not making Serial here. PyCon's A/V experts will make a great recording of the actual talk on Wednesday, anyway, so the main point of this recording isn't the audio track: it's for captioning.
+
+# Caption
+
+Once I've made a decent recording of the talk with a screen capture of my slide deck, I'll upload it privately to YouTube and caption it. When I first captioned a video last year I was pleased how well YouTube's online interface works&mdash;its killer feature is that it pauses the video while I type and resumes it automatically, so I rarely need to take my fingers from the home row. Captioning my half-hour talk will take about an hour.
+
+Last year, for the first time, all PyCon talks had professional real-time captioning, and that's great if you're a Deaf person in the room. (It also helps if English is a foreign language to you.) But those captions weren't published, so a Deaf person watching the video later sees comical computer-generated captions. The first sentence of my "Eventually Correct" talk is a very unfortunate misunderstanding:
+
+[![Still image from a YouTube video. It is a slide showing my name and the title of my talk. It displays an auto-generated caption, "penis a staff software engineer Mongo DB".](auto-caption.jpg)](https://www.youtube.com/watch?v=GpvCSkxLiZo)
+
+I believe the caption-generating software heard the opening "pop" of the audio track, followed by my session chair introducing me with "he is a staff software engineer at MongoDB." In the face of ambiguity, the computer couldn't refuse the temptation to guess. If you're Deaf, better to watch [the version I captioned myself](https://emptysqua.re/blog/screencast-of-eventually-correct-async-testing-with-tornado/).
+
+Captioning isn't just for the Deaf and hard of hearing; it's an investment that has other dividends. First, it's the start of an article: after I recorded last year's talk I dumped the caption file from YouTube and massaged the text into [a blog post on the topic](https://emptysqua.re/blog/eventually-correct-async-testing-tornado/). Reduce, reuse, recycle! And second, captioning my video is the ultimate rehearsal technique. Once I've recorded this year's talk, listened to the recording, and typed it, I'll know it by heart.
+
+# Sing
+
+After I spoke at MongoDB World a couple years ago, Meghan Gill gave me the best speaker gift in modern history:
+
+![Green portable speaker with a New York City skyline stenciled into its shiny metal front panel. The panel has "New York MongoDB World" embossed in it.](bluetooth-speaker.jpg)
+
+It's a portable Bluetooth speaker! I'll take it with me to Portland next week. The night before my talk, I'll open the SingFriend app on my iPhone, connect it to the speaker, and sing scales for half an hour. I'm not going to be an American Idol (particularly since Idol was canceled) but it doesn't matter how well I sing: doing a long vocal warmup the night before makes a big difference in how strong my voice will be when I speak on Wednesday.
+
+# Pack
+
+I'll lay out my supplies, so I don't forget anything when I leave my Airbnb for the conference center Wednesday morning:
+
+* Water bottle. (The session runner will offer me a disposable bottle, but why waste one?)
+* My clicker and a spare pair of batteries.
+* Cough drops.
+* Business cards (so I can forget to give them to people).
+* A cute outfit.
+
+I'm finally ready.
+
+***
+
+[Read the my other articles about conference speaking.](https://emptysqua.re/blog/tag/conference-tips/)

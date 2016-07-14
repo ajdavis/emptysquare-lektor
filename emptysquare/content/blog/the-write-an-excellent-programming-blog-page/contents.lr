@@ -1,0 +1,35 @@
+_model: blog-post
+---
+title: The "Write an Excellent Programming Blog" Page
+---
+type: page
+---
+tags:
+
+video
+---
+categories:
+---
+_discoverable: yes
+---
+pub_date: 2016-06-01 08:01:57
+---
+summary: Links to resources about writing about programming.
+---
+body:
+
+![Etching of a Gutenberg in medieval clothing, standing by the screw of a printing press, holding a page. The inscription on the page he’s holding reads: Et la lumière fut (And light was made).](gutenberg.jpg)
+
+Links to resources about writing about programming. This page supplements my talk "Write an Excellent Programming Blog" that I delivered at Open Source Bridge and PyCon.
+
+* [Write an Excellent Programming Blog, the Article](https://emptysqua.re/blog/write-an-excellent-programming-blog/). A written version of the same material as the talk.
+* [Resources For Writing About Programming](https://emptysqua.re/blog/resources-for-writing-about-programming/), contributed by friends at Open Source Bridge.
+* [Video of this talk from PyCon 2016](/blog/write-an-excellent-blog-pycon-2016).
+
+Here's a screencast I recorded and captioned. If you're Deaf or hard of hearing this is the best version:
+
+<iframe width="600" height="450" src="https://www.youtube.com/embed/levIBoHpxmg?rel=0" frameborder="0" allowfullscreen></iframe>
+
+***
+
+Image: [Etching by Guillaume-Alphonse Cabasson, 1840](http://www.oldbookillustrations.com/illustrations/gutenberg/). It depicts a sculpture of Johannes Gutenberg made by David D’Angers in 1839 and unveiled June 24, 1840. It can be seen in Strasbourg, where Gutenberg lived between 1434 and 1444. The French inscription, "Et la lumière fut," means "And there was light."
