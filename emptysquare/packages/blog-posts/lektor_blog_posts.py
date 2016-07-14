@@ -19,7 +19,7 @@ import markdown  # This is "Python Markdown": pip install markdown
 
 try:
     from pync import Notifier
-except ImportError:
+except (ImportError, OSError):
     Notifier = None
 
 version = pkg_resources.get_distribution('lektor-blog-posts').version
