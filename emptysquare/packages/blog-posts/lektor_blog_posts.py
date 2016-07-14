@@ -315,7 +315,7 @@ def blog_publish(ctx, where):
     if not post['title']:
         raise click.BadParameter('"%s" missing title!' % where)
 
-    if not post['categories']:
+    if not post['categories'] and post['type'] == 'post':
         raise click.BadParameter('"%s" no categories!' % where)
 
     extra_categories = (set(post['categories']) -
