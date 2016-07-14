@@ -102,7 +102,7 @@ def cli(ctx, project=None):
 @cli.command('list')
 @click.option('-1', '--one', is_flag=True, default=False)
 @click.argument('what',
-                type=click.Choice(['posts', 'drafts', 'tags', 'categories']),
+                type=click.Choice(['posts', 'pages', 'drafts', 'tags', 'categories']),
                 default='posts')
 @pass_context
 def blog_list(ctx, one, what):
@@ -119,6 +119,10 @@ def blog_list(ctx, one, what):
     else:
         q = pad.query('blog').include_undiscoverable(True)
         q = q.filter(F._model == 'blog-post')
+        if what == 'posts':
+            q = q.filter(F.type == 'post')
+        elif what == 'pages':
+            q = q.filter(F.type == 'page')
 
         for post in q:
             pub_date = post['pub_date'] if 'pub_date' in post else None
