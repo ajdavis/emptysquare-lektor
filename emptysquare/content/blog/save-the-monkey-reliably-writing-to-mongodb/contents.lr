@@ -33,6 +33,11 @@ goes down, and they live up to the claim, but handling failover in your
 application code takes some care. I'll walk you through writing a
 failover-resistant application in PyMongo.
 
+
+**Update:** This article is superseded by my MongoDB World 2016 talk and the accompanying article:
+
+[Writing Resilient MongoDB Applications](https://emptysqua.re/blog/smart-strategies-for-resilient-mongodb-applications/)
+
 Setting the Scene
 =================
 
