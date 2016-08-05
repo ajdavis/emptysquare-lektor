@@ -37,28 +37,45 @@
           <input type="submit" value="search" id="search-submit" class="button search-button"/>
         </form>
       </li>
-      <li>
-        <form style="border:1px solid #ccc;padding:3px;text-align:center;"
-              action="https://feedburner.google.com/fb/a/mailverify"
-              method="post"
-              target="popupwindow"
-              onsubmit="window.open('https://feedburner.google.com/fb/a/mailverify?uri=empty-square',
-                                    'popupwindow',
-                                    'scrollbars=yes,width=550,height=520');
-                                    return true">
-          <p>Enter your email address:</p>
-          <p><input type="text" style="width:140px" name="email"/></p><input
-          type="hidden" value="empty-square" name="uri"/><input type="hidden"
-                                                                name="loc"
-                                                                value="en_US"/><input
-          type="submit" value="Subscribe"/>
-          </p>
-        </form>
-      </li>
     </ul>
   </nav>
 {% endmacro %}
 
+
+{% macro render_email_signup_form() %}
+  <footer>
+    <div id="mc_embed_signup" class="subscribe-container">
+      <form
+        action="//emptysqua.us13.list-manage.com/subscribe/post?u=14757551c5c9265970447577a&amp;id=aec18241e4"
+        method="post" id="mc-embedded-subscribe-form"
+        name="mc-embedded-subscribe-form" class="validate" target="_blank"
+        novalidate>
+        <div id="mc_embed_signup_scroll">
+          <div class="subscribe-label-container">
+            <label for="mce-EMAIL" class="subscribe-label">Get new articles by
+              email:</label>
+          </div>
+          <div class="subscribe-input-container">
+            <input type="email" value="" name="EMAIL"
+                   class="email subscribe-input" id="mce-EMAIL"
+                   placeholder="email address" required>
+          </div>
+          <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+          <div style="position: absolute; left: -5000px;" aria-hidden="true">
+            <input type="text" name="b_14757551c5c9265970447577a_aec18241e4"
+                   tabindex="-1" value=""></div>
+          <div class="subscribe-button-container">
+            <input type="submit" value="Subscribe"
+                   name="subscribe" id="mc-embedded-subscribe"
+                   class="button subscribe-button">
+          </div>
+        </div>
+      </form>
+    </div>
+  </footer>
+
+  <!--End mc_embed_signup-->
+{% endmacro %}
 
 {% macro render_nav_bottom(record) %}
   <nav class="nav-below">

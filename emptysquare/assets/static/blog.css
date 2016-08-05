@@ -435,14 +435,14 @@ header {
     clear: both;
     margin: 0; }
 
-.search-text-input, .search-button {
+.search-text-input, .search-button, .subscribe-button {
   height: 1.5em; }
 
 .search-text-input {
   float: left;
   width: 65%; }
 
-.search-button {
+.search-button, .subscribe-button {
   box-shadow: inset 1px 1px 0 0 #ffffff;
   background-color: #ededed;
   border: 1px solid #dcdcdc;
@@ -453,18 +453,41 @@ header {
   text-shadow: 1px 1px 0 #ffffff;
   float: right;
   width: 30%; }
-  .search-button a {
+  .search-button a, .subscribe-button a {
     text-decoration: none;
     width: 100%;
     height: 100%; }
-  .search-button:hover {
+  .search-button:hover, .subscribe-button:hover {
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed));
     background: -moz-linear-gradient(center top, #dfdfdf 5%, #ededed 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
     background-color: #dfdfdf; }
-  .search-button:active {
+  .search-button:active, .subscribe-button:active {
     position: relative;
     top: 1px; }
+
+.subscribe-container, .subscribe-button-container {
+  clear: both;
+  text-align: center; }
+
+.subscribe-label-container, .subscribe-input-container {
+  margin: 0 5px 1em 0; }
+
+/* fill width to right of label with the "email" text input */
+.subscribe-label-container {
+  font-weight: bold;
+  float: left; }
+
+.subscribe-input-container {
+  overflow: hidden; }
+
+.subscribe-input {
+  width: 100%; }
+
+/* center the subscribe button below */
+.subscribe-button {
+  margin: auto;
+  float: none; }
 
 section {
   margin: 0 auto; }
@@ -548,9 +571,9 @@ article {
     margin-bottom: 2em;
     color: #343838; }
 
-.nav-below {
+.subscribe-container, .nav-below {
   clear: both;
-  margin-top: 2em; }
+  margin-top: 1em; }
 
 .nav-below, .nav-below a {
   color: #575757; }
@@ -677,6 +700,17 @@ article {
   .search-button {
     margin: 0.25em 0; }
 
+  .subscribe-input-container {
+    width: 220px;
+    float: left; }
+
+  .subscribe-button-container {
+    float: right;
+    clear: none; }
+
+  .subscribe-button {
+    width: auto; }
+
   .post-summary p, .post-content li, .post-content p, .post-list .summary-title {
     font-size: 15px;
     line-height: 23px; }
@@ -747,7 +781,7 @@ article {
     line-height: 21px;
     font-weight: bold;
     text-align: left;
-    margin-bottom: 1em; }
+    margin: 0.25em 0 1em; }
 
   .nav-with-current .nav-previous,
   .nav-with-current .nav-next,
@@ -796,7 +830,9 @@ article {
 
   .post-content li, .post-content p {
     font-size: 17px;
-    line-height: 26px; } }
+    line-height: 26px; }
+  .subscribe-input-container {
+     width: 320px; }}
 @media screen and (min-width: 840px) {
   .backgroundplaceholder1 {
     content: ' ';

@@ -1,5 +1,7 @@
 {% extends "blog-layout.html" %}
-{% from "macros/blog.html" import render_blog_post_content, render_nav_bottom %}
+{% from "macros/blog.html" import render_blog_post_content,
+                                  render_email_signup_form,
+                                  render_nav_bottom %}
 
 {% block extrahead %}
   <meta name="twitter:card" content="summary_large_image">
@@ -47,6 +49,7 @@
   </footer>
   {% if this.type == 'post' %}
     {{ render_nav_bottom(this) }}
+    {{ render_email_signup_form() }}
     {{ render_disqus_comments(identifier=this.legacy_id or this.path) }}
   {% endif %}
   {%  if this.enable_lightbox %}
