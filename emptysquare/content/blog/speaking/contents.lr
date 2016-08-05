@@ -36,15 +36,15 @@ My next scheduled dharma talk is September 11, 2016.
 
 # Upcoming Technical Talks
 
-## PyGotham, New York, July 2016.
+## [MongoDB Europe](https://www.mongodb.com/europe16), London, November 2016.
 
-* "Python Performance Profiling: The Guts and the Glory."
-
+* ["Smart Strategies for Resilient Applications."](/blog/how-to-write-resilient-mongodb-applications/)
+ 
 # Highlights from the past:
 
 ## MongoDB World, New York, June 2016.
 
-* "Smart Strategies for Resilient Applications."
+* ["Smart Strategies for Resilient Applications."](/blog/how-to-write-resilient-mongodb-applications)
 
 ## Open Source Bridge, Portland, June 2016.
 
@@ -62,14 +62,6 @@ My next scheduled dharma talk is September 11, 2016.
 ## SoCal Linux Expo, Los Angeles, January 2016.
 
 * ["How Do Python Coroutines Work?"](/blog/scale14x-coroutines-talk/)
-
-## Software as Craft, Philadelphia, September 2015.
-
-* ["March to Triumph as a Mentor."](https://youtu.be/Al6om1cFjTA?t=11m4s)
-
-## PyGotham, New York, August 2015.
-
-* ["How Do Python Coroutines Work?"](https://youtu.be/idLtMISlgy8)
 
 ## Open Source Bridge, Portland Oregon, June 2015.
 
@@ -114,4 +106,3 @@ My next scheduled dharma talk is September 11, 2016.
 ## Open Source Bridge, Portland Oregon, June 2013
 
 * ["What Is Async, How Does It Work, And When Should I Use It?"](https://youtu.be/yCIicDdFYp4)
-
