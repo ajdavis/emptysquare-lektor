@@ -19,3 +19,8 @@
 /server-discovery-and-monitoring.html                                           https://github.com/mongodb/specifications/tree/master/source/server-discovery-and-monitoring
 /blog/tag/:tag/page/:page                                                       /blog/tag/:tag
 /blog/speaking-schedule/                                                        /blog/speaking/
+/photography/                                                                   http://portfolio.emptysqua.re/transitional-housing
+/photography/homeless-shelters/                                                 http://portfolio.emptysqua.re/transitional-housing
+/photography/downtown/                                                          http://portfolio.emptysqua.re/downtown
+/photography/lower-east-side/                                                   http://portfolio.emptysqua.re/lower-east-side
+/photography/new-york-city-zen/                                                 http://portfolio.emptysqua.re/new-york-zen
