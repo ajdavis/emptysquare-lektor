@@ -1,0 +1,264 @@
+_model: blog-post
+---
+title: Announcing libbson and libmongoc 1.4.0
+---
+type: post
+---
+tags:
+
+---
+categories:
+
+C
+Programming
+Mongo
+---
+_discoverable: yes
+---
+pub_date: 2016-08-10 18:46:01
+---
+summary: Now with native TLS on Mac and Windows, no need for OpenSSL there.
+---
+body:
+
+![Image description: black and white etching of large steamship in harbor. A few sailors appear tiny in the foreground. Smoke billows from a single wide smokestack amidships.](steamship.jpg)
+
+I'm pleased to announce version 1.4.0 of libbson and libmongoc, the libraries
+constituting the MongoDB C Driver. This is a very big release a long time coming.
+
+The headline feature is support for the TLS libraries included in Mac and Windows, so you no longer need OpenSSL there. Hannes Magnusson built this feature off contributions by Samantha Ritter and Mark Benvenuto. He overcame months of frustrations and roadblocks to achieve a secure, production-quality implementation; it's an extraordinary achievement.
+
+***
+
+[TOC]
+
+# libbson
+
+New features and bug fixes:
+
+  * bson_reader_reset seeks to the beginning of a BSON buffer.
+  * bson_steal efficiently transfers contents from one bson_t to another.
+  * Fix Windows compile error with BSON_EXTRA_ALIGN disabled.
+  * Potential buffer overrun in bson_strndup.
+  * bson_oid_to_string optimization for MS Visual Studio
+  * bson_oid_is_valid accepts uppercase hex characters.
+  * bson_json_reader_read aborted on some invalid Extended JSON documents.
+  * All man page names now begin with "bson_" to avoid install conflicts.
+  * Error messages sometimes truncated at 63 chars.
+
+This release tentatively supports the new BSON decimal type when built like:
+
+```
+./configure --enable-experimental-features
+```
+
+Or:
+
+```
+cmake -DENABLE_EXPERIMENTAL_FEATURES=ON
+```
+
+This feature may change between now and libbson 1.5.
+
+
+# libmongoc
+
+## TLS
+
+The driver can now use the native TLS and crypto functions included in Mac OS X
+and Windows. OpenSSL is no longer required for TLS or authentication on Mac or
+Windows. By default, OpenSSL is used if available, the default will switch in
+version 2.0 to prefer native TLS.
+
+For native TLS on Mac:
+
+```
+./configure --enable-ssl=darwin
+```
+
+For Windows:
+
+```
+cmake "-DENABLE_SSL=WINDOWS" -G "Visual Studio 10 Win64" "-DCMAKE_INSTALL_PREFIX=C:\mongo-c-driver"
+```
+
+All of the TLS implementations now load the native default certificate store,
+with OpenSSL on Windows falling back on the Windows native certificate store if
+no other can be found.
+
+The "ca_dir" field on mongoc_ssl_opt_t is only supported by OpenSSL. All other
+fields, including "pem_file", are supported by all implementations.
+
+A new field, "allow_invalid_hostname", has been added to mongoc_ssl_opt_t and is
+preferred over the existing "allow_invalid_certificate" to disable hostname
+verification.
+
+[See the documentation for mongoc_ssl_opt_t for details.](https://api.mongodb.com/c/current/mongoc_ssl_opt_t.html)
+
+The driver now supports the latest OpenSSL 1.1 in addition to past versions.
+
+## Application Performance Monitoring
+
+The driver implements the MongoDB Command Monitoring Spec. Applications can
+record the duration and other details of every operation the driver performs on
+the server. See [Introduction to Application Performance Monitoring](https://api.mongodb.com/c/current/application-performance-monitoring.html) in the
+docs.
+
+## Error API
+
+New functions mongoc_client_set_error_api and mongoc_client_pool_set_error_api
+allow applications to distinguish client and server errors. [See the "Error Reporting" doc](https://api.mongodb.com/c/current/errors.html).
+
+## Unacknowledged Write Results
+
+Unacknowledged writes (writes whose mongoc_write_concern_t "w" value is zero)
+now reply with an empty document instead of one with nInserted: 0, nUpdated: 0,
+and so on.
+
+Command functions now ignore the read preferences set on a client, database,
+or collection. Instead, they use the mongoc_read_prefs_t passed in explicitly,
+or default to "primary". This change was made to bring them in line with the
+Server Selection Spec. These are the affected functions:
+
+  * mongoc_client_command
+  * mongoc_client_command_simple
+  * mongoc_database_command
+  * mongoc_database_command_simple
+  * mongoc_collection_command
+  * mongoc_collection_command_simple
+
+On the other hand, the following command-specific helper functions now use the
+collection's read preference:
+
+  * mongoc_collection_count
+  * mongoc_collection_stats
+
+New functions to send maxTimeMS or any arbitrary options with findAndModify:
+
+  * mongoc_find_and_modify_opts_set_max_time_ms
+  * mongoc_find_and_modify_opts_append
+
+New function to include a write concern with a generic command function
+like mongoc_client_command_simple:
+
+  * mongoc_write_concern_append
+
+## Public API For Higher-Level Drivers
+
+New functions support language drivers (specifically the PHP and HHVM drivers)
+using only the libmongoc public API:
+
+  * mongoc_bulk_operation_get_hint
+  * mongoc_client_command_simple_with_server_id
+  * mongoc_client_get_server_description
+  * mongoc_client_get_server_description_by_id
+  * mongoc_client_get_server_descriptions
+  * mongoc_client_select_server
+  * mongoc_cursor_get_limit
+  * mongoc_cursor_new_from_command_reply
+  * mongoc_cursor_set_hint
+  * mongoc_cursor_set_limit
+  * mongoc_log_trace_disable
+  * mongoc_log_trace_enable
+  * mongoc_server_description_ismaster
+  * mongoc_server_description_round_trip_time
+  * mongoc_server_description_type
+  * mongoc_server_descriptions_destroy_all
+  * mongoc_uri_get_option_as_bool
+  * mongoc_uri_get_option_as_int32
+  * mongoc_uri_get_option_as_utf8
+  * mongoc_uri_option_is_bool
+  * mongoc_uri_option_is_int32
+  * mongoc_uri_option_is_utf8
+  * mongoc_uri_set_auth_source
+  * mongoc_uri_set_database
+  * mongoc_uri_set_option_as_bool
+  * mongoc_uri_set_option_as_int32
+  * mongoc_uri_set_option_as_utf8
+  * mongoc_uri_set_password
+  * mongoc_uri_set_read_concern
+  * mongoc_uri_set_read_prefs_t
+  * mongoc_uri_set_username
+  * mongoc_uri_set_write_concern
+  * mongoc_write_concern_is_acknowledged
+  * mongoc_write_concern_is_valid
+  * mongoc_write_concern_journal_is_set
+
+Now that these public APIs are available, the PHP drivers no longer define the
+MONGOC_I_AM_A_DRIVER preprocessor symbol to access private APIs. The symbol is
+removed from C Driver headers, and libmongoc-priv.so is no longer installed.
+
+## Other Features
+
+  * New connection string option "localThresholdMS".
+  * zSeries, POWER8, and ARM 64-bit platform support.
+  * Performance enhancements, reduce allocation and copying in command code.
+  * All man page names now begin with "mongoc_" to avoid install conflicts.
+  * New function mongoc_gridfs_file_set_id.
+
+## Deprecations
+
+Automatically calling mongoc_init and mongoc_cleanup is a GCC-specific feature
+that is now deprecated, and will be removed in version 2. The driver should be
+built with:
+
+```
+./configure --disable-automatic-init-and-cleanup
+```
+
+Or:
+
+```
+cmake "-DENABLE_AUTOMATIC_INIT_AND_CLEANUP=OFF" -G "Visual Studio 10 Win64" "-DCMAKE_INSTALL_PREFIX=C:\mongo-c-driver"
+```
+
+In this configuration, applications must explicitly init and cleanup libmongoc.
+
+Deprecated functions:
+
+  * mongoc_write_concern_get_fsync
+  * mongoc_write_concern_set_fsync
+
+## Notable Bug Fixes
+
+  * Logic bugs using tag sets to select replica set members with complex configs
+  * mongoc_client_get_database_names no longer filters out a replica set
+    member's "local" database.
+  * mongoc_client_get_gridfs now ensures the proper indexes on the files and
+    chunks collections.
+  * SecondaryPreferred fails if primary matches tags but secondaries don't.
+  * mongoc_collection_find_and_modify_with_opts can return true on
+    writeConcernError.
+  * mongoc_collection_validate doesn't always init "reply".
+  * The strings referred to by mongoc_ssl_opt_t, like pem_file and ca_file, are
+    now copied into the client or client pool by mongoc_client_set_ssl_opts or
+    mongoc_client_pool_set_ssl_opts, and need not be kept valid afterward.
+  * mongoc_collection_count_with_opts ignored flags and read_prefs.
+  * minPoolSize of 0 should mean "no minimum".
+  * mongoc_database_create_collection should always use the primary.
+  * The GSSAPI properties SERVICE_NAME and CANONICALIZE_HOST_NAME are now
+    properly parsed from the URI, [see the "Authentication" doc for details](https://api.mongodb.com/c/current/authentication.html).
+  * Comprehensive compatibility with various C standards and compilers.
+  * mongoc_bulk_operation_execute didn't initialize "reply" if it was passed
+    invalid arguments.
+
+
+# Links
+
+* [libbson-1.4.0.tar.gz](https://github.com/mongodb/libbson/releases/download/1.4.0/libbson-1.4.0.tar.gz)
+* [libmongoc-1.4.0.tar.gz](https://github.com/mongodb/mongo-c-driver/releases/download/1.4.0/mongo-c-driver-1.4.0.tar.gz)
+* [All bugs fixed in 1.4.0](https://jira.mongodb.org/issues/?jql=project%20%3D%20CDRIVER%20AND%20fixVersion%20%3D%201.4.0%20ORDER%20BY%20due%20ASC%2C%20priority%20DESC%2C%20created%20ASC)
+* [Documentation](https://api.mongodb.org/c/)
+
+# Acknowledgments
+
+Thanks to everyone who contributed to this release.
+
+<ul><li>A. Jesse Jiryu Davis<li>Hannes Magnusson<li>Ian Boros<li>Fiona Rowan<li>Jeremy Mikola<li>Christoph Schwarz<li>Remi Collet<li>Derick Rethans<li>Mike Lloyd<li>David Hatch<li>Brian Samek<li>Jean-Bernard Jansen<li>Shane Harvey<li>Runar Buvik<li>Raymond Jacobson<li>ReadmeCritic<li>Maverick Chan</ul>
+
+Peace,  
+&nbsp;&nbsp;&mdash; A. Jesse Jiryu Davis
+
+***
+
+[Image: Steamship in Potsdam Harbor, circa 1900.](https://commons.wikimedia.org/wiki/File:Potsdam,_steamship_(1900)_-_LoC_4a20852u.jpg)
