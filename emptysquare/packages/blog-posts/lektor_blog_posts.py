@@ -2,6 +2,7 @@
 
 import datetime
 import os
+import shutil
 import webbrowser
 from collections import defaultdict, OrderedDict
 
@@ -185,9 +186,7 @@ def blog_new(ctx, what, where, images):
                 image_filenames.append(filename)
                 source_path = os.path.join(images, filename)
                 target_path = os.path.join(path, filename)
-                subprocess.check_call(
-                    ['convert', source_path, '-resize', '2400',
-                     '-quality', '50', target_path])
+                shutil.copy(source_path, target_path)
 
             images_markdown = '\n\n***\n\n'.join(
                 "![](%s)" % fn for fn in image_filenames)
