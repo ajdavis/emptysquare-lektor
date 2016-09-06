@@ -43,7 +43,7 @@ I agree with Mike's article, based on my own tests and my discussions with Torna
 
 The strategy Mike seems to advocate is to separate the async API for a database driver from an async *implementation* for it. In asyncio, for example, it is important that you can read from a database with code like:
 
-```text
+```py3
 @asyncio.coroutine
 def my_query_method():
     # "yield from" unblocks the event loop while
