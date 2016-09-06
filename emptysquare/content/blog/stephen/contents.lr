@@ -1,0 +1,45 @@
+_model: blog-post
+---
+title: Stephen
+---
+type: post
+---
+tags:
+
+portrait
+---
+categories:
+
+Photography
+---
+_discoverable: yes
+---
+pub_date: 2016-09-06 09:15:14
+---
+summary: June 20, 2016. Portrait of a friend in Portland.
+---
+enable_lightbox: true
+---
+thumbnail: ajdavis_20160903_0736.jpg
+---
+body:
+
+June 20, 2016. A friend in Portland.
+
+***
+
+![](ajdavis_20160903_0736.jpg)
+
+***
+
+![](ajdavis_20160903_0733.jpg)
+
+***
+
+![](ajdavis_20160903_0738.jpg)
+
+***
+
+![](ajdavis_20160903_0741.jpg)
+***
+<span style="color: gray">Images &copy; A. Jesse Jiryu Davis</span>
