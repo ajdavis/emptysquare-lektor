@@ -318,8 +318,16 @@ def blog_publish(ctx, where):
         raise click.BadParameter('"%s" no categories!' % where)
 
     # Require author to choose one image as the thumbnail.
-    if post.attachments.images.count() > 1 and not post['thumbnail']:
-        raise click.BadParameter('"%s" no thumbnail!' % where)
+    if post.attachments.images.count() > 1:
+        if not post['thumbnail']:
+            raise click.BadParameter('"%s" no thumbnail!' % where)
+        else:
+            thumb_file = os.path.join(
+                os.path.dirname(post.source_filename),
+                post['thumbnail'])
+            if not os.path.isfile(thumb_file):
+                raise click.BadParameter('thumbnail "%s" not found!'
+                                         % post['thumbnail'])
 
     extra_categories = (set(post['categories']) -
                         pad.query('category').distinct('name'))
