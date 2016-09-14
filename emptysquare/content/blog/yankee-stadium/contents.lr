@@ -1,6 +1,6 @@
 _model: blog-post
 ---
-title:
+title: Yankee Stadium
 ---
 type: post
 ---
@@ -8,16 +8,27 @@ tags:
 
 ---
 categories:
+
+Photography
+Mongo
 ---
-_discoverable: no
+_discoverable: yes
 ---
-pub_date:
+pub_date: 2016-09-11 15:05:05
 ---
-summary:
+summary: July 10, 2013. MongoDB staff took our summer interns to a Yankees game.
 ---
 enable_lightbox: true
 ---
+thumbnail: ajdavis_20160903_0728.jpg
+---
 body:
+
+July 10, 2013. MongoDB staff took our summer interns to a Yankees game.
+
+That day I shot a few rolls of Kodak Portra NC on my medium-format Bronica, but I didn't think I had anything good so I left the film in my freezer for three years. Now that I've finally dug it out and had it developed, I like how the Portra NC represents the evening sunlight and haze.
+
+***
 
 ![](ajdavis_20160904_0742.jpg)
 
