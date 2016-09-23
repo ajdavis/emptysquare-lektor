@@ -1,0 +1,50 @@
+_model: blog-post
+---
+title: Announcing libbson and libmongoc 1.4.1
+---
+type: post
+---
+tags:
+---
+categories:
+
+C
+Mongo
+Programming
+---
+_discoverable: yes
+---
+pub_date: 2016-09-20 16:16:32
+---
+summary: Three minor bugfixes.
+---
+body:
+
+![Description: 19th-Century color print, hand drawing of two elegant white steam ships, with black smoke pouring from each ship's twin chimneys and large paddle wheels. The ship on the left is triple-decked flying an American flag and a flag with the ship's name, "St. John". The other is double-decked, with an American flag and a flag with its name, "Drew".](steam-ships.jpg)
+
+Hannes Magnusson and I are pleased to announce version 1.4.1 of libbson and libmongoc, the libraries
+constituting the MongoDB C Driver.
+
+## libbson
+
+This release improves the HTML documentation's Makefile.
+
+
+## libmongoc
+
+This is a bugfix release:
+
+  * mongoc_client_get_server_descriptions could return a list including NULLs
+  * Tailable cursors on MongoDB 3.2 only worked with MONGOC_QUERY_AWAIT_DATA
+  * Spurious warnings with MONGOC_DISABLE_SHM
+
+## Links:
+
+* [libbson-1.4.1.tar.gz](https://github.com/mongodb/libbson/releases/download/1.4.1/libbson-1.4.1.tar.gz)
+* [libmongoc-1.4.1.tar.gz](https://github.com/mongodb/mongo-c-driver/releases/download/1.4.1/mongo-c-driver-1.4.1.tar.gz)
+* [All bugs fixed in 1.4.1](https://jira.mongodb.org/issues/?jql=project%20%3D%20CDRIVER%20AND%20fixVersion%20%3D%201.4.1%20ORDER%20BY%20due%20ASC%2C%20priority%20DESC%2C%20created%20ASC)
+* [Documentation](http://mongoc.org/)
+
+***
+
+<a style="color: gray" href="http://www.albanyinstitute.org/details/items/the-grandest-palace-drawing-room-steamers-in-the-world-dre.html">Image: Currier & Ives, Steamers on the Hudson River.</a>
