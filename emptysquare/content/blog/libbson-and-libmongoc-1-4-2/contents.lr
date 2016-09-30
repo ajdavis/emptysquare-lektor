@@ -1,0 +1,50 @@
+_model: blog-post
+---
+title: Announcing libbson and libmongoc 1.4.2
+---
+type: post
+---
+tags:
+---
+categories:
+
+C
+Mongo
+Programming
+---
+_discoverable: yes
+---
+pub_date: 2016-09-30 17:26:03
+---
+summary: Fixes two bugs in "minPoolSize" logic.
+---
+body:
+
+[![Black and white photo. The steamship Princess May ran aground in 1910 on rocks near the north end of Sentinel Island. It was high tide and the momentum of the ship forced it well up onto the rocks, with the bow jutting upward at an angle of 23 degrees.](ss-princess-may.jpg)](https://en.wikipedia.org/wiki/Princess_May_(steamship))
+
+I'm pleased to announce version 1.4.2 of libbson and libmongoc,
+the libraries constituting the MongoDB C Driver.
+
+## libbson
+
+No change since 1.4.1; released to keep pace with libmongoc's version.
+
+## libmongoc
+
+This release fixes two bugs in
+"minPoolSize" logic:
+
+- minPoolSize should mean "the number of inactive clients to keep cached in the pool", so when a client is pushed, if there are already minPoolSize clients in the pool, the oldest should be freed. Instead, minPoolSize is compared to pool->size, which is the total number of active or inactive clients. So if there are 10 clients total and minPoolSize is 3, all pushed clients are freed, not just clients in excess of the first 3.
+- The pool is [supposed to be a LIFO for memory coherence](https://jira.mongodb.org/browse/CDRIVER-1196) but it destroys the most-recently used client, not the least-recently used.
+
+See [CDRIVER-1558](https://jira.mongodb.org/browse/CDRIVER-1558) for details.
+
+## Links:
+
+* [libbson-1.4.2.tar.gz](https://github.com/mongodb/libbson/releases/download/1.4.2/libbson-1.4.2.tar.gz)
+* [libmongoc-1.4.2.tar.gz](https://github.com/mongodb/mongo-c-driver/releases/download/1.4.2/mongo-c-driver-1.4.2.tar.gz)
+* [All bugs fixed in 1.4.2](https://jira.mongodb.org/issues/?jql=project%20%3D%20CDRIVER%20AND%20fixVersion%20%3D%201.4.2%20ORDER%20BY%20due%20ASC%2C%20priority%20DESC%2C%20created%20ASC)
+* [Documentation](http://mongoc.org/)
+
+Peace,  
+&nbsp;&nbsp;&mdash; A. Jesse Jiryu Davis
