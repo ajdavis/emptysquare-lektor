@@ -1,52 +1,11 @@
-@font-face {
-  font-family: 'Museo-900';
-  src: url("/static/webfonts/museo/260EEB_0_0.eot");
-  src: url("/static/webfonts/museo/260EEB_0_0.eot?#iefix") format("embedded-opentype"), url("/static/webfonts/museo/260EEB_0_0.woff") format("woff"), url("/static/webfonts/museo/260EEB_0_0.ttf") format("truetype"); }
-
-@font-face {
-  font-family: 'Museo-700';
-  src: url("/static/webfonts/museo/260EEB_1_0.eot");
-  src: url("/static/webfonts/museo/260EEB_1_0.eot?#iefix") format("embedded-opentype"), url("/static/webfonts/museo/260EEB_1_0.woff") format("woff"), url("/static/webfonts/museo/260EEB_1_0.ttf") format("truetype"); }
-
-@font-face {
-  font-family: 'Museo-300';
-  src: url("/static/webfonts/museo/260EEB_2_0.eot");
-  src: url("/static/webfonts/museo/260EEB_2_0.eot?#iefix") format("embedded-opentype"), url("/static/webfonts/museo/260EEB_2_0.woff") format("woff"), url("/static/webfonts/museo/260EEB_2_0.ttf") format("truetype"); }
-
-@font-face {
-  font-family: 'Museo-100';
-  src: url("/static/webfonts/museo/260EEB_3_0.eot");
-  src: url("/static/webfonts/museo/260EEB_3_0.eot?#iefix") format("embedded-opentype"), url("/static/webfonts/museo/260EEB_3_0.woff") format("woff"), url("/static/webfonts/museo/260EEB_3_0.ttf") format("truetype"); }
-
-@font-face {
-  font-family: 'Museo-500';
-  src: url("/static/webfonts/museo/260EEB_4_0.eot");
-  src: url("/static/webfonts/museo/260EEB_4_0.eot?#iefix") format("embedded-opentype"), url("/static/webfonts/museo/260EEB_4_0.woff") format("woff"), url("/static/webfonts/museo/260EEB_4_0.ttf") format("truetype"); }
-
-@font-face {
-  font-family: 'Museo-300Italic';
-  src: url("/static/webfonts/museo/260EEB_5_0.eot");
-  src: url("/static/webfonts/museo/260EEB_5_0.eot?#iefix") format("embedded-opentype"), url("/static/webfonts/museo/260EEB_5_0.woff") format("woff"), url("/static/webfonts/museo/260EEB_5_0.ttf") format("truetype"); }
-
-@font-face {
-  font-family: 'Museo-900Italic';
-  src: url("/static/webfonts/museo/260EEB_6_0.eot");
-  src: url("/static/webfonts/museo/260EEB_6_0.eot?#iefix") format("embedded-opentype"), url("/static/webfonts/museo/260EEB_6_0.woff") format("woff"), url("/static/webfonts/museo/260EEB_6_0.ttf") format("truetype"); }
-
-@font-face {
-  font-family: 'Museo-100Italic';
-  src: url("/static/webfonts/museo/260EEB_7_0.eot");
-  src: url("/static/webfonts/museo/260EEB_7_0.eot?#iefix") format("embedded-opentype"), url("/static/webfonts/museo/260EEB_7_0.woff") format("woff"), url("/static/webfonts/museo/260EEB_7_0.ttf") format("truetype"); }
-
-@font-face {
-  font-family: 'Museo-500Italic';
-  src: url("/static/webfonts/museo/260EEB_8_0.eot");
-  src: url("/static/webfonts/museo/260EEB_8_0.eot?#iefix") format("embedded-opentype"), url("/static/webfonts/museo/260EEB_8_0.woff") format("woff"), url("/static/webfonts/museo/260EEB_8_0.ttf") format("truetype"); }
-
-@font-face {
-  font-family: 'Museo-700Italic';
-  src: url("/static/webfonts/museo/260EEB_9_0.eot");
-  src: url("/static/webfonts/museo/260EEB_9_0.eot?#iefix") format("embedded-opentype"), url("/static/webfonts/museo/260EEB_9_0.woff") format("woff"), url("/static/webfonts/museo/260EEB_9_0.ttf") format("truetype"); }
+@font-face {font-family: "Ehrhardt MT Regular";
+  src: url("webfonts/erhardt.eot");
+  src: url("webfonts/erhardt.eot?#iefix") format("embedded-opentype"),
+  url("webfonts/erhardt.woff2") format("woff2"),
+  url("webfonts/erhardt.woff") format("woff"),
+  url("webfonts/erhardt.ttf") format("truetype"),
+  url("webfonts/erhardt.svg#Ehrhardt MT Regular") format("svg");
+}
 
 * {
   -webkit-box-sizing: border-box;
@@ -72,8 +31,8 @@ input, textarea, button, select {
 
 /* min-width: 320px (1st gen), 440px (2nd gen), 640px (landscape) */
 body {
-  font-family: Helvetica, sans-serif;
-  font-size: 14px;
+  font-family: 'Ehrhardt MT Regular', serif;
+  font-size: 16px;
   line-height: 21px; }
 
 blockquote {
@@ -108,13 +67,13 @@ h1, h2, h3, h4, h5 {
       color: #2060a0; }
 
 h1 {
-  font-size: 25px;
-  line-height: 25px;
+  font-size: 32px;
+  line-height: 28px;
   color: #343838; }
 
 h2 {
-  font-size: 18px;
-  line-height: 19px;
+  font-size: 20px;
+  line-height: 21px;
   color: #343838; }
 
 h3 {
@@ -385,7 +344,7 @@ header {
   .main-header:after {
     clear: both; }
   .main-header h1 {
-    font-size: 20px;
+    font-size: 22px;
     line-height: 24px;
     margin: 0.5em 0 0; }
     .main-header h1 a {
@@ -420,7 +379,7 @@ header {
   margin: 0 auto;
   list-style: none outside none; }
   .main-nav ul li {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 19px;
     display: inline;
     margin: 0.5em; }
@@ -503,10 +462,10 @@ article {
       margin: 0 0 0 1.5em; }
 
 .post-meta {
-  font-size: 10px;
+  font-size: 12px;
   line-height: 19px;
   margin: 0 0 1em;
-  color: #888888; }
+  color: #909090; }
 
 .byline {
   display: none !important; }
@@ -554,7 +513,7 @@ article {
     clear: both; }
   .post-list .summary-title {
     clear: both;
-    font-size: 18px;
+    font-size: 20px;
     line-height: 21px;
     font-weight: bold;
     color: #343838; }
@@ -628,16 +587,11 @@ article {
 
 @media screen and (min-width: 720px) {
   body {
-    font-family: Museo-300, serif;
     line-height: 20px; }
 
   h1, h2, h3, h4, h5 {
-    font-family: Museo-500, serif;
     font-weight: normal;
     margin: 1.5em 0 1em; }
-
-  h3 {
-    font-family: Museo-300; }
 
   .container {
     float: left;
@@ -665,7 +619,6 @@ article {
     color: #575757;
     text-transform: lowercase; }
     .main-nav ul a {
-      font-family: Museo-300;
       text-decoration: none; }
       .main-nav ul a:hover {
         color: #2060a0; }
@@ -712,7 +665,7 @@ article {
     width: auto; }
 
   .post-summary p, .post-content li, .post-content p, .post-list .summary-title {
-    font-size: 15px;
+    font-size: 18px;
     line-height: 23px; }
 
   section {
@@ -732,7 +685,7 @@ article {
     position: relative; }
 
   .post-meta {
-    font-size: 14px;
+    font-size: 16px;
     line-height: 24px; }
 
   h1.title {
@@ -777,7 +730,7 @@ article {
   .nav-previous, .nav-next, .nav-current {
     width: 45%;
     color: inherit;
-    font-size: 18px;
+    font-size: 20px;
     line-height: 21px;
     font-weight: bold;
     text-align: left;
@@ -811,8 +764,7 @@ article {
 
   .post-list .summary-title, .post-list .date {
     margin-bottom: 0.5em; }
-  .post-list a {
-    font-family: Museo-300; } }
+
 @media screen and (min-width: 1200px) {
   .main-header {
     left: 20px; }
@@ -822,15 +774,15 @@ article {
     margin-left: 175px; }
 
   .post-list .summary-title {
-    font-size: 19px;
+    font-size: 20px;
     line-height: 21px; }
   .post-list .date, .post-list .excerpt {
-    font-size: 16px;
+    font-size: 18px;
     line-height: 21px; }
 
   .post-content li, .post-content p {
-    font-size: 17px;
-    line-height: 26px; }
+    font-size: 19px;
+    line-height: 27px; }
   .subscribe-input-container {
      width: 320px; }}
 @media screen and (min-width: 840px) {
