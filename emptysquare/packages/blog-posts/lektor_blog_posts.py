@@ -105,15 +105,20 @@ def cli(ctx, project=None):
 @click.argument('what',
                 type=click.Choice(['posts', 'pages', 'drafts', 'tags', 'categories']),
                 default='posts')
+@click.option('--tag', metavar='tag', required=False)
 @pass_context
-def blog_list(ctx, one, what):
+def blog_list(ctx, one, what, tag):
     pad = ctx.get_env().new_pad()
 
     if what == 'tags':
-        for tag in sorted(pad.query('blog').distinct('tags')):
-            print tag
+        if tag:
+            click.BadArgumentUsage("Can't use --tag with \"tag\"")
+        for t in sorted(pad.query('blog').distinct('tags')):
+            print t
 
     elif what == 'categories':
+        if tag:
+            click.BadArgumentUsage("Can't use --tag with \"categories\"")
         for cat in sorted(pad.query('category').distinct('name')):
             print cat
 
@@ -124,6 +129,9 @@ def blog_list(ctx, one, what):
             q = q.filter(F.type == 'post')
         elif what == 'pages':
             q = q.filter(F.type == 'page')
+
+        if tag:
+            q = q.filter(F.tags.contains(tag))
 
         for post in q:
             pub_date = post['pub_date'] if 'pub_date' in post else None
