@@ -14,11 +14,11 @@ Mongo
 Python
 Motor
 ---
-_discoverable: no
+_discoverable: yes
 ---
-pub_date:
+pub_date: 2016-10-03 08:28:36
 ---
-summary:
+summary: Switches from greenlets to a thread pool, and updates from PyMongo 2.8 to 2.9.
 ---
 body:
 
@@ -39,8 +39,17 @@ In two ways, Motor 0.7 paves the way for Motor 1.0: first, its PyMongo dependenc
 
 # Threaded Core
 
-For asynchronous I/O, Motor now uses a thread pool, which is faster and simpler
-than the prior implementation that used greenlets with Tornado's or asyncio's event loop. Motor no longer requires the
+From the beginning, Motor has used greenlets and an event loop to make PyMongo async. Whenever you begin a Motor method, like this:
+
+```py
+@gen.coroutine
+def func():
+    result = yield collection.find_one()
+```
+
+...Motor spawns a greenlet, which begins to run the corresponding PyMongo method. As soon as PyMongo wants to do I/O, Motor pauses its greenlet and schedules the I/O on Tornado's or asyncio's event loop. When the I/O completes, Motor resumes the greenlet, and so on until the PyMongo method completes. Then Motor injects the greenlet's return value into your coroutine at the "yield" site. This is as complex as it sounds, and difficult to maintain, and a little slow.
+
+For asynchronous I/O, Motor now uses a thread pool. It no longer needs the
 ``greenlet`` package, and it now requires the ``futures`` backport package on
 Python 2.
 
