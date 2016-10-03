@@ -1,0 +1,100 @@
+_model: blog-post
+---
+title: Motor 0.7 Beta With Pymongo 2.9 And A Threaded Core
+---
+type: post
+---
+tags:
+
+---
+categories:
+
+Programming
+Mongo
+Python
+Motor
+---
+_discoverable: no
+---
+pub_date:
+---
+summary:
+---
+body:
+
+<img style="display:block; margin-left:auto; margin-right:auto;" src="motor-musho.png" alt="Motor logo by Musho Rodney Alan Greenblat" title="motor-musho.png" border="0" />
+
+Please try the beta release of Motor 0.7 and let me know how it works for you:
+
+```
+python -m pip install motor==0.7b0
+```
+
+Documentation:
+
+* [Motor beta documentation](https://motor.readthedocs.io/en/latest/)
+* [Motor 0.7 changelog](https://motor.readthedocs.io/en/latest/changelog.html)
+
+In two ways, Motor 0.7 paves the way for Motor 1.0: first, its PyMongo dependency is upgraded from PyMongo 2.8 to 2.9. Second, I have abandoned my greenlet-based core in favor of a faster, simpler core built on a thread pool. Let's talk about threads first.
+
+# Threaded Core
+
+For asynchronous I/O, Motor now uses a thread pool, which is faster and simpler
+than the prior implementation that used greenlets with Tornado's or asyncio's event loop. Motor no longer requires the
+``greenlet`` package, and it now requires the ``futures`` backport package on
+Python 2.
+
+[As I wrote last year](/blog/response-to-asynchronous-python-and-databases/), my thinking about async Python and databases has changed. I now distinguish between two features of an async database driver:
+
+* Present an async API for your coroutines with `yield` or `await`
+* Talk to the database with non-blocking sockets and the event loop
+
+I still think the first feature is important, but I changed my mind about the second.
+
+Why isn't the event loop best for database communications? It's because database operations should be quick. Since their durations are short, the connection pool doesn't grow past a few dozen sockets. Therefore, the driver should optimize for latency on a few connections, rather than optimizing for RAM on a huge number of connections. Threading takes more RAM than evented I/O, but it's faster in Python, so I've switched to threads. [On one of my benchmarks, the new core is 35% faster](https://jira.mongodb.org/browse/MOTOR-112?focusedCommentId=1376428&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-1376428).
+
+Motor still presents the same async API for your coroutines. You can wait for results like this with Tornado and Python 2:
+
+```py
+@gen.coroutine
+def func():
+    result = yield collection.find_one()
+```
+
+Or like this with Tornado or asyncio on Python 3:
+
+```py3
+async def func():
+    result = await collection.find_one() 
+```
+
+# PyMongo 2.9.x
+
+The new core is not only faster, it's also simpler, which makes it easier to port to newer PyMongo versions. I upgraded the PyMongo dependency from 2.8.0 to 2.9.x, and wrapped PyMongo 2.9's new APIs.
+
+PyMongo 2.9 is a bridge version that implements both the old PyMongo 2 interface and the new PyMongo 3 interface. For you, this means you can still use old PyMongo APIs with Motor 0.7, but all the new PyMongo 3 APIs are available for you to port to.
+
+For example, you can still mutate a read preference:
+
+```py
+client = MotorClient()
+db = client.test_database
+db.read_preference = ReadPreference.SECONDARY
+```
+
+But since [mutating read preferences is prohibited in PyMongo 3](http://api.mongodb.com/python/current/migrate-to-pymongo3.html#the-read-preference-attribute-is-immutable), it'll be prohibited in Motor 1.0 as well. Take this opportunity to update your code for the new style:
+
+```py
+client = MotorClient()
+db = client.get_database(read_preference=ReadPreference.SECONDARY)
+```
+
+Most of Motor 1.0's API is now implemented in Motor 0.7, and APIs that will be removed in
+Motor 1.0 are deprecated and raise warnings. See the
+[Motor Migration Guide](https://motor.readthedocs.io/en/latest/migrate-to-motor-1.html) to prepare your code for Motor 1.0.
+
+# Roadmap
+
+I intend to release Motor 1.0 by the end of this quarter. It will be the first API-stable release&mdash;that means I promise no more backwards-breaking changes until some distant future. The latest Motor will wrap the latest PyMongo, and support the latest MongoDB server features.
+
+But I can't do all this without you! We need to validate Motor 0.7 first.  So try the beta and [let me know](https://twitter.com/jessejiryudavis)&mdash;if it has bugs, I need to hear about it from you, and if it works, I need to hear that also.
