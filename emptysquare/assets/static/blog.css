@@ -1,12 +1,3 @@
-@font-face {font-family: "Ehrhardt MT Regular";
-  src: url("webfonts/erhardt.eot");
-  src: url("webfonts/erhardt.eot?#iefix") format("embedded-opentype"),
-  url("webfonts/erhardt.woff2") format("woff2"),
-  url("webfonts/erhardt.woff") format("woff"),
-  url("webfonts/erhardt.ttf") format("truetype"),
-  url("webfonts/erhardt.svg#Ehrhardt MT Regular") format("svg");
-}
-
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -31,7 +22,7 @@ input, textarea, button, select {
 
 /* min-width: 320px (1st gen), 440px (2nd gen), 640px (landscape) */
 body {
-  font-family: 'Ehrhardt MT Regular', serif;
+  font-family: 'Goudy Bookletter 1911', serif;
   font-size: 16px;
   line-height: 21px; }
 
@@ -62,13 +53,15 @@ h1, h2, h3, h4, h5 {
   margin: 2em 0 1em; }
   h1 > a, h2 > a, h3 > a, h4 > a, h5 > a {
     text-decoration: none;
+    font-weight: bold;
+    letter-spacing: 0.018em;
     color: #343838; }
     h1 > a:hover, h2 > a:hover, h3 > a:hover, h4 > a:hover, h5 > a:hover {
       color: #2060a0; }
 
 h1 {
-  font-size: 32px;
-  line-height: 28px;
+  font-size: 28px;
+  line-height: 25px;
   color: #343838; }
 
 h2 {
@@ -679,14 +672,14 @@ article {
 
   article > header, section > header {
     text-align: left;
-    margin: 14px 0 28px;
+    margin: 14px 0 24px;
     border-bottom: 1px solid #aaaaaa;
     height: 74px;
     position: relative; }
 
   .post-meta {
-    font-size: 16px;
-    line-height: 24px; }
+    font-size: 14px;
+    line-height: 16px; }
 
   h1.title {
     color: black;
