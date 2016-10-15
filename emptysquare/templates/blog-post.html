@@ -22,7 +22,12 @@
           </time>
           <span class="byline">
             <span class="sep">&nbsp;&mdash;&nbsp;</span>
+            {% set t = site.get('blog').twitter_handle %}
+            {% if t %}
+            <a href="https://twitter.com/{{ t }}"><span class="author">{{ site.get('blog').title }}</span></a>
+            {% else %}
             <span class="author">{{ site.get('blog').title }}</span>
+            {% endif %}
           </span>
         </div>
       {% endif %}

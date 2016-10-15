@@ -460,6 +460,9 @@ article {
   margin: 0 0 1em;
   color: #909090; }
 
+.post-meta a {
+  color: inherit; }
+
 .byline {
   display: none !important; }
 
