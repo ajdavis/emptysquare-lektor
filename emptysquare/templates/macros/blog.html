@@ -24,6 +24,7 @@
         ('/blog@atom/main', 'Feed'),
         ('/blog/about/', 'About'),
       ] %}
+      <li class="nav-item menu-nav-item"><a href="{{ source_path|url }}">{{ title|escape }}</a>
       </li>{% endfor %}
       <li class="nav-item menu-nav-item"><a href="http://portfolio.emptysqua.re/transitional-housing">Portfolio</a>
       <li class="nav-item nav-divider nav-divider-1">Categories:</li>{% for category in site.query('category') %}
