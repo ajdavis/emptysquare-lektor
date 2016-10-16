@@ -18,7 +18,21 @@ def cli(ctx, destination):
     for post in pad.query('/blog'):
         print(post.path)
         path = join(destination, basename(post.path))
+        attachments = list(post.attachments)
+
+        if post['thumbnail']:
+            thumbnail = '\nthumbnail = "%s"' % post['thumbnail']
+        elif attachments:
+            thumbnail = '\nthumbnail = "%s"' % basename(
+                attachments[0].attachment_filename)
+        else:
+            thumbnail = ''
+
+        pub_date = post['pub_date'] if 'pub_date' in post else None
+        is_draft = not pub_date or not post['_discoverable']
+
         props = {
+            'type': post['type'],
             'title': post['title'].replace('"', r'\"'),
             'pub_date': post['pub_date'].isoformat(),
             'summary': post['summary'].replace('"', r'\"'),
@@ -29,17 +43,21 @@ def cli(ctx, destination):
             'enable_lightbox_bool': (
                 'true' if post['enable_lightbox']
                 else 'false'),
+            'thumbnail': thumbnail,
+            'draft_bool': 'true' if is_draft else 'false',
             'body': post['body'].__html__()
         }
 
         with open(path + '.md', 'w') as f:
             f.write((u"""+++
+type = "{type}"
 title = "{title}"
 date = "{pub_date}"
 description = "{summary}"
-categories = [{categories_list}]
-tags = [{tags_list}]
-enable_lightbox = {enable_lightbox_bool}
+"blog/category" = [{categories_list}]
+"blog/tag" = [{tags_list}]
+enable_lightbox = {enable_lightbox_bool}{thumbnail}
+draft = {draft_bool}
 +++
 
 {body}
