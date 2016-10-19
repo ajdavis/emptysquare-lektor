@@ -67,7 +67,8 @@ def cli(ctx, destination):
 
         pub_date = post['pub_date'] if 'pub_date' in post else None
         is_draft = not pub_date or not post['_discoverable']
-
+        legacy_id_front_matter = ('\nlegacyid = "%s"' % post['legacy_id']
+                                  if 'legacy_id' in post else '')
         props = {
             'type': post['type'],
             'title': post['title'].replace('"', r'\"'),
@@ -82,6 +83,7 @@ def cli(ctx, destination):
                 else 'false'),
             'thumbnail': thumbnail_front_matter,
             'draft_bool': 'true' if is_draft else 'false',
+            'legacy': legacy_id_front_matter,
             'body': post['body'].__html__()
         }
 
@@ -94,7 +96,7 @@ description = "{summary}"
 "blog/category" = [{categories_list}]
 "blog/tag" = [{tags_list}]
 enable_lightbox = {enable_lightbox_bool}{thumbnail}
-draft = {draft_bool}
+draft = {draft_bool}{legacy}
 +++
 
 {body}
