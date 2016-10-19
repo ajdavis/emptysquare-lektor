@@ -93,8 +93,8 @@ type = "{type}"
 title = "{title}"
 date = "{pub_date}"
 description = "{summary}"
-"blog/category" = [{categories_list}]
-"blog/tag" = [{tags_list}]
+category = [{categories_list}]
+tag = [{tags_list}]
 enable_lightbox = {enable_lightbox_bool}{thumbnail}
 draft = {draft_bool}{legacy}
 +++
