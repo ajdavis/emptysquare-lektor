@@ -2,6 +2,8 @@
 /blog/feed/                                                                     /blog/feed/index.xml
 /blog/category/feed/python/                                                     /blog/category/python/feed/index.xml
 /blog/a-jesse-jiryu-davis/		                                                /blog/home
+/blog/announcing-libbson-and-libmongoc-1-1-5/	                                /blog/libbson-and-libmongoc-1-1-5
+/blog/announcing-libbson-and-libmongoc-1-1-7/	                                /blog/libbson-and-libmongoc-1-1-7
 /blog/greenletprofiler-a-fast-greenlet-aware-python-performance-analysis-tool/	/blog/greenletprofiler-gevent-profiler
 /blog/greenletprofiler-gevent-profiler/		                                    /blog/greenletprofiler
 /blog/kendo-and-kaku/		                                                    /blog/tendo-and-kaku
