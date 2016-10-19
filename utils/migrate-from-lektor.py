@@ -25,6 +25,13 @@ def featured_img(blog_post):
         return blog_post.attachments.images.all()[0]
 
 
+def get(post, attr, default=None):
+    if attr in post:
+        return post[attr]
+
+    return default
+
+
 @click.command()
 @click.argument('destination', type=click.Path())
 @pass_context
@@ -65,10 +72,15 @@ def cli(ctx, destination):
         else:
             thumbnail_front_matter = ''
 
-        pub_date = post['pub_date'] if 'pub_date' in post else None
+        pub_date = get(post, 'pub_date')
         is_draft = not pub_date or not post['_discoverable']
-        legacy_id_front_matter = ('\nlegacyid = "%s"' % post['legacy_id']
-                                  if 'legacy_id' in post else '')
+        if 'legacy_id' in post:
+            disqus_id = post['legacy_id']
+        else:
+            disqus_id = '/blog/' + basename(post.path)
+
+        body = post['body'].__html__().replace('href="/blog/', 'href="/')
+
         props = {
             'type': post['type'],
             'title': post['title'].replace('"', r'\"'),
@@ -83,8 +95,8 @@ def cli(ctx, destination):
                 else 'false'),
             'thumbnail': thumbnail_front_matter,
             'draft_bool': 'true' if is_draft else 'false',
-            'legacy': legacy_id_front_matter,
-            'body': post['body'].__html__()
+            'disqus_id': disqus_id,
+            'body': body,
         }
 
         with open(path + '.md', 'w') as f:
@@ -96,11 +108,13 @@ description = "{summary}"
 category = [{categories_list}]
 tag = [{tags_list}]
 enable_lightbox = {enable_lightbox_bool}{thumbnail}
-draft = {draft_bool}{legacy}
+draft = {draft_bool}
+disqus_identifier = "{disqus_id}"
+disqus_url = "https://emptysqua.re/blog/{disqus_id}/"
 +++
 
 {body}
-    """.format(**props)).encode('utf-8'))
+""".format(**props)).encode('utf-8'))
 
         attachments = list(post.attachments)
         if attachments:
