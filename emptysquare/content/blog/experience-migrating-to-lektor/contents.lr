@@ -29,7 +29,7 @@ These observations fall into two categories. One is the comparison between Lekto
 
 # Lektor vs Motor-Blog
 
-Motor-Blog is my basic blog engine written in Python. I don't recommend you use it. I wrote it to exercise my async MongoDB driver, [Motor](https://motor.rtfd.org/). Since the blog engine was just a side-project I skipped the hard part: I never wrote an editor. Instead, I implemented enough of WordPress's XML-RPC API that I could edit my blog with a commercial WordPress client, MarsEdit. I never loved MarsEdit. Its Markdown editor is merely competent, it isn't built for sharing code samples, and adding multiple images to an article (which I do often) is a chore.
+Motor-Blog is my basic blog engine written in Python. I don't recommend you use it. I wrote it to exercise my async MongoDB driver, [Motor](https://motor.readthedocs.io). Since the blog engine was just a side-project I skipped the hard part: I never wrote an editor. Instead, I implemented enough of WordPress's XML-RPC API that I could edit my blog with a commercial WordPress client, MarsEdit. I never loved MarsEdit. Its Markdown editor is merely competent, it isn't built for sharing code samples, and adding multiple images to an article (which I do often) is a chore.
 
 Now with Lektor, my articles are just Markdown files on my hard drive, and I edit them with any tool at hand. I import images simply by resizing them all in one batch (a snap with Photoshop) and dropping them in a directory. I can include them all in my Markdown using an emacs macro, a Python script, or whatever I choose. Since the article is a local text file, the power of my programming tools is easily brought to bear.
 
