@@ -41,7 +41,7 @@ def cli(ctx, destination):
 
     print('listing posts...')
 
-    for post in pad.query('/blog'):
+    for post in pad.query('/blog').include_undiscoverable(True):
         print(post.path)
         path = join(destination, basename(post.path))
         thumbnail_attachment = featured_img(post)
@@ -84,8 +84,8 @@ def cli(ctx, destination):
         props = {
             'type': post['type'],
             'title': post['title'].replace('"', r'\"'),
-            'pub_date': post['pub_date'].isoformat(),
-            'summary': post['summary'].replace('"', r'\"'),
+            'pub_date': post['pub_date'].isoformat() if pub_date else '',
+            'summary': get(post, 'summary', '').replace('"', r'\"'),
             'categories_list': ', '.join(
                 '"%s"' % c for c in post['categories']),
             'tags_list': ', '.join(
